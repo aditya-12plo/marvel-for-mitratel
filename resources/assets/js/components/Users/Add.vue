@@ -288,7 +288,7 @@ export default {
 })
     },
             backLink() {
-			  this.$router.push('/user-access');
+			   this.$router.go(-1);
             } ,
     allcap (e, o, prop) {
   const start = e.target.selectionStart;

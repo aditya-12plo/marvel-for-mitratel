@@ -1,3 +1,9 @@
+lanjutkan dokumen DRM
+
+
+
+
+
 level
 'ADMINISTRATOR','REGIONAL','HQ'
 
@@ -50,6 +56,30 @@ SELECT project.id,project.projectid,project.no_wo,project.wo_date,project.batch,
 CREATE VIEW vjobcommunication 
 AS
 SELECT project_status.id,project_status.project_id,project_status.users_id,project_status.status,project_status.message,users_exist.name,users_exist.email,users_exist.level,users_exist.posisi,users_exist.area,users_exist.regional,project_status.created_at FROM project_status join users_exist on project_status.users_id=users_exist.id
+
+
+
+CREATE OR REPLACE VIEW vnotifications 
+AS 
+SELECT project.id,project.projectid ,notification.id as notificationid , project.area, project.regional, notification.status , notification.created_at 
+FROM notification
+join project
+on notification.project_id=project.id
+WHERE notification.id IN (
+    SELECT MAX(id)
+    FROM notification
+    GROUP BY project_id
+) 
+
+
+
+
+CREATE OR REPLACE VIEW vprojectstatus 
+AS 
+SELECT project.id,status.detail
+FROM project
+join status
+on project.status_id=status.id 
 
 
 

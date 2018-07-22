@@ -250,7 +250,7 @@ export default {
 		  title: 'Tanggal Dibuat',
           titleClass: 'text-center',
           dataClass: 'text-center',
-          callback: 'formatDate|DD-MM-YYYY'
+          callback: 'formatDate|DD-MM-YYYY HH:mm:ss'
         },
         {
           name: '__component:custom-actions',
@@ -497,10 +497,10 @@ this.$router.push({name:'useredit', params: {id: this.diacak(item.id),typenya:'d
 	formatNumberRupiah (value) {
       return accounting.formatMoney(value,  "Rp. ", 2, ".", ",")
     },
-    formatDate (value, fmt = 'D M YYYY') {
+    formatDate (value, fmt = 'DD-MM-YYYY HH:mm:ss') {
       return (value == null)
         ? ''
-        : moment(value, 'YYYY-MM-DD').format(fmt)
+        : moment(value, 'DD-MM-YYYY HH:mm:ss').format(fmt)
     },
     onPaginationData (paginationData) {
       this.$refs.pagination.setPaginationData(paginationData)

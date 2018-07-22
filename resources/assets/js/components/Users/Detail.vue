@@ -229,7 +229,7 @@ export default {
 })
     },
             backLink() {
-			  this.$router.push('/user-access');
+			  this.$router.go(-1);
             } ,
     allcap (e, o, prop) {
   const start = e.target.selectionStart;
@@ -237,10 +237,10 @@ export default {
     this.$set(o, prop, e.target.value);
     e.target.setSelectionRange(start, start);
     },
-    formatDate (value, fmt = 'D M YYYY') {
+    formatDate (value, fmt = 'DD-MM-YYYY HH:mm:ss') {
       return (value == null)
         ? ''
-        : moment(value, 'YYYY-MM-DD').format(fmt)
+        : moment(value, 'DD-MM-YYYY HH:mm:ss').format(fmt)
     },   
 		
   },

@@ -1,81 +1,66 @@
 <template>
  <div> 
+ 	<loading :show="isLoading"></loading>
+ 	 <vue-toast ref='toast'></vue-toast>
     <section class="content-header">
- <vue-toast ref='toast'></vue-toast>
+
       <h1 align="center">
-       User Log Activity
+      List Notifikasi
       </h1>
     </section>
 
-<div class="container-fluid display-page" id="display-post-category" >
- 
-<!-- @view --->
+
+
+<!-- @modal view -->
         <modal  v-if="modal.get('view')" @close="modal.set('view', false)"  >
-        <template slot="header" ><h4>Detail Log</h4></template>
-        <template slot="body" >
+        <template slot="header"><h4 align="center">Upload Project</h4></template> 
+        <template slot="body">
+          <form method="POST" enctype="multipart/form-data" action="" @submit.prevent="uploadItemToDatabase()">
                 <div class="modal-body">
 
-                    <!-- form Group -->
-                    <div class="form-group">
-                        <label for="email">Email :  {{forms.email}}</label>
-                      
-                    </div>
+        
+                   <div class="form-group col-12 mb-2">
+                    <label>Select File</label>
+                    <input type="file" class="form-control-file" name="file_name" id="file_name" v-on:change="newAvatar" required><br>
+                    <p class="mute">* File hanya berekstensi .xlsx</p>
+                  </div>
 
-                    <!-- form Group -->
-                    <div class="form-group">
-                        <label for="table_action">Table Action :  {{forms.table_action}}</label>
-                      
-                    </div>
+                   <div class="form-group col-12 mb-2">
+                     <label for="name">Download Template Project : <a href="/template/uploadprojecttemplate.xlsx" target="_blank">Download</a></label>
+                  </div>
 
-                    <!-- form Group -->
-                    <div class="form-group">
-                        <label for="action">Action :  {{forms.action}}</label>
-                      
-                    </div>
-
-                    <!-- form Group -->
-                    <div class="form-group">
-                        <label for="data">Data :  {{forms.data}}</label>
-                    </div>
-
-                    <!-- form Group -->
-                    <div class="form-group">
-                        <label for="description">log Date :  {{forms.created_at}}</label>
-                    </div>
-
+                   <div class="form-group col-12 mb-2">
+                   <div class="help-block"><ul role="alert">
+                    <li v-for="error of errorNya['file_name']"><span style="color:red;">{{ error }}</span></li></ul>
+                  </div>
+                  <br>
+                   <div class="help-block">
+                    <ul role="alert">
+                    <li v-for="error of errorNya['errortable']">
+                      <ul role="alert">
+                    <li v-for="error2 of error">
+                      <span style="color:red;">
+                    {{ error2 }}</span>
+                  </li>
+                </ul>
+                  </li>
+                </ul>
+                  </div>
+                  </div>
 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" @click="modal.set('view', false)" >Close</button>
+           <button type="submit" class="btn btn-primary">Kirim</button>
                 </div>
+        </form>
         </template>
         </modal>
-
-
-
- <!-- @delete -->
-        <modal v-if="modal.get('delete')" @close="modal.set('delete', false)"  >
-        <template slot="header" ><h4>Delete User Log Activity</h4></template>
-        <template slot="body" >
-
-            <form method="POST" action="" @submit.prevent="destroyItem( submitSelectedItems )">
-                <div class="modal-body">
-                    <p>Are you Sure that you want to delete this  ?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" @click="modal.set('delete', false)" >Close</button>
-                    <button type="submit" class="btn btn-success">Delete</button>
-                </div>
-            </form>
-        </template>
-        </modal>
-</div>
-
 
    <section class="content">
       <div class="row">
       <div class="col-md-12">
-
+ 
 <div class="filter-bar">
 
 <div class="dropdown form-inline pull-right">
@@ -92,7 +77,7 @@
              <form class="form-inline">
 <div style="overflow-x:auto;">
   <table>
-      <tr>
+  <tr>
       <td><label>Date From :</label></td>
       <td><date-picker :date="startTime" :option="option" @keyup.enter="doFilter"></date-picker></td>
       <td><label>&nbsp;&nbsp;Date To :</label></td>
@@ -103,18 +88,19 @@
     </tr>
     <tr>
       <td><label>Search for:</label></td>
-      <td colspan="3"><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="Email"></td>
+      <td colspan="3"><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="Project ID"></td>
     </tr>
      <tr>
       <td colspan="4" style="padding-top: 1%;"></td>
     </tr>
     <tr>
-      <td colspan="4"><button class="btn btn-success" @click.prevent="doFilter">Go</button>
-          <button class="btn" @click.prevent="resetFilter">Reset</button>&nbsp;<button type="button" class="btn btn-danger"  @click="sumSelectedItems()">
-            Delete All
-        </button></td>
-    </tr>
-         
+      <td colspan="4">
+<div class="text-left">
+<button class="btn btn-primary" @click.prevent="doFilter">Cari <i class="fa fa-thumbs-o-up position-right"></i></button>
+<button class="btn btn-warning" @click.prevent="resetFilter">Reset Form <i class="fa fa-refresh position-right"></i></button> 
+                                    </div>
+</td>
+       </tr>
 </table>
  </div>
        </form>
@@ -129,14 +115,11 @@
     <div style="overflow-x:auto;">
 	<div v-show="loading"><i class="fa fa-spinner fa-spin"></i> Loading Data</div>
     <vuetable ref="vuetable"
-      api-url="/karyawan/kevlerLog"
+      api-url="/karyawan/GetUserNotifications"
       :fields="fields"
       pagination-path=""
-      :selected-to="selectedRow"
       :per-page="perPage"
-      track-by="id"
       :css="css.table"
-      :multi-sort="true"
       :append-params="moreParams"
       @vuetable:cell-clicked="onCellClicked"
       @vuetable:pagination-data="onPaginationData"
@@ -162,8 +145,7 @@
     </div>
 </template>
 <script>
-     /* ------------------------------------------------------------------------------------- ERRORS
-         ---------------------------------------------------------------------------------------------------- */
+     /* ERRORS  */
         class Errors{
             constructor(){
                 this.errors = {};
@@ -190,8 +172,10 @@
                 this.errors = "";
             }
         }
-        /* ------------------------------------------------------------------------------------- CRUD FORM
-         ---------------------------------------------------------------------------------------------------- */
+        
+
+
+       /* CRUD FORM  */
         class CrudForm {
             constructor(data) {
                 this.originalData = data;
@@ -222,8 +206,10 @@
                 return data;
             }
         }
-        /* ------------------------------------------------------------------------------------- CRUD MODAL
-         ---------------------------------------------------------------------------------------------------- */
+
+
+
+        /*  CRUD MODAL  */
         class CrudModal{
             constructor(data){
                 this.modal = data;
@@ -237,7 +223,9 @@
                 this.modal[data] = value;
             }
         }
-        // -----------------------------------------------------------------------------------------------  COMPONENT MODAL
+
+
+        /* COMPONENT MODAL */
         const Modal = {
             template: `   <transition name="modal">
                                 <div class="modal-mask">
@@ -278,54 +266,25 @@ import Vuetable from 'vuetable-2/src/components/Vuetable'
 import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
 import Vue from 'vue'
+import loading from '../Loading'
 import VueEvents from 'vue-events'
+import Hashids from 'hashids'
 Vue.use(VueEvents)
+Vue.component('view-custom-actions', require('../Button/ViewActions.vue'))
 window.axios = require('axios')
 window.eventBus = new Vue()
- Vue.component('modal', Modal)
- Vue.component('contact-actions', {
-  template: `<div class="tenant-project-selesai-button-actions">
-     <button class="btn btn-sm" @click="itemAction('view-item', rowData, rowIndex)"><i class="glyphicon glyphicon-zoom-in"></i></button>
-      <button class="btn btn-sm" @click="itemAction('delete-item', rowData, rowIndex)"><i class="glyphicon glyphicon-trash"></i></button>
-    </div>`,
-  props: {
-      rowData: {
-        type: Object,
-        required: true
-      },
-      rowIndex: {
-        type: Number
-      }
-    },
-    methods: {
-      itemAction (action, data, index) {
-      if(action === "view-item")
-      {
-               this.$root.$emit('viewitem', data , index);
-      }
-      else if(action === "delete-item")
-      {
-               this.$root.$emit('deleteitem', data , index);
-      }
-      else
-      {
-alert('error');
-      }
-        
-      }
-      }
-})
 export default {
   components: {
     Vuetable,
     VuetablePagination,
     VuetablePaginationInfo,
-     'vue-toast': VueToast,
-     'date-picker': myDatepicker,
+    'vue-toast': VueToast,
+    'date-picker': myDatepicker,
+	loading,
   },
   data () {
     return {
-    selectedRow: [],
+	isLoading: false,
     startTime: {
         time: ''
       },
@@ -363,54 +322,50 @@ export default {
     closeBtn: true,
     formErrors:{},
     errors: new Errors() ,
-    forms:new CrudForm({index:'',  id:'' , email:'' , table_action:'', action:'',  data:''  ,created_at:''}) ,
-    modal:new CrudModal({view:false  , delete:false }),
      errorNya: [],
      token: localStorage.getItem('token'),
     submitted: false,
+  file_name:'',
+  sis:'',
+  drm:'',
+  sitac:'',
+  rfc:'',
+  boq:'',
     submitSelectedItems:[] ,
     displayItems:[] ,
+     dataNya: {name : '', level:''},
+     AlldataNya: '',
+    modal:new CrudModal({view:false}),
     perPage: 10,
     loading: false,
-    loading2: false,
       fields: [
-      {
+       {
           name: '__sequence',
           title: 'No',
           titleClass: 'text-center',
           dataClass: 'text-center'
-        },
+        }, 
         {
-          name: '__checkbox:id',
-          titleClass: 'text-center',
-          dataClass: 'text-center',
-        },
-        {
-          name: 'email',
-		  title: 'Email',
+          name: 'projectid',
+		  title: 'PROJECT ID',
 		  titleClass: 'text-center',
-          dataClass: 'text-center',
+          dataClass: 'text-center'
         },
         {
-          name: 'table_action',
-		  title: 'Table Action',
+          name: 'status',
+		  title: 'Status',
 		  titleClass: 'text-center',
-          dataClass: 'text-center',
-        },
-        {
-          name: 'action',
-		  title: 'Actions',
-		  titleClass: 'text-center',
-          dataClass: 'text-center',
-        },
+          dataClass: 'text-center'
+        },  
         {
           name: 'created_at',
-          title: 'Message Date',
+		  title: 'Tanggal Notifikasi',
           titleClass: 'text-center',
           dataClass: 'text-center',
+          callback: 'formatDate|DD-MM-YYYY HH:mm:ss'
         },
         {
-          name: '__component:contact-actions',
+          name: '__component:view-custom-actions',
           title: 'Actions',
           titleClass: 'text-center',
           dataClass: 'text-center'
@@ -455,37 +410,54 @@ export default {
         'position': 'resetOptions',
         },
   methods: {
-   sumSelectedItems() {
-   var ttl = this.$refs.vuetable.selectedTo;
-   if(ttl.length <= 0)
-   {
-   alert ('Choose One Data');
-   }
-   else
-   {
-   var check = confirm("Are you sure you want to delete this row?");  
-                if(check == true){  
-
-                var join_selected_values = ttl.join(","); 
-                //console.log(join_selected_values);
+         newAvatar(event) {
+               let files = event.target.files || e.dataTransfer.files;
+               if (files.length) this.file_name = files[0];
                 
-                    axios.delete('/karyawan/kevlerLogDeleteAll/'+ join_selected_values)
-                    .then(response => {
-                this.errorNya = '';
-                  this.$refs.vuetable.selectedTo = [];
-                this.resetFilter();
-                 this.submitted = this.showTime('success',response.data.success);
-
-                    })
-                    .catch(error => {
-                        this.errorNya = error.response.data;
-                    });
-                    
-   }
-   }
-   
-  },
-   resetOptions() {
+           }, 
+ success(kata) {
+      this.$swal({
+  position: 'top-end',
+  type: 'success',
+  title: kata,
+  showConfirmButton: false,
+  timer: 1500
+})
+    },
+    
+ error(kata) {
+      this.$swal({
+  position: 'top-end',
+  type: 'error',
+  title: kata,
+  showConfirmButton: false,
+  timer: 1500
+})
+    },
+    
+ question(kata) {
+      this.$swal(
+'Ooppss?',
+ kata,
+  'question'
+)
+    }, 
+     newAvatar(event) {
+               let files = event.target.files || e.dataTransfer.files;
+               if (files.length) this.file_name = files[0];
+                
+           },
+diacak(id)
+           {
+var hashids = new Hashids('',1000,'abcdefghijklmnopqrstuvwxyz0987654321ABCDEFGHIJKLMNOPQRSTUVWXYZ'); // no padding
+return hashids.encode(id); 
+           },
+dibalik(id)
+           {
+var hashids = new Hashids('',1000,'abcdefghijklmnopqrstuvwxyz0987654321ABCDEFGHIJKLMNOPQRSTUVWXYZ'); // no padding
+return hashids.decode(id); 
+           }, 
+  resetOptions() {
           this.$refs.toast.setOptions({
             delayOfJumps: this.delayOfJumps,
             maxToasts: this.maxToasts,
@@ -498,36 +470,9 @@ export default {
             timeLife: 3000,
           })
         },
-    fetchIt(){
-                this.loading = true;
-                axios.get('/karyawan/GetProfileProcurementReviewer?token=' + this.token).then((response) => {
-                    this.dataNya = response.data;
-                    this.loading = false
-                }).catch(error => {
-				if (! _.isEmpty(error.response)) {
-                    if (error.response.status = 422) {
-                       this.$router.push('/server-error');
-                    }
-                   else if (error.response.status = 500) {
-                        this.$router.push('/server-error');
-                    }
-					else
-					{
-                         this.$router.push('/page-not-found');
-					}
-					}
-                    });
-            },
-            deleteItem(item ,index = this.indexOf(item)){
-               this.submitSelectedItems = item.id;
-                this.modal.set('delete', true);
-            }  ,
-            viewItem(item ,index = this.indexOf(item)){
-                this.forms.setFillItem(item , index );
-                this.modal.set('view', true);
-            }  ,
+             
         doFilter () {
-		if(!this.startTime.time && !this.endtime.time)
+        		if(!this.startTime.time && !this.endtime.time)
 		{
 		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
 		}
@@ -567,6 +512,14 @@ export default {
     formatNumber (value) {
       return accounting.formatNumber(value, 2)
     },
+	
+	formatTower (value) {
+      return accounting.formatMoney(value,  {
+  symbol: " M",precision: 0,format: "%v %s"})
+    },
+	formatNumberRupiah (value) {
+      return accounting.formatMoney(value,  "Rp. ", 2, ".", ",")
+    },
     formatDate (value, fmt = 'DD-MM-YYYY HH:mm:ss') {
       return (value == null)
         ? ''
@@ -580,34 +533,40 @@ export default {
       this.$refs.vuetable.changePage(page)
     },
     onCellClicked (data, field, event) {
-      //console.log('cellClicked: ', field.title)
       this.$refs.vuetable.toggleDetailRow(data.id)
     },            
-            destroyItem(kode){
-                axios.delete('/karyawan/kevlerLog/'+ kode)
+
+			
+
+   updateItem() {
+axios.put('/karyawan/Updatekaryawan/'+ this.forms.id , this.forms)
                     .then(response => {
                 this.errorNya = '';
-                this.resetFilter();
-                 this.modal.set('delete', false);
                  this.submitted = this.showTime('success',response.data.success);
+                this.resetFilter();
+                 this.modal.set('edit', false);
+
                     })
                     .catch(error => {
-                        this.submitted = this.showTime('danger',response.data.error);
+                        this.errorNya = error.response.data;
                     });
-                   
-
             },
+           
+            viewItem(item ,index = this.indexOf(item)){
+                this.$router.push({name:'detailnotification', params: {id: this.diacak(item.id),typenya:'detail-notification',rowDatanya:item }});
+            }  ,
+
 onLoading() {
-     this.loading = true;
+     this.isLoading = true;
     },
     onLoaded() {
-      this.loading = false;
+       this.isLoading = false;
     },
     onLoadingError() {
-                this.loading = true;
-                axios.get('/karyawan/kevlerLog').then((response) => {
+               this.isLoading = true;
+                axios.get('karyawan/GetUserNotifications').then((response) => {
                     this.dataNya = response.data;
-                    this.loading = false
+                     this.isLoading = false;
                 }).catch(error => {
 				if (! _.isEmpty(error.response)) {
                     if (error.response.status = 500) {
@@ -615,7 +574,7 @@ onLoading() {
                     }
 					else
 					{
-                        this.loading = false;
+                         this.isLoading = false;
 					}
 					}
                     });
@@ -638,17 +597,9 @@ onLoading() {
             this.$root.$on('viewitem', function(data,index){
                 //console.log(data);
                self.viewItem(data,index);
-            });
-            this.$root.$on('edititem', function(data,index){
-               self.editItem(data,index);
-            });
-            this.$root.$on('deleteitem', function(data,index){
-               self.deleteItem(data,index);
-            });
+            }); 
         },
-		          mounted() {
-            //console.log(this.token);
-            this.fetchIt();
+		          mounted() { 
              this.resetOptions();
 
         }
@@ -708,6 +659,17 @@ z-index: -1;
 .modal-wrapper {
   display: table-cell;
   vertical-align: middle;
+}
+.modal-content {
+  height: auto;
+  min-height: 100%;
+  border-radius: 0;
+}
+.modal-dialog {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 .modal-container {
   width: 50%;

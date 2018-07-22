@@ -79,7 +79,7 @@ Route::post('password/reset', 'Karyawan\Auth\ResetPasswordController@reset')->na
 
  /* document sis */
   Route::post('/AddDocumentSIS', 'DokumenSISController@store');
-   Route::match(['put', 'patch'],'RevisiDocumentSIS/{id}','DokumenSISController@RevisiDocumentSIS');
+   Route::post('RevisiDocumentSIS','DokumenSISController@update');
  /* document sis */
 
 
@@ -93,6 +93,13 @@ Route::post('password/reset', 'Karyawan\Auth\ResetPasswordController@reset')->na
  /* get komunikasi */
     Route::get('/GetKomunikasiProject/{id}', 'CommunicationController@GetKomunikasiProject');
  /* get komunikasi */
+ 
+    
+
+ /* get notification */
+    Route::get('/GetUserNotifications', 'PesanController@index');
+    Route::get('/GetUserNotificationsDetail/{id}', 'PesanController@detail');
+ /* get notification */
  
 	  
 	  

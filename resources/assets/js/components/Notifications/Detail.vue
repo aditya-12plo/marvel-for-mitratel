@@ -3,7 +3,7 @@
 <section class="basic-elements">
     <div class="row">
         <div class="col-sm-12">
-             <div class="content-header" align="center">Detail User Akses</div>
+            <div class="content-header" align="center">Detail Komunikasi Project ID {{this.rowDatanya.projectid}}</div>
         </div>
     </div>
     <div class="row">
@@ -13,63 +13,36 @@
 <button type="button" class="btn btn-raised btn-warning" @click="backLink()"> <i class="ft-arrow-left position-left"></i> Kembali</button>
                 </div>
                 <div class="card-body">
-                    <div class="px-3">	
-							<div class="form-body">
-		                        <div class="row">	                        	
-		                            <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-		                                <fieldset class="form-group">
-		                                    <label for="nama">NAMA</label>
-		                                    <br>
-{{this.forms.name}}
-		                                </fieldset>
-		                            </div>
-		                            <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-		                                <fieldset class="form-group">
-		                                    <label for="email">Email</label>
-		                                    <br>
-{{this.forms.email}}
-		                                </fieldset>
-		                            </div>
-
-		                            <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-		                                <fieldset class="form-group">
-		                                    <label for="level">Level</label>
-		                                    <br>
-{{this.forms.level}}
-		                                </fieldset>
-		                            </div>
-
-<div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-<fieldset class="form-group">
-<label for="posisi">Posisi</label>
-<br>
-{{this.forms.posisi}}
-</fieldset>
-		                            </div>
+                    <div class="row">
 
 
-<div class="col-xl-4 col-lg-6 col-md-12 mb-1" v-if="this.forms.level=='HQ' && this.forms.posisi=='MANAGER' || this.forms.level=='HQ' && this.forms.posisi=='ACCOUNT MANAGER' || this.forms.level=='REGIONAL' && this.forms.posisi=='MANAGER MARKETING' || this.forms.level=='REGIONAL' && this.forms.posisi=='AM SUPPORT' || this.forms.level=='REGIONAL' && this.forms.posisi=='ACCOUNT MANAGER'">
-<fieldset class="form-group">
-		                                    <label for="area">Area</label>
-		                                    <br>
-{{this.forms.area}}
-		                                </fieldset>
-		                            </div>
+<div class="col-12">
+          <div class="card-header">
+<h3>Status Project : <b>{{this.listData.detail}}</b></h3>
+        </div>
+</div>    
+<div class="col-12">        
+<div class="col-12" v-for="row in this.listData.komunikasiproject" style="border: 1px solid grey;"> 
+  <div class="card-header">             
+                    <!-- form Group -->
+                    <div class="form-group">
+                        <label for="pengirim">Pengirim : {{row.name}}</label><br>
+                        <label for="jabatan">Posisi : {{row.posisi}}</label><br>
+                        <label for="stts">Status : {{row.status}}</label><br>
+                        <label for="pesan">Pesan : {{row.message}}</label><br>
+                        <label for="time">Waktu : {{formatDate(row.created_at)}}</label><br>
+                    </div>
+   </div>
+</div> 
+</div> 
 
 
-<div class="col-xl-4 col-lg-6 col-md-12 mb-1" v-if="this.forms.level=='REGIONAL' && this.forms.posisi=='AM SUPPORT' || this.forms.level=='REGIONAL' && this.forms.posisi=='ACCOUNT MANAGER'">
-<fieldset class="form-group">
-		                                    <label for="regional">Regional</label>
-		                                    <br>
-{{this.forms.regional}}
-		                                </fieldset>
-		                            </div>
+   
 
 
-		                            
-		                        </div>
-		                    </div>
-						
+
+
+
                     </div>
                 </div>
             </div>
@@ -133,6 +106,16 @@
                     }
                 }
             }
+            setFillItem(item , index){
+                for(let field in this.originalData){
+                    if(field in item){
+                        this[field] = item[field];
+                    }else{
+                        // if is index
+                        if(field == 'index'){ this[field] = index; }
+                    }
+                }
+            }
             data(){
                 let data = Object.assign({} , this);
                 delete data.originalData;
@@ -158,7 +141,7 @@ window.axios = require('axios')
 window.eventBus = new Vue()
 
 export default {
-	    props: {
+        props: {
       rowDatanya: {
         type: Object,
         required: true
@@ -181,13 +164,41 @@ export default {
 	isLoading: false,
     formErrors:{},
 	GetLevel:'', 
-	forms: new CrudForm({id:'' , name:'' , email:'' , level:'',  posisi:'',  area:'',  regional:'',  password:'' , created_at:''}), 
-	pilihan: ['REGIONAL','HQ'],
-	pilihanregional: ['AM SUPPORT','ACCOUNT MANAGER','MANAGER MARKETING'],
-	pilihanhq: ['ACCOUNT MANAGER','MANAGER'],
-	pilihanarea: ['1','2','3','4'],
+	woDate: {
+        time: ''
+      },
+	option: {
+        type: 'day',
+        week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+        month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        format: 'YYYY-MM-DD',
+        placeholder: 'YYYY-MM-DD',
+        inputStyle: {
+          'display': 'inline-block',
+          'padding': '6px',
+          'line-height': '22px',
+          'font-size': '16px',
+          'border': '2px solid #fff',
+          'box-shadow': '0 1px 3px 0 rgba(0, 0, 0, 0.2)',
+          'border-radius': '2px',
+          'color': '#5F5F5F'
+        },
+        color: {
+          header: '#B799DA',
+          headerText: '#f00'
+        },
+        buttons: {
+          ok: 'Ok',
+          cancel: 'Cancel'
+        },
+        overlayOpacity: 0.5, // 0.5 as default 
+        dismissible: true // as true as default 
+      },
+  statusProject: [], 
+  listData: [],  
     errors: new Errors() ,
     errorNya: [],
+    dataStatus: '',
     dataNya: {name : '', level:''},
     perPage: 10,
     loading: false,
@@ -197,36 +208,27 @@ export default {
  watch: {
         },
         methods: {
-     newAvatar(event) {
-               let files = event.target.files || e.dataTransfer.files;
-               if (files.length) this.file_name = files[0];
-                
-           },
-     dataAction () {
-      if(this.typenya === "detail-user")
+        	getYears:function(start){
+        		var stop = new Date().getFullYear()+1;
+            return new Array(stop-start).fill(start).map((n,i)=>n+i);
+        },
+  GetAllData(kode){
+                axios.get('/karyawan/GetUserNotificationsDetail/'+kode).then((response) => {
+          this.listData = response.data;
+                });
+            },
+               dataAction() {
+      if(this.typenya === "detail-notification")
       {
-          this.forms.setFillItem(this.rowDatanya);
+          this.GetAllData(this.rowDatanya.id);
       }
       else
       {
-			this.$router.push('/page-not-found');
+      this.$router.push('/page-not-found');
       }
         
       },
-              resetforms() {
-         		this.errorNya='';
-         		this.forms.reset();
-                this.errors.clearAll();
-        },
-            success(kata) {
-      this.$swal({
-  position: 'top-end',
-  type: 'success',
-  title: kata,
-  showConfirmButton: false,
-  timer: 1500
-})
-    },
+     
             backLink() {
 			   this.$router.go(-1);
             } ,
@@ -240,7 +242,8 @@ export default {
       return (value == null)
         ? ''
         : moment(value, 'DD-MM-YYYY HH:mm:ss').format(fmt)
-    },   
+    },       
+         
 		
   },
    events: {
@@ -250,6 +253,7 @@ export default {
         },
 		          mounted() {
             this.dataAction();
+
         }
 }
 

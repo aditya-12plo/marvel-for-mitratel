@@ -4,7 +4,7 @@
 <section class="basic-elements">
     <div class="row">
         <div class="col-sm-12">
-            <div class="content-header" align="center">Form Penambahan Dokumen SIS Project ID {{this.rowDatanya.project.projectid}}</div>
+            <div class="content-header" align="center">Form Perubahan Dokumen SIS Project ID {{this.rowDatanya.project.projectid}}</div>
         </div>
     </div>
     <div class="row">
@@ -471,7 +471,7 @@ export default {
 })
     },
             backLink() {
-			  this.$router.push('/repair-documents-sis');
+			  this.$router.go(-1);
             } ,
     allcap (e, o, prop) {
   const start = e.target.selectionStart;
@@ -479,10 +479,10 @@ export default {
     this.$set(o, prop, e.target.value);
     e.target.setSelectionRange(start, start);
     },
-    formatDate (value, fmt = 'D M YYYY') {
+    formatDate (value, fmt = 'DD-MM-YYYY HH:mm:ss') {
       return (value == null)
         ? ''
-        : moment(value, 'YYYY-MM-DD').format(fmt)
+        : moment(value, 'DD-MM-YYYY HH:mm:ss').format(fmt)
     },       
     submitData() {
     	this.$swal({
@@ -495,17 +495,24 @@ export default {
 }).then((result) => {
   if (result.value) {
     this.isLoading = true;
-   let masuk = new FormData();
+/*
+var masuk = {project_id:this.rowDatanya.project.id,projectid:this.rowDatanya.project.projectid,kata:'Project '+this.rowDatanya.project.projectid+' Telah Di Perbaiki Dan Menunggu Approval Anda',infratype:this.rowDatanya.project.infratype,message:this.message,statusmessage:'REVISI DOKUMEN SIS',document_sis:this.file_name,filenya:this.rowDatanya.project.document_sis,document:'DOKUMEN SIS',status:2};
+console.log(masuk);
+this.isLoading = false;
+   */
+      let masuk = new FormData();
    masuk.set('project_id', this.rowDatanya.project.id)
+   masuk.set('documentsisid', this.rowDatanya.project.documentsisid)
    masuk.set('projectid', this.rowDatanya.project.projectid)
-   masuk.set('kata', 'Project '+this.rowDatanya.project.projectid+' Telah DI Perbaiki Dan Menunggu Approval Anda')
+   masuk.set('kata', 'Project '+this.rowDatanya.project.projectid+' Telah Di Perbaiki Dan Menunggu Approval Anda')
    masuk.set('infratype', this.rowDatanya.project.infratype)
    masuk.set('message', this.message)
    masuk.set('statusmessage', 'REVISI DOKUMEN SIS')
    masuk.set('document_sis', this.file_name)
+   masuk.set('filenya', this.rowDatanya.project.document_sis)
    masuk.set('document', 'DOKUMEN SIS')
-   masuk.set('status', 2)
-   axios.put('/karyawan/RevisiDocumentSIS/'+ this.rowDatanya.project.documentsisid, masuk)
+   masuk.set('status', 2);
+axios.post('/karyawan/RevisiDocumentSIS', masuk)
                     .then(response => { 
                       if(response.data.success)
                       {
@@ -537,7 +544,9 @@ export default {
                     }
                     }
                         
-                    })
+                    })  
+
+
   }
 })
             },

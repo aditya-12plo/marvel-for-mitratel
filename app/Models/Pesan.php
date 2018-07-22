@@ -11,6 +11,5 @@ class Pesan extends Model
     protected $primaryKey = 'id';
     protected $fillable = array('project_id','sender_id','users_id','message','status');
     public $timestamps = true;
-
-  
+ 
 }

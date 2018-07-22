@@ -99,6 +99,7 @@
 
 
 
+ <li class="nav-item"><a href="/karyawan#/list-notifications"><i class="ft-bookmark font-medium-3"></i><span data-i18n="" class="menu-title">Notifikasi</span> </a></li> 
  <li class="nav-item"><a id="navbar-fullscreen" href="javascript:;" class="nav-link apptogglefullscreen"><i class="ft-maximize font-medium-3"></i><span data-i18n="" class="menu-title">Fullscreen</span> </a></li>
 <li class="has-sub nav-item"><a href="#"><i class="ft-user"></i><span data-i18n="" class="menu-title">User</span></a>
                 <ul class="menu-content">

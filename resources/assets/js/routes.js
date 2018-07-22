@@ -147,6 +147,20 @@ let routes=[
 /* list users akses  */
 
 
+/* notifications user list  */
+{
+	path:'/list-notifications',
+	component:require('./components/Notifications/')
+},
+{
+	path:'/list-notifications/detail/:id',
+	name: 'detailnotification',
+	component:require('./components/Notifications/Detail'),
+	 props: true
+},
+/* notifications user list  */
+
+
 
 
 /* list project administor  */
