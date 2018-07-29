@@ -15,7 +15,7 @@
                 </div>
                 <div class="card-body">
                     <div class="px-3">
-<form method="POST" class="form" action="" @submit.prevent="ApproveItem()">	
+<form method="POST" class="form" enctype="multipart/form-data" action="" @submit.prevent="ApproveItem()">	
 							<div class="form-body">
 		                        <div class="row">	 
 
@@ -137,9 +137,7 @@ Latitude : {{this.rowDatanya.project.latitude_spk}}
   <i class="ft-message-square"></i> Lihat Komunikasi
 </button>
 </div>
-
-  
-</v-container>
+ 
                                     </fieldset>
                                 </div>
 
@@ -165,6 +163,7 @@ Latitude : {{this.rowDatanya.project.latitude_spk}}
 
 	 <div class="col-md-12 mb-1">	                            
 		                            <div class="form-actions left">
+                                        <button type="button" class="btn btn-raised btn-warning" @click="backLink()"> <i class="ft-arrow-left position-left"></i> Kembali</button>
 <button type="submit" class="btn btn-raised btn-primary">
 	<i class="fa fa-check-square-o"></i> Save
 </button>
@@ -470,7 +469,7 @@ export default {
 })
     },
             backLink() {
-			   this.$router.go(-1);
+			   this.$router.push('/documents-sis');
             } ,
     allcap (e, o, prop) {
   const start = e.target.selectionStart;
@@ -482,7 +481,24 @@ export default {
       return (value == null)
         ? ''
         : moment(value, 'DD-MM-YYYY HH:mm:ss').format(fmt)
-    },       
+    },    
+     error(kata) {
+      this.$swal({
+  position: 'top-end',
+  type: 'error',
+  title: kata,
+  showConfirmButton: false,
+  timer: 1500
+})
+    },
+    
+ question(kata) {
+      this.$swal(
+'Ooppss?',
+ kata,
+  'question'
+)
+    },   
     submitData() {
     	this.$swal({
   title: 'Are you sure ?',
@@ -509,6 +525,12 @@ export default {
                       if(response.data.success)
                       {
                  this.success(response.data.success);
+                 this.isLoading = false;
+                 this.backLink();
+                      } 
+                      else if(response.data.error)
+                      {
+                 this.error(response.data.error);
                  this.isLoading = false;
                  this.backLink();
                       }

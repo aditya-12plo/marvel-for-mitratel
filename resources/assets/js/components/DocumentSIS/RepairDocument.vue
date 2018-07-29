@@ -7,15 +7,19 @@
             <div class="content-header" align="center">Form Perubahan Dokumen SIS Project ID {{this.rowDatanya.project.projectid}}</div>
         </div>
     </div>
+    <form method="POST" class="form" enctype="multipart/form-data" action="" @submit.prevent="ApproveItem()">   
     <div class="row">
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
 <button type="button" class="btn btn-raised btn-warning" @click="backLink()"> <i class="ft-arrow-left position-left"></i> Kembali</button>
+<button type="submit" class="btn btn-raised btn-primary">
+    <i class="fa fa-check-square-o"></i> Save
+</button>
                 </div>
                 <div class="card-body">
                     <div class="px-3">
-<form method="POST" class="form" action="" @submit.prevent="ApproveItem()">	
+
 							<div class="form-body">
 		                        <div class="row">	 
 
@@ -161,25 +165,16 @@ Latitude : {{this.rowDatanya.project.latitude_spk}}
 		                            </div>
 		                            
 
-
-
-
-	 <div class="col-md-12 mb-1">	                            
-		                            <div class="form-actions left">
-<button type="submit" class="btn btn-raised btn-primary">
-	<i class="fa fa-check-square-o"></i> Save
-</button>
-	                        </div>
-	   </div>
+ 
 		                            
 		                        </div>
 		                    </div>
-						</form>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+                        </form>
 </section>
 <!-- Basic Inputs end -->
 
@@ -469,9 +464,27 @@ export default {
   showConfirmButton: false,
   timer: 1500
 })
+    },     
+
+    error(kata) {
+      this.$swal({
+  position: 'top-end',
+  type: 'error',
+  title: kata,
+  showConfirmButton: false,
+  timer: 1500
+})
     },
+    
+ question(kata) {
+      this.$swal(
+'Ooppss?',
+ kata,
+  'question'
+)
+    }, 
             backLink() {
-			  this.$router.go(-1);
+			  this.$router.push('/repair-documents-sis');
             } ,
     allcap (e, o, prop) {
   const start = e.target.selectionStart;
@@ -495,11 +508,6 @@ export default {
 }).then((result) => {
   if (result.value) {
     this.isLoading = true;
-/*
-var masuk = {project_id:this.rowDatanya.project.id,projectid:this.rowDatanya.project.projectid,kata:'Project '+this.rowDatanya.project.projectid+' Telah Di Perbaiki Dan Menunggu Approval Anda',infratype:this.rowDatanya.project.infratype,message:this.message,statusmessage:'REVISI DOKUMEN SIS',document_sis:this.file_name,filenya:this.rowDatanya.project.document_sis,document:'DOKUMEN SIS',status:2};
-console.log(masuk);
-this.isLoading = false;
-   */
       let masuk = new FormData();
    masuk.set('project_id', this.rowDatanya.project.id)
    masuk.set('documentsisid', this.rowDatanya.project.documentsisid)
@@ -517,6 +525,12 @@ axios.post('/karyawan/RevisiDocumentSIS', masuk)
                       if(response.data.success)
                       {
                  this.success(response.data.success);
+                 this.isLoading = false;
+                 this.backLink();
+                      } 
+                      else if(response.data.error)
+                      {
+                 this.error(response.data.error);
                  this.isLoading = false;
                  this.backLink();
                       }

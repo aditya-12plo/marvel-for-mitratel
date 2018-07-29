@@ -444,7 +444,7 @@ onLoading() {
     onLoadingError() {
                this.isLoading = true;
                 axios.get('karyawan/GetJobsApprovalDocumentSIS').then((response) => {
-                    this.dataNya = response.data;
+                
                      this.isLoading = false;
                 }).catch(error => {
 				if (! _.isEmpty(error.response)) {

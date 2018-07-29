@@ -93,6 +93,75 @@ let routes=[
 /* document SIS  */
 
 
+/* document DRM  */
+{
+	path:'/documents-drm',
+	component:require('./components/DocumentDRM/')
+},
+{
+	path:'/documents-drm/add',
+	name: 'adddocumentdrm',
+	component:require('./components/DocumentDRM/Add'),
+	props: true
+},
+{
+	path:'/approval-documents-drm',
+	component:require('./components/DocumentDRM/Approval')
+},
+{
+	path:'/approval-documents-drm/approval',
+	name: 'approvaldocumentdrm',
+	component:require('./components/DocumentDRM/Approved'),
+	props: true
+},
+{
+	path:'/repair-documents-drm', 
+	component:require('./components/DocumentDRM/Repair') 
+},
+{
+	path:'/repair-documents-drm/repair',
+	name: 'revisidocumentdrm',
+	component:require('./components/DocumentDRM/RepairDocument'),
+	props: true
+},
+/* document DRM  */
+
+
+
+/* document SITAC  */
+{
+	path:'/documents-sitac',
+	component:require('./components/DocumentSITAC/')
+},
+{
+	path:'/documents-sitac/add',
+	name: 'adddocumentsitac',
+	component:require('./components/DocumentSITAC/Add'),
+	props: true
+},
+{
+	path:'/approval-documents-sitac',
+	component:require('./components/DocumentSITAC/Approval')
+},
+{
+	path:'/approval-documents-sitac/approval',
+	name: 'approvaldocumentsitac',
+	component:require('./components/DocumentSITAC/Approved'),
+	props: true
+},
+{
+	path:'/repair-documents-sitac', 
+	component:require('./components/DocumentSITAC/Repair') 
+},
+{
+	path:'/repair-documents-sitac/repair',
+	name: 'revisidocumentsitac',
+	component:require('./components/DocumentSITAC/RepairDocument'),
+	props: true
+},
+/* document SITAC  */
+
+
 
 
 /* list users akses regional  */

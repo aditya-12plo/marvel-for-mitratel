@@ -54,14 +54,33 @@
 @if(Auth::guard('karyawan')->user()->level == 'REGIONAL' && Auth::guard('karyawan')->user()->posisi == 'AM SUPPORT')
 <li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Dokumen SIS</span></a>
                 <ul class="menu-content">
-<li><a href="/karyawan#/documents-sis" class="menu-item">Input Dokumen SIS</a>
+<li><a href="/karyawan#/documents-sis" class="menu-item">Input SIS</a>
                   </li>
-<li><a href="/karyawan#/repair-documents-sis" class="menu-item">Revisi Dokumen SIS</a>
+<li><a href="/karyawan#/repair-documents-sis" class="menu-item">Revisi SIS</a>
                   </li>           
 
                 </ul>
               </li>
-<li class="nav-item"><a href="/karyawan#/user-access-for-regional-account-manager"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Add Dokumen DRM</span></a></li>
+              <li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Dokumen DRM</span></a>
+                <ul class="menu-content">
+<li><a href="/karyawan#/documents-drm" class="menu-item">Input DRM</a>
+                  </li>
+<li><a href="/karyawan#/repair-documents-drm" class="menu-item">Revisi DRM</a>
+                  </li>           
+
+                </ul>
+              </li>
+ 
+              <li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Dokumen SITAC</span></a>
+                <ul class="menu-content">
+<li><a href="/karyawan#/documents-sitac" class="menu-item">Input SITAC</a>
+                  </li>
+<li><a href="/karyawan#/repair-documents-sitac" class="menu-item">Revisi SITAC</a>
+                  </li>           
+
+                </ul>
+              </li>
+ 
 <li class="nav-item"><a href="/karyawan#/user-access-for-regional-account-manager"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Add Dokumen SITAC</span></a></li>
 <li class="nav-item"><a href="/karyawan#/user-access-for-regional-account-manager"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Add Dokumen RFC</span></a></li>
 @endif
@@ -70,18 +89,41 @@
 @if(Auth::guard('karyawan')->user()->level == 'REGIONAL' && Auth::guard('karyawan')->user()->posisi == 'ACCOUNT MANAGER')
 <li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Dokumen SIS</span></a>
                 <ul class="menu-content">
-<li><a href="/karyawan#/documents-sis" class="menu-item">Input Dokumen SIS</a>
-                  </li>
-<li><a href="/karyawan#/repair-documents-sis" class="menu-item">Revisi Dokumen SIS</a>
+<li><a href="/karyawan#/documents-sis" class="menu-item">Input SIS</a></li>
+<li><a href="/karyawan#/repair-documents-sis" class="menu-item">Revisi SIS</a>
                   </li>           
 
                 </ul>
               </li>
+
+              <li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Dokumen DRM</span></a>
+                <ul class="menu-content">
+<li><a href="/karyawan#/documents-drm" class="menu-item">Input DRM</a>
+                  </li>
+<li><a href="/karyawan#/repair-documents-drm" class="menu-item">Revisi DRM</a>
+                  </li>           
+
+                </ul>
+              </li>
+             
+              <li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Dokumen SITAC</span></a>
+                <ul class="menu-content">
+<li><a href="/karyawan#/documents-sitac" class="menu-item">Input SITAC</a>
+                  </li>
+<li><a href="/karyawan#/repair-documents-sitac" class="menu-item">Revisi SITAC</a>
+                  </li>           
+
+                </ul>
+              </li>
+
+               
 <li class="nav-item"><a href="/karyawan#/user-access-for-regional-account-manager"><i class="icon-user-following"></i><span data-i18n="" class="menu-title">User Akses</span></a></li>
 @endif
 
 @if(Auth::guard('karyawan')->user()->level == 'REGIONAL' && Auth::guard('karyawan')->user()->posisi == 'MANAGER MARKETING')
-<li class="nav-item"><a href="/karyawan#/approval-documents-sis"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Approval Dokumen SIS</span></a></li>
+<li class="nav-item"><a href="/karyawan#/approval-documents-sis"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Approval SIS</span></a></li>
+<li class="nav-item"><a href="/karyawan#/approval-documents-drm"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Approval DRM</span></a></li>
+<li class="nav-item"><a href="/karyawan#/approval-documents-sitac"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Approval SITAC</span></a></li>
 <li class="nav-item"><a href="/karyawan#/user-access-for-regional"><i class="icon-user-following"></i><span data-i18n="" class="menu-title">User Akses</span></a></li>
 @endif
 

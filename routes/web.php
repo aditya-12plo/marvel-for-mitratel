@@ -71,27 +71,50 @@ Route::post('password/reset', 'Karyawan\Auth\ResetPasswordController@reset')->na
 
 
  /* get jobs */
-   Route::get('/GetJobsDocumentSIS', 'JobsController@GetJobsDocumentSIS');
-   Route::get('/GetJobsRevisiDocumentSIS', 'JobsController@GetJobsRevisiDocumentSIS');
-   Route::get('/GetJobsApprovalDocumentSIS', 'JobsController@GetJobsApprovalDocumentSIS');
+   Route::get('GetJobsDocumentSIS', 'JobsController@GetJobsDocumentSIS');
+   Route::get('GetJobsRevisiDocumentSIS', 'JobsController@GetJobsRevisiDocumentSIS');
+   Route::get('GetJobsApprovalDocumentSIS', 'JobsController@GetJobsApprovalDocumentSIS');
+   Route::get('GetJobsApprovalDocumentDRM', 'JobsController@GetJobsApprovalDocumentDRM');
+   Route::get('GetJobsRevisiDocumentDRM', 'JobsController@GetJobsRevisiDocumentDRM');
+
+
+   Route::get('GetJobsDocumentDRM', 'JobsController@GetJobsDocumentDRM');
+   Route::get('GetJobsDocumentSITAC', 'JobsController@GetJobsDocumentSITAC');
+   Route::get('GetJobsApprovalDocumentSITAC', 'JobsController@GetJobsApprovalDocumentSITAC');
+   Route::get('GetJobsRevisiDocumentSITAC', 'JobsController@GetJobsRevisiDocumentSITAC');
  /* get jobs */
 
 
  /* document sis */
-  Route::post('/AddDocumentSIS', 'DokumenSISController@store');
+  Route::post('AddDocumentSIS', 'DokumenSISController@store');
    Route::post('RevisiDocumentSIS','DokumenSISController@update');
  /* document sis */
+
+ /* document drm */
+  Route::post('AddDocumentDRM', 'DokumenDRMController@store');
+   Route::post('RevisiDocumentDRM','DokumenDRMController@update');
+ /* document drm */
+
+
+ /* document sitac */
+  Route::post('AddDocumentSITAC', 'DokumenSITACController@store');
+   Route::post('RevisiDocumentSITAC','DokumenSITACController@update');
+   Route::post('uploaddokumenSITAC','DokumenSITACController@upload');
+   Route::post('uploaddokumenSITACijinWarga','DokumenSITACController@uploadIjinWarga');
+   Route::post('uploaddokumenSITACPKS','DokumenSITACController@uploadPKS');
+   Route::post('uploaddokumenSITACIMB','DokumenSITACController@uploadIMB');
+ /* document sitac */
 
 
 
  /* approval document */
-  Route::post('/ApprovalDocumentRegional', 'ApprovalController@approvalRegional');
+  Route::post('ApprovalDocumentRegional', 'ApprovalController@approvalRegional');
  /* approval document */
 
 
 
  /* get komunikasi */
-    Route::get('/GetKomunikasiProject/{id}', 'CommunicationController@GetKomunikasiProject');
+    Route::get('GetKomunikasiProject/{id}', 'CommunicationController@GetKomunikasiProject');
  /* get komunikasi */
  
     

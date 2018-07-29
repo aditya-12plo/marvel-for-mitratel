@@ -443,8 +443,7 @@ onLoading() {
     },
     onLoadingError() {
                this.isLoading = true;
-                axios.get('karyawan/GetJobsDocumentSIS').then((response) => {
-                    this.dataNya = response.data;
+                axios.get('karyawan/GetJobsDocumentSIS').then((response) => { 
                      this.isLoading = false;
                 }).catch(error => {
 				if (! _.isEmpty(error.response)) {

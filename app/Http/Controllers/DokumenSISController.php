@@ -41,6 +41,8 @@ class DokumenSISController extends Controller
 
         public function store(Request $request)
     {
+$cekdata = DokumenSIS::where('project_id',Input::get('project_id'))->first();
+if (!$cekdata) {
 $valid = $this->validate($request, [
         'project_id' => 'required|max:255|unique:document_sis,project_id',
         'statusmessage' => 'required|max:255',
@@ -102,7 +104,12 @@ else
 else
     {
  return response()->json('error', $valid);
-    } 
+    }
+    }
+else
+    {
+return response()->json(['error'=>'Maaf Pekerjaan Ini Sudah Di Kerjakan Orang Lain']);
+    }    
     }
 
 
@@ -110,6 +117,8 @@ else
 
     public function update(Request $request)
     { 
+$cekdata = DB::table('vjobsdocumentsisrevisi')->where('id',Input::get('project_id'))->first();
+if ($cekdata->status_id == '3') {
 $valid = $this->validate($request, [
         'project_id' => 'required|max:255|unique:document_sis,project_id,'.Input::get('documentsisid'),
         'statusmessage' => 'required|max:255',
@@ -174,6 +183,11 @@ else
 else
     {
  return response()->json('error', $valid);
+    }
+    }
+else
+    {
+return response()->json(['error'=>'Maaf Pekerjaan Ini Sudah Di Kerjakan Orang Lain']);
     }  
     }
 

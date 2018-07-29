@@ -12,6 +12,12 @@
             <div class="card">
                 <div class="card-header">
 <button type="button" class="btn btn-raised btn-warning" @click="backLink()"> <i class="ft-arrow-left position-left"></i> Kembali</button>
+<button type="button" class="btn btn-raised btn-danger" @click="RepairItem()">
+    <i class="fa ft-x-square"></i> Perbaiki
+</button>
+<button type="button" class="btn btn-raised btn-primary" @click="ApproveItem()">
+    <i class="fa fa-check-square-o"></i> Setujui
+</button>
                 </div>
                 <div class="card-body">
                     <div class="px-3">
@@ -136,9 +142,7 @@ Latitude : {{this.rowDatanya.project.latitude_spk}}
   <i class="ft-message-square"></i> Lihat Komunikasi
 </button>
 </div>
-
-  
-</v-container>
+ 
                                     </fieldset>
                                 </div>
 
@@ -155,18 +159,7 @@ Latitude : {{this.rowDatanya.project.latitude_spk}}
 		                            
 
 
-
-
-	 <div class="col-md-12 mb-1">	                            
-		                            <div class="form-actions left">
-<button type="button" class="btn btn-raised btn-danger" @click="RepairItem()">
-	<i class="fa ft-x-square"></i> Perbaiki
-</button>
-<button type="button" class="btn btn-raised btn-primary" @click="ApproveItem()">
-	<i class="fa fa-check-square-o"></i> Setujui
-</button>
-	                        </div>
-	   </div>
+ 
 		                            
 		                        </div>
 		                    </div>
@@ -443,6 +436,9 @@ export default {
         
       },
                   ApproveItem(){
+this.statusmessage = '';
+this.status = '';
+this.kata = '';                    
 this.statusmessage = 'APPROVED DOKUMEN SIS';
 this.status = 4;
 this.kata = 'Dokumen SIS Project ID '+this.rowDatanya.project.projectid+' Di Setujui';
@@ -452,6 +448,9 @@ this.modal.set('approve', true);
                
             }  ,
                   RepairItem(){
+this.statusmessage = '';
+this.status = '';
+this.kata = '';                    
 this.statusmessage = 'REVISI DOKUMEN SIS';
 this.status = 3;
 this.kata = 'Harap Perbaiki Dokumen SIS Project ID '+this.rowDatanya.project.projectid;
@@ -480,7 +479,7 @@ this.modal.set('approve', true);
 })
     },
             backLink() {
-			  this.$router.go(-1);
+			  this.$router.push('/approval-documents-sis');
             } ,
     allcap (e, o, prop) {
   const start = e.target.selectionStart;
