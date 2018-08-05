@@ -12,7 +12,7 @@ class DokumenRFC extends Model
     protected $fillable = array('project_id','no_rfc','rfc_date','document_rfc','id_pln','target_rfi','power_capacity');
     public $timestamps = true;
 
-                public function projectdokumenrpm()
+                public function projectdokumenrfc()
     {
 return $this->belongsTo('App\Models\Project');
     }

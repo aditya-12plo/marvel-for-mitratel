@@ -40,11 +40,30 @@ class PesanController extends Controller
         $search = $request->filter;
         $min = $request->min;
         $max = $request->max;
-        $query =  DB::table('vnotifications')
+if(Auth::guard('karyawan')->user()->level == 'REGIONAL' && Auth::guard('karyawan')->user()->posisi == 'AM SUPPORT' || Auth::guard('karyawan')->user()->level == 'REGIONAL' && Auth::guard('karyawan')->user()->posisi == 'ACCOUNT MANAGER')
+{
+ $query =  DB::table('vnotifications')
         ->select('id','projectid','notificationid','area','regional','status','created_at')
         ->where([['regional',Auth::guard('karyawan')->user()->regional],['area',Auth::guard('karyawan')->user()->area]])
         ->orderBy('notificationid','DESC');
 
+}
+if(Auth::guard('karyawan')->user()->level == 'REGIONAL' && Auth::guard('karyawan')->user()->posisi == 'MANAGER MARKETING')
+{
+  $query =  DB::table('vnotifications')
+        ->select('id','projectid','notificationid','area','regional','status','created_at')
+        ->where('area',Auth::guard('karyawan')->user()->area)
+        ->orderBy('notificationid','DESC');  
+}
+if(Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'ACCOUNT MANAGER' || Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'MANAGER')
+{
+  $query =  DB::table('vnotifications')
+        ->select('id','projectid','notificationid','area','regional','status','created_at')
+        ->where('area',Auth::guard('karyawan')->user()->area)
+        ->orderBy('notificationid','DESC');  
+}
+
+       
         if ($search && !$min && !$max) {
             $like = "%{$search}%";
             $query = $query

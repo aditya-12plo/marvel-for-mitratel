@@ -159,6 +159,17 @@ else
                 return response()->json('error',422);
             }
          }
+       elseif($kode == 'DocumentBOQApproval')
+         {
+            if(Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'ACCOUNT MANAGER')
+            {
+                return response()->json(['level'=>Auth::guard('karyawan')->user()->level,'area'=>Auth::guard('karyawan')->user()->area,'regional'=>Auth::guard('karyawan')->user()->regional]);
+            }
+            else
+            {
+                return response()->json('error',422);
+            }
+         }
          else
          {
             return response()->json('error',422);

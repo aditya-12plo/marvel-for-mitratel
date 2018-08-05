@@ -219,6 +219,12 @@ export default {
           dataClass: 'text-center'
         },
         {
+          name: 'batchnya',
+      title: 'Batch',
+      titleClass: 'text-center',
+          dataClass: 'text-center'
+        },
+        {
           name: 'no_wo',
 		  title: 'No WO',
 		  titleClass: 'text-center',

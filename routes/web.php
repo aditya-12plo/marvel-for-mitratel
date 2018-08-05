@@ -82,17 +82,37 @@ Route::post('password/reset', 'Karyawan\Auth\ResetPasswordController@reset')->na
    Route::get('GetJobsDocumentSITAC', 'JobsController@GetJobsDocumentSITAC');
    Route::get('GetJobsApprovalDocumentSITAC', 'JobsController@GetJobsApprovalDocumentSITAC');
    Route::get('GetJobsRevisiDocumentSITAC', 'JobsController@GetJobsRevisiDocumentSITAC');
+
+
+   Route::get('GetJobsDocumentRFC', 'JobsController@GetJobsDocumentRFC');
+   Route::get('GetJobsApprovalDocumentRFC', 'JobsController@GetJobsApprovalDocumentRFC');
+   Route::get('GetJobsRevisiDocumentRFC', 'JobsController@GetJobsRevisiDocumentRFC');
+   Route::get('GetJobsBOQ', 'JobsController@GetJobsBOQ');
+   
+   Route::get('GetJobsApprovalDrop', 'JobsController@GetJobsApprovalDrop');
+
+
+
+Route::get('GetJobsMappingSite', 'JobsController@GetJobsMappingSite');
+Route::get('GetJobsMappingSiteApproved', 'JobsController@GetJobsMappingSiteApproved');
+
+
+
+Route::get('HistoryDropSite', 'JobsController@HistoryDropSite');
+Route::get('HistoryMappingSite', 'JobsController@HistoryMappingSite');
  /* get jobs */
 
 
  /* document sis */
   Route::post('AddDocumentSIS', 'DokumenSISController@store');
    Route::post('RevisiDocumentSIS','DokumenSISController@update');
+   Route::post('DeleteSIS','DokumenSISController@delete');
  /* document sis */
 
  /* document drm */
   Route::post('AddDocumentDRM', 'DokumenDRMController@store');
    Route::post('RevisiDocumentDRM','DokumenDRMController@update');
+   Route::post('DeleteDRM','DokumenDRMController@delete');
  /* document drm */
 
 
@@ -103,13 +123,44 @@ Route::post('password/reset', 'Karyawan\Auth\ResetPasswordController@reset')->na
    Route::post('uploaddokumenSITACijinWarga','DokumenSITACController@uploadIjinWarga');
    Route::post('uploaddokumenSITACPKS','DokumenSITACController@uploadPKS');
    Route::post('uploaddokumenSITACIMB','DokumenSITACController@uploadIMB');
+   Route::post('DeleteSITAC','DokumenSITACController@delete');
  /* document sitac */
 
+
+ /* document RFC */
+  Route::post('AddDocumentRFC', 'DokumenRFCController@store');
+   Route::post('RevisiDocumentRFC','DokumenRFCController@update');
+   Route::post('uploaddokumenRFC','DokumenRFCController@uploaddokumenRFC');
+   Route::post('DeleteRFC','DokumenRFCController@delete');
+ /* document RFC */
 
 
  /* approval document */
   Route::post('ApprovalDocumentRegional', 'ApprovalController@approvalRegional');
+  Route::post('ApprovalDocumentRegionalRFC', 'ApprovalController@approvalRFC');
  /* approval document */
+
+
+ /* drop project */
+   Route::post('DropProject', 'DropController@drop');
+   Route::post('ApprovalDropSiteRegional', 'DropController@dropRegional');
+   Route::post('DropProjectHQ', 'DropController@DropProjectHQ');
+ /* drop project */
+
+
+
+ /* mapping site */
+ Route::post('AddMappingSite', 'MappingSiteController@AddMappingSite');
+ Route::post('ApprovalMappingSite', 'MappingSiteController@ApprovalMappingSite');
+ Route::post('SubmitMappingSite', 'MappingSiteController@SubmitMappingSite');
+ /* mapping site */
+
+
+ /* boq */
+ Route::post('AddBOQ', 'MappingSiteController@store');
+ /* boq */
+
+
 
 
 

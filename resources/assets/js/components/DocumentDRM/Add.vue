@@ -16,6 +16,9 @@
 <button type="submit" class="btn btn-raised btn-primary">
   <i class="fa fa-check-square-o"></i> Save
 </button>
+<button type="button" @click="drop()" class="btn btn-raised btn-danger">
+    <i class="ft-trash-2"></i> Drop
+</button>
                 </div>
                 <div class="card-body">
                     <div class="px-3">
@@ -84,7 +87,7 @@
 <br>
 <input type="text" @input="allcap($event, forms, 'latitude_actual')" class="form-control" placeholder="LATITUDE" v-model="forms.latitude_actual" required>
 <br>
-<a :href="'http://www.google.com/maps/place/'+this.forms.longitude_actual+','+this.forms.latitude_actual" target="_blank"><button type="button" class="btn btn-raised btn-success">
+<a :href="'http://www.google.com/maps/place/'+this.forms.latitude_actual+','+this.forms.longitude_actual" target="_blank"><button type="button" class="btn btn-raised btn-success">
   <i class="ft-navigation"></i> Maps
 </button></a>
 <div class="help-block"><ul role="alert"><li v-for="error of errorNya['longitude_actual']"><span style="color:red;">{{ error }}</span></li></ul></div>
@@ -199,7 +202,7 @@
                                     <fieldset class="form-group">
                                         <label for="batch">BATCH</label>
                                         <br>
-BATCH#{{this.rowDatanya.project.batch+' '+this.rowDatanya.project.years}} 
+{{this.rowDatanya.project.batchnya}} 
                                     </fieldset>
                                 </div>
 
@@ -297,6 +300,54 @@ Latitude : {{this.rowDatanya.project.latitude_spk}}
 <!-- Basic Inputs end -->
 
  
+
+<!-- @drop -->
+        <modal  v-if="modal.get('drop')" @close="modal.set('drop', false)">
+        <template slot="header" align="center"><h4 align="center">Kirim Komunikasi Project</h4></template>
+        <template slot="body" >
+
+            <form method="POST" action="" @submit.prevent="dropData()">
+                <div class="modal-body">
+                
+<div class="col-sm-12" v-if="this.komunikasi.length > 0">             
+<div v-for="(row,index) in this.komunikasi" style="border: 1px solid grey;">              
+                    <!-- form Group -->
+                    <div class="form-group">
+                        <label for="pengirim">Pengirim : {{row.name}}</label><br>
+                        <label for="jabatan">Posisi : {{row.posisi}}</label><br>
+                        <label for="stts">Status : {{row.status}}</label><br>
+                        <label for="pesan">Pesan : {{row.message}}</label><br>
+                        <label for="time">Waktu : {{row.created_at}}</label><br>
+                    </div>
+</div>
+</div>
+<div class="col-sm-12" v-else>
+ <!-- form Group -->
+                    <div class="form-group">
+                        <label for="pengirim">Belum Ada Komunikasi Project</label><br>
+                    </div>
+</div>
+
+                   <div class="form-group">
+  <label for="message">Pesan:</label>
+  <textarea v-model="message" class="form-control" rows="5" id="message" placeholder="Pesan" required></textarea>
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya"><span style="color:red;">{{ error }}</span></li></ul></div>
+  </div>
+
+                
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" @click="modal.set('drop', false)" >Close</button>
+                    <button type="submit" class="btn btn-primary">Kirim</button>
+                </div>
+            </form>
+        </template>
+        </modal>
+
+
+
+
 <!-- @approve -->
         <modal  v-if="modal.get('approve')" @close="modal.set('approve', false)">
         <template slot="header" align="center"><h4 align="center">Kirim Komunikasi Project</h4></template>
@@ -531,7 +582,7 @@ export default {
  data () {
     return {
   isLoading: false,
-  modal:new CrudModal({komunikasiproject: false,approve: false}),
+  modal:new CrudModal({komunikasiproject: false,approve: false , drop: false}),
     formErrors:{},
      file_name:'',
      file_drm:'',
@@ -603,6 +654,13 @@ export default {
                 this.modal.set('approve', true); 
                
             }  ,
+             drop(){
+
+                   this.errorNya = '';
+                   this.message = '';
+                this.modal.set('drop', true); 
+               
+            }  ,
      newAvatar(event) {
                let files = event.target.files || e.dataTransfer.files;
                if (files.length) this.file_name = files[0];
@@ -668,6 +726,14 @@ export default {
   confirmButtonText: 'Yes!'
 }).then((result) => {
   if (result.value) {
+if(this.drm_date.time < this.kom_date.time)
+{
+        this.modal.set('approve', false);
+        this.error('Input DRM Date Wrong');
+}
+        else
+{
+
     this.isLoading = true;
    let masuk = new FormData();
    masuk.set('project_id', this.rowDatanya.project.id)
@@ -729,12 +795,68 @@ export default {
                         
                     })
   }
+}
+})
+            },
+            dropData() {
+        this.$swal({
+  title: 'Are you sure ?',
+  type: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes!'
+}).then((result) => {
+  if (result.value) {
+    this.isLoading = true;
+   let masuk = new FormData();
+   masuk.set('project_id', this.rowDatanya.project.id)
+   masuk.set('projectid', this.rowDatanya.project.projectid)
+   masuk.set('kata', 'DROP Project '+this.rowDatanya.project.projectid+' Menunggu Approval Anda')
+   masuk.set('infratype', this.rowDatanya.project.infratype)
+   masuk.set('message', this.message)
+   masuk.set('statusmessage', 'APPROVAL DROP PROJECT') 
+   masuk.set('document', 'DROP PROJECT')
+   masuk.set('status', 104)
+                axios.post('/karyawan/DropProject', masuk)
+                    .then(response => { 
+                 this.DeleteSIS(this.rowDatanya.project.documentid,this.rowDatanya.project.projectid ,this.rowDatanya.project.document_sis);       
+                 this.success(response.data.success);
+                 this.isLoading = false;
+                 this.backLink();
+                      
+                    })
+                    .catch(error => {
+                    if (! _.isEmpty(error.response)) {
+                    if (error.response.status = 422) {
+                         this.isLoading = false;
+                       this.errorNya = error.response.data;
+                    }
+                   else if (error.response.status = 500) {
+                        this.isLoading = false;
+                        this.$router.push('/server-error');
+                    }
+                    else
+                    {
+                         this.isLoading = false;
+                         this.$router.push('/page-not-found');
+                    }
+                    }
+                        
+                    })
+  }
 })
             },
 
   GetKomunikasi(id){
                 axios.get('/karyawan/GetKomunikasiProject/'+id).then((response) => {
                     this.komunikasi = response.data;
+                });
+            },
+              DeleteSIS(id,projectid,fileNya){
+    var masuk = {kode:id , projectid:projectid , file:fileNya};
+                axios.post('/karyawan/DeleteSIS',masuk).then((response) => {
+                    return response.data.success;
                 });
             },
     

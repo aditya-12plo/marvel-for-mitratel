@@ -192,4 +192,17 @@ return response()->json(['error'=>'Maaf Pekerjaan Ini Sudah Di Kerjakan Orang La
     }
 
     
+    public function delete(Request $request)
+    {
+        $id         = Input::get('kode');
+        $projectid  = Input::get('projectid');
+        $filename   = Input::get('file'); 
+
+DokumenSIS::where('id',$id)->delete();
+ $destinationPath = 'files/'.$projectid.'/'; // upload path
+File::delete($destinationPath .$filename);
+return response()->json(['success'=>'Successfully']);
+    }
+
+
 }

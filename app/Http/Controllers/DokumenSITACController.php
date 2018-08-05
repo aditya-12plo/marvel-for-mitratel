@@ -401,7 +401,7 @@ $valid = $this->validate($request, [
 if (!$valid)
 {
 
-$edit = array('project_id' => $request->project_id,'no_ban_bak' => $request->no_ban_bak,'date_ban_bak' => $request->date_ban_bak,'ijin_warga_date' => $request->ijin_warga_date, 'no_pks' => $request->no_pks, 'pks_date' => $request->pks_date, 'no_imb' => $request->no_imb, 'imb_date' => $request->imb_date);  
+$edit = array('no_ban_bak' => $request->no_ban_bak,'date_ban_bak' => $request->date_ban_bak,'ijin_warga_date' => $request->ijin_warga_date, 'no_pks' => $request->no_pks, 'pks_date' => $request->pks_date, 'no_imb' => $request->no_imb, 'imb_date' => $request->imb_date);  
 DokumenSITAC::where('id',Input::get('documentsitacid'))->update($edit);
 $ProjectStatus = ProjectStatus::create(['project_id' => Input::get('project_id'),'users_id' => Auth::guard('karyawan')->user()->id , 'document'=>strtoupper(Input::get('document')),'status'=>strtoupper(Input::get('statusmessage')),'message'=>strtoupper(Input::get('message'))]);
 $showUser = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','MANAGER MARKETING'],['area',Auth::guard('karyawan')->user()->area]])->get();
@@ -433,5 +433,22 @@ return response()->json(['error'=>'Maaf Pekerjaan Ini Sudah Di Kerjakan Orang La
  
     }
 
+        public function delete(Request $request)
+    {
+        $id         = Input::get('kode');
+        $projectid  = Input::get('projectid');
+        $document_ban_bak   = Input::get('document_ban_bak'); 
+        $document_ijin_warga   = Input::get('document_ijin_warga'); 
+        $document_pks   = Input::get('document_pks'); 
+        $document_imb   = Input::get('document_imb'); 
+
+ $destinationPath = 'files/'.$projectid.'/'; // upload path
+File::delete($destinationPath .$document_ban_bak);
+File::delete($destinationPath .$document_ijin_warga);
+File::delete($destinationPath .$document_pks);
+File::delete($destinationPath .$document_imb);
+DokumenSITAC::where('id',$id)->delete();
+return response()->json(['success'=>'Successfully']);
+    }
     
 }

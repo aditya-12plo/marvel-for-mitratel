@@ -365,5 +365,20 @@ return response()->json(['error'=>'Maaf Pekerjaan Ini Sudah Di Kerjakan Orang La
  
     }
 
+
+        public function delete(Request $request)
+    {
+        $id         = Input::get('kode');
+        $projectid  = Input::get('projectid');
+        $document_kom   = Input::get('document_kom'); 
+        $document_drm   = Input::get('document_drm'); 
+
+ $destinationPath = 'files/'.$projectid.'/'; // upload path
+File::delete($destinationPath .$document_kom);
+File::delete($destinationPath .$document_drm);
+DokumenDRM::where('id',$id)->delete();
+return response()->json(['success'=>'Successfully']);
+    }
+
     
 }

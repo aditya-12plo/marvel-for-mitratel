@@ -175,7 +175,7 @@ Latitude : {{this.rowDatanya.project.latitude_actual}}
                                     <fieldset class="form-group">
                                         <label for="batch">BATCH</label>
                                         <br>
-BATCH#{{this.rowDatanya.project.batch+' '+this.rowDatanya.project.years}} 
+{{this.rowDatanya.project.batchnya}} 
                                     </fieldset>
                                 </div>
 

@@ -214,7 +214,13 @@ export default {
         },
         {
           name: 'projectid',
-		  title: 'Project ID',
+      title: 'Project ID',
+      titleClass: 'text-center',
+          dataClass: 'text-center'
+        },
+        {
+          name: 'batchnya',
+		  title: 'Batch',
 		  titleClass: 'text-center',
           dataClass: 'text-center'
         },

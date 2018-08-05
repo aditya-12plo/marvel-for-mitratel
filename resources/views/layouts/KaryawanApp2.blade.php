@@ -54,18 +54,18 @@
 @if(Auth::guard('karyawan')->user()->level == 'REGIONAL' && Auth::guard('karyawan')->user()->posisi == 'AM SUPPORT')
 <li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Dokumen SIS</span></a>
                 <ul class="menu-content">
-<li><a href="/karyawan#/documents-sis" class="menu-item">Input SIS</a>
+<li><a href="/karyawan#/documents-sis" class="menu-item">Input</a>
                   </li>
-<li><a href="/karyawan#/repair-documents-sis" class="menu-item">Revisi SIS</a>
+<li><a href="/karyawan#/repair-documents-sis" class="menu-item">Revisi</a>
                   </li>           
 
                 </ul>
               </li>
               <li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Dokumen DRM</span></a>
                 <ul class="menu-content">
-<li><a href="/karyawan#/documents-drm" class="menu-item">Input DRM</a>
+<li><a href="/karyawan#/documents-drm" class="menu-item">Input</a>
                   </li>
-<li><a href="/karyawan#/repair-documents-drm" class="menu-item">Revisi DRM</a>
+<li><a href="/karyawan#/repair-documents-drm" class="menu-item">Revisi</a>
                   </li>           
 
                 </ul>
@@ -73,24 +73,36 @@
  
               <li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Dokumen SITAC</span></a>
                 <ul class="menu-content">
-<li><a href="/karyawan#/documents-sitac" class="menu-item">Input SITAC</a>
+<li><a href="/karyawan#/documents-sitac" class="menu-item">Input</a>
                   </li>
-<li><a href="/karyawan#/repair-documents-sitac" class="menu-item">Revisi SITAC</a>
+<li><a href="/karyawan#/repair-documents-sitac" class="menu-item">Revisi</a>
                   </li>           
 
                 </ul>
               </li>
  
-<li class="nav-item"><a href="/karyawan#/user-access-for-regional-account-manager"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Add Dokumen SITAC</span></a></li>
-<li class="nav-item"><a href="/karyawan#/user-access-for-regional-account-manager"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Add Dokumen RFC</span></a></li>
+ 
+              <li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Dokumen RFC</span></a>
+                <ul class="menu-content">
+<li><a href="/karyawan#/documents-rfc" class="menu-item">Input</a>
+                  </li>
+<li><a href="/karyawan#/repair-documents-rfc" class="menu-item">Revisi</a>
+                  </li>           
+
+                </ul>
+              </li>
+ 
+<li class="nav-item"><a href="/karyawan#/input-mapping-site"><i class="ft-shuffle"></i><span data-i18n="" class="menu-title">Input Mapping Site</span></a></li>
+ 
+ 
 @endif
 
 
 @if(Auth::guard('karyawan')->user()->level == 'REGIONAL' && Auth::guard('karyawan')->user()->posisi == 'ACCOUNT MANAGER')
 <li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Dokumen SIS</span></a>
                 <ul class="menu-content">
-<li><a href="/karyawan#/documents-sis" class="menu-item">Input SIS</a></li>
-<li><a href="/karyawan#/repair-documents-sis" class="menu-item">Revisi SIS</a>
+<li><a href="/karyawan#/documents-sis" class="menu-item">Input</a></li>
+<li><a href="/karyawan#/repair-documents-sis" class="menu-item">Revisi</a>
                   </li>           
 
                 </ul>
@@ -98,9 +110,9 @@
 
               <li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Dokumen DRM</span></a>
                 <ul class="menu-content">
-<li><a href="/karyawan#/documents-drm" class="menu-item">Input DRM</a>
+<li><a href="/karyawan#/documents-drm" class="menu-item">Input</a>
                   </li>
-<li><a href="/karyawan#/repair-documents-drm" class="menu-item">Revisi DRM</a>
+<li><a href="/karyawan#/repair-documents-drm" class="menu-item">Revisi</a>
                   </li>           
 
                 </ul>
@@ -108,14 +120,28 @@
              
               <li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Dokumen SITAC</span></a>
                 <ul class="menu-content">
-<li><a href="/karyawan#/documents-sitac" class="menu-item">Input SITAC</a>
+<li><a href="/karyawan#/documents-sitac" class="menu-item">Input</a>
                   </li>
-<li><a href="/karyawan#/repair-documents-sitac" class="menu-item">Revisi SITAC</a>
+<li><a href="/karyawan#/repair-documents-sitac" class="menu-item">Revisi</a>
                   </li>           
 
                 </ul>
               </li>
 
+
+ 
+              <li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Dokumen RFC</span></a>
+                <ul class="menu-content">
+<li><a href="/karyawan#/documents-rfc" class="menu-item">Input</a>
+                  </li>
+<li><a href="/karyawan#/repair-documents-rfc" class="menu-item">Revisi</a>
+                  </li>           
+
+                </ul>
+              </li>
+
+<li class="nav-item"><a href="/karyawan#/input-mapping-site"><i class="ft-shuffle"></i><span data-i18n="" class="menu-title">Input Mapping Site</span></a></li>
+ 
                
 <li class="nav-item"><a href="/karyawan#/user-access-for-regional-account-manager"><i class="icon-user-following"></i><span data-i18n="" class="menu-title">User Akses</span></a></li>
 @endif
@@ -124,8 +150,31 @@
 <li class="nav-item"><a href="/karyawan#/approval-documents-sis"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Approval SIS</span></a></li>
 <li class="nav-item"><a href="/karyawan#/approval-documents-drm"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Approval DRM</span></a></li>
 <li class="nav-item"><a href="/karyawan#/approval-documents-sitac"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Approval SITAC</span></a></li>
+<li class="nav-item"><a href="/karyawan#/approval-documents-rfc"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Approval RFC</span></a></li>
+<li class="nav-item"><a href="/karyawan#/approval-drop-project"><i class="ft-trash-2"></i><span data-i18n="" class="menu-title">Approval Drop</span></a></li>
+<li class="nav-item"><a href="/karyawan#/approval-mapping-site"><i class="ft-shuffle"></i><span data-i18n="" class="menu-title">Approval Mapping Site</span></a></li>
+   
+
 <li class="nav-item"><a href="/karyawan#/user-access-for-regional"><i class="icon-user-following"></i><span data-i18n="" class="menu-title">User Akses</span></a></li>
 @endif
+
+
+
+@if(Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'ACCOUNT MANAGER')
+<li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">BOQ</span></a>
+                <ul class="menu-content">
+<li><a href="/karyawan#/boq-input" class="menu-item">Add</a>
+                  </li>
+<li><a href="/karyawan#/boq-submit" class="menu-item">Submit</a>
+                  </li>           
+
+                </ul>
+              </li>
+@endif
+
+
+
+
 
 @if(Auth::guard('karyawan')->user()->level == 'ADMINISTRATOR')
 <li class="has-sub nav-item"><a href="#"><i class="ft-users"></i><span data-i18n="" class="menu-title">Root</span></a>
@@ -141,7 +190,19 @@
 
 
 
- <li class="nav-item"><a href="/karyawan#/list-notifications"><i class="ft-bookmark font-medium-3"></i><span data-i18n="" class="menu-title">Notifikasi</span> </a></li> 
+
+
+   <li class="has-sub nav-item"><a href="#"><i class="ft-rotate-cw font-medium-3"></i><span data-i18n="" class="menu-title">History</span></a>
+                <ul class="menu-content">
+<li><a href="/karyawan#/history-drop-site" class="menu-item">Drop</a>
+                  </li>
+<li><a href="/karyawan#/history-mapping-site" class="menu-item">Mapping Site</a>
+                  </li>           
+
+                </ul>
+              </li>
+              
+ <li class="nav-item"><a href="/karyawan#/list-notifications"><i class="ft-bell font-medium-3"></i><span data-i18n="" class="menu-title">Notifikasi</span> </a></li> 
  <li class="nav-item"><a id="navbar-fullscreen" href="javascript:;" class="nav-link apptogglefullscreen"><i class="ft-maximize font-medium-3"></i><span data-i18n="" class="menu-title">Fullscreen</span> </a></li>
 <li class="has-sub nav-item"><a href="#"><i class="ft-user"></i><span data-i18n="" class="menu-title">User</span></a>
                 <ul class="menu-content">

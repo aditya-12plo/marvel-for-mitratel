@@ -164,6 +164,115 @@ let routes=[
 
 
 
+/* document RFC  */
+{
+	path:'/documents-rfc',
+	component:require('./components/DocumentRFC/')
+},
+{
+	path:'/documents-rfc/add',
+	name: 'adddocumentrfc',
+	component:require('./components/DocumentRFC/Add'),
+	props: true
+},
+{
+	path:'/approval-documents-rfc',
+	component:require('./components/DocumentRFC/Approval')
+},
+{
+	path:'/approval-documents-rfc/approval',
+	name: 'approvaldocumentrfc',
+	component:require('./components/DocumentRFC/Approved'),
+	props: true
+},
+{
+	path:'/repair-documents-rfc', 
+	component:require('./components/DocumentRFC/Repair') 
+},
+{
+	path:'/repair-documents-rfc/repair',
+	name: 'revisidocumentrfc',
+	component:require('./components/DocumentRFC/RepairDocument'),
+	props: true
+},
+/* document RFC  */
+
+
+
+/* mapping site  */
+{
+	path:'/approval-mapping-site',
+	component:require('./components/MappingSite/Approval')
+},
+{
+	path:'/input-mapping-site',
+	component:require('./components/MappingSite/')
+},
+{
+	path:'/approval-mapping-site/approval',
+	name: 'approvalmappingsite',
+	component:require('./components/MappingSite/Approved'),
+	props: true
+},
+{
+	path:'/input-mapping-site/add',
+	name: 'addmappingsite',
+	component:require('./components/MappingSite/Add'),
+	props: true
+},
+/* mapping site  */
+
+
+/* history  */
+{
+	path:'/history-drop-site',
+	component:require('./components/History/Drop')
+},
+{
+	path:'/history-mapping-site',
+	component:require('./components/History/Mapping')
+},
+{
+	path:'/history-site/approval',
+	name: 'detailHistory',
+	component:require('./components/History/Detail'),
+	props: true
+},
+
+/* history  */
+
+ 
+
+/* drop  */
+{
+	path:'/approval-drop-project',
+	component:require('./components/Drop/Approval')
+},
+{
+	path:'/approval-drop-project/approval',
+	name: 'approvaldrop',
+	component:require('./components/Drop/Approved'),
+	props: true
+},
+/* drop  */
+
+
+/* BOQ  */
+{
+	path:'/boq-input',
+	component:require('./components/BOQ/')
+},
+{
+	path:'/boq-input/data',
+	name: 'adddocumentboq',
+	component:require('./components/BOQ/Add'),
+	props: true
+},
+/* BOQ  */
+
+
+
+
 /* list users akses regional  */
 {
 	path:'/user-access-for-regional',

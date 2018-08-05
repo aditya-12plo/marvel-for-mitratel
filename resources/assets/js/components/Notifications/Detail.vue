@@ -230,7 +230,7 @@ export default {
       },
      
             backLink() {
-			   this.$router.go(-1);
+			   this.$router.push('/list-notifications');
             } ,
     allcap (e, o, prop) {
   const start = e.target.selectionStart;
