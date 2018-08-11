@@ -19,6 +19,8 @@
     <!-- BEGIN APEX CSS-->
       <link rel="stylesheet" type="text/css" href="{{asset('app-assets/css/app.css')}}">  
       <link rel="stylesheet" type="text/css" href="{{asset('app-assets/css/custom.css')}}">  
+      
+    <link href="{{ asset('app-assets/css/vue2-autocomplete.css') }}" rel="stylesheet">
    <!-- <link rel="stylesheet" href="{{asset('css/app.css')}}"> -->
   </head>
   <body data-col="2-columns" class=" 2-columns ">

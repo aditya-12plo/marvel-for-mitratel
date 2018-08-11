@@ -89,6 +89,25 @@
                                 </div>
   
  
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="harga_bulan">Harga Sewa / Bulan</label>
+                                        <br>
+<money v-model="forms.harga_bulan" class="form-control border-input" placeholder="Harga Sewa / Bulan" v-bind="duit"></money> 
+<div class="help-block"><ul role="alert"><li v-for="error of errorNya['harga_bulan']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+  
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="harga_tahun">Harga Sewa / Tahun</label>
+                                        <br>
+<money v-model="forms.harga_tahun" class="form-control border-input" placeholder="Harga Sewa / Tahun" v-bind="duit"></money> 
+<div class="help-block"><ul role="alert"><li v-for="error of errorNya['harga_tahun']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+  
 
                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
@@ -555,51 +574,7 @@ Latitude : {{this.rowDatanya.project.latitude_actual}}
 
 
 
-
-<!-- @approve -->
-        <modal  v-if="modal.get('approve')" @close="modal.set('approve', false)">
-        <template slot="header" align="center"><h4 align="center">Kirim Komunikasi Project</h4></template>
-        <template slot="body" >
-
-            <form method="POST" action="" @submit.prevent="submitData()">
-                <div class="modal-body">
-                
-<div class="col-sm-12" v-if="this.komunikasi.length > 0">             
-<div v-for="(row,index) in this.komunikasi" style="border: 1px solid grey;">              
-                    <!-- form Group -->
-                    <div class="form-group">
-                        <label for="pengirim">Pengirim : {{row.name}}</label><br>
-                        <label for="jabatan">Posisi : {{row.posisi}}</label><br>
-                        <label for="stts">Status : {{row.status}}</label><br>
-                        <label for="pesan">Pesan : {{row.message}}</label><br>
-                        <label for="time">Waktu : {{row.created_at}}</label><br>
-                    </div>
-</div>
-</div>
-<div class="col-sm-12" v-else>
- <!-- form Group -->
-                    <div class="form-group">
-                        <label for="pengirim">Belum Ada Komunikasi Project</label><br>
-                    </div>
-</div>
-
-                   <div class="form-group">
-  <label for="message">Pesan:</label>
-  <textarea v-model="message" class="form-control" rows="5" id="message" placeholder="Pesan" required></textarea>
-  <div class="help-block"><ul role="alert"><li v-for="error of errorNya"><span style="color:red;">{{ error }}</span></li></ul></div>
-  </div>
-
-                
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" @click="modal.set('approve', false)" >Close</button>
-                    <button type="submit" class="btn btn-primary">Kirim</button>
-                </div>
-            </form>
-        </template>
-        </modal>
-
+ 
 
 <!-- @komunikasiproject -->
 <modal  v-if="modal.get('komunikasiproject')" @close="modal.set('komunikasiproject', false)">
@@ -800,6 +775,14 @@ export default {
         precision: 0,
         masked: false
         },
+    duit: {
+        decimal: ',',
+        thousands: '.',
+        prefix: 'Rp. ',
+        suffix: '',
+        precision: 0,
+        masked: false
+        },
   isLoading: false,
   modal:new CrudModal({komunikasiproject: false,approve: false, drop: false}),
     formErrors:{},
@@ -841,7 +824,7 @@ export default {
       },
     position: 'up right',
     closeBtn: true,
-  forms: new CrudForm({id:'' , project_id:'' , documenboqid:'' , site_type:'' , tower_type:'' , roof_top_high:'' , tower_high:'' , rf_in_meters:'' , mw_in_meters:'' , created_at:''}), 
+  forms: new CrudForm({id:'' , project_id:'' , documenboqid:'' , site_type:'' , tower_type:'' , roof_top_high:'' , tower_high:'' , rf_in_meters:'' , mw_in_meters:'', harga_bulan:'' , harga_tahun:'' , created_at:''}), 
     errors: new Errors() ,
     errorNya: [], 
     komunikasi:[] ,
@@ -938,14 +921,7 @@ export default {
   cancelButtonColor: '#d33',
   confirmButtonText: 'Yes!'
 }).then((result) => {
-  if (result.value) {
-if(this.rfc_date.time < this.rowDatanya.project.drm_date)
-{
-        this.modal.set('approve', false);
-        this.error('Input RFC Date Wrong');
-}
-        else
-{    
+  if (result.value) {    
     this.isLoading = true;
    let masuk = new FormData();
    masuk.set('project_id', this.rowDatanya.project.id)
@@ -958,7 +934,9 @@ if(this.rfc_date.time < this.rowDatanya.project.drm_date)
    masuk.set('tower_high', this.forms.tower_high)
    masuk.set('rf_in_meters', this.forms.rf_in_meters)
    masuk.set('mw_in_meters', this.forms.mw_in_meters) 
-   masuk.set('status', 11)
+   masuk.set('harga_bulan', this.forms.harga_bulan) 
+   masuk.set('harga_tahun', this.forms.harga_tahun) 
+   masuk.set('status', 14)
                 axios.post('/karyawan/AddBOQ', masuk)
                     .then(response => { 
                       if(response.data.success)
@@ -991,8 +969,7 @@ if(this.rfc_date.time < this.rowDatanya.project.drm_date)
                     }
                     }
                         
-                    })
-  }
+                    }) 
 }
 })
             },
@@ -1018,12 +995,9 @@ dropData() {
    masuk.set('message', this.message)
    masuk.set('statusmessage', 'APPROVAL DROP PROJECT') 
    masuk.set('document', 'DROP PROJECT')
-   masuk.set('status', 104)
+   masuk.set('status', 106)
                 axios.post('/karyawan/DropProjectHQ', masuk)
-                    .then(response => { 
-this.DeleteSIS(this.rowDatanya.project.documentid,this.rowDatanya.project.projectid ,this.rowDatanya.project.document_sis);       
-this.DeleteDRM(this.rowDatanya.project.documentdrmid,this.rowDatanya.project.projectid ,this.rowDatanya.project.document_kom ,this.rowDatanya.project.document_drm);       
-this.DeleteSITAC(this.rowDatanya.project.documentsitacid,this.rowDatanya.project.projectid ,this.rowDatanya.project.document_ban_bak ,this.rowDatanya.project.document_ijin_warga ,this.rowDatanya.project.document_pks ,this.rowDatanya.project.document_imb);       
+                    .then(response => {     
                  this.success(response.data.success);
                  this.isLoading = false;
                  this.backLink();
@@ -1050,25 +1024,7 @@ this.DeleteSITAC(this.rowDatanya.project.documentsitacid,this.rowDatanya.project
   }
 })
             },
-
-DeleteSIS(id,projectid,fileNya){
-    var masuk = {kode:id , projectid:projectid , file:fileNya};
-                axios.post('/karyawan/DeleteSIS',masuk).then((response) => {
-                    return response.data.success;
-                });
-            },  
-DeleteDRM(id,projectid,documentkom,documentdrm){
-    var masuk = {kode:id , projectid:projectid , document_kom:documentkom , document_drm:documentdrm};
-                axios.post('/karyawan/DeleteDRM',masuk).then((response) => {
-                    return response.data.success;
-                });
-            },  
-DeleteSITAC(id,projectid,documentbanbak,documentijinwarga,documentpks,documentimb){
-    var masuk = {kode:id , projectid:projectid , document_ban_bak:documentbanbak , document_ijin_warga:documentijinwarga , document_pks:documentpks , document_imb:documentimb};
-                axios.post('/karyawan/DeleteSITAC',masuk).then((response) => {
-                    return response.data.success;
-                });
-            }, 
+ 
   GetKomunikasi(id){
                 axios.get('/karyawan/GetKomunikasiProject/'+id).then((response) => {
                     this.komunikasi = response.data;

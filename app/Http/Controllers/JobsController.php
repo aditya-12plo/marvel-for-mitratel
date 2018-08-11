@@ -1093,4 +1093,116 @@ class JobsController extends Controller
     }
 
 
+
+
+// submit boq
+ public function GetJobsSubmitBOQ(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter; 
+        $infratypenya = $request->infratypenya; 
+        $towernya = $request->towernya; 
+        $query =  DB::table('vjobsubmitboq')
+        ->where('area',Auth::guard('karyawan')->user()->area)
+        ->orderBy('id','DESC');
+
+        if ($search && $infratypenya && $towernya) {
+            $like = "%{$search}%";
+            $query = $query
+            ->where([['projectid', 'LIKE', $like],['infratype',$infratypenya],['tower_high',$towernya]])
+            ->orWhere('regional', 'LIKE', $like);
+        } 
+
+        if (!$search && $infratypenya && $towernya) { 
+            $query = $query
+            ->where([['infratype',$infratypenya],['tower_high',$towernya]]);
+        } 
+
+        if (!$search && !$infratypenya && $towernya) { 
+            $query = $query
+            ->where('tower_high',$towernya);
+        } 
+
+        if (!$search && $infratypenya && !$towernya) { 
+            $like = "%{$search}%";
+            $query = $query
+            ->where([['projectid', 'LIKE', $like],['tower_high',$towernya]])
+            ->orWhere('regional', 'LIKE', $like);
+        } 
+
+        if ($search && $infratypenya && !$towernya) { 
+            $like = "%{$search}%";
+            $query = $query
+            ->where([['projectid', 'LIKE', $like],['infratype',$infratypenya]])
+            ->orWhere('regional', 'LIKE', $like);
+        } 
+
+        if ($search && !$infratypenya && !$towernya) { 
+            $like = "%{$search}%";
+             $query = $query
+            ->where('projectid', 'LIKE', $like)
+            ->orWhere('regional', 'LIKE', $like);
+        } 
+
+        if (!$search && $infratypenya && !$towernya) { 
+            $query = $query
+            ->where('infratype',$infratypenya);
+        } 
+
+        if (!$search && !$infratypenya && $towernya) { 
+            $query = $query
+            ->where('tower_high',$towernya);
+        } 
+
+        return $query->paginate($perPage);
+    }
+
+
+ public function GetJobsSubmitBOQData(Request $request)
+    { 
+        $batch = $request->batch; 
+        $years = $request->years;   
+        $search = $request->filter; 
+        $perPage = $request->per_page;
+
+        $query =  DB::table('vjobsubmitboq')
+        ->where([['area',Auth::guard('karyawan')->user()->area],['years',$years]])
+        ->orderBy('id','DESC');
+
+         return $query->paginate($perPage);
+    }
+
+
+
+// get infratype
+ public function GetInfratype()
+    {
+
+$infratype = DB::table('vinfratype')->get();
+ $data = array();
+ foreach($infratype as $c)
+ {
+    $data[] = $c->infratype;
+ }
+ 
+      return response()->json($data);
+    }
+
+
+
+// get tower high
+ public function GetTowerHigh()
+    { 
+$tower = DB::table('vtinggitower')->get(); 
+ $data = array();
+ foreach($tower as $c)
+ {
+    $data[] = $c->tower_high;
+ }
+ 
+      return response()->json($data);
+    }
+
+
+
 }

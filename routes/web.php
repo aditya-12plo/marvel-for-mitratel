@@ -100,7 +100,25 @@ Route::get('GetJobsMappingSiteApproved', 'JobsController@GetJobsMappingSiteAppro
 
 Route::get('HistoryDropSite', 'JobsController@HistoryDropSite');
 Route::get('HistoryMappingSite', 'JobsController@HistoryMappingSite');
+
+
+
+Route::get('GetJobsSubmitBOQ', 'JobsController@GetJobsSubmitBOQ');
+
+
+Route::get('GetJobsSubmitBOQData', 'JobsController@GetJobsSubmitBOQData');
  /* get jobs */
+
+
+
+ /* get infratype */
+Route::get('GetInfratype', 'JobsController@GetInfratype');
+ /* get infratype */
+
+
+ /* get tower high */
+ Route::get('GetTowerHigh', 'JobsController@GetTowerHigh');
+ /* get tower high */
 
 
  /* document sis */
@@ -157,7 +175,7 @@ Route::get('HistoryMappingSite', 'JobsController@HistoryMappingSite');
 
 
  /* boq */
- Route::post('AddBOQ', 'MappingSiteController@store');
+ Route::post('AddBOQ', 'BOQController@store');
  /* boq */
 
 

@@ -263,9 +263,19 @@ let routes=[
 	component:require('./components/BOQ/')
 },
 {
-	path:'/boq-input/data',
+	path:'/boq-submit',
+	component:require('./components/BOQ/Submit')
+},
+{
+	path:'/boq-input/data/:id',
 	name: 'adddocumentboq',
 	component:require('./components/BOQ/Add'),
+	props: true
+},
+{
+	path:'/boq-submit-data/:id',
+	name: 'submitboqdetail',
+	component:require('./components/BOQ/detail'),
 	props: true
 },
 /* BOQ  */
