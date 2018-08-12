@@ -163,7 +163,29 @@ else
          {
             if(Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'ACCOUNT MANAGER')
             {
-                return response()->json(['level'=>Auth::guard('karyawan')->user()->level,'area'=>Auth::guard('karyawan')->user()->area,'regional'=>Auth::guard('karyawan')->user()->regional]);
+                return response()->json(['name'=>Auth::guard('karyawan')->user()->name,'level'=>Auth::guard('karyawan')->user()->level,'area'=>Auth::guard('karyawan')->user()->area,'regional'=>Auth::guard('karyawan')->user()->regional]);
+            }
+            else
+            {
+                return response()->json('error',422);
+            }
+         }
+       elseif($kode == 'DocumentBOQApprovalManager')
+         {
+            if(Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'MANAGER')
+            {
+                return response()->json(['name'=>Auth::guard('karyawan')->user()->name,'level'=>Auth::guard('karyawan')->user()->level,'area'=>Auth::guard('karyawan')->user()->area,'regional'=>Auth::guard('karyawan')->user()->regional]);
+            }
+            else
+            {
+                return response()->json('error',422);
+            }
+         }
+       elseif($kode == 'HQUserAdd')
+         {
+            if(Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'MANAGER')
+            {
+                return response()->json(['name'=>Auth::guard('karyawan')->user()->name,'level'=>Auth::guard('karyawan')->user()->level,'area'=>Auth::guard('karyawan')->user()->area,'area2'=>Auth::guard('karyawan')->user()->area2,'regional'=>Auth::guard('karyawan')->user()->regional]);
             }
             else
             {

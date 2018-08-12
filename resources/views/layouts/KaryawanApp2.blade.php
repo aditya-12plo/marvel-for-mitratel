@@ -176,6 +176,19 @@
 
 
 
+@if(Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'MANAGER')
+<li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">BOQ</span></a>
+                <ul class="menu-content">
+<li><a href="/karyawan#/approval-boq" class="menu-item">Approval</a>
+                  </li>         
+
+                </ul>
+              </li>
+<li class="nav-item"><a href="/karyawan#/user-access-for-hq"><i class="icon-user-following"></i><span data-i18n="" class="menu-title">User Akses</span></a></li>              
+@endif
+
+
+
 
 
 @if(Auth::guard('karyawan')->user()->level == 'ADMINISTRATOR')

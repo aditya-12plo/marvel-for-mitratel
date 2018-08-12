@@ -3,7 +3,7 @@
 <section class="basic-elements">
     <div class="row">
         <div class="col-sm-12">
-            <div class="content-header" align="center">Form Penambahan Data Akses User Akses AREA {{this.rowDatanya.area}}</div>
+            <div class="content-header" align="center">Form Perubahan Data Akses User Akses AREA {{this.rowDatanya.area}}</div>
         </div>
     </div>
     <div class="row">

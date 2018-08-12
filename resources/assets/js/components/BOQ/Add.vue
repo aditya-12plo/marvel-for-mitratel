@@ -824,7 +824,7 @@ export default {
       },
     position: 'up right',
     closeBtn: true,
-  forms: new CrudForm({id:'' , project_id:'' , documenboqid:'' , site_type:'' , tower_type:'' , roof_top_high:'' , tower_high:'' , rf_in_meters:'' , mw_in_meters:'', harga_bulan:'' , harga_tahun:'' , created_at:''}), 
+  forms: new CrudForm({id:'' , project_id:'' , documentboqid:'' , site_type:'' , tower_type:'' , roof_top_high:'' , tower_high:'' , rf_in_meters:'' , mw_in_meters:'', harga_bulan:'' , harga_tahun:'' , created_at:''}), 
     errors: new Errors() ,
     errorNya: [], 
     komunikasi:[] ,

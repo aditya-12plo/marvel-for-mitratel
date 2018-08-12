@@ -50,6 +50,7 @@ Route::post('password/reset', 'Karyawan\Auth\ResetPasswordController@reset')->na
 /* user akses */
  Route::resource('/listuser', 'UserController');
  Route::get('/listuserregional', 'UserController@userregional');
+ Route::get('/listuserhq', 'UserController@userhq');
  Route::get('/listuserregionalaccountmanager', 'UserController@userregionalaccountmanager');
  Route::delete('listuserDeleteAll/{id}', 'UserController@deleteAll');
  /* user akses */
@@ -88,6 +89,7 @@ Route::post('password/reset', 'Karyawan\Auth\ResetPasswordController@reset')->na
    Route::get('GetJobsApprovalDocumentRFC', 'JobsController@GetJobsApprovalDocumentRFC');
    Route::get('GetJobsRevisiDocumentRFC', 'JobsController@GetJobsRevisiDocumentRFC');
    Route::get('GetJobsBOQ', 'JobsController@GetJobsBOQ');
+   Route::get('GetJobsBOQApproval', 'JobsController@GetJobsBOQApproval');
    
    Route::get('GetJobsApprovalDrop', 'JobsController@GetJobsApprovalDrop');
 
@@ -176,6 +178,11 @@ Route::get('GetInfratype', 'JobsController@GetInfratype');
 
  /* boq */
  Route::post('AddBOQ', 'BOQController@store');
+ Route::post('SubmitBOQ', 'BOQController@SubmitBOQ');
+ Route::post('SubmitBOQApproval', 'BOQController@SubmitBOQApproval');
+ Route::match(['put', 'patch'], 'EditBOQ/{id}','BOQController@update'); 
+ Route::get('GetDetailProject/{id}', 'BOQController@GetDetailProject');
+ Route::get('GetDetailProjectBOQ/{id}', 'BOQController@GetDetailProjectBOQ');
  /* boq */
 
 
@@ -185,6 +192,11 @@ Route::get('GetInfratype', 'JobsController@GetInfratype');
  /* get komunikasi */
     Route::get('GetKomunikasiProject/{id}', 'CommunicationController@GetKomunikasiProject');
  /* get komunikasi */
+
+
+ /* get detail project all */
+Route::get('GetAllDetailProject/{id}', 'ProjectController@GetAllDetailProject'); 
+ /* get detail project all */
  
     
 

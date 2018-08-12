@@ -156,6 +156,73 @@ class UserController extends Controller
     }
 
 
+    public function userhq(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+        $query = DB::table('vusershq')
+        ->where(function ($querynya) {
+    $querynya->where([['area', Auth::guard('karyawan')->user()->area],['level','HQ'],['posisi','ACCOUNT MANAGER']])
+          ->orWhere([['area', Auth::guard('karyawan')->user()->area2],['level','HQ'],['posisi','ACCOUNT MANAGER']]);
+})
+        ->whereNotIn('email',[Auth::guard('karyawan')->user()->email])
+        ->select('id','name','email','level','posisi','regional','area','created_at')->orderBy('id','DESC');
+        if ($search && !$min && !$max) {
+            $like = "%{$search}%";
+            $query = $query->where('email', 'LIKE', $like)
+            ->orWhere('name', 'LIKE', $like)
+            ->orWhere('level', 'LIKE', $like)
+            ->orWhere('posisi', 'LIKE', $like)
+            ->orWhere('area', 'LIKE', $like);
+        }
+        if(!$search && $min && !$max)
+        {
+            $query = $query->whereDate('created_at','=',$min);
+        }
+        if(!$search && !$min && $max)
+        {
+            $query = $query->whereDate('created_at','=',$max);
+        }
+        if($search && $min && !$max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','=',$min)
+            ->where('email', 'LIKE', $like)
+            ->orWhere('name', 'LIKE', $like)
+            ->orWhere('level', 'LIKE', $like)
+            ->orWhere('posisi', 'LIKE', $like)
+            ->orWhere('area', 'LIKE', $like);
+        }
+        if($search && !$min && $max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','=',$max)
+            ->where('email', 'LIKE', $like)
+            ->orWhere('name', 'LIKE', $like)
+            ->orWhere('level', 'LIKE', $like)
+            ->orWhere('posisi', 'LIKE', $like)
+            ->orWhere('area', 'LIKE', $like);
+        }
+        if(!$search && $min && $max)
+        {
+            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+        }
+        if($search && $min && $max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
+            ->where('email', 'LIKE', $like)
+            ->orWhere('name', 'LIKE', $like)
+            ->orWhere('level', 'LIKE', $like)
+            ->orWhere('posisi', 'LIKE', $like)
+            ->orWhere('area', 'LIKE', $like);
+        }
+        return $query->paginate($perPage);
+    }
+
+
     public function userregionalaccountmanager(Request $request)
     {
        $perPage = $request->per_page;

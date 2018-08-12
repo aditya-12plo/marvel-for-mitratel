@@ -23,6 +23,7 @@ use App\Models\DokumenDRM;
 use App\Models\DokumenSITAC;
 use App\Models\DokumenRFC;
 use App\Models\BOQ;
+use App\Models\BOQSubmit;
 
 class JobsController extends Controller
 {
@@ -1158,6 +1159,9 @@ class JobsController extends Controller
     }
 
 
+ 
+
+
  public function GetJobsSubmitBOQData(Request $request)
     { 
         $batch = $request->batch; 
@@ -1203,6 +1207,62 @@ $tower = DB::table('vtinggitower')->get();
       return response()->json($data);
     }
 
+
+
+// boq approval by manager 
+    public function GetJobsBOQApproval(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+ $query = DB::table('vboqsubmitdata')
+            ->where(function ($query) {
+    $query->where([['area', Auth::guard('karyawan')->user()->area],['status',0]])
+          ->orWhere([['area', Auth::guard('karyawan')->user()->area2],['status',0]]);
+})->orderBy('id','DESC');
+ 
+
+        if ($search && !$min && !$max) {
+            $like = "%{$search}%";
+            $query = $query->where('boq_code', 'LIKE', $like)
+            ->orWhere('title', 'LIKE', $like);
+        }
+        if(!$search && $min && !$max)
+        {
+            $query = $query->whereDate('created_at','=',$min);
+        }
+        if(!$search && !$min && $max)
+        {
+            $query = $query->whereDate('created_at','=',$max);
+        }
+        if($search && $min && !$max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','=',$min)
+            ->where('boq_code', 'LIKE', $like)
+            ->orWhere('title', 'LIKE', $like);
+        }
+        if($search && !$min && $max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','=',$max)
+            ->where('boq_code', 'LIKE', $like)
+            ->orWhere('title', 'LIKE', $like);
+        }
+        if(!$search && $min && $max)
+        {
+            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+        }
+        if($search && $min && $max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
+            ->where('boq_code', 'LIKE', $like)
+            ->orWhere('title', 'LIKE', $like);
+        }
+        return $query->paginate($perPage);
+    }
 
 
 }

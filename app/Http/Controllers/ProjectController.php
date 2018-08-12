@@ -328,5 +328,19 @@ else
     }
 
 
+
+         public function GetAllDetailProject($id)
+    {
+$project = DB::table('vallprojectboq')->where('id',$id)->first();
+$pesan = DB::table('vjobcommunication') 
+            ->where('project_id',$id)
+            ->orderBy('id','ASC')
+            ->get();
+
+return response()->json(['project'=>$project,'komunikasi'=>$pesan]);
+         
+    }
+
+
     
 }

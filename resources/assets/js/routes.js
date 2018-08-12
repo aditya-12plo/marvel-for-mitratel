@@ -259,12 +259,28 @@ let routes=[
 
 /* BOQ  */
 {
+	path:'/approval-boq',
+	component:require('./components/BOQ/Approval')
+},
+{
 	path:'/boq-input',
 	component:require('./components/BOQ/')
 },
 {
 	path:'/boq-submit',
 	component:require('./components/BOQ/Submit')
+},
+{
+	path:'/approval-boq/:id',
+	name: 'approvalboq',
+	component:require('./components/BOQ/Approved'),
+	props: true
+},
+{
+	path:'/approval-boq/detail/:id',
+	name: 'approvalboqdetailprojectnya',
+	component:require('./components/BOQ/Detailnya'),
+	props: true
 },
 {
 	path:'/boq-input/data/:id',
@@ -275,7 +291,19 @@ let routes=[
 {
 	path:'/boq-submit-data/:id',
 	name: 'submitboqdetail',
-	component:require('./components/BOQ/detail'),
+	component:require('./components/BOQ/Detail'),
+	props: true
+},
+{
+	path:'/boq-submit-data/edit/:id',
+	name: 'editboqdetail',
+	component:require('./components/BOQ/Edit'),
+	props: true
+},
+{
+	path:'/boq-submit-data/detail',
+	name: 'beforesubmitboqdata',
+	component:require('./components/BOQ/BeforeSubmit'),
 	props: true
 },
 /* BOQ  */
@@ -307,6 +335,33 @@ let routes=[
 	 props: true
 },
 /* list users akses regional  */
+
+
+
+/* list users akses hq  */
+{
+	path:'/user-access-for-hq',
+	component:require('./components/HQUsers/Index')
+},
+{
+	path:'/user-access-for-hq/add',
+	name: 'userhqadd',
+	component:require('./components/HQUsers/Add'),
+	props: true
+},
+{
+	path:'/user-access-for-hq/detail/:id',
+	name: 'userhqdetail',
+	component:require('./components/HQUsers/Detail'),
+	 props: true
+},
+{
+	path:'/user-access-for-hq/edit/:id',
+	name: 'userhqedit',
+	component:require('./components/HQUsers/Edit'),
+	 props: true
+},
+/* list users akses hq  */
 
 
 /* list users akses  */

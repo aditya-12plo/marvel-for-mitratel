@@ -160,7 +160,7 @@ import loading from '../Loading'
 import VueEvents from 'vue-events'
 import Hashids from 'hashids'
 Vue.use(VueEvents)
-Vue.component('view-custom-actions', require('../Button/ViewActions.vue'))
+Vue.component('view-edit-custom-actions', require('../Button/ViewEditActions.vue'))
 Vue.component('v-select', vSelect)
 window.axios = require('axios')
 window.eventBus = new Vue()
@@ -216,12 +216,14 @@ export default {
      errorNya: [],
 	 optionsnya: [],
 	 optionstowernya: [],
+	 datasubmitNya: [],
+	 towernya: '',
 	 infratypenya: '',
      token: localStorage.getItem('token'),
     submitted: false,
     submitSelectedItems:[] ,
     displayItems:[] ,
-     dataNya: {area:'' , level:'' , regional:''},
+     dataNya: {name:'',area:'' , level:'' , regional:''},
     perPage: 10,
     loading: false,
       fields: [
@@ -299,7 +301,7 @@ export default {
 		  callback: 'formatNumberRupiah'
         },
         {
-          name: '__component:view-custom-actions',
+          name: '__component:view-edit-custom-actions',
           title: 'Actions',
           titleClass: 'text-center',
           dataClass: 'text-center'
@@ -435,7 +437,11 @@ return hashids.decode(id);
             viewItem(item ,index = this.indexOf(item)){ 
                 this.$router.push({name:'submitboqdetail', params: {id: this.diacak(item.id),typenya:'submit-boq-detail-data',rowDatanya:{datanya:this.dataNya,project:item} }});
             }  ,
+            editItem(item ,index = this.indexOf(item)){ 
+                this.$router.push({name:'editboqdetail', params: {id: this.diacak(item.id),typenya:'edit-boq-detail',rowDatanya:{datanya:this.dataNya,project:item} }});
+            }  ,
              	sumSelectedItems() {
+    this.datasubmitNya = [];
    var ttl = this.$refs.vuetable.selectedTo;
    if(ttl.length <= 0)
    {
@@ -444,7 +450,7 @@ return hashids.decode(id);
    else
    {
    	var join_selected_values = ttl.join(","); 
-   	console.log(join_selected_values);
+this.$router.push({name:'beforesubmitboqdata', params: {typenya:'before-submit-boq-data',rowDatanya:{datanya:this.dataNya,project:join_selected_values} }});
    }
    
   },
@@ -528,9 +534,11 @@ onLoading() {
   },
  created: function() {
   let self = this;
-            this.$root.$on('viewitem', function(data,index){
-                //console.log(data);
+            this.$root.$on('viewitem', function(data,index){ 
                self.viewItem(data,index);
+            });
+            this.$root.$on('edititem', function(data,index){
+               self.editItem(data,index);
             });
         },
 		          mounted() {

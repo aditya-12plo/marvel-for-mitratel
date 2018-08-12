@@ -533,7 +533,7 @@ Latitude : {{this.rowDatanya.project.latitude_actual}}
       <div class="timeline-card card border-grey border-lighten-2">
         <div class="card-header">
           <h4 class="card-title mb-0">
-            <a>BOQ</a>
+            <a>BOQ</a> 
           </h4>
            
         </div>
@@ -894,7 +894,6 @@ return hashids.decode(id);
 dataAction () {
       if(this.typenya === "submit-boq-detail-data")
       {
-           return true;
            this.GetKomunikasi(this.rowDatanya.project.id);
       }
       else
