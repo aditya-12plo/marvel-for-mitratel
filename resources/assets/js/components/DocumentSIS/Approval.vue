@@ -53,6 +53,7 @@
 <div class="text-left">
 <button class="btn btn-primary" @click.prevent="doFilter">Cari <i class="fa fa-thumbs-o-up position-right"></i></button>
 <button class="btn btn-warning" @click.prevent="resetFilter">Reset Form <i class="fa fa-refresh position-right"></i></button> 
+<button class="btn btn-danger" @click="sumSelectedItems()">Approved Terpilih <i class="ft-check-circle position-right"></i></button>
                                     </div>
 </td>
        </tr>
@@ -206,6 +207,11 @@ export default {
     perPage: 10,
     loading: false,
       fields: [
+        {
+          name: '__checkbox:id',
+          titleClass: 'text-center',
+          dataClass: 'text-center',
+        },
        {
           name: '__sequence',
           title: 'No',
@@ -315,6 +321,54 @@ export default {
 })
     },
     
+              sumSelectedItems() {
+      this.$swal({
+  title: 'Are you sure ?',
+  type: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes!'
+}).then((result) => {
+  if (result.value) {     
+   var ttl = this.$refs.vuetable.selectedTo;
+   if(ttl.length <= 0)
+   {
+   this.question('Silahkan Pilih Data Terlebih Dahulu');
+   }
+   else
+   {
+   this.isLoading = true;
+var join_selected_values = ttl.join(","); 
+var masuk = 
+{
+  'id' : join_selected_values,
+  'status' : 4,
+  'statusmessage' : 'APPROVED DOKUMEN SIS',
+  'kata' : 'Dokumen SIS Disetujui',
+  'document' : 'DOKUMEN SIS',
+}
+axios.post('/karyawan/ApprovedSISMassal', masuk)
+                    .then(response => { 
+                      if(response.data.success)
+                      {
+                 this.success(response.data.success);
+                 this.isLoading = false;
+                 this.resetFilter();
+                      } 
+                      else 
+                      {
+                 this.error(response.data.error);
+                 this.isLoading = false;
+                 this.resetFilter();
+                      } 
+                    })
+   } 
+}
+})
+   
+   
+  },
  question(kata) {
       this.$swal(
 'Ooppss?',

@@ -14,63 +14,49 @@
       </div>
    
       <div class="row">
-  <div class="col-xl-3 col-lg-6 col-md-6 col-12">
-    <div class="card gradient-blackberry">
+  <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+    <div class="card gradient-white">
       <div class="card-body">
-        <div class="card-block pt-2 pb-0">
-          <div class="media">
-            <div class="media-body white text-left">
-              <h3 class="font-large-1 mb-0">2156</h3>
-              <span>Total Project Masuk</span>
-            </div> 
-            <div class="media-right white text-right">
-                            <i class="icon-pie-chart font-large-1"></i>
-                        </div>
-          </div>
-        </div>
+
+
+<h2 align="center">Total Site Nasional {{this.dataNya.years}}</h2>
+<h3 align="center">{{this.dataNya.jumlahsemuanya}} SITE</h3>
+<br>
+<pie-chart-home :height="500" :labelnya="this.dataNya.totallabels.labels" :resultnya="this.dataNya.totallabels.result"></pie-chart-home>
+
+
+
       </div>
     </div>
   </div>
-  <div class="col-xl-3 col-lg-6 col-md-6 col-12">
-    <div class="card gradient-ibiza-sunset">
+  <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+    <div class="card gradient-white">
       <div class="card-body">
-        <div class="card-block pt-2 pb-0">
-          <div class="media">
-            <div class="media-body white text-left">
-              <h3 class="font-large-1 mb-0">1567</h3>
-              <span>Dokumen SIS</span>
-            </div> 
-            <div class="media-right white text-right">
-                            <i class="icon-pie-chart font-large-1"></i>
-                        </div>
-          </div>
-        </div>
-        
+      
+      <h2 align="center">Total Site / AREA {{this.dataNya.years}}</h2>
+<br>
+<pie-chart-home-area-nasional :height="500" :labelnya="this.dataNya.totalareanasional.labels" :resultnya="this.dataNya.totalareanasional.result"></pie-chart-home-area-nasional>
+
 
       </div>
     </div>
   </div>
   
-  <div class="col-xl-3 col-lg-6 col-md-6 col-12">
-    <div class="card gradient-green-tea">
+  <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+    <div class="card gradient-white">
       <div class="card-body">
-        <div class="card-block pt-2 pb-0">
-          <div class="media">
-            <div class="media-body white text-left">
-              <h3 class="font-large-1 mb-0"> 566</h3>
-              <span>Dokumen DRM</span>
-            </div>
-            <div class="media-right white text-right">
-                            <i class="icon-pie-chart font-large-1"></i>
-                        </div>
-          </div>
-        </div>
+
+
+      <h2 align="center">Total Site / REGIONAL {{this.dataNya.years}}</h2>
+<br>
+<pie-chart-home-regional-nasional :height="500" :labelnya="this.dataNya.totalregionalnasional.labels" :resultnya="this.dataNya.totalregionalnasional.result"></pie-chart-home-regional-nasional>
+
         
       </div>
     </div>
   </div>
 
-
+<!--
   <div class="col-xl-3 col-lg-6 col-md-6 col-12">
     <div class="card gradient-pomegranate">
       <div class="card-body">
@@ -127,7 +113,7 @@
       </div>
     </div>
   </div>
-
+-->
 
 
 </div>
@@ -142,11 +128,14 @@
 </div>
 </template>
 <script>
-    
+ 
+
+
+
 import accounting from 'accounting'
 import {Money} from 'v-money'
 import VueCharts from 'vue-chartjs'
-import { Bar, Line } from 'vue-chartjs'
+import {Pie,Bar,Line} from 'vue-chartjs'
 import moment from 'moment'
 import '!!vue-style-loader!css-loader!vue-toast/dist/vue-toast.min.css'
 import VueToast from 'vue-toast'
@@ -162,7 +151,122 @@ Vue.use(SimpleVueValidation);
 import loading from '../Loading'
 Vue.use(VueEvents)
 window.axios = require('axios')
-window.eventBus = new Vue()
+window.eventBus = new Vue() 
+
+
+Vue.component("pie-chart-home", {
+  extends: VueCharts.Pie,
+  props: ["labelnya","resultnya"],
+  data () {
+    return {
+        datacollection: {
+          //Data to be represented on x-axis
+          labels: this.labelnya,
+        datasets: [
+    { 
+          borderColor: '#05CBE1',
+          pointBackgroundColor: 'white',
+          pointBorderColor: 'white',
+          borderWidth: 1,
+          backgroundColor: ['#dd4b39','#1451A1','#9B3CB7', '#FF396F','#EE0979', '#FF6A00','#009DA0','#4aa7c4','#4aa7c4','#f21e07','#f21e07','#06f11a'],
+          data: this.resultnya,
+        },
+        ]
+        },
+        //Chart.js options that controls the appearance of the chart
+        options: {
+          scales: { },
+          legend: {
+            display: true
+          },
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      }
+    },
+    mounted () {
+    //renderChart function renders the chart with the datacollection and options object.
+      this.renderChart(this.datacollection, this.options) 
+    }
+})   
+
+
+
+Vue.component("pie-chart-home-area-nasional", {
+  extends: VueCharts.Pie,
+  props: ["labelnya","resultnya"],
+  data () {
+    return {
+        datacollection: {
+          //Data to be represented on x-axis
+          labels: this.labelnya,
+        datasets: [
+    { 
+          borderColor: '#05CBE1',
+          pointBackgroundColor: 'white',
+          pointBorderColor: 'white',
+          borderWidth: 1,
+          backgroundColor: ['#dd4b39','#1451A1','#9B3CB7', '#FF396F','#EE0979', '#FF6A00','#009DA0','#4aa7c4','#4aa7c4','#f21e07','#f21e07','#06f11a'],
+          data: this.resultnya,
+        },
+        ]
+        },
+        //Chart.js options that controls the appearance of the chart
+        options: {
+          scales: { },
+          legend: {
+            display: true
+          },
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      }
+    },
+    mounted () {
+    //renderChart function renders the chart with the datacollection and options object.
+      this.renderChart(this.datacollection, this.options) 
+    }
+})   
+
+
+
+Vue.component("pie-chart-home-regional-nasional", {
+  extends: VueCharts.Pie,
+  props: ["labelnya","resultnya"],
+  data () {
+    return {
+        datacollection: {
+          //Data to be represented on x-axis
+          labels: this.labelnya,
+        datasets: [
+    { 
+          borderColor: '#05CBE1',
+          pointBackgroundColor: 'white',
+          pointBorderColor: 'white',
+          borderWidth: 1,
+          backgroundColor: ['#dd4b39','#1451A1','#e2d814','#9B3CB7', '#FF396F','#EE0979', '#FF6A00','#009DA0','#4aa7c4','#4aa7c4','#f21e07','#f21e07','#06f11a','#0f1868','#0f5468','#88a817','#74f404','#6d266d','#6d264f','#9e5d6a','#b7a7a5','#443d35','#efa34c','#161201'],
+          data: this.resultnya,
+        },
+        ]
+        },
+        //Chart.js options that controls the appearance of the chart
+        options: {
+          scales: { },
+          legend: {
+            display: true
+          },
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      }
+    },
+    mounted () {
+    //renderChart function renders the chart with the datacollection and options object.
+      this.renderChart(this.datacollection, this.options) 
+    }
+})   
+
+
 
 
 export default {
@@ -178,7 +282,9 @@ export default {
   data () {
     return {
 	image:'../img/tokoh-Marvel.png',
-	isLoading: false,
+  isLoading: false,
+  dataNya: [],
+	pienasional: [],
       }
   },
           watch: {
@@ -189,7 +295,24 @@ export default {
   methods: {
 
 fetchIt(){
-this.isLoading = true;
+   this.isLoading = true;
+                axios.get('/karyawan/homePage').then((response) => {
+this.dataNya = response.data; 
+                    this.isLoading = false;
+                }).catch(error => {
+        if (! _.isEmpty(error.response)) {
+                    if (error.response.status = 422) {
+                       this.$router.push('/server-error');
+                    }
+                   else if (error.response.status = 500) {
+                        this.$router.push('/server-error');
+                    }
+          else
+          {
+                         this.$router.push('/page-not-found');
+          }
+          }
+                    });
 },
 
     formatNumberRupiah (value) {
@@ -201,7 +324,7 @@ this.isLoading = true;
 
         },
               mounted() {
-//this.fetchIt();
+    this.fetchIt();
 
         }
 

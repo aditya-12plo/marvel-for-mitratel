@@ -19,6 +19,9 @@
 <button type="button" @click="mappingSite()" class="btn btn-raised btn-success">
   <i class="ft-shuffle"></i> Mapping Site
 </button>
+<button type="button" @click="DetailData()" class="btn btn-raised btn-info">
+    <i class="ft-trending-up"></i> Detail
+</button>
 <button type="button" @click="drop()" class="btn btn-raised btn-danger">
     <i class="ft-trash-2"></i> Drop
 </button>
@@ -139,335 +142,7 @@
 <!-- Ducument RFC -->
 
 
- 
-
-<!-- Project -->
-                                <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="projectid"><h4>PROJECT DETAIL</h4></label>
-                                    </fieldset>
-                                </div>
-
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="projectid">PROJECT ID</label>
-                                        <br>
-{{this.rowDatanya.project.projectid}}
-                                    </fieldset>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="no_wo">NO WO</label>
-                                        <br>
-{{this.rowDatanya.project.no_wo}}
-                                    </fieldset>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="wo_date">WO DATE</label>
-                                        <br>
-{{this.rowDatanya.project.wo_date}}
-                                    </fieldset>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="batch">BATCH</label>
-                                        <br>
-{{this.rowDatanya.project.batchnya}}  
-                                    </fieldset>
-                                </div>
-
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="infratype">INFRATYPE</label>
-                                        <br>
-{{this.rowDatanya.project.infratype}}
-                                    </fieldset>
-                                </div>
-
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="area">AREA</label>
-                                        <br>
-{{this.rowDatanya.project.area}}
-                                    </fieldset>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="regional">REGIONAL</label>
-                                        <br>
-{{this.rowDatanya.project.regional}}
-                                    </fieldset>
-                                </div>
-
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="site_id_spk">SITE ID SPK</label>
-                                        <br>
-{{this.rowDatanya.project.site_id_spk}}
-                                    </fieldset>
-                                </div>
-
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="site_name_spk">SITE NAME SPK</label>
-                                        <br>
-{{this.rowDatanya.project.site_name_spk}}
-                                    </fieldset>
-                                </div>
-
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="address_spk">ALAMAT SPK</label>
-                                        <br>
-{{this.rowDatanya.project.address_spk}}
-                                    </fieldset>
-                                </div>
-
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="address_spk">KOORDINAT SPK</label>
-                                        <br>
-Longitude : {{this.rowDatanya.project.longitude_spk}}
-<br>
-Latitude : {{this.rowDatanya.project.latitude_spk}}
-<br>
-<a :href="'http://www.google.com/maps/place/'+this.rowDatanya.project.latitude_spk+','+this.rowDatanya.project.longitude_spk" target="_blank"><button type="button" class="btn btn-raised btn-success">
-  <i class="ft-navigation"></i> Maps
-</button></a>
-                                    </fieldset>
-                                </div>
-
-
-<!-- Project -->
-
-<!-- Ducument SIS -->
-                                <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="documentsis"><h4>DOKUMEN SIS</h4></label><br>
-<a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.document_sis" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>
-                                    </fieldset>
-                                </div>
-<!-- Ducument SIS -->
-
-
-<!-- Ducument DRM -->
-
-                                    <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
-                                        <fieldset class="form-group">
-                                            <label for="documentsis"><h4>Dokumen DRM</h4></label> 
-
-                                        </fieldset>
-                                    </div>
-                                    
-
-<div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="site_id_actual">AKTUAL SITE ID</label>
- <br>
-{{this.rowDatanya.project.site_id_actual}}
-                                    </fieldset>
-                                </div>
-
-  <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="site_name_actual">AKTUAL SITE NAME</label>
-                                        <br>
-{{this.rowDatanya.project.site_name_actual}}
-                                    </fieldset>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="province">PROVINSI</label>
-                                        <br>
-{{this.rowDatanya.project.province}}
-                                    </fieldset>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="city">KOTA</label>
-                                        <br>
-{{this.rowDatanya.project.city}}
-                                    </fieldset>
-                                </div>
-
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="address_actual">ALAMAT</label>
-                                        <br>
-{{this.rowDatanya.project.address_actual}}
-                                    </fieldset>
-                                </div>
-                               
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="address_spk">KOORDINAT AKTUAL</label>
-                                        <br>
-Longitude : {{this.rowDatanya.project.longitude_actual}}
-<br>
-Latitude : {{this.rowDatanya.project.latitude_actual}}
-<br>
-<a :href="'http://www.google.com/maps/place/'+this.rowDatanya.project.latitude_actual+','+this.rowDatanya.project.longitude_actual" target="_blank"><button type="button" class="btn btn-raised btn-success">
-  <i class="ft-navigation"></i> Maps
-</button></a>
-                                    </fieldset>
-                                </div>
-
-
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="kom_date">TANGGAL KOM</label>
-                                        <br>
-{{this.rowDatanya.project.kom_date}}
-                                    </fieldset>
-                                </div>
-
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="document_kom">DOKUMEN KOM</label>
-                                        <br>
-<a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.document_kom" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>
- 
-                                    </fieldset>
-                                </div>
-
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="drm_date">TANGGAL DRM</label>
-                                        <br>
-{{this.rowDatanya.project.drm_date}}
-                                    </fieldset>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="document_drm">DOKUMEN DRM</label>
-                                        <br> 
-<a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.document_drm" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>                                        
-                                    </fieldset>
-                                </div>
-<!-- Ducument DRM -->
-
-
-<!-- Ducument SITAC --> 
-<div class="col-xl-12 col-lg-12 col-md-12 mb-1">
-<fieldset class="form-group">
-<label for="documentsis"><h4>DOKUMEN SITAC</h4></label>
-</fieldset>
-</div>                              
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="no_ban_bak">NO BAN / BAK</label>
-                                        <br>
-{{this.rowDatanya.project.no_ban_bak}}
-                                    </fieldset>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="date_ban_bak">TANGGAL DOKUMEN BAN / BAK</label>
-                                        <br>
-{{this.rowDatanya.project.date_ban_bak}}
-                                    </fieldset>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="document_ban_bak">DOKUMEN BAN / BAK</label>
-                                        <br>
-<a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.document_ban_bak" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a> 
-                                    </fieldset>
-                                    </fieldset>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="ijin_warga_date">TANGGAL DOKUMEN IJIN WARGA</label>
-                                        <br>
-{{this.rowDatanya.project.ijin_warga_date}}
-                                    </fieldset>
-                                </div>
-
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="document_ijin_warga">DOKUMEN IJIN WARGA</label>
-                                        <br> 
-<a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.document_ijin_warga" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a> 
-                                    </fieldset>
-                                </div>
-   
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="no_pks">NO PKS</label>
-                                        <br>
-{{this.rowDatanya.project.no_pks}}
-                                    </fieldset>
-                                </div>
-
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="pks_date">TANGGAL DOKUMEN PKS</label>
-                                        <br>
-{{this.rowDatanya.project.pks_date}}
-                                    </fieldset>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="document_pks">DOKUMEN PKS</label>
-                                        <br>
-<a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.document_pks" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a> 
-                                    </fieldset>
-                                </div>
-
- 
- 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="no_imb">NO IMB</label>
-                                        <br>
-{{this.rowDatanya.project.no_imb}}
-                                    </fieldset>
-                                </div>
- 
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-<label for="imb_date">TANGGAL IMB</label>
-                                        <br>
-{{this.rowDatanya.project.imb_date}}
-                                    </fieldset>
-                                </div>
-
-    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="document_imb">DOKUMEN IMB</label>
-                                        <br> 
-<a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.document_imb" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a> 
-                                    </fieldset>
-                                </div>
- 
-<!-- Ducument SITAC -->
+     
 
                                 
                             </div>
@@ -778,6 +453,7 @@ import Vuetable from 'vuetable-2/src/components/Vuetable'
 import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
 import Vue from 'vue'
+import Hashids from 'hashids'
 import {Money} from 'v-money'
 import loading from '../Loading'
 import VueEvents from 'vue-events'
@@ -877,6 +553,21 @@ export default {
  watch: {
         },
         methods: {
+          diacak(id)
+           {
+var hashids = new Hashids('',1000,'abcdefghijklmnopqrstuvwxyz0987654321ABCDEFGHIJKLMNOPQRSTUVWXYZ'); // no padding
+return hashids.encode(id); 
+           },
+dibalik(id)
+           {
+var hashids = new Hashids('',1000,'abcdefghijklmnopqrstuvwxyz0987654321ABCDEFGHIJKLMNOPQRSTUVWXYZ'); // no padding
+return hashids.decode(id); 
+           }, 
+                  DetailData(){
+let routeData = this.$router.resolve({name:'approvalboqdetailprojectnya', params: {id: this.diacak(this.rowDatanya.project.id) }});
+window.open(routeData.href, '_blank');
+               
+            }  ,
                dataAction () {
       if(this.typenya === "revisi-document-rfc")
       {

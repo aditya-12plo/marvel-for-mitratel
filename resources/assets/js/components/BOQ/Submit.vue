@@ -402,7 +402,7 @@ return hashids.decode(id);
            }, 
   fetchIt(){
    this.isLoading = true;
-                axios.get('/karyawan/CekUserProfileAkses/DocumentBOQApproval').then((response) => {
+                axios.get('/karyawan/CekUserProfileAkses/DocumentBOQApprovalAM').then((response) => {
                     this.dataNya = response.data;
                     this.isLoading = false;
                 }).catch(error => {
@@ -434,8 +434,9 @@ return hashids.decode(id);
           })
         },
  
-            viewItem(item ,index = this.indexOf(item)){ 
-                this.$router.push({name:'submitboqdetail', params: {id: this.diacak(item.id),typenya:'submit-boq-detail-data',rowDatanya:{datanya:this.dataNya,project:item} }});
+            viewItem(item ,index = this.indexOf(item)){  
+ let routeData = this.$router.resolve({name:'approvalboqdetailprojectnya', params: {id: this.diacak(item.id) }});
+window.open(routeData.href, '_blank');               
             }  ,
             editItem(item ,index = this.indexOf(item)){ 
                 this.$router.push({name:'editboqdetail', params: {id: this.diacak(item.id),typenya:'edit-boq-detail',rowDatanya:{datanya:this.dataNya,project:item} }});

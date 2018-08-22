@@ -22,6 +22,7 @@ class LogController extends Controller
     public function __construct()
     {
         $this->middleware('karyawan.auth');
+    $this->data['tahunproject']  = DB::table('vtahun')->get();
     }
 
     

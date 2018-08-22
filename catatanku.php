@@ -86,6 +86,7 @@ select count(*) as jumlah from boq_submit
 
 
 CREATE VIEW vboqsubmitdata
+AS
 SELECT 
   id, 
   boq_code, 
@@ -96,9 +97,108 @@ SELECT
   posisi_manager,
   nama_user,
   posisi_user,
-  (CHAR_LENGTH(project_id) - CHAR_LENGTH(REPLACE(project_id, ',', '')) + 1) as total, 
-  project_id,area,message,status,created_at,updated_at
+   IFNULL((CHAR_LENGTH(project_id) - CHAR_LENGTH(REPLACE(project_id, ',', '')) + 1),0) as total,
+
+   IFNULL((CHAR_LENGTH(project_id_boq) - CHAR_LENGTH(REPLACE(project_id_boq, ',', '')) + 1),0) as totalboq,
+
+   IFNULL((CHAR_LENGTH(project_id_verifikasi) - CHAR_LENGTH(REPLACE(project_id_verifikasi, ',', '')) + 1),0) as totalverifikasi, 
+
+   IFNULL((CHAR_LENGTH(project_id_proses_pr) - CHAR_LENGTH(REPLACE(project_id_proses_pr, ',', '')) + 1),0) as totalpr,  
+
+   IFNULL((CHAR_LENGTH(project_id_po_release) - CHAR_LENGTH(REPLACE(project_id_po_release, ',', '')) + 1),0) as totalrelease, 
+
+  project_id,project_id_boq,project_id_verifikasi,project_id_proses_pr,project_id_po_release,
+  area,message,status,created_at,updated_at
 FROM boq_submit
+
+
+CREATE VIEW vboqsubmitdataverifikasi
+AS
+SELECT 
+  id, 
+  boq_code, 
+  title,
+  nama_telkomsel,
+  posisi_telkomsel,
+  nama_manager,
+  posisi_manager,
+  nama_user,
+  posisi_user,
+   IFNULL((CHAR_LENGTH(project_id) - CHAR_LENGTH(REPLACE(project_id, ',', '')) + 1),0) as total,
+
+   IFNULL((CHAR_LENGTH(project_id_boq) - CHAR_LENGTH(REPLACE(project_id_boq, ',', '')) + 1),0) as totalboq,
+
+   IFNULL((CHAR_LENGTH(project_id_verifikasi) - CHAR_LENGTH(REPLACE(project_id_verifikasi, ',', '')) + 1),0) as totalverifikasi, 
+
+   IFNULL((CHAR_LENGTH(project_id_proses_pr) - CHAR_LENGTH(REPLACE(project_id_proses_pr, ',', '')) + 1),0) as totalpr,  
+
+   IFNULL((CHAR_LENGTH(project_id_po_release) - CHAR_LENGTH(REPLACE(project_id_po_release, ',', '')) + 1),0) as totalrelease, 
+   
+  project_id,project_id_boq,project_id_verifikasi,project_id_proses_pr,project_id_po_release,
+  area,message,status,created_at,updated_at
+FROM boq_submit
+where
+TRIM(IFNULL(project_id_boq, '')) > ''
+
+
+CREATE VIEW vboqsubmitdataprosespr
+AS
+SELECT 
+  id, 
+  boq_code, 
+  title,
+  nama_telkomsel,
+  posisi_telkomsel,
+  nama_manager,
+  posisi_manager,
+  nama_user,
+  posisi_user,
+     IFNULL((CHAR_LENGTH(project_id) - CHAR_LENGTH(REPLACE(project_id, ',', '')) + 1),0) as total,
+
+   IFNULL((CHAR_LENGTH(project_id_boq) - CHAR_LENGTH(REPLACE(project_id_boq, ',', '')) + 1),0) as totalboq,
+
+   IFNULL((CHAR_LENGTH(project_id_verifikasi) - CHAR_LENGTH(REPLACE(project_id_verifikasi, ',', '')) + 1),0) as totalverifikasi, 
+
+   IFNULL((CHAR_LENGTH(project_id_proses_pr) - CHAR_LENGTH(REPLACE(project_id_proses_pr, ',', '')) + 1),0) as totalpr,  
+
+   IFNULL((CHAR_LENGTH(project_id_po_release) - CHAR_LENGTH(REPLACE(project_id_po_release, ',', '')) + 1),0) as totalrelease, 
+   
+  project_id,project_id_boq,project_id_verifikasi,project_id_proses_pr,project_id_po_release,
+  area,message,status,created_at,updated_at
+FROM boq_submit
+where
+TRIM(IFNULL(project_id_verifikasi, '')) > ''
+
+
+
+
+CREATE VIEW vboqsubmitdataporelease
+AS
+SELECT 
+  id, 
+  boq_code, 
+  title,
+  nama_telkomsel,
+  posisi_telkomsel,
+  nama_manager,
+  posisi_manager,
+  nama_user,
+  posisi_user,
+   IFNULL((CHAR_LENGTH(project_id) - CHAR_LENGTH(REPLACE(project_id, ',', '')) + 1),0) as total,
+
+   IFNULL((CHAR_LENGTH(project_id_boq) - CHAR_LENGTH(REPLACE(project_id_boq, ',', '')) + 1),0) as totalboq,
+
+   IFNULL((CHAR_LENGTH(project_id_verifikasi) - CHAR_LENGTH(REPLACE(project_id_verifikasi, ',', '')) + 1),0) as totalverifikasi, 
+
+   IFNULL((CHAR_LENGTH(project_id_proses_pr) - CHAR_LENGTH(REPLACE(project_id_proses_pr, ',', '')) + 1),0) as totalpr,  
+
+   IFNULL((CHAR_LENGTH(project_id_po_release) - CHAR_LENGTH(REPLACE(project_id_po_release, ',', '')) + 1),0) as totalrelease, 
+   
+  project_id,project_id_boq,project_id_verifikasi,project_id_proses_pr,project_id_po_release,
+  area,message,status,created_at,updated_at
+FROM boq_submit
+where
+TRIM(IFNULL(project_id_proses_pr, '')) > ''
 
 
 
@@ -744,7 +844,7 @@ left join document_rfc on
 project.id=document_rfc.project_id 
 left join document_boq on 
 project.id=document_boq.project_id 
-where project.status_id = '13'
+where project.boq_status = '13'
 
 
 
@@ -825,7 +925,7 @@ left join document_rfc on
 project.id=document_rfc.project_id 
 left join document_boq on 
 project.id=document_boq.project_id 
-where project.status_id = '15'
+where project.boq_status = '14'
 
 
 
@@ -950,6 +1050,46 @@ AS
 select distinct(infratype) from project 
 
 
+CREATE OR REPLACE VIEW vallregional
+AS
+select distinct(regional) from project 
+
+
+
+CREATE OR REPLACE VIEW vtahun
+AS
+select distinct(years) from project 
+
+
+
+
+CREATE OR REPLACE VIEW vbiayasewanational
+AS
+select years,
+IFNULL(avg(harga_tahun),0) as jumlah 
+from vallproject
+group by years 
+
+
+
+CREATE OR REPLACE VIEW vbiayasewaarea
+AS
+select years,area,
+IFNULL(avg(harga_tahun),0) as jumlah
+from vallproject
+group by years,area 
+
+
+
+
+CREATE OR REPLACE VIEW vbiayasewaregional
+AS
+select years,regional,
+IFNULL(avg(harga_tahun),0) as jumlah
+from vallproject
+group by years,regional 
+
+
 
 
 CREATE OR REPLACE VIEW vjobsapprovedmappingsite 
@@ -1007,6 +1147,33 @@ project.status_id=status.id
 where project.status_id = '104' 
 
 
+CREATE OR REPLACE VIEW vjobsapprovaldropsiteHQ 
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.project_status_id,status.detail as statusnya,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+where project.status_id = '106' 
+
+
 
 // save jika table drop project jika project di drop dan mapping
 
@@ -1029,4 +1196,606 @@ END IF ;
 END;$$
 
 DELIMITER ;
+
+
+
+
+
+CREATE OR REPLACE VIEW vtotalproject 
+AS  
+SELECT years,
+(select count(*) from project where status_id in(1) and years=p.years) as jumlahnew,
+(select count(*) from project where status_id in(2,3) and years=p.years) as jumlahsis,
+(select count(*) from project where status_id in(4,5,6) and years=p.years) as jumlahdrm,
+(select count(*) from project where status_id in(7,8,9) and years=p.years) as jumlahsitac,
+(select count(*) from project where status_id in(10,11,12) and years=p.years) as jumlahrfc,
+(select count(*) from project where status_id in(13,14,15,16,17) and years=p.years) as jumlahboq,
+(select count(*) from project where status_id in(18) and years=p.years) as jumlahboqverifikasi,
+(select count(*) from project where status_id in(19) and years=p.years) as jumlahboqprosespr,
+(select count(*) from project where status_id in(20) and years=p.years) as jumlahboqrelease,
+(select count(*) from project where status_id in(105) and years=p.years) as jumlahdrop,
+COUNT(*) as jumlah from project as p GROUP BY years
+
+
+
+
+CREATE OR REPLACE VIEW vtotalprojectregional 
+AS  
+SELECT p.years,p.regional,
+(select count(*) from project where status_id in(1) and years=p.years and regional=p.regional) as jumlahnew,
+(select count(*) from project where status_id in(2,3) and years=p.years and regional=p.regional) as jumlahsis,
+(select count(*) from project where status_id in(4,5,6) and years=p.years and regional=p.regional) as jumlahdrm,
+(select count(*) from project where status_id in(7,8,9) and years=p.years and regional=p.regional) as jumlahsitac,
+(select count(*) from project where status_id in(10,11,12) and years=p.years and regional=p.regional) as jumlahrfc,
+(select count(*) from project where status_id in(13,14,15,16,17) and years=p.years and regional=p.regional) as jumlahboq,
+(select count(*) from project where status_id in(18) and years=p.years and regional=p.regional) as jumlahboqverifikasi,
+(select count(*) from project where status_id in(19) and years=p.years and regional=p.regional) as jumlahboqprosespr,
+(select count(*) from project where status_id in(20) and years=p.years and regional=p.regional) as jumlahboqrelease,
+(select count(*) from project where status_id in(105) and years=p.years and regional=p.regional) as jumlahdrop,
+COUNT(*) as jumlah 
+from project as p 
+GROUP BY years,regional
+
+
+
+
+
+CREATE OR REPLACE VIEW vtotalprojectarea 
+AS  
+SELECT p.years,p.area,
+(select count(*) from project where status_id in(1) and years=p.years and area=p.area) as jumlahnew,
+(select count(*) from project where status_id in(2,3) and years=p.years and area=p.area) as jumlahsis,
+(select count(*) from project where status_id in(4,5,6) and years=p.years and area=p.area) as jumlahdrm,
+(select count(*) from project where status_id in(7,8,9) and years=p.years and area=p.area) as jumlahsitac,
+(select count(*) from project where status_id in(10,11,12) and years=p.years and area=p.area) as jumlahrfc,
+(select count(*) from project where status_id in(13,14,15,16,17) and years=p.years and area=p.area) as jumlahboq,
+(select count(*) from project where status_id in(18) and years=p.years and area=p.area) as jumlahboqverifikasi,
+(select count(*) from project where status_id in(19) and years=p.years and area=p.area) as jumlahboqprosespr,
+(select count(*) from project where status_id in(20) and years=p.years and area=p.area) as jumlahboqrelease,
+(select count(*) from project where status_id in(105) and years=p.years and area=p.area) as jumlahdrop,
+COUNT(*) as jumlah 
+from project p 
+GROUP BY years,area
+
+
+
+
+CREATE OR REPLACE VIEW vallbatch 
+AS 
+SELECT 
+distinct(CONCAT("Batch #",project.batch, " ", project.years))AS batchnya from project
+
+
+CREATE OR REPLACE VIEW vallprojectbyyears 
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+	project.boq_status,
+	project.haki_status,
+project.project_status_id,
+status.detail as statusnya,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+where project.years = YEAR(CURDATE())
+
+
+
+
+
+
+CREATE OR REPLACE VIEW vsiteopening 
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.project_status_id,status.detail as statusnya,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id
+left join site_opening on 
+project.id=site_opening.project_id
+where project.status_id=20 
+
+
+
+
+CREATE OR REPLACE VIEW vsiteopeningrevisi 
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.project_status_id,status.detail as statusnya,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id
+left join site_opening on 
+project.id=site_opening.project_id
+where project.status_id=22 
+
+
+CREATE OR REPLACE VIEW vsiteexcavation 
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.project_status_id,status.detail as statusnya,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+excavation.id as excavationid,
+excavation.excavation_date,
+excavation.excavation_document,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+left join site_opening on 
+project.id=site_opening.project_id
+left join excavation on 
+project.id=excavation.project_id
+where project.status_id = 21
+
+
+CREATE OR REPLACE VIEW vsiteexcavationrevisi 
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.project_status_id,status.detail as statusnya,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+excavation.id as excavationid,
+excavation.excavation_date,
+excavation.excavation_document,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+left join site_opening on 
+project.id=site_opening.project_id
+left join excavation on 
+project.id=excavation.project_id
+where project.status_id = 24
+
+
+
+CREATE OR REPLACE VIEW vallproject 
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.project_status_id,status.detail as statusnya,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+excavation.id as excavationid,
+excavation.excavation_date,
+excavation.excavation_document,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+left join site_opening on 
+project.id=site_opening.project_id
+left join excavation on 
+project.id=excavation.project_id
+
+
+
+
+
 

@@ -31,6 +31,7 @@ class ApprovalController extends Controller
     {
         $this->middleware('karyawan.auth');
         $this->data['title']  = 'Selamat Datang';
+    $this->data['tahunproject']  = DB::table('vtahun')->get();
         $this->SendEmailController = app('App\Http\Controllers\SendEmailController');
     }
 
@@ -86,7 +87,8 @@ $valid = $this->validate($request, [
         'infratype' => 'required',
         'message' => 'required',
         'kata' => 'required',
-        'status' => 'required|numeric|not_in:0'
+        'status' => 'required|numeric|not_in:0',
+        'statusboq' => 'required|numeric'
     ]);
 if (!$valid)
     {
@@ -106,9 +108,9 @@ Pesan::create(['project_id' => Input::get('project_id'), 'sender_id'=>Auth::guar
 //$this->SendEmailController->kirim($p['email'],Input::get('project_id'),Input::get('projectid'),Input::get('infratype'),strtoupper(Input::get('statusmessage')),strtoupper(Input::get('document')),Auth::guard('karyawan')->user()->name,Auth::guard('karyawan')->user()->posisi,strtoupper(Input::get('message')),strtoupper(Input::get('kata')));
 }
 }
-Project::where('id',Input::get('project_id'))->update(['status_id'=>Input::get('status'),'project_status_id'=>$ProjectStatus->id]);
+Project::where('id',Input::get('project_id'))->update(['status_id'=>Input::get('status'),'boq_status'=>Input::get('statusboq'),'project_status_id'=>$ProjectStatus->id]);
 $cek = Project::where('id',Input::get('project_id'))->first();
-Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'document_sis' ,'action' => 'update', 'data' => json_encode($cek)]);
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'document_rfc' ,'action' => 'update', 'data' => json_encode($cek)]);
 return response()->json(['success'=>'Successfully']); 
 
 

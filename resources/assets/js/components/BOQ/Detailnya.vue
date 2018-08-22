@@ -5,7 +5,7 @@
     <section class="content-header">
 
       <h1 align="center">
-      BOQ Detail
+      Project Detail
       </h1>
     </section>
     
@@ -20,7 +20,7 @@
       <div class="content-header"><button type="button" class="btn btn-raised btn-warning" @click="backLink()"> <i class="ft-power"></i> Close </button></div>
     </div>
   </div>
-  <h3 class="page-title text-center">Detail Project</h3>
+  <h3 class="page-title text-center">Detail Project {{this.rowDatanya.projectid}}</h3>
   <ul class="timeline">
     <li class="timeline-line"></li>
     <li class="timeline-group">
@@ -168,7 +168,7 @@ Latitude : {{this.rowDatanya.latitude_spk}}
   
   
   
-    <li class="timeline-item mt-5">
+    <li class="timeline-item mt-5" v-if="this.rowDatanya.documentid">
       <div class="timeline-badge">
         <span class="bg-red bg-lighten-1" data-toggle="tooltip" data-placement="left" title="Dokumen SIS">
       
@@ -195,7 +195,7 @@ Latitude : {{this.rowDatanya.latitude_spk}}
   
   
   
-<li class="timeline-item">
+<li class="timeline-item" v-if="this.rowDatanya.documentdrmid">
       <div class="timeline-badge">
         <span class="bg-yellow bg-lighten-1" data-toggle="tooltip" data-placement="right" title="Dokumen DRM">
    
@@ -321,7 +321,7 @@ Latitude : {{this.rowDatanya.latitude_actual}}
   
   
   
-    <li class="timeline-item mt-5">
+    <li class="timeline-item mt-5" v-if="this.rowDatanya.documentsitacid">
       <div class="timeline-badge">
         <span class="bg-green bg-lighten-1" data-toggle="tooltip" data-placement="left" title="DOKUMEN SITAC">
       
@@ -443,7 +443,7 @@ Latitude : {{this.rowDatanya.latitude_actual}}
     </li>
   
   
-<li class="timeline-item">
+<li class="timeline-item" v-if="this.rowDatanya.documentrfcid">
       <div class="timeline-badge">
         <span class="bg-orange bg-lighten-1" data-toggle="tooltip" data-placement="right" title="DOKUMEN RFC">
    
@@ -524,9 +524,9 @@ Latitude : {{this.rowDatanya.latitude_actual}}
   
   
   
-    <li class="timeline-item mt-5">
+    <li class="timeline-item mt-5" v-if="this.rowDatanya.documentboqid">
       <div class="timeline-badge">
-        <span class="bg-pink bg-lighten-1" data-toggle="tooltip" data-placement="left" title="DOKUMEN RFC">
+        <span class="bg-pink bg-lighten-1" data-toggle="tooltip" data-placement="left" title="DOKUMEN BOQ">
       
     </span>
       </div>

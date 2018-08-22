@@ -35,6 +35,7 @@ class ProjectController extends Controller
     {
         $this->middleware('karyawan.auth');
         $this->data['title']  = 'Selamat Datang';
+    $this->data['tahunproject']  = DB::table('vtahun')->get();
     }
 
     
@@ -44,7 +45,7 @@ class ProjectController extends Controller
         $search = $request->filter;
         $min = $request->min;
         $max = $request->max;
-        $query = Project::select('id','projectid','no_wo','wo_date','batch','years','infratype','area','regional','site_id_spk','site_name_spk','address_spk','status_id','project_status_id','created_at')->with(['projectstatus'=>function($querystatusnya){
+        $query = Project::select('id','projectid','no_wo','wo_date','batch','years','infratype','area','regional','site_id_spk','site_name_spk','address_spk','status_id','project_status_id','longitude_spk','latitude_spk','created_at')->with(['projectstatus'=>function($querystatusnya){
         $querystatusnya->select('id','detail as detailstatus');
     }])->orderBy('project.id','DESC');
         if ($search && !$min && !$max) {
@@ -136,69 +137,8 @@ else
 
 
     public function update(Request $request, $id)
-    {
-        $cek = Project::findOrFail($id);
-if(!$cek)
-{
- return response()->json(['error'=>'Code Not Found']);
-}
-else
-{
-    if(Input::get('password') == '')
-    {
-$valid = $this->validate($request, [
-        'name' => 'required|max:255',
-        'email' => 'required|max:255|unique:users,email,'.$id,
-        'level' => 'in:REGIONAL,HQ',
-        'posisi' => 'in:AM SUPPORT,ACCOUNT MANAGER,MANAGER MARKETING,MANAGER',
-        'area' => 'in:1,2,3,4',
-    ]);
-    }
-    else
-    {
-$valid = $this->validate($request, [
-        'name' => 'required|max:255',
-        'email' => 'required|max:255|unique:users,email,'.$id,
-        'password' => 'required|max:255',
-        'level' => 'in:REGIONAL,HQ',
-        'posisi' => 'in:AM SUPPORT,ACCOUNT MANAGER,MANAGER MARKETING,MANAGER',
-        'area' => 'in:1,2,3,4',
-    ]);
-    }
-if (!$valid)
-    {
-            if(Input::get('password') == '')
-    {
-if($request->level == 'REGIONAL' && $request->posisi == 'ACCOUNT MANAGER' || $request->level == 'REGIONAL' && $request->posisi == 'AM SUPPORT')
-{
-        $edit = array('name' => Input::get('name'), 'email' => Input::get('email'), 'level' => Input::get('level'), 'posisi' => Input::get('posisi'), 'regional' => strtoupper(Input::get('regional')), 'area' => Input::get('area'));
-}
-elseif($request->level == 'HQ' && $request->posisi == 'MANAGER' || $request->level == 'HQ' && $request->posisi == 'ACCOUNT MANAGER' || $request->level == 'REGIONAL' && $request->posisi == 'MANAGER MARKETING')
-{
-        $edit = array('name' => Input::get('name'), 'email' => Input::get('email'), 'level' => Input::get('level'), 'posisi' => Input::get('posisi'), 'regional' => '', 'area' => Input::get('area'));
-}        
-    }
-    else
-    {
-if($request->level == 'REGIONAL' && $request->posisi == 'ACCOUNT MANAGER' || $request->level == 'REGIONAL' && $request->posisi == 'AM SUPPORT')
-{        
-         $edit = array('name' => Input::get('name'), 'email' => Input::get('email'), 'password' =>  Hash::make(Input::get('password')), 'level' => Input::get('level'), 'posisi' => Input::get('posisi'), 'regional' => strtoupper(Input::get('regional')), 'area' => Input::get('area'));
-} 
-elseif($request->level == 'HQ' && $request->posisi == 'MANAGER' || $request->level == 'HQ' && $request->posisi == 'ACCOUNT MANAGER' || $request->level == 'REGIONAL' && $request->posisi == 'MANAGER MARKETING')
-{
-         $edit = array('name' => Input::get('name'), 'email' => Input::get('email'), 'password' =>  Hash::make(Input::get('password')), 'level' => Input::get('level'), 'posisi' => Input::get('posisi'), 'regional' => '', 'area' => Input::get('area'));
-}        
-    }
-Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'users' ,'action' => 'update', 'data' => json_encode($cek)]);
-$cek->update($edit);
-UserExist::where("id",$id)->update($edit);
-return response()->json(['success'=>'Edit Successfully']);
-    }
-else
-    {
- return response()->json('error', $valid);
-    }
-} 
+    { 
+
     }
 
      public function destroy($id)
@@ -331,7 +271,7 @@ else
 
          public function GetAllDetailProject($id)
     {
-$project = DB::table('vallprojectboq')->where('id',$id)->first();
+$project = DB::table('vallproject')->where('id',$id)->first();
 $pesan = DB::table('vjobcommunication') 
             ->where('project_id',$id)
             ->orderBy('id','ASC')
@@ -339,6 +279,39 @@ $pesan = DB::table('vjobcommunication')
 
 return response()->json(['project'=>$project,'komunikasi'=>$pesan]);
          
+    }
+
+
+
+
+        public function updateprojectByAdmin(Request $request)
+    {
+$valid = $this->validate($request, [
+        'projectid' => 'required|max:255|unique:project,projectid,'.$request->id,
+        'no_wo' => 'required|max:255',
+        'wo_date' => 'date_format:"Y-m-d"|required',
+        'batch' => 'required|numeric|not_in:0',
+        'years' => 'required|numeric|not_in:0',
+        'infratype' => 'required|in:UNTAPPED,B2S',
+        'area' => 'required|in:1,2,3,4',
+        'regional' => 'required|max:255',
+        'site_id_spk' => 'required|max:255',
+        'site_name_spk' => 'required|max:255',
+        'address_spk' => 'required',
+        'longitude_spk' => 'required|max:255',
+        'latitude_spk' => 'required|max:255',
+    ]);
+if (!$valid)
+    {
+$edit = array('projectid' => strtoupper($request->projectid), 'no_wo' => strtoupper($request->no_wo) , 'wo_date' => $request->wo_date , 'batch' => $request->batch ,'years' =>$request->years, 'infratype' => $request->infratype, 'area' =>  strtoupper($request->area), 'regional' =>  strtoupper($request->regional), 'site_id_spk' =>  strtoupper($request->site_id_spk), 'site_name_spk' =>  strtoupper($request->site_name_spk), 'address_spk' =>  strtoupper($request->address_spk),  'longitude_spk' =>  strtoupper($request->longitude_spk),  'latitude_spk' =>  strtoupper($request->latitude_spk)); 
+Project::where('id',$request->id)->update($edit);
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'project' ,'action' => 'update', 'data' => json_encode($edit)]);
+return response()->json(['success'=>'Edit Successfully']);        
+    }
+else
+    {
+ return response()->json('error', $valid);
+    } 
     }
 
 

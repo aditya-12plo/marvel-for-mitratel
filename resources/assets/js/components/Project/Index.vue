@@ -101,7 +101,7 @@
     </tr>
     <tr>
       <td><label>Search for:</label></td>
-      <td colspan="3"><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="Email / Nama / Posisi"></td>
+      <td colspan="3"><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="Project ID"></td>
     </tr>
      <tr>
       <td colspan="4" style="padding-top: 1%;"></td>
@@ -643,7 +643,8 @@ return hashids.decode(id);
 this.$router.push({name:'projectedit', params: {id: this.diacak(item.id),typenya:'edit-project',rowDatanya:{project:item} }});
             }  ,
             viewItem(item ,index = this.indexOf(item)){          
-                this.$router.push({name:'projectdetail', params: {id: this.diacak(item.id),typenya:'detail-project',rowDatanya:item }});
+ let routeData = this.$router.resolve({name:'approvalboqdetailprojectnya', params: {id: this.diacak(item.id) }});
+window.open(routeData.href, '_blank');   
             }  ,
             createItem() {
             this.$router.push({name:'projectadd', params: {typenya:'add-project'}});

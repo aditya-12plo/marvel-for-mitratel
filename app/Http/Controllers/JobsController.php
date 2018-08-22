@@ -24,6 +24,16 @@ use App\Models\DokumenSITAC;
 use App\Models\DokumenRFC;
 use App\Models\BOQ;
 use App\Models\BOQSubmit;
+use App\Models\SiteOpening;
+use App\Models\Excavation;
+use App\Models\Rebaring;
+use App\Models\Pouring;
+use App\Models\Curing;
+use App\Models\TowerErection;
+use App\Models\MEProcess;
+use App\Models\FenceYard;
+use App\Models\RfiBaut;
+use App\Models\RfiDetail;
 
 class JobsController extends Controller
 {
@@ -36,8 +46,46 @@ class JobsController extends Controller
     {
         $this->middleware('karyawan.auth');
         $this->data['title']  = 'Selamat Datang';
+    $this->data['tahunproject']  = DB::table('vtahun')->get();
     }
 
+    
+    public function homePage()
+    {
+$date = Carbon::now();  
+// for national       
+$total =  DB::table('vtotalproject')->where('years',$date->year)->first();     
+$jumlahsemuanya =$total->jumlah;
+$labeltotal = ['Belum Dikerjakan '.$total->jumlahnew , 'Dokumen SIS '.$total->jumlahsis , 'Dokumen DRM '.$total->jumlahdrm , 'Dokumen SITAC '.$total->jumlahsitac , 'Dokumen RFC '.$total->jumlahrfc , 'Submit BOQ '.$total->jumlahboq , 'BOQ Verifikasi '.$total->jumlahboqverifikasi , 'BOQ Proses PR '.$total->jumlahboqprosespr , 'BOQ PO Release '.$total->jumlahboqrelease, 'DROP Site '.$total->jumlahdrop];
+$resultTotal = [$total->jumlahnew,$total->jumlahsis,$total->jumlahdrm ,$total->jumlahsitac , $total->jumlahrfc,$total->jumlahboq,$total->jumlahboqverifikasi,$total->jumlahboqprosespr ,$total->jumlahboqrelease,$total->jumlahdrop];  
+$totallabel = ['labels'=>$labeltotal , 'result'=> $resultTotal];
+
+//for area
+$area =  DB::table('vtotalprojectarea')->where('years',$date->year)->get();
+
+foreach($area as $ar)
+{
+    $areatitle[] = 'AREA '.$ar->area.' '.$ar->jumlah;
+    $areajml[] = $ar->jumlah; 
+}
+$totalareanasional = ['labels'=>$areatitle , 'result'=> $areajml];
+
+// for regional        
+$regional =  DB::table('vtotalprojectregional')->where('years',$date->year)->get(); 
+foreach($regional as $reg)
+{
+    $regionaltitle[] = $reg->regional.' '.$reg->jumlah;
+    $regionaljml[] = $reg->jumlah; 
+}
+$totalregionalnasional = ['labels'=>$regionaltitle , 'result'=> $regionaljml];
+
+ 
+
+return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,'totallabels'=>$totallabel,'totalareanasional'=>$totalareanasional,'totalregionalnasional'=>$totalregionalnasional ]);
+    
+
+    }
+     
     
     public function GetJobsDocumentSIS(Request $request)
     {
@@ -977,6 +1025,66 @@ class JobsController extends Controller
         return $query->paginate($perPage);
     }
 
+
+ public function GetJobsApprovalDropHQ(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+        $query =  DB::table('vjobsapprovaldropsiteHQ')
+        ->where(function ($query) {
+    $query->where('area', Auth::guard('karyawan')->user()->area)
+          ->orWhere('area', Auth::guard('karyawan')->user()->area2);
+})
+        ->orderBy('id','DESC');
+
+        if ($search && !$min && !$max) {
+            $like = "%{$search}%";
+            $query = $query
+            ->where('projectid', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like)
+            ->orWhere('infratype', 'LIKE', $like);
+        }
+        if(!$search && $min && !$max)
+        {
+            $query = $query->whereDate('created_at','=',$min);
+        }
+        if(!$search && !$min && $max)
+        {
+            $query = $query->whereDate('created_at','=',$max);
+        }
+        if($search && $min && !$max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','=',$min)
+            ->where('projectid', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like)
+            ->orWhere('infratype', 'LIKE', $like);
+        }
+        if($search && !$min && $max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','=',$max)
+            ->where('projectid', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like)
+            ->orWhere('infratype', 'LIKE', $like);
+        }
+        if(!$search && $min && $max)
+        {
+            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+        }
+        if($search && $min && $max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
+            ->where('projectid', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like)
+            ->orWhere('infratype', 'LIKE', $like);
+        }
+        return $query->paginate($perPage);
+    }
+
 // HISTORY DROP SITE
 
  public function HistoryDropSite(Request $request)
@@ -1208,6 +1316,25 @@ $tower = DB::table('vtinggitower')->get();
     }
 
 
+// get batch
+ public function GetBatch()
+    { 
+$batch = DB::table('vallbatch')->get(); 
+ 
+      return response()->json($batch);
+    }
+
+
+// get status project
+ public function GetStatus()
+    { 
+$data = DB::table('status_group')->select('name','status_id')->orderBy('id','ASC')->get();  
+ 
+  
+      return response()->json($data);
+    }
+
+
 
 // boq approval by manager 
     public function GetJobsBOQApproval(Request $request)
@@ -1261,6 +1388,473 @@ $tower = DB::table('vtinggitower')->get();
             ->where('boq_code', 'LIKE', $like)
             ->orWhere('title', 'LIKE', $like);
         }
+        return $query->paginate($perPage);
+    }
+
+    // boq approval repair
+    public function GetJobsSubmitBOQRepair(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+ $query = DB::table('vboqsubmitdata')
+            ->where([['area', Auth::guard('karyawan')->user()->area],['status',1]])->orderBy('id','DESC');
+ 
+
+        if ($search && !$min && !$max) {
+            $like = "%{$search}%";
+            $query = $query->where('boq_code', 'LIKE', $like)
+            ->orWhere('title', 'LIKE', $like);
+        }
+        if(!$search && $min && !$max)
+        {
+            $query = $query->whereDate('created_at','=',$min);
+        }
+        if(!$search && !$min && $max)
+        {
+            $query = $query->whereDate('created_at','=',$max);
+        }
+        if($search && $min && !$max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','=',$min)
+            ->where('boq_code', 'LIKE', $like)
+            ->orWhere('title', 'LIKE', $like);
+        }
+        if($search && !$min && $max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','=',$max)
+            ->where('boq_code', 'LIKE', $like)
+            ->orWhere('title', 'LIKE', $like);
+        }
+        if(!$search && $min && $max)
+        {
+            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+        }
+        if($search && $min && $max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
+            ->where('boq_code', 'LIKE', $like)
+            ->orWhere('title', 'LIKE', $like);
+        }
+        return $query->paginate($perPage);
+    }
+
+    // boq approved
+    public function GetJobsSubmitBOQApproved(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+ $query = DB::table('vboqsubmitdata')
+            ->where([['area', Auth::guard('karyawan')->user()->area],['status',2]])->orderBy('id','DESC');
+ 
+
+        if ($search && !$min && !$max) {
+            $like = "%{$search}%";
+            $query = $query->where('boq_code', 'LIKE', $like)
+            ->orWhere('title', 'LIKE', $like);
+        }
+        if(!$search && $min && !$max)
+        {
+            $query = $query->whereDate('created_at','=',$min);
+        }
+        if(!$search && !$min && $max)
+        {
+            $query = $query->whereDate('created_at','=',$max);
+        }
+        if($search && $min && !$max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','=',$min)
+            ->where('boq_code', 'LIKE', $like)
+            ->orWhere('title', 'LIKE', $like);
+        }
+        if($search && !$min && $max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','=',$max)
+            ->where('boq_code', 'LIKE', $like)
+            ->orWhere('title', 'LIKE', $like);
+        }
+        if(!$search && $min && $max)
+        {
+            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+        }
+        if($search && $min && $max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
+            ->where('boq_code', 'LIKE', $like)
+            ->orWhere('title', 'LIKE', $like);
+        }
+        return $query->paginate($perPage);
+    }
+
+
+
+public function GetJobsSubmitBOQVerifikasi(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+ $query = DB::table('vboqsubmitdataverifikasi')
+            ->where([['area', Auth::guard('karyawan')->user()->area],['status',2]])->orderBy('id','DESC');
+ 
+
+        if ($search && !$min && !$max) {
+            $like = "%{$search}%";
+            $query = $query->where('boq_code', 'LIKE', $like)
+            ->orWhere('title', 'LIKE', $like);
+        }
+        if(!$search && $min && !$max)
+        {
+            $query = $query->whereDate('created_at','=',$min);
+        }
+        if(!$search && !$min && $max)
+        {
+            $query = $query->whereDate('created_at','=',$max);
+        }
+        if($search && $min && !$max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','=',$min)
+            ->where('boq_code', 'LIKE', $like)
+            ->orWhere('title', 'LIKE', $like);
+        }
+        if($search && !$min && $max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','=',$max)
+            ->where('boq_code', 'LIKE', $like)
+            ->orWhere('title', 'LIKE', $like);
+        }
+        if(!$search && $min && $max)
+        {
+            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+        }
+        if($search && $min && $max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
+            ->where('boq_code', 'LIKE', $like)
+            ->orWhere('title', 'LIKE', $like);
+        }
+        return $query->paginate($perPage);
+    }
+
+public function GetJobsSubmitBOQProsesPR(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+ $query = DB::table('vboqsubmitdataprosespr')
+            ->where([['area', Auth::guard('karyawan')->user()->area],['status',2]])->orderBy('id','DESC');
+ 
+
+        if ($search && !$min && !$max) {
+            $like = "%{$search}%";
+            $query = $query->where('boq_code', 'LIKE', $like)
+            ->orWhere('title', 'LIKE', $like);
+        }
+        if(!$search && $min && !$max)
+        {
+            $query = $query->whereDate('created_at','=',$min);
+        }
+        if(!$search && !$min && $max)
+        {
+            $query = $query->whereDate('created_at','=',$max);
+        }
+        if($search && $min && !$max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','=',$min)
+            ->where('boq_code', 'LIKE', $like)
+            ->orWhere('title', 'LIKE', $like);
+        }
+        if($search && !$min && $max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','=',$max)
+            ->where('boq_code', 'LIKE', $like)
+            ->orWhere('title', 'LIKE', $like);
+        }
+        if(!$search && $min && $max)
+        {
+            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+        }
+        if($search && $min && $max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
+            ->where('boq_code', 'LIKE', $like)
+            ->orWhere('title', 'LIKE', $like);
+        }
+        return $query->paginate($perPage);
+    }
+
+
+public function GetJobsSubmitBOQPORelease(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+ $query = DB::table('vboqsubmitdataporelease')
+            ->where([['area', Auth::guard('karyawan')->user()->area],['status',2]])->orderBy('id','DESC');
+ 
+
+        if ($search && !$min && !$max) {
+            $like = "%{$search}%";
+            $query = $query->where('boq_code', 'LIKE', $like)
+            ->orWhere('title', 'LIKE', $like);
+        }
+        if(!$search && $min && !$max)
+        {
+            $query = $query->whereDate('created_at','=',$min);
+        }
+        if(!$search && !$min && $max)
+        {
+            $query = $query->whereDate('created_at','=',$max);
+        }
+        if($search && $min && !$max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','=',$min)
+            ->where('boq_code', 'LIKE', $like)
+            ->orWhere('title', 'LIKE', $like);
+        }
+        if($search && !$min && $max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','=',$max)
+            ->where('boq_code', 'LIKE', $like)
+            ->orWhere('title', 'LIKE', $like);
+        }
+        if(!$search && $min && $max)
+        {
+            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+        }
+        if($search && $min && $max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
+            ->where('boq_code', 'LIKE', $like)
+            ->orWhere('title', 'LIKE', $like);
+        }
+        return $query->paginate($perPage);
+    }
+
+
+public function GetJobsSiteOpening(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $infratype = $request->infratypenya; 
+        $towernya = $request->towernya;
+        $min = $request->min;
+        $max = $request->max;
+
+
+ $query = DB::table('vsiteopening')
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+ 
+
+ if (!empty($towernya))
+  { 
+   $query = $query->where('tower_high', $towernya);
+  }
+
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  } 
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like)
+            ->orWhere('batchnya', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like);
+  }
+
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+
+        return $query->paginate($perPage);
+    }
+
+
+public function GetJobsSiteOpeningRevisi(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $infratype = $request->infratypenya; 
+        $towernya = $request->towernya;
+        $min = $request->min;
+        $max = $request->max;
+
+
+ $query = DB::table('vsiteopeningrevisi')
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+ 
+
+ if (!empty($towernya))
+  { 
+   $query = $query->where('tower_high', $towernya);
+  }
+
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  } 
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like)
+            ->orWhere('batchnya', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like);
+  }
+
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+
+        return $query->paginate($perPage);
+    }
+
+
+
+
+public function GetJobsExcavation(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $infratype = $request->infratypenya; 
+        $towernya = $request->towernya;
+        $min = $request->min;
+        $max = $request->max;
+
+
+ $query = DB::table('vsiteexcavation')
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+ 
+
+ if (!empty($towernya))
+  { 
+   $query = $query->where('tower_high', $towernya);
+  }
+
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  } 
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like)
+            ->orWhere('batchnya', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like);
+  }
+
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+
+        return $query->paginate($perPage);
+    }
+
+
+
+public function GetJobsExcavationRevisi(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $infratype = $request->infratypenya; 
+        $towernya = $request->towernya;
+        $min = $request->min;
+        $max = $request->max;
+
+
+ $query = DB::table('vsiteexcavationrevisi')
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+ 
+
+ if (!empty($towernya))
+  { 
+   $query = $query->where('tower_high', $towernya);
+  }
+
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  } 
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like)
+            ->orWhere('batchnya', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like);
+  }
+
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+
         return $query->paginate($perPage);
     }
 

@@ -15,6 +15,9 @@
 <button type="button" class="btn btn-raised btn-danger" @click="RepairItem()">
     <i class="fa ft-x-square"></i> Perbaiki
 </button>
+<button type="button" @click="DetailData()" class="btn btn-raised btn-info">
+    <i class="ft-trending-up"></i> Detail
+</button>
 <button type="button" class="btn btn-raised btn-primary" @click="ApproveItem()">
     <i class="fa fa-check-square-o"></i> Setujui
 </button>
@@ -139,124 +142,7 @@ Latitude : {{this.rowDatanya.project.latitude_actual}}
  
                                     </fieldset>
                                 </div>
- 
-                                <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="projectid"><h4>PROJECT DETAIL</h4></label>
-                                    </fieldset>
-                                </div>
-
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="projectid">PROJECT ID</label>
-                                        <br>
-{{this.rowDatanya.project.projectid}}
-                                    </fieldset>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="no_wo">NO WO</label>
-                                        <br>
-{{this.rowDatanya.project.no_wo}}
-                                    </fieldset>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="wo_date">WO DATE</label>
-                                        <br>
-{{this.rowDatanya.project.wo_date}}
-                                    </fieldset>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="batch">BATCH</label>
-                                        <br>
-{{this.rowDatanya.project.batchnya}} 
-                                    </fieldset>
-                                </div>
-
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="infratype">INFRATYPE</label>
-                                        <br>
-{{this.rowDatanya.project.infratype}}
-                                    </fieldset>
-                                </div>
-
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="area">AREA</label>
-                                        <br>
-{{this.rowDatanya.project.area}}
-                                    </fieldset>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="regional">REGIONAL</label>
-                                        <br>
-{{this.rowDatanya.project.regional}}
-                                    </fieldset>
-                                </div>
-
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="site_id_spk">SITE ID SPK</label>
-                                        <br>
-{{this.rowDatanya.project.site_id_spk}}
-                                    </fieldset>
-                                </div>
-
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="site_name_spk">SITE NAME SPK</label>
-                                        <br>
-{{this.rowDatanya.project.site_name_spk}}
-                                    </fieldset>
-                                </div>
-
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="address_spk">ALAMAT SPK</label>
-                                        <br>
-{{this.rowDatanya.project.address_spk}}
-                                    </fieldset>
-                                </div>
-
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="address_spk">KOORDINAT SPK</label>
-                                        <br>
-Longitude : {{this.rowDatanya.project.longitude_spk}}
-<br>
-Latitude : {{this.rowDatanya.project.latitude_spk}}
-<br>
-<a :href="'http://www.google.com/maps/place/'+this.rowDatanya.project.latitude_spk+','+this.rowDatanya.project.longitude_spk" target="_blank"><button type="button" class="btn btn-raised btn-success">
-  <i class="ft-navigation"></i> Maps
-</button></a>
-                                    </fieldset>
-                                </div>
-
-
-
-                                    <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
-                                        <fieldset class="form-group">
-                                            <label for="documentsis"><h4>Dokumen SIS</h4></label>
-                                        <br>
-<a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.document_sis" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>
-
-                                        </fieldset>
-                                    </div>
+  
 
 		                            
 		                        </div>
@@ -472,6 +358,7 @@ import Vuetable from 'vuetable-2/src/components/Vuetable'
 import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
 import Vue from 'vue'
+import Hashids from 'hashids'
 import loading from '../Loading'
 import VueEvents from 'vue-events'
 Vue.use(VueEvents)
@@ -521,6 +408,21 @@ export default {
  watch: {
         },
         methods: {
+             diacak(id)
+           {
+var hashids = new Hashids('',1000,'abcdefghijklmnopqrstuvwxyz0987654321ABCDEFGHIJKLMNOPQRSTUVWXYZ'); // no padding
+return hashids.encode(id); 
+           },
+dibalik(id)
+           {
+var hashids = new Hashids('',1000,'abcdefghijklmnopqrstuvwxyz0987654321ABCDEFGHIJKLMNOPQRSTUVWXYZ'); // no padding
+return hashids.decode(id); 
+           }, 
+                  DetailData(){
+let routeData = this.$router.resolve({name:'approvalboqdetailprojectnya', params: {id: this.diacak(this.rowDatanya.project.id) }});
+window.open(routeData.href, '_blank');
+               
+            }  ,
                dataAction () {
       if(this.typenya === "approval-document-drm")
       {

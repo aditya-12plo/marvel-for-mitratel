@@ -249,15 +249,41 @@ let routes=[
 	component:require('./components/Drop/Approval')
 },
 {
+	path:'/approval-drop-project-hq',
+	component:require('./components/Drop/ApprovalHQ')
+},
+{
 	path:'/approval-drop-project/approval',
 	name: 'approvaldrop',
 	component:require('./components/Drop/Approved'),
+	props: true
+},
+{
+	path:'/approval-drop-project-hq/approval',
+	name: 'approvaldrophq',
+	component:require('./components/Drop/ApprovedHQ'),
 	props: true
 },
 /* drop  */
 
 
 /* BOQ  */
+{
+	path:'/boq-po-release',
+	component:require('./components/BOQ/BOQPORelease')
+},
+{
+	path:'/boq-proses-pr',
+	component:require('./components/BOQ/BOQProsesPR')
+},
+{
+	path:'/boq-verifikasi',
+	component:require('./components/BOQ/BOQVerifikasi')
+},
+{
+	path:'/boq-approved',
+	component:require('./components/BOQ/ApprovedData')
+},
 {
 	path:'/approval-boq',
 	component:require('./components/BOQ/Approval')
@@ -271,9 +297,43 @@ let routes=[
 	component:require('./components/BOQ/Submit')
 },
 {
+	path:'/boq-repair',
+	component:require('./components/BOQ/RepairIndex')
+},
+{
+	path:'/boq-approved/:id',
+	name: 'approvedboq',
+	component:require('./components/BOQ/ApprovedDataDetail'),
+	props: true
+},
+{
+	path:'/boq-po-release/submit/:id',
+	name: 'approvedboqporeleasesubmit',
+	component:require('./components/BOQ/BOQPOReleaseSubmit'),
+	props: true
+},
+{
+	path:'/boq-proses-pr/submit/:id',
+	name: 'approvedboqprosesprsubmit',
+	component:require('./components/BOQ/BOQProsesPRSubmit'),
+	props: true
+},
+{
+	path:'/boq-verifikasi/submit/:id',
+	name: 'approvedboqverifikasisubmit',
+	component:require('./components/BOQ/BOQVerifikasiSubmit'),
+	props: true
+},
+{
 	path:'/approval-boq/:id',
 	name: 'approvalboq',
 	component:require('./components/BOQ/Approved'),
+	props: true
+},
+{
+	path:'/approval-boq-repair/:id',
+	name: 'approvalboqrepair',
+	component:require('./components/BOQ/Repair'),
 	props: true
 },
 {
@@ -307,6 +367,49 @@ let routes=[
 	props: true
 },
 /* BOQ  */
+
+
+/* site opening  */
+{
+	path:'/site-opening-add',
+	component:require('./components/SiteOpening/')
+},
+{
+	path:'/site-opening-add/add/:id',
+	name: 'addsiteopening',
+	component:require('./components/SiteOpening/Add'),
+	props: true
+},
+{
+	path:'/site-opening-revisi',
+	component:require('./components/SiteOpening/IndexRevisi')
+},
+{
+	path:'/site-opening-revisi/edit/:id',
+	name: 'revisisiteopening',
+	component:require('./components/SiteOpening/Revisi'),
+	props: true
+},
+
+/* site opening  */
+
+
+/* Excavation  */
+{
+	path:'/excavation-add',
+	component:require('./components/Excavation/')
+},
+{
+	path:'/excavation-add/add/:id',
+	name: 'addexcavation',
+	component:require('./components/Excavation/Add'),
+	props: true
+},
+{
+	path:'/excavation-revisi',
+	component:require('./components/Excavation/IndexRevisi')
+},
+/* Excavation  */
 
 
 
@@ -403,6 +506,26 @@ let routes=[
 },
 /* notifications user list  */
 
+
+
+
+/* tracking site  */
+{
+	path:'/tracking-site',
+	component:require('./components/TrackingSite/')
+},
+/* tracking site  */
+
+/* project history  */
+{
+	path:'/project-history/:years',
+	component:require('./components/Chart/')
+},
+{
+	path:'/project-history-data/:years',
+	component:require('./components/Chart/Data')
+},
+/* project history  */
 
 
 

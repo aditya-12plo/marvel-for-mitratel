@@ -62,6 +62,7 @@ Route::post('password/reset', 'Karyawan\Auth\ResetPasswordController@reset')->na
   Route::delete('/listprojectDeleteAll/{id}', 'ProjectController@deleteAll');
   Route::get('/GetProjectDetail/{id}', 'ProjectController@GetProjectDetail');
   Route::post('uploadproject', 'ProjectController@uploadproject');
+  Route::post('updateprojectByAdmin', 'ProjectController@updateprojectByAdmin');
  /* project */
 
 
@@ -109,6 +110,22 @@ Route::get('GetJobsSubmitBOQ', 'JobsController@GetJobsSubmitBOQ');
 
 
 Route::get('GetJobsSubmitBOQData', 'JobsController@GetJobsSubmitBOQData');
+Route::get('GetJobsSubmitBOQRepair', 'JobsController@GetJobsSubmitBOQRepair');
+
+
+Route::get('GetJobsSubmitBOQApproved', 'JobsController@GetJobsSubmitBOQApproved');
+Route::get('GetJobsApprovalDropHQ', 'JobsController@GetJobsApprovalDropHQ');
+Route::get('GetJobsSubmitBOQVerifikasi', 'JobsController@GetJobsSubmitBOQVerifikasi');
+Route::get('GetJobsSubmitBOQProsesPR', 'JobsController@GetJobsSubmitBOQProsesPR');
+Route::get('GetJobsSubmitBOQPORelease', 'JobsController@GetJobsSubmitBOQPORelease');
+
+
+
+Route::get('GetJobsSiteOpening', 'JobsController@GetJobsSiteOpening');
+Route::get('GetJobsSiteOpeningRevisi', 'JobsController@GetJobsSiteOpeningRevisi');
+Route::get('GetJobsExcavation', 'JobsController@GetJobsExcavation');
+Route::get('GetJobsExcavationRevisi', 'JobsController@GetJobsExcavationRevisi');
+
  /* get jobs */
 
 
@@ -123,16 +140,32 @@ Route::get('GetInfratype', 'JobsController@GetInfratype');
  /* get tower high */
 
 
+ /* get status */
+ Route::get('GetStatus', 'JobsController@GetStatus');
+ /* get status */
+
+
+ /* get batch */
+  Route::get('GetBatch', 'JobsController@GetBatch');
+ /* get batch */
+
+
  /* document sis */
   Route::post('AddDocumentSIS', 'DokumenSISController@store');
    Route::post('RevisiDocumentSIS','DokumenSISController@update');
    Route::post('DeleteSIS','DokumenSISController@delete');
+   Route::post('ApprovedSISMassal','DokumenSISController@ApprovedMassal');
+   Route::post('updateSISByAdmin','DokumenSISController@updateSISByAdmin');
+   Route::get('getSISDocument/{id}','DokumenSISController@getSISDocument');
  /* document sis */
 
  /* document drm */
   Route::post('AddDocumentDRM', 'DokumenDRMController@store');
    Route::post('RevisiDocumentDRM','DokumenDRMController@update');
    Route::post('DeleteDRM','DokumenDRMController@delete');
+   Route::post('ApprovedDRMMassal','DokumenDRMController@ApprovedMassal');
+   Route::post('updateDRMByAdmin','DokumenDRMController@updateDRMByAdmin');
+   Route::get('getDRMDocument/{id}','DokumenDRMController@getDRMDocument');
  /* document drm */
 
 
@@ -144,6 +177,13 @@ Route::get('GetInfratype', 'JobsController@GetInfratype');
    Route::post('uploaddokumenSITACPKS','DokumenSITACController@uploadPKS');
    Route::post('uploaddokumenSITACIMB','DokumenSITACController@uploadIMB');
    Route::post('DeleteSITAC','DokumenSITACController@delete');
+   Route::post('ApprovedSITACMassal','DokumenSITACController@ApprovedSITACMassal');
+   Route::get('getSITACDocument/{id}','DokumenSITACController@getSITACDocument');
+   Route::post('uploaddokumenSITACByAdmin','DokumenSITACController@uploaddokumenSITACByAdmin');
+   Route::post('uploaddokumenSITACijinWargaByAdmin','DokumenSITACController@uploaddokumenSITACijinWargaByAdmin');
+   Route::post('uploaddokumenSITACPKSByAdmin','DokumenSITACController@uploaddokumenSITACPKSByAdmin');
+   Route::post('uploaddokumenSITACIMBByAdmin','DokumenSITACController@uploaddokumenSITACIMBByAdmin');
+   Route::post('RevisiDocumentSITACByAdmin','DokumenSITACController@RevisiDocumentSITACByAdmin');
  /* document sitac */
 
 
@@ -152,6 +192,7 @@ Route::get('GetInfratype', 'JobsController@GetInfratype');
    Route::post('RevisiDocumentRFC','DokumenRFCController@update');
    Route::post('uploaddokumenRFC','DokumenRFCController@uploaddokumenRFC');
    Route::post('DeleteRFC','DokumenRFCController@delete');
+   Route::post('ApprovedRFCMassal','DokumenRFCController@ApprovedRFCMassal');
  /* document RFC */
 
 
@@ -165,6 +206,7 @@ Route::get('GetInfratype', 'JobsController@GetInfratype');
    Route::post('DropProject', 'DropController@drop');
    Route::post('ApprovalDropSiteRegional', 'DropController@dropRegional');
    Route::post('DropProjectHQ', 'DropController@DropProjectHQ');
+   Route::post('ApprovalDropSiteHQ', 'DropController@dropHQ');
  /* drop project */
 
 
@@ -173,6 +215,7 @@ Route::get('GetInfratype', 'JobsController@GetInfratype');
  Route::post('AddMappingSite', 'MappingSiteController@AddMappingSite');
  Route::post('ApprovalMappingSite', 'MappingSiteController@ApprovalMappingSite');
  Route::post('SubmitMappingSite', 'MappingSiteController@SubmitMappingSite');
+ Route::post('MappingProjectHQ', 'MappingSiteController@MappingProjectHQ');
  /* mapping site */
 
 
@@ -180,11 +223,40 @@ Route::get('GetInfratype', 'JobsController@GetInfratype');
  Route::post('AddBOQ', 'BOQController@store');
  Route::post('SubmitBOQ', 'BOQController@SubmitBOQ');
  Route::post('SubmitBOQApproval', 'BOQController@SubmitBOQApproval');
+ Route::post('SubmitBOQApprovalRevisi', 'BOQController@SubmitBOQApprovalRevisi');
  Route::match(['put', 'patch'], 'EditBOQ/{id}','BOQController@update'); 
  Route::get('GetDetailProject/{id}', 'BOQController@GetDetailProject');
  Route::get('GetDetailProjectBOQ/{id}', 'BOQController@GetDetailProjectBOQ');
+ Route::post('downloadPDFBOQ', 'BOQController@downloadPDFBOQ');
+ Route::post('SubmitBOQApprovalVerifikasi', 'BOQController@SubmitBOQApprovalVerifikasi');
+ Route::post('SubmitBOQApprovalProsesPR', 'BOQController@SubmitBOQApprovalProsesPR');
+ Route::post('SubmitBOQApprovalPORelease', 'BOQController@SubmitBOQApprovalPORelease');
+ Route::get('GetBOQVerifikasi/{id}', 'BOQController@GetBOQVerifikasi');
+ Route::get('GetBOQProsesPR/{id}', 'BOQController@GetBOQProsesPR');
+ Route::get('GetBOQPORelease/{id}', 'BOQController@GetBOQPORelease');
  /* boq */
 
+
+ /* site opening */
+  Route::post('AddDocumentSiteOpening', 'SiteOpeningController@AddDocumentSiteOpening');
+  Route::post('DocumentSiteOpeningPerbaikan', 'SiteOpeningController@DocumentSiteOpeningPerbaikan');
+  Route::post('RevisiDocumentSiteOpening', 'SiteOpeningController@RevisiDocumentSiteOpening');
+ /* site opening */
+
+
+ /* excavation */
+  Route::post('AddDocumentExcavation', 'ExcavationController@AddDocumentExcavation');
+ /* excavation */
+
+
+
+
+
+ /* tracking site */
+  Route::get('TrackingSite', 'TrackingController@index');
+  Route::get('history-project-by-years-pie-chart/{years}', 'TrackingController@historyPieChart');
+  Route::get('TrackingSiteByYears/{years}', 'TrackingController@TrackingSiteByYears');
+ /* tracking site */
 
 
 
@@ -204,6 +276,19 @@ Route::get('GetAllDetailProject/{id}', 'ProjectController@GetAllDetailProject');
     Route::get('/GetUserNotifications', 'PesanController@index');
     Route::get('/GetUserNotificationsDetail/{id}', 'PesanController@detail');
  /* get notification */
+
+
+
+ /* download file */
+ Route::post('DownloadExcelTracking', 'DownloadController@DownloadExcelTracking');
+ /* download file */
+
+
+
+ /* home */
+    Route::get('/homePage', 'JobsController@homePage');
+    Route::get('/homePageNasional', 'JobsController@homePageNasional');
+ /* home */
  
 	  
 	  

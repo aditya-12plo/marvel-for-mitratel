@@ -21,6 +21,7 @@ use App\Models\DokumenSIS;
 use App\Models\DokumenDRM;
 use App\Models\DokumenSITAC;
 use App\Models\ProjectStatus;
+use App\Models\HistoryDrop;
 
 class MappingSiteController extends Controller
 {
@@ -34,6 +35,7 @@ class MappingSiteController extends Controller
         $this->middleware('karyawan.auth');
         $this->data['title']  = 'Selamat Datang';
         $this->SendEmailController = app('App\Http\Controllers\SendEmailController');
+    $this->data['tahunproject']  = DB::table('vtahun')->get();
     }
 
    
@@ -53,6 +55,16 @@ $valid = $this->validate($request, [
     ]);
 if(!$valid)
     {
+$cekHistory = HistoryDrop::where('project_id',Input::get('project_id'))->first(); 
+$cek = Project::where('id',Input::get('project_id'))->first();
+if(!$cekHistory)
+{
+HistoryDrop::create(['project_id'=>Input::get('project_id'),'status_id'=>$cek->status_id]);
+}
+else
+{
+HistoryDrop::where('project_id',Input::get('project_id'))->update(['status_id'=>$cek->status_id]); 
+}        
 Project::where('id',Input::get('project_id'))->update(['status_id'=>Input::get('status')]);
 $ProjectStatus = ProjectStatus::create(['project_id' => Input::get('project_id'),'users_id' => Auth::guard('karyawan')->user()->id , 'document'=>strtoupper(Input::get('document')),'status'=>strtoupper(Input::get('statusmessage')),'message'=>strtoupper(Input::get('message'))]);
 $showUser = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','MANAGER MARKETING'],['area',Auth::guard('karyawan')->user()->area]])->get();
@@ -101,7 +113,16 @@ $valid = $this->validate($request, [
     ]);
 if(!$valid)
     {
-Project::where('id',Input::get('project_id'))->update(['status_id'=>Input::get('status')]);
+$cekHistory = HistoryDrop::where('project_id',Input::get('project_id'))->first();
+if(Input::get('status') == 1)
+{
+$kodestatus = $cekHistory->status_id;
+}
+else
+{
+$kodestatus = Input::get('status');
+}        
+Project::where('id',Input::get('project_id'))->update(['status_id'=>$kodestatus]);
 $ProjectStatus = ProjectStatus::create(['project_id' => Input::get('project_id'),'users_id' => Auth::guard('karyawan')->user()->id , 'document'=>strtoupper(Input::get('document')),'status'=>strtoupper(Input::get('statusmessage')),'message'=>strtoupper(Input::get('message'))]);
 $showUser = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','MANAGER MARKETING'],['area',Auth::guard('karyawan')->user()->area]])->get();
 if(count($showUser) > 0)

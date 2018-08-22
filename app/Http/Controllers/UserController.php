@@ -29,6 +29,7 @@ class UserController extends Controller
     {
         $this->middleware('karyawan.auth');
         $this->data['title']  = 'Selamat Datang';
+    $this->data['tahunproject']  = DB::table('vtahun')->get();
     }
 
     
@@ -308,7 +309,7 @@ $valid2 = $this->validate($request, [
 
 $masuk = array('name' => $request->name, 'email' => $request->email , 'password' => Hash::make($request->password) , 'level' => $request->level ,'posisi' =>$request->posisi, 'area' => $request->area, 'regional' =>  strtoupper($request->regional)); 
 $masukdb = User::create($masuk);
-UserExist::create(['id' => $masukdb->id ,'name' => $request->name, 'email' => $request->email , 'password' => Hash::make($request->password) , 'level' => $request->level , 'posisi' =>$request->posisi,'area' => $request->area, 'regional' =>  strtoupper($request->regional)]);
+//UserExist::create(['id' => $masukdb->id ,'name' => $request->name, 'email' => $request->email , 'password' => Hash::make($request->password) , 'level' => $request->level , 'posisi' =>$request->posisi,'area' => $request->area, 'regional' =>  strtoupper($request->regional)]);
 Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'users' ,'action' => 'insert', 'data' => json_encode($masuk)]);
 return response()->json(['success'=>'Add Successfully']);
     
@@ -322,7 +323,7 @@ elseif($request->level == 'HQ' && $request->posisi == 'MANAGER' || $request->lev
 {
     $masuk = array('name' => $request->name, 'email' => $request->email , 'password' => Hash::make($request->password) , 'level' => $request->level ,'posisi' =>$request->posisi, 'area' => $request->area, 'regional' =>  ''); 
 $masukdb = User::create($masuk);
-UserExist::create(['id' => $masukdb->id ,'name' => $request->name, 'email' => $request->email , 'password' => Hash::make($request->password) , 'level' => $request->level , 'posisi' =>$request->posisi,'area' => $request->area, 'regional' =>  '']);
+//UserExist::create(['id' => $masukdb->id ,'name' => $request->name, 'email' => $request->email , 'password' => Hash::make($request->password) , 'level' => $request->level , 'posisi' =>$request->posisi,'area' => $request->area, 'regional' =>  '']);
 Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'users' ,'action' => 'insert', 'data' => json_encode($masuk)]);
 return response()->json(['success'=>'Add Successfully']);
  
@@ -392,7 +393,7 @@ elseif($request->level == 'HQ' && $request->posisi == 'MANAGER' || $request->lev
     }
 Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'users' ,'action' => 'update', 'data' => json_encode($cek)]);
 $cek->update($edit);
-UserExist::where("id",$id)->update($edit);
+//UserExist::where("id",$id)->update($edit);
 return response()->json(['success'=>'Edit Successfully']);
     }
 else

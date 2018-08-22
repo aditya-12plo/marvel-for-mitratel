@@ -34,6 +34,7 @@ class DokumenRFCController extends Controller
         $this->middleware('karyawan.auth');
         $this->data['title']  = 'Selamat Datang';
         $this->SendEmailController = app('App\Http\Controllers\SendEmailController');
+    $this->data['tahunproject']  = DB::table('vtahun')->get();
     }
 
      public function uploaddokumenRFC(Request $request)
@@ -241,6 +242,51 @@ File::delete($destinationPath .$document_rfc);
 DokumenRFC::where('id',$id)->delete();
 return response()->json(['success'=>'Successfully']);
     }
+
+
+
+   public function ApprovedRFCMassal(Request $request)
+    {
+$valid = $this->validate($request, [
+        'id' => 'required',
+        'statusmessage' => 'required',
+        'kata' => 'required',
+        'document' => 'required',
+        'status' => 'required|numeric|not_in:0',
+        'statusboq' => 'required|numeric',
+    ]);
+if (!$valid)
+    {
+
+$detailnya = explode(",", $request->id);
+$emailusernya = array();
+for($x=0;$x < count($detailnya);$x++) {
+$ProjectStatus = ProjectStatus::create(['project_id' =>$detailnya[$x],'users_id' => Auth::guard('karyawan')->user()->id , 'document'=>strtoupper(Input::get('document')),'status'=>strtoupper(Input::get('statusmessage')),'message'=>strtoupper(Input::get('kata'))]);  
+$showUser = User::where([['level', 'HQ'],['posisi','ACCOUNT MANAGER'],['area',Auth::guard('karyawan')->user()->area]])->get();
+$cekproject = Project::where('id',$detailnya[$x])->first();
+if(count($showUser) > 0)
+{
+foreach ($showUser as $p) {
+Pesan::create(['project_id' => $detailnya[$x], 'sender_id'=>Auth::guard('karyawan')->user()->id ,'users_id' => $p['id'], 'status' => strtoupper(Input::get('statusmessage')), 'message'=>strtoupper(Input::get('message'))]);
+
+// send email is off
+//$this->SendEmailController->kirim($p['email'],$detailnya[$x],$cekproject->projectid,$cekproject->infratype,strtoupper(Input::get('statusmessage')),strtoupper(Input::get('document')),Auth::guard('karyawan')->user()->name,Auth::guard('karyawan')->user()->posisi,strtoupper(Input::get('message')),strtoupper(Input::get('kata')));
+}
+}
+Project::where('id',$detailnya[$x])->update(['status_id'=>Input::get('status'),'boq_status'=>Input::get('statusboq'),'project_status_id'=>$ProjectStatus->id]);
+
+
+}
+
+
+return response()->json(['success'=>'Successfully']);
+    }
+else
+    {
+ return response()->json('error', $valid);
+    } 
+    }
+    
 
     
 }

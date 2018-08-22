@@ -55,7 +55,7 @@
                                     <fieldset class="form-group">
                                         <label for="roof_top_high">ROOF TOP HIGHT</label>
                                         <br>
-<input type="text" @input="allcap($event, forms, 'roof_top_high')" class="form-control" placeholder="ROOF TOP HIGHT" v-model="forms.roof_top_high">
+<money v-model="forms.roof_top_high" class="form-control border-input" placeholder="Tinggi Tower" v-bind="tower"></money>                                     
 <div class="help-block"><ul role="alert"><li v-for="error of errorNya['roof_top_high']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>

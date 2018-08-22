@@ -52,6 +52,14 @@
                                     </tr>
                                     <tr>
                                         <td>
+<label>Area 2</label>
+                                        </td>
+                                        <td>
+<input v-model="dataNya.area2" type="text" class="form-control" disabled>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
 <label>regional</label>
                                         </td>
                                         <td>
@@ -90,7 +98,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text" id="basic-addon1"><i class="fa fa-eye"></i></span>
                 </div>
-                <input type="password" name="password" v-model="dataPassword.password" class="form-control pull-right" id="password" placeholer="New Password" required>
+                <input type="password" name="password" v-model="dataPassword.password" class="form-control pull-right" id="password" placeholer="New Password" required><br>
                 <div class="help-block"><ul role="alert"><li v-for="error of errors['password']"><span style="color:red;">{{ error }}</span></li></ul></div>
               </div>
               
@@ -109,7 +117,7 @@
                 <div class="input-group-prepend">
                   <span class="input-group-text" id="basic-addon1"><i class="fa fa-eye"></i></span>
                 </div>
-                <input type="password" name="password_confirmation" v-model="dataPassword.password_confirmation" class="form-control pull-right" id="password_confirmation" placeholer="New Password Confirmation" required>
+                <input type="password" name="password_confirmation" v-model="dataPassword.password_confirmation" class="form-control pull-right" id="password_confirmation" placeholer="New Password Confirmation" required><br>
              <div class="help-block"><ul role="alert"><li v-for="error of errors['password_confirmation']"><span style="color:red;">{{ error }}</span></li></ul></div>
               </div>
               
@@ -158,7 +166,7 @@ Vue.use(VueSweetalert2)
                 maxToasts: 100,
                 position: 'up right',
                 closeBtn: true,
-                dataNya: {name : '',level:'',area:'',regional:''},
+                dataNya: {name : '',level:'',area:'',area2:'',regional:''},
                 dataPassword: {password : '',
                 password_confirmation: ''},
                 loading: false,

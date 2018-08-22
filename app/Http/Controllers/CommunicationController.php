@@ -29,6 +29,7 @@ class CommunicationController extends Controller
     {
         $this->middleware('karyawan.auth');
         $this->data['title']  = 'Selamat Datang';
+    $this->data['tahunproject']  = DB::table('vtahun')->get();
     }
 
     

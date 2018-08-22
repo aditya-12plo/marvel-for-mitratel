@@ -16,6 +16,7 @@ class IndexController extends Controller
     public function __construct()
     {
       
+    $this->data['tahunproject']  = DB::table('vtahun')->get();
     }
 
 	

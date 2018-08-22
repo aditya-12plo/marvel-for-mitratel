@@ -339,7 +339,7 @@ return hashids.decode(id);
            },
   fetchIt(){
    this.isLoading = true;
-                axios.get('/karyawan/CekUserProfileAkses/DocumentBOQApproval').then((response) => {
+                axios.get('/karyawan/CekUserProfileAkses/DocumentBOQApprovalAM').then((response) => {
                     this.dataNya = response.data;
                     this.isLoading = false;
                 }).catch(error => {
