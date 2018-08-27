@@ -73,14 +73,26 @@
 		                            </div>
 
 
-<div class="col-xl-4 col-lg-6 col-md-12 mb-1" v-if="this.forms.level=='HQ' && this.forms.posisi=='MANAGER' || this.forms.level=='HQ' && this.forms.posisi=='ACCOUNT MANAGER' || this.forms.level=='REGIONAL' && this.forms.posisi=='MANAGER MARKETING' || this.forms.level=='REGIONAL' && this.forms.posisi=='AM SUPPORT' || this.forms.level=='REGIONAL' && this.forms.posisi=='ACCOUNT MANAGER'">
+<div class="col-xl-4 col-lg-6 col-md-12 mb-1" v-if="this.forms.level=='HQ' && this.forms.posisi=='MANAGER' || this.forms.level=='HQ' && this.forms.posisi=='ACCOUNT MANAGER' || this.forms.level=='REGIONAL' && this.forms.posisi=='MANAGER MARKETING' || this.forms.level=='REGIONAL' && this.forms.posisi=='AM SUPPORT' || this.forms.level=='REGIONAL' && this.forms.posisi=='ACCOUNT MANAGER' || this.forms.level=='HQ' && this.forms.posisi=='HAKI - ACCOUNT MANAGER' || this.forms.level=='HQ' && this.forms.posisi=='HAKI - MANAGER'">
 <fieldset class="form-group">
-		                                    <label for="area">Area</label>
+                                        <label for="area">Area</label>
 <select class="form-control border-input" v-model="forms.area" required >
 <option value="" selected>Pilih Area User</option>
 <option v-for="piliharea in pilihanarea" :value="piliharea">{{ piliharea }}</option>
 </select>
 <div class="help-block"><ul role="alert"><li v-for="error of errorNya['area']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+
+
+<div class="col-xl-4 col-lg-6 col-md-12 mb-1" v-if="this.forms.level=='HQ' && this.forms.posisi=='MANAGER' || this.forms.level=='HQ' && this.forms.posisi=='HAKI - ACCOUNT MANAGER' || this.forms.level=='HQ' && this.forms.posisi=='HAKI - MANAGER'">
+<fieldset class="form-group">
+		                                    <label for="area">Area 2</label>
+<select class="form-control border-input" v-model="forms.area2" required >
+<option value="" selected>Pilih Area User</option>
+<option v-for="piliharea in pilihanarea" :value="piliharea">{{ piliharea }}</option>
+</select>
+<div class="help-block"><ul role="alert"><li v-for="error of errorNya['area2']"><span style="color:red;">{{ error }}</span></li></ul></div>
 		                                </fieldset>
 		                            </div>
 
@@ -215,10 +227,10 @@ export default {
 	isLoading: false,
     formErrors:{},
 	GetLevel:'', 
-	forms: new CrudForm({id:'' , name:'' , email:'' , level:'',  posisi:'',  area:'',  regional:'',  password:'' , created_at:''}), 
+	forms: new CrudForm({id:'' , name:'' , email:'' , level:'',  posisi:'',  area:'',  area2:'',  regional:'',  password:'' , created_at:''}), 
 	pilihan: ['REGIONAL','HQ'],
 	pilihanregional: ['AM SUPPORT','ACCOUNT MANAGER','MANAGER MARKETING'],
-	pilihanhq: ['ACCOUNT MANAGER','MANAGER'],
+	pilihanhq: ['ACCOUNT MANAGER','MANAGER','HAKI - ACCOUNT MANAGER','HAKI - MANAGER'],
 	pilihanarea: ['1','2','3','4'],
     errors: new Errors() ,
     errorNya: [],
@@ -287,6 +299,16 @@ export default {
   timer: 1500
 })
     },
+       
+     error(kata) {
+      this.$swal({
+  position: 'top-end',
+  type: 'error',
+  title: kata,
+  showConfirmButton: false,
+  timer: 1500
+})
+    },
             backLink() {
 			   this.$router.go(-1);
             } ,
@@ -313,8 +335,16 @@ export default {
   if (result.value) {
                 axios.post('/karyawan/listuser', this.forms)
                     .then(response => {
+                      if(response.data.success)
+                      { 
                 this.resetforms();
                  this.success(response.data.success);
+                      }
+                      else
+                      {
+                 this.error(response.data.error);
+
+                      }
                     })
                     .catch(error => {
                     if (! _.isEmpty(error.response)) {

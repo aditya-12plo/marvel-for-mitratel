@@ -482,7 +482,7 @@ return hashids.decode(id);
    masuk.set('document_site_opening', this.file_name)
    masuk.set('document_site_opening_lama', this.rowDatanya.project.document_site_opening)
    masuk.set('document', 'DOKUMEN SITE OPENING')
-   masuk.set('status', 21)
+   masuk.set('status', 23)
                 axios.post('/karyawan/RevisiDocumentSiteOpening', masuk)
                     .then(response => { 
                       if(response.data.success)

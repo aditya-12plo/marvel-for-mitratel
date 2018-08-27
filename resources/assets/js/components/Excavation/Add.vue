@@ -535,8 +535,8 @@ return hashids.decode(id);
    masuk.set('projectid', this.rowDatanya.project.projectid)
    masuk.set('excavation_date', this.excavation_date.time)
    masuk.set('excavation_document', this.file_name)
-   masuk.set('document', 'DOKUMEN Excavation')
-   masuk.set('status', 23)
+   masuk.set('document', 'DOKUMEN EXCAVATION')
+   masuk.set('status', 25)
                 axios.post('/karyawan/AddDocumentExcavation', masuk)
                     .then(response => { 
                       if(response.data.success)

@@ -294,8 +294,9 @@ $valid = $this->validate($request, [
         'email' => 'required|max:255|unique:users,email',
         'password' => 'required|max:255',
         'level' => 'in:REGIONAL,HQ',
-        'posisi' => 'in:AM SUPPORT,ACCOUNT MANAGER,MANAGER MARKETING,MANAGER',
+        'posisi' => 'in:AM SUPPORT,ACCOUNT MANAGER,MANAGER MARKETING,MANAGER,HAKI - ACCOUNT MANAGER,HAKI - MANAGER',
         'area' => 'in:1,2,3,4',
+        'area2' => 'in:1,2,3,4',
     ]);
 if (!$valid)
     {
@@ -319,15 +320,31 @@ return response()->json(['success'=>'Add Successfully']);
  return response()->json('error', $valid2);
     }
 }
-elseif($request->level == 'HQ' && $request->posisi == 'MANAGER' || $request->level == 'HQ' && $request->posisi == 'ACCOUNT MANAGER' || $request->level == 'REGIONAL' && $request->posisi == 'MANAGER MARKETING')
+elseif($request->level == 'HQ' && $request->posisi == 'ACCOUNT MANAGER' || $request->level == 'REGIONAL' && $request->posisi == 'MANAGER MARKETING')
 {
     $masuk = array('name' => $request->name, 'email' => $request->email , 'password' => Hash::make($request->password) , 'level' => $request->level ,'posisi' =>$request->posisi, 'area' => $request->area, 'regional' =>  ''); 
-$masukdb = User::create($masuk);
-//UserExist::create(['id' => $masukdb->id ,'name' => $request->name, 'email' => $request->email , 'password' => Hash::make($request->password) , 'level' => $request->level , 'posisi' =>$request->posisi,'area' => $request->area, 'regional' =>  '']);
+$masukdb = User::create($masuk); 
 Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'users' ,'action' => 'insert', 'data' => json_encode($masuk)]);
 return response()->json(['success'=>'Add Successfully']);
  
 }
+elseif($request->level == 'HQ' && $request->posisi == 'MANAGER' || $request->level == 'HQ' && $request->posisi == 'HAKI - ACCOUNT MANAGER' || $request->level == 'HQ' && $request->posisi == 'HAKI - MANAGER')
+{
+if($request->area ==  $request->area2)
+{
+return response()->json(['error'=>'Area 1 Dan Area 2 Tidak Boleh Sama']);
+}   
+else
+{
+
+$masuk = array('name' => $request->name, 'email' => $request->email , 'password' => Hash::make($request->password) , 'level' => $request->level ,'posisi' =>$request->posisi, 'area' => $request->area, 'area2' => $request->area2, 'regional' =>  ''); 
+$masukdb = User::create($masuk); 
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'users' ,'action' => 'insert', 'data' => json_encode($masuk)]);
+return response()->json(['success'=>'Add Successfully']);
+} 
+}
+
+
     }
 else
     {

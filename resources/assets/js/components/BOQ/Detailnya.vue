@@ -620,6 +620,228 @@ Latitude : {{this.rowDatanya.latitude_actual}}
   
   
   
+    <li class="timeline-item mt-5" v-if="this.rowDatanya.siteopeningid">
+      <div class="timeline-badge">
+        <span class="bg-grey bg-lighten-1" data-toggle="tooltip" data-placement="left" title="Site Opening (CME)">
+      
+    </span>
+      </div>
+      <div class="timeline-card card border-grey border-lighten-2">
+        <div class="card-header">
+          <h4 class="card-title mb-0">
+            <a>Site Opening (CME)</a> 
+          </h4>
+           
+        </div>
+        <div class="card-body"> 
+          <div class="card-body">
+            <div class="card-block">
+      <div class="feather-icons overflow-hidden">
+                          <div class="row">
+     <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="site_opening_date">TANGGAL DOKUMEN </label>
+                                        <br>
+{{this.rowDatanya.site_opening_date}}
+                    </fieldset>
+                                </div>
+     <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="document_site_opening">DOKUMEN</label>
+                                        <br>
+<a v-bind:href="'/files/'+this.rowDatanya.projectid+'/'+this.rowDatanya.document_site_opening" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a> 
+                                    </fieldset>
+                                </div>
+   
+                   </div>
+          </div>               
+            </div>
+          </div> 
+        </div>
+      </div>
+    </li>
+  
+  
+    <li class="timeline-item mt-5" v-if="this.rowDatanya.excavationid">
+      <div class="timeline-badge">
+        <span class="bg-white bg-lighten-1" data-toggle="tooltip" data-placement="left" title="Dokumen Excavation (CME)">
+      
+    </span>
+      </div>
+      <div class="timeline-card card border-grey border-lighten-2">
+        <div class="card-header">
+          <h4 class="card-title mb-0">
+            <a>Dokumen Excavation (CME)</a> 
+          </h4>
+           
+        </div>
+        <div class="card-body"> 
+          <div class="card-body">
+            <div class="card-block">
+      <div class="feather-icons overflow-hidden">
+                          <div class="row">
+     <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="excavation_date">TANGGAL DOKUMEN </label>
+                                        <br>
+{{this.rowDatanya.excavation_date}}
+                    </fieldset>
+                                </div>
+     <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="excavation_document">DOKUMEN</label>
+                                        <br>
+<a v-bind:href="'/files/'+this.rowDatanya.projectid+'/'+this.rowDatanya.excavation_document" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a> 
+                                    </fieldset>
+                                </div>
+   
+                   </div>
+          </div>               
+            </div>
+          </div> 
+        </div>
+      </div>
+    </li>
+  
+    
+  
+  
+  
+    <li class="timeline-item mt-5" v-if="this.rowDatanya.rebaringid">
+      <div class="timeline-badge">
+        <span class="bg-blue bg-lighten-1" data-toggle="tooltip" data-placement="left" title="Dokumen Rebaring (CME)">
+      
+    </span>
+      </div>
+      <div class="timeline-card card border-grey border-lighten-2">
+        <div class="card-header">
+          <h4 class="card-title mb-0">
+            <a>Dokumen Rebaring (CME)</a> 
+          </h4>
+           
+        </div>
+        <div class="card-body"> 
+          <div class="card-body">
+            <div class="card-block">
+      <div class="feather-icons overflow-hidden">
+                          <div class="row">
+     <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="rebaring_date">TANGGAL DOKUMEN </label>
+                                        <br>
+{{this.rowDatanya.rebaring_date}}
+                    </fieldset>
+                                </div>
+     <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="rebaring_document">DOKUMEN</label>
+                                        <br>
+<a v-bind:href="'/files/'+this.rowDatanya.projectid+'/'+this.rowDatanya.rebaring_document" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a> 
+                                    </fieldset>
+                                </div>
+   
+                   </div>
+          </div>               
+            </div>
+          </div> 
+        </div>
+      </div>
+    </li>
+  
+    
+  
+  
+  
+    <li class="timeline-item mt-5" v-if="this.rowDatanya.pouringid">
+      <div class="timeline-badge">
+        <span class="bg-red bg-lighten-1" data-toggle="tooltip" data-placement="left" title="Dokumen Pouring (CME)">
+      
+    </span>
+      </div>
+      <div class="timeline-card card border-grey border-lighten-2">
+        <div class="card-header">
+          <h4 class="card-title mb-0">
+            <a>Dokumen Pouring (CME)</a> 
+          </h4>
+           
+        </div>
+        <div class="card-body"> 
+          <div class="card-body">
+            <div class="card-block">
+      <div class="feather-icons overflow-hidden">
+                          <div class="row">
+     <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="pouring_date">TANGGAL DOKUMEN </label>
+                                        <br>
+{{this.rowDatanya.pouring_date}}
+                    </fieldset>
+                                </div>
+     <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="pouring_document">DOKUMEN</label>
+                                        <br>
+<a v-bind:href="'/files/'+this.rowDatanya.projectid+'/'+this.rowDatanya.pouring_document" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a> 
+                                    </fieldset>
+                                </div>
+   
+                   </div>
+          </div>               
+            </div>
+          </div> 
+        </div>
+      </div>
+    </li>
+  
+    
+  
+  
+  
+    <li class="timeline-item mt-5" v-if="this.rowDatanya.curingid">
+      <div class="timeline-badge">
+        <span class="bg-yellow bg-lighten-1" data-toggle="tooltip" data-placement="left" title="Dokumen Curing (CME)">
+      
+    </span>
+      </div>
+      <div class="timeline-card card border-grey border-lighten-2">
+        <div class="card-header">
+          <h4 class="card-title mb-0">
+            <a>Dokumen Curing (CME)</a> 
+          </h4>
+           
+        </div>
+        <div class="card-body"> 
+          <div class="card-body">
+            <div class="card-block">
+      <div class="feather-icons overflow-hidden">
+                          <div class="row">
+     <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="curing_date">TANGGAL DOKUMEN </label>
+                                        <br>
+{{this.rowDatanya.curing_date}}
+                    </fieldset>
+                                </div>
+     <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="curing_document">DOKUMEN</label>
+                                        <br>
+<a v-bind:href="'/files/'+this.rowDatanya.projectid+'/'+this.rowDatanya.curing_document" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a> 
+                                    </fieldset>
+                                </div>
+   
+                   </div>
+          </div>               
+            </div>
+          </div> 
+        </div>
+      </div>
+    </li>
+  
+    
+  
+  
+  
   
   </ul>
 

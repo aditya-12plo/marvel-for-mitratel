@@ -92,9 +92,8 @@ if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/p
        if(file_exists($destinationPath.$fileName))
     {
 File::delete($destinationPath .$fileName);
-    }   
-    else
-    {
+    } 
+    
 $upload_success     = $file->move($destinationPath, $fileName);
 if(!$upload_success)
 {
@@ -110,7 +109,7 @@ Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>
 return response()->json(['success'=>'Successfully']); 
 }
 
-    }
+    
 }
 else
 {
@@ -125,7 +124,52 @@ else
     }
 else
     {
-return response()->json(['error'=>'Maaf Pekerjaan Ini Sudah Di Kerjakan Orang Lain']);
+$valid = $this->validate($request, [  
+        'site_opening_date' => 'required|date|date_format:Y-m-d',
+        'document_site_opening' => 'required|mimes:pdf,jpg,png,jpeg', 
+        'status' => 'required|numeric|not_in:0'
+    ]);
+if (!$valid)
+    {
+        $file = Input::file('document_site_opening');
+         $extension  = Input::file('document_site_opening')->getClientOriginalExtension(); // getting image extension
+if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/png' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpg' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpeg')
+{
+     $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path
+     $fileName   = Input::get('projectid').'-document-site-opening-'.time().'.'.$extension; // renameing image
+       if(file_exists($destinationPath.$fileName))
+    {
+File::delete($destinationPath .$fileName);
+    } 
+    
+$upload_success     = $file->move($destinationPath, $fileName);
+if(!$upload_success)
+{
+ return response()->json(['error'=>'File Upload Gagal, Silahkan Ulangi']);
+}
+else
+{
+$masuk = array('project_id' => $request->project_id, 'site_opening_date' => $request->site_opening_date, 'document_site_opening' => $fileName); 
+File::delete($destinationPath .$cekdata->document_site_opening);
+SiteOpening::where('id',$cekdata->id)->update($masuk);
+ 
+Project::where('id',Input::get('project_id'))->update(['status_id'=>Input::get('status')]);
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'site_opening' ,'action' => 'update', 'data' => json_encode($masuk)]);
+return response()->json(['success'=>'Successfully']); 
+}
+
+    
+}
+else
+{
+    return response()->json(['error'=>'Please, check your file type / size']); 
+}
+        
+    }
+else
+    {
+ return response()->json('error', $valid);
+    }
     }    
     }
 

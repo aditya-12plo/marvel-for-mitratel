@@ -9,7 +9,7 @@ level
 
 
 posisi
-'AM SUPPORT','ACCOUNT MANAGER','MANAGER MARKETING','MANAGER'
+'AM SUPPORT','ACCOUNT MANAGER','MANAGER MARKETING','MANAGER','HAKI - ACCOUNT MANAGER','HAKI - MANAGER'
 
 
 
@@ -1435,7 +1435,7 @@ left join document_boq on
 project.id=document_boq.project_id
 left join site_opening on 
 project.id=site_opening.project_id
-where project.status_id=20 
+where project.status_id=21
 
 
 
@@ -1612,7 +1612,7 @@ left join site_opening on
 project.id=site_opening.project_id
 left join excavation on 
 project.id=excavation.project_id
-where project.status_id = 21
+where project.status_id = 23
 
 
 CREATE OR REPLACE VIEW vsiteexcavationrevisi 
@@ -1706,7 +1706,9 @@ where project.status_id = 24
 
 
 
-CREATE OR REPLACE VIEW vallproject 
+
+
+CREATE OR REPLACE VIEW vsiterebaring 
 AS 
 SELECT 
 project.id,
@@ -1793,9 +1795,2249 @@ left join site_opening on
 project.id=site_opening.project_id
 left join excavation on 
 project.id=excavation.project_id
+where project.status_id = 25
 
 
 
 
 
+CREATE OR REPLACE VIEW vsiterebaringrevisi 
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.project_status_id,status.detail as statusnya,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+excavation.id as excavationid,
+excavation.excavation_date,
+excavation.excavation_document,
+rebaring.id as rebaringid,
+rebaring.rebaring_date,
+rebaring.rebaring_document,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+left join site_opening on 
+project.id=site_opening.project_id
+left join excavation on 
+project.id=excavation.project_id
+left join rebaring on 
+project.id=rebaring.project_id
+where project.status_id = 26
+
+
+
+
+CREATE OR REPLACE VIEW vsitepouring 
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.project_status_id,status.detail as statusnya,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+excavation.id as excavationid,
+excavation.excavation_date,
+excavation.excavation_document,
+rebaring.id as rebaringid,
+rebaring.rebaring_date,
+rebaring.rebaring_document,
+pouring.id as pouringid,
+pouring.pouring_date,
+pouring.pouring_document,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+left join site_opening on 
+project.id=site_opening.project_id
+left join excavation on 
+project.id=excavation.project_id
+left join rebaring on 
+project.id=rebaring.project_id
+left join pouring on 
+project.id=pouring.project_id
+where project.status_id = 27
+
+
+
+
+CREATE OR REPLACE VIEW vsitepouringrevisi 
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.project_status_id,status.detail as statusnya,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+excavation.id as excavationid,
+excavation.excavation_date,
+excavation.excavation_document,
+rebaring.id as rebaringid,
+rebaring.rebaring_date,
+rebaring.rebaring_document,
+pouring.id as pouringid,
+pouring.pouring_date,
+pouring.pouring_document,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+left join site_opening on 
+project.id=site_opening.project_id
+left join excavation on 
+project.id=excavation.project_id
+left join rebaring on 
+project.id=rebaring.project_id
+left join pouring on 
+project.id=pouring.project_id
+where project.status_id = 28
+
+
+
+
+
+CREATE OR REPLACE VIEW vsitecuring 
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.project_status_id,status.detail as statusnya,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+excavation.id as excavationid,
+excavation.excavation_date,
+excavation.excavation_document,
+rebaring.id as rebaringid,
+rebaring.rebaring_date,
+rebaring.rebaring_document,
+pouring.id as pouringid,
+pouring.pouring_date,
+pouring.pouring_document,
+curing.id as curingid,
+curing.curing_date,
+curing.curing_document,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+left join site_opening on 
+project.id=site_opening.project_id
+left join excavation on 
+project.id=excavation.project_id
+left join rebaring on 
+project.id=rebaring.project_id
+left join pouring on 
+project.id=pouring.project_id
+left join curing on 
+project.id=curing.project_id
+where project.status_id = 29
+
+
+
+
+CREATE OR REPLACE VIEW vsitecuringrevisi 
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.project_status_id,status.detail as statusnya,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+excavation.id as excavationid,
+excavation.excavation_date,
+excavation.excavation_document,
+rebaring.id as rebaringid,
+rebaring.rebaring_date,
+rebaring.rebaring_document,
+pouring.id as pouringid,
+pouring.pouring_date,
+pouring.pouring_document,
+curing.id as curingid,
+curing.curing_date,
+curing.curing_document,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+left join site_opening on 
+project.id=site_opening.project_id
+left join excavation on 
+project.id=excavation.project_id
+left join rebaring on 
+project.id=rebaring.project_id
+left join pouring on 
+project.id=pouring.project_id
+left join curing on 
+project.id=curing.project_id
+where project.status_id = 30
+
+
+
+
+
+CREATE OR REPLACE VIEW vsitetowererection 
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.project_status_id,status.detail as statusnya,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+excavation.id as excavationid,
+excavation.excavation_date,
+excavation.excavation_document,
+rebaring.id as rebaringid,
+rebaring.rebaring_date,
+rebaring.rebaring_document,
+pouring.id as pouringid,
+pouring.pouring_date,
+pouring.pouring_document,
+curing.id as curingid,
+curing.curing_date,
+curing.curing_document,
+tower_erection.id as towererectionid,
+tower_erection.tower_erection_date,
+tower_erection.tower_erection_document,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+left join site_opening on 
+project.id=site_opening.project_id
+left join excavation on 
+project.id=excavation.project_id
+left join rebaring on 
+project.id=rebaring.project_id
+left join pouring on 
+project.id=pouring.project_id
+left join curing on 
+project.id=curing.project_id
+left join tower_erection on 
+project.id=tower_erection.project_id
+where project.status_id = 31
+
+
+
+
+
+
+CREATE OR REPLACE VIEW vsitetowererectionrevisi 
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.project_status_id,status.detail as statusnya,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+excavation.id as excavationid,
+excavation.excavation_date,
+excavation.excavation_document,
+rebaring.id as rebaringid,
+rebaring.rebaring_date,
+rebaring.rebaring_document,
+pouring.id as pouringid,
+pouring.pouring_date,
+pouring.pouring_document,
+curing.id as curingid,
+curing.curing_date,
+curing.curing_document,
+tower_erection.id as towererectionid,
+tower_erection.tower_erection_date,
+tower_erection.tower_erection_document,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+left join site_opening on 
+project.id=site_opening.project_id
+left join excavation on 
+project.id=excavation.project_id
+left join rebaring on 
+project.id=rebaring.project_id
+left join pouring on 
+project.id=pouring.project_id
+left join curing on 
+project.id=curing.project_id
+left join tower_erection on 
+project.id=tower_erection.project_id
+where project.status_id = 32
+
+
+
+
+
+CREATE OR REPLACE VIEW vsitemeprocess 
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.project_status_id,status.detail as statusnya,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+excavation.id as excavationid,
+excavation.excavation_date,
+excavation.excavation_document,
+rebaring.id as rebaringid,
+rebaring.rebaring_date,
+rebaring.rebaring_document,
+pouring.id as pouringid,
+pouring.pouring_date,
+pouring.pouring_document,
+curing.id as curingid,
+curing.curing_date,
+curing.curing_document,
+tower_erection.id as towererectionid,
+tower_erection.tower_erection_date,
+tower_erection.tower_erection_document,
+m_e_process.id as meprocessid,
+m_e_process.m_e_process_date,
+m_e_process.m_e_process_document,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+left join site_opening on 
+project.id=site_opening.project_id
+left join excavation on 
+project.id=excavation.project_id
+left join rebaring on 
+project.id=rebaring.project_id
+left join pouring on 
+project.id=pouring.project_id
+left join curing on 
+project.id=curing.project_id
+left join tower_erection on 
+project.id=tower_erection.project_id
+left join m_e_process on 
+project.id=m_e_process.project_id
+where project.status_id = 33
+
+
+
+CREATE OR REPLACE VIEW vsitefenceyard
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.project_status_id,status.detail as statusnya,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+excavation.id as excavationid,
+excavation.excavation_date,
+excavation.excavation_document,
+rebaring.id as rebaringid,
+rebaring.rebaring_date,
+rebaring.rebaring_document,
+pouring.id as pouringid,
+pouring.pouring_date,
+pouring.pouring_document,
+curing.id as curingid,
+curing.curing_date,
+curing.curing_document,
+tower_erection.id as towererectionid,
+tower_erection.tower_erection_date,
+tower_erection.tower_erection_document,
+m_e_process.id as meprocessid,
+m_e_process.m_e_process_date,
+m_e_process.m_e_process_document,
+fence_yard.id as fenceyardid,
+fence_yard.fence_yard_date,
+fence_yard.fence_yard_document,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+left join site_opening on 
+project.id=site_opening.project_id
+left join excavation on 
+project.id=excavation.project_id
+left join rebaring on 
+project.id=rebaring.project_id
+left join pouring on 
+project.id=pouring.project_id
+left join curing on 
+project.id=curing.project_id
+left join tower_erection on 
+project.id=tower_erection.project_id
+left join m_e_process on 
+project.id=m_e_process.project_id
+left join fence_yard on 
+project.id=fence_yard.project_id
+where project.status_id = 35
+
+
+
+CREATE OR REPLACE VIEW vsitefenceyardrevisi
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.project_status_id,status.detail as statusnya,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+excavation.id as excavationid,
+excavation.excavation_date,
+excavation.excavation_document,
+rebaring.id as rebaringid,
+rebaring.rebaring_date,
+rebaring.rebaring_document,
+pouring.id as pouringid,
+pouring.pouring_date,
+pouring.pouring_document,
+curing.id as curingid,
+curing.curing_date,
+curing.curing_document,
+tower_erection.id as towererectionid,
+tower_erection.tower_erection_date,
+tower_erection.tower_erection_document,
+m_e_process.id as meprocessid,
+m_e_process.m_e_process_date,
+m_e_process.m_e_process_document,
+fence_yard.id as fenceyardid,
+fence_yard.fence_yard_date,
+fence_yard.fence_yard_document,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+left join site_opening on 
+project.id=site_opening.project_id
+left join excavation on 
+project.id=excavation.project_id
+left join rebaring on 
+project.id=rebaring.project_id
+left join pouring on 
+project.id=pouring.project_id
+left join curing on 
+project.id=curing.project_id
+left join tower_erection on 
+project.id=tower_erection.project_id
+left join m_e_process on 
+project.id=m_e_process.project_id
+left join fence_yard on 
+project.id=fence_yard.project_id
+where project.status_id = 36
+
+
+
+
+CREATE OR REPLACE VIEW vsitemeprocessrevisi 
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.project_status_id,status.detail as statusnya,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+excavation.id as excavationid,
+excavation.excavation_date,
+excavation.excavation_document,
+rebaring.id as rebaringid,
+rebaring.rebaring_date,
+rebaring.rebaring_document,
+pouring.id as pouringid,
+pouring.pouring_date,
+pouring.pouring_document,
+curing.id as curingid,
+curing.curing_date,
+curing.curing_document,
+tower_erection.id as towererectionid,
+tower_erection.tower_erection_date,
+tower_erection.tower_erection_document,
+m_e_process.id as meprocessid,
+m_e_process.m_e_process_date,
+m_e_process.m_e_process_document,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+left join site_opening on 
+project.id=site_opening.project_id
+left join excavation on 
+project.id=excavation.project_id
+left join rebaring on 
+project.id=rebaring.project_id
+left join pouring on 
+project.id=pouring.project_id
+left join curing on 
+project.id=curing.project_id
+left join tower_erection on 
+project.id=tower_erection.project_id
+left join m_e_process on 
+project.id=m_e_process.project_id
+where project.status_id = 34
+
+
+
+
+
+
+
+CREATE OR REPLACE VIEW vsiterfibaut 
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.project_status_id,status.detail as statusnya,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+excavation.id as excavationid,
+excavation.excavation_date,
+excavation.excavation_document,
+rebaring.id as rebaringid,
+rebaring.rebaring_date,
+rebaring.rebaring_document,
+pouring.id as pouringid,
+pouring.pouring_date,
+pouring.pouring_document,
+curing.id as curingid,
+curing.curing_date,
+curing.curing_document,
+tower_erection.id as towererectionid,
+tower_erection.tower_erection_date,
+tower_erection.tower_erection_document,
+m_e_process.id as meprocessid,
+m_e_process.m_e_process_date,
+m_e_process.m_e_process_document,
+rfi_baut.id as rfibautid,
+rfi_baut.rfi_date,
+rfi_baut.rfi_document,
+rfi_baut.baut_date,
+rfi_baut.baut_document,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+left join site_opening on 
+project.id=site_opening.project_id
+left join excavation on 
+project.id=excavation.project_id
+left join rebaring on 
+project.id=rebaring.project_id
+left join pouring on 
+project.id=pouring.project_id
+left join curing on 
+project.id=curing.project_id
+left join tower_erection on 
+project.id=tower_erection.project_id
+left join m_e_process on 
+project.id=m_e_process.project_id
+left join rfi_baut on 
+project.id=rfi_baut.project_id
+where project.status_id = 37
+
+
+
+
+CREATE OR REPLACE VIEW vsiterfibautrevisi 
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.project_status_id,status.detail as statusnya,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+excavation.id as excavationid,
+excavation.excavation_date,
+excavation.excavation_document,
+rebaring.id as rebaringid,
+rebaring.rebaring_date,
+rebaring.rebaring_document,
+pouring.id as pouringid,
+pouring.pouring_date,
+pouring.pouring_document,
+curing.id as curingid,
+curing.curing_date,
+curing.curing_document,
+tower_erection.id as towererectionid,
+tower_erection.tower_erection_date,
+tower_erection.tower_erection_document,
+m_e_process.id as meprocessid,
+m_e_process.m_e_process_date,
+m_e_process.m_e_process_document,
+rfi_baut.id as rfibautid,
+rfi_baut.rfi_date,
+rfi_baut.rfi_document,
+rfi_baut.baut_date,
+rfi_baut.baut_document,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+left join site_opening on 
+project.id=site_opening.project_id
+left join excavation on 
+project.id=excavation.project_id
+left join rebaring on 
+project.id=rebaring.project_id
+left join pouring on 
+project.id=pouring.project_id
+left join curing on 
+project.id=curing.project_id
+left join tower_erection on 
+project.id=tower_erection.project_id
+left join m_e_process on 
+project.id=m_e_process.project_id
+left join rfi_baut on 
+project.id=rfi_baut.project_id
+where project.status_id = 38
+
+
+
+CREATE OR REPLACE VIEW vsitecmeapproval
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.project_status_id,status.detail as statusnya,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+excavation.id as excavationid,
+excavation.excavation_date,
+excavation.excavation_document,
+rebaring.id as rebaringid,
+rebaring.rebaring_date,
+rebaring.rebaring_document,
+pouring.id as pouringid,
+pouring.pouring_date,
+pouring.pouring_document,
+curing.id as curingid,
+curing.curing_date,
+curing.curing_document,
+tower_erection.id as towererectionid,
+tower_erection.tower_erection_date,
+tower_erection.tower_erection_document,
+m_e_process.id as meprocessid,
+m_e_process.m_e_process_date,
+m_e_process.m_e_process_document,
+rfi_baut.id as rfibautid,
+rfi_baut.rfi_date,
+rfi_baut.rfi_document,
+rfi_baut.baut_date,
+rfi_baut.baut_document,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+left join site_opening on 
+project.id=site_opening.project_id
+left join excavation on 
+project.id=excavation.project_id
+left join rebaring on 
+project.id=rebaring.project_id
+left join pouring on 
+project.id=pouring.project_id
+left join curing on 
+project.id=curing.project_id
+left join tower_erection on 
+project.id=tower_erection.project_id
+left join m_e_process on 
+project.id=m_e_process.project_id
+left join rfi_baut on 
+project.id=rfi_baut.project_id
+where project.status_id = 39
+
+
+
+CREATE OR REPLACE VIEW vsitecrfidetail
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.project_status_id,status.detail as statusnya,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+excavation.id as excavationid,
+excavation.excavation_date,
+excavation.excavation_document,
+rebaring.id as rebaringid,
+rebaring.rebaring_date,
+rebaring.rebaring_document,
+pouring.id as pouringid,
+pouring.pouring_date,
+pouring.pouring_document,
+curing.id as curingid,
+curing.curing_date,
+curing.curing_document,
+tower_erection.id as towererectionid,
+tower_erection.tower_erection_date,
+tower_erection.tower_erection_document,
+m_e_process.id as meprocessid,
+m_e_process.m_e_process_date,
+m_e_process.m_e_process_document,
+rfi_baut.id as rfibautid,
+rfi_baut.rfi_date,
+rfi_baut.rfi_document,
+rfi_baut.baut_date,
+rfi_baut.baut_document,
+rfi_detail.id as rfidetailid,
+rfi_detail.rfi_detail_start_date,
+rfi_detail.rfi_detail_end_date,
+rfi_detail.rfi_detail_price_month,
+rfi_detail.rfi_detail_price_year,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+left join site_opening on 
+project.id=site_opening.project_id
+left join excavation on 
+project.id=excavation.project_id
+left join rebaring on 
+project.id=rebaring.project_id
+left join pouring on 
+project.id=pouring.project_id
+left join curing on 
+project.id=curing.project_id
+left join tower_erection on 
+project.id=tower_erection.project_id
+left join m_e_process on 
+project.id=m_e_process.project_id
+left join rfi_baut on 
+project.id=rfi_baut.project_id
+left join rfi_detail on 
+project.id=rfi_detail.project_id
+where project.status_id = 40
+
+
+
+CREATE OR REPLACE VIEW vsitecrfidetailapproval
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.project_status_id,status.detail as statusnya,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+excavation.id as excavationid,
+excavation.excavation_date,
+excavation.excavation_document,
+rebaring.id as rebaringid,
+rebaring.rebaring_date,
+rebaring.rebaring_document,
+pouring.id as pouringid,
+pouring.pouring_date,
+pouring.pouring_document,
+curing.id as curingid,
+curing.curing_date,
+curing.curing_document,
+tower_erection.id as towererectionid,
+tower_erection.tower_erection_date,
+tower_erection.tower_erection_document,
+m_e_process.id as meprocessid,
+m_e_process.m_e_process_date,
+m_e_process.m_e_process_document,
+rfi_baut.id as rfibautid,
+rfi_baut.rfi_date,
+rfi_baut.rfi_document,
+rfi_baut.baut_date,
+rfi_baut.baut_document,
+rfi_detail.id as rfidetailid,
+rfi_detail.rfi_detail_start_date,
+rfi_detail.rfi_detail_end_date,
+rfi_detail.rfi_detail_price_month,
+rfi_detail.rfi_detail_price_year,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+left join site_opening on 
+project.id=site_opening.project_id
+left join excavation on 
+project.id=excavation.project_id
+left join rebaring on 
+project.id=rebaring.project_id
+left join pouring on 
+project.id=pouring.project_id
+left join curing on 
+project.id=curing.project_id
+left join tower_erection on 
+project.id=tower_erection.project_id
+left join m_e_process on 
+project.id=m_e_process.project_id
+left join rfi_baut on 
+project.id=rfi_baut.project_id
+left join rfi_detail on 
+project.id=rfi_detail.project_id
+where project.status_id = 41
+
+
+CREATE OR REPLACE VIEW vsitecrfidetailrevisi
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.project_status_id,status.detail as statusnya,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+excavation.id as excavationid,
+excavation.excavation_date,
+excavation.excavation_document,
+rebaring.id as rebaringid,
+rebaring.rebaring_date,
+rebaring.rebaring_document,
+pouring.id as pouringid,
+pouring.pouring_date,
+pouring.pouring_document,
+curing.id as curingid,
+curing.curing_date,
+curing.curing_document,
+tower_erection.id as towererectionid,
+tower_erection.tower_erection_date,
+tower_erection.tower_erection_document,
+m_e_process.id as meprocessid,
+m_e_process.m_e_process_date,
+m_e_process.m_e_process_document,
+rfi_baut.id as rfibautid,
+rfi_baut.rfi_date,
+rfi_baut.rfi_document,
+rfi_baut.baut_date,
+rfi_baut.baut_document,
+rfi_detail.id as rfidetailid,
+rfi_detail.rfi_detail_start_date,
+rfi_detail.rfi_detail_end_date,
+rfi_detail.rfi_detail_price_month,
+rfi_detail.rfi_detail_price_year,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+left join site_opening on 
+project.id=site_opening.project_id
+left join excavation on 
+project.id=excavation.project_id
+left join rebaring on 
+project.id=rebaring.project_id
+left join pouring on 
+project.id=pouring.project_id
+left join curing on 
+project.id=curing.project_id
+left join tower_erection on 
+project.id=tower_erection.project_id
+left join m_e_process on 
+project.id=m_e_process.project_id
+left join rfi_baut on 
+project.id=rfi_baut.project_id
+left join rfi_detail on 
+project.id=rfi_detail.project_id
+where project.status_id = 43
+
+
+
+
+CREATE OR REPLACE VIEW vsitesubmitcme
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.project_status_id,status.detail as statusnya,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+excavation.id as excavationid,
+excavation.excavation_date,
+excavation.excavation_document,
+rebaring.id as rebaringid,
+rebaring.rebaring_date,
+rebaring.rebaring_document,
+pouring.id as pouringid,
+pouring.pouring_date,
+pouring.pouring_document,
+curing.id as curingid,
+curing.curing_date,
+curing.curing_document,
+tower_erection.id as towererectionid,
+tower_erection.tower_erection_date,
+tower_erection.tower_erection_document,
+m_e_process.id as meprocessid,
+m_e_process.m_e_process_date,
+m_e_process.m_e_process_document,
+rfi_baut.id as rfibautid,
+rfi_baut.rfi_date,
+rfi_baut.rfi_document,
+rfi_baut.baut_date,
+rfi_baut.baut_document,
+rfi_detail.id as rfidetailid,
+rfi_detail.rfi_detail_start_date,
+rfi_detail.rfi_detail_end_date,
+rfi_detail.rfi_detail_price_month,
+rfi_detail.rfi_detail_price_year,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+left join site_opening on 
+project.id=site_opening.project_id
+left join excavation on 
+project.id=excavation.project_id
+left join rebaring on 
+project.id=rebaring.project_id
+left join pouring on 
+project.id=pouring.project_id
+left join curing on 
+project.id=curing.project_id
+left join tower_erection on 
+project.id=tower_erection.project_id
+left join m_e_process on 
+project.id=m_e_process.project_id
+left join rfi_baut on 
+project.id=rfi_baut.project_id
+left join rfi_detail on 
+project.id=rfi_detail.project_id
+where project.haki_status = 44
+
+
+
+CREATE OR REPLACE VIEW vallproject 
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.project_status_id,status.detail as statusnya,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+excavation.id as excavationid,
+excavation.excavation_date,
+excavation.excavation_document,
+rebaring.id as rebaringid,
+rebaring.rebaring_date,
+rebaring.rebaring_document,
+pouring.id as pouringid,
+pouring.pouring_date,
+pouring.pouring_document,
+curing.id as curingid,
+curing.curing_date,
+curing.curing_document,
+tower_erection.id as towererectionid,
+tower_erection.tower_erection_date,
+tower_erection.tower_erection_document,
+m_e_process.id as meprocessid,
+m_e_process.m_e_process_date,
+m_e_process.m_e_process_document,
+rfi_baut.id as rfibautid,
+rfi_baut.rfi_date,
+rfi_baut.rfi_document,
+rfi_baut.baut_date,
+rfi_baut.baut_document,
+rfi_detail.id as rfidetailid,
+rfi_detail.rfi_detail_start_date,
+rfi_detail.rfi_detail_end_date,
+rfi_detail.rfi_detail_price_month,
+rfi_detail.rfi_detail_price_year,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+left join site_opening on 
+project.id=site_opening.project_id
+left join excavation on 
+project.id=excavation.project_id
+left join rebaring on 
+project.id=rebaring.project_id
+left join pouring on 
+project.id=pouring.project_id
+left join curing on 
+project.id=curing.project_id
+left join tower_erection on 
+project.id=tower_erection.project_id
+left join m_e_process on 
+project.id=m_e_process.project_id
+left join rfi_baut on 
+project.id=rfi_baut.project_id
+left join rfi_detail on 
+project.id=rfi_detail.project_id
 

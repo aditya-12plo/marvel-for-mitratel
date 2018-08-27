@@ -241,6 +241,59 @@ else
     }
 
  
+    public function DropProjectHaki(Request $request)
+    {
+$valid = $this->validate($request, [
+        'project_id' => 'required|numeric|not_in:0',
+        'statusmessage' => 'required|max:255',
+        'projectid' => 'required|max:255',
+        'document' => 'required',
+        'infratype' => 'required',
+        'message' => 'required',
+        'kata' => 'required',
+        'status' => 'required|numeric|not_in:0'
+    ]);
+if (!$valid)
+    {
+$cekHistory = HistoryDrop::where('project_id',Input::get('project_id'))->first();
+$cek = Project::where('id',Input::get('project_id'))->first();
+if(!$cekHistory)
+{
+HistoryDrop::create(['project_id'=>Input::get('project_id'),'status_id'=>$cek->status_id]);
+}
+else
+{
+HistoryDrop::where('project_id',Input::get('project_id'))->update(['status_id'=>$cek->status_id]); 
+}  
+$ProjectStatus = ProjectStatus::create(['project_id' => Input::get('project_id'),'users_id' => Auth::guard('karyawan')->user()->id , 'document'=>strtoupper(Input::get('document')),'status'=>strtoupper(Input::get('statusmessage')),'message'=>strtoupper(Input::get('message'))]);
+$showUser = User::where(function ($query) {
+    $query->where([['level', Auth::guard('karyawan')->user()->level],['posisi','HAKI - MANAGER'],['area',Auth::guard('karyawan')->user()->area]])
+          ->orWhere([['level', Auth::guard('karyawan')->user()->level],['posisi','HAKI - MANAGER'],['area2',Auth::guard('karyawan')->user()->area]]);
+})->get();
+if(count($showUser) > 0)
+{
+foreach ($showUser as $p) {
+Pesan::create(['project_id' => Input::get('project_id'), 'sender_id'=>Auth::guard('karyawan')->user()->id ,'users_id' => $p['id'], 'status' => strtoupper(Input::get('statusmessage')), 'message'=>strtoupper(Input::get('message'))]);
+
+// send email is off
+//$this->SendEmailController->kirim($p['email'],Input::get('project_id'),Input::get('projectid'),Input::get('infratype'),strtoupper(Input::get('statusmessage')),strtoupper(Input::get('document')),Auth::guard('karyawan')->user()->name,Auth::guard('karyawan')->user()->posisi,strtoupper(Input::get('message')),strtoupper(Input::get('kata')));
+}
+}
+Project::where('id',Input::get('project_id'))->update(['status_id'=>Input::get('status'),'project_status_id'=>$ProjectStatus->id]); 
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'drop_site' ,'action' => 'update', 'data' => json_encode($cek)]);
+return response()->json(['success'=>'Successfully']); 
+
+
+        
+    }
+else
+    {
+ return response()->json('error', $valid);
+    } 
+    }
+
+ 
+
 
     
 }

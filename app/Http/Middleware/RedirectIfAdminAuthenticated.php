@@ -16,7 +16,7 @@ class RedirectIfAdminAuthenticated
     {
         $auth=Auth::guard('karyawans');
         if ($auth->check()) {
-            return redirect('/karyawan');
+            return redirect('/karyawan?');
         }
         return $next($request);
     }

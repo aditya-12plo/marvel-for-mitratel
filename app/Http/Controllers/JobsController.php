@@ -1859,4 +1859,1022 @@ public function GetJobsExcavationRevisi(Request $request)
     }
 
 
+
+
+
+public function GetJobsRebaring(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $infratype = $request->infratypenya; 
+        $towernya = $request->towernya;
+        $min = $request->min;
+        $max = $request->max;
+
+
+ $query = DB::table('vsiterebaring')
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+ 
+
+ if (!empty($towernya))
+  { 
+   $query = $query->where('tower_high', $towernya);
+  }
+
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  } 
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like)
+            ->orWhere('batchnya', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like);
+  }
+
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+
+        return $query->paginate($perPage);
+    }
+
+
+
+public function GetJobsRebaringRevisi(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $infratype = $request->infratypenya; 
+        $towernya = $request->towernya;
+        $min = $request->min;
+        $max = $request->max;
+
+
+ $query = DB::table('vsiterebaringrevisi')
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+ 
+
+ if (!empty($towernya))
+  { 
+   $query = $query->where('tower_high', $towernya);
+  }
+
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  } 
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like)
+            ->orWhere('batchnya', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like);
+  }
+
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+
+        return $query->paginate($perPage);
+    }
+
+
+
+
+
+public function GetJobsPouring(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $infratype = $request->infratypenya; 
+        $towernya = $request->towernya;
+        $min = $request->min;
+        $max = $request->max;
+
+
+ $query = DB::table('vsitepouring')
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+ 
+
+ if (!empty($towernya))
+  { 
+   $query = $query->where('tower_high', $towernya);
+  }
+
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  } 
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like)
+            ->orWhere('batchnya', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like);
+  }
+
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+
+        return $query->paginate($perPage);
+    }
+
+
+
+
+public function GetJobsPouringRevisi(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $infratype = $request->infratypenya; 
+        $towernya = $request->towernya;
+        $min = $request->min;
+        $max = $request->max;
+
+
+ $query = DB::table('vsitepouringrevisi')
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+ 
+
+ if (!empty($towernya))
+  { 
+   $query = $query->where('tower_high', $towernya);
+  }
+
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  } 
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like)
+            ->orWhere('batchnya', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like);
+  }
+
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+
+        return $query->paginate($perPage);
+    }
+
+
+
+public function GetJobsCuring(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $infratype = $request->infratypenya; 
+        $towernya = $request->towernya;
+        $min = $request->min;
+        $max = $request->max;
+
+
+ $query = DB::table('vsitecuring')
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+ 
+
+ if (!empty($towernya))
+  { 
+   $query = $query->where('tower_high', $towernya);
+  }
+
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  } 
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like)
+            ->orWhere('batchnya', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like);
+  }
+
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+
+        return $query->paginate($perPage);
+    }
+
+
+
+public function GetJobsCuringRevisi(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $infratype = $request->infratypenya; 
+        $towernya = $request->towernya;
+        $min = $request->min;
+        $max = $request->max;
+
+
+ $query = DB::table('vsitecuringrevisi')
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+ 
+
+ if (!empty($towernya))
+  { 
+   $query = $query->where('tower_high', $towernya);
+  }
+
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  } 
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like)
+            ->orWhere('batchnya', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like);
+  }
+
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+
+        return $query->paginate($perPage);
+    }
+
+
+
+public function GetJobsTowerErection(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $infratype = $request->infratypenya; 
+        $towernya = $request->towernya;
+        $min = $request->min;
+        $max = $request->max;
+
+
+ $query = DB::table('vsitetowererection')
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+ 
+
+ if (!empty($towernya))
+  { 
+   $query = $query->where('tower_high', $towernya);
+  }
+
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  } 
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like)
+            ->orWhere('batchnya', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like);
+  }
+
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+
+        return $query->paginate($perPage);
+    }
+
+
+
+public function GetJobsTowerErectionRevisi(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $infratype = $request->infratypenya; 
+        $towernya = $request->towernya;
+        $min = $request->min;
+        $max = $request->max;
+
+
+ $query = DB::table('vsitetowererectionrevisi')
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+ 
+
+ if (!empty($towernya))
+  { 
+   $query = $query->where('tower_high', $towernya);
+  }
+
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  } 
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like)
+            ->orWhere('batchnya', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like);
+  }
+
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+
+        return $query->paginate($perPage);
+    }
+
+
+
+
+public function GetJobsMEProcess(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $infratype = $request->infratypenya; 
+        $towernya = $request->towernya;
+        $min = $request->min;
+        $max = $request->max;
+
+
+ $query = DB::table('vsitemeprocess')
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+ 
+
+ if (!empty($towernya))
+  { 
+   $query = $query->where('tower_high', $towernya);
+  }
+
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  } 
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like)
+            ->orWhere('batchnya', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like);
+  }
+
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+
+        return $query->paginate($perPage);
+    }
+
+
+
+
+public function GetJobsMEProcessRevisi(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $infratype = $request->infratypenya; 
+        $towernya = $request->towernya;
+        $min = $request->min;
+        $max = $request->max;
+
+
+ $query = DB::table('vsitemeprocessrevisi')
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+ 
+
+ if (!empty($towernya))
+  { 
+   $query = $query->where('tower_high', $towernya);
+  }
+
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  } 
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like)
+            ->orWhere('batchnya', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like);
+  }
+
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+
+        return $query->paginate($perPage);
+    }
+
+
+
+
+
+public function GetJobsFenceYard(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $infratype = $request->infratypenya; 
+        $towernya = $request->towernya;
+        $min = $request->min;
+        $max = $request->max;
+
+
+ $query = DB::table('vsitefenceyard')
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+ 
+
+ if (!empty($towernya))
+  { 
+   $query = $query->where('tower_high', $towernya);
+  }
+
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  } 
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like)
+            ->orWhere('batchnya', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like);
+  }
+
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+
+        return $query->paginate($perPage);
+    }
+
+
+
+
+public function GetJobsFenceYardRevisi(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $infratype = $request->infratypenya; 
+        $towernya = $request->towernya;
+        $min = $request->min;
+        $max = $request->max;
+
+
+ $query = DB::table('vsitefenceyardrevisi')
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+ 
+
+ if (!empty($towernya))
+  { 
+   $query = $query->where('tower_high', $towernya);
+  }
+
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  } 
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like)
+            ->orWhere('batchnya', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like);
+  }
+
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+
+        return $query->paginate($perPage);
+    }
+
+
+
+public function GetJobsRfiBaut(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $infratype = $request->infratypenya; 
+        $towernya = $request->towernya;
+        $min = $request->min;
+        $max = $request->max;
+
+
+ $query = DB::table('vsiterfibaut')
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+ 
+
+ if (!empty($towernya))
+  { 
+   $query = $query->where('tower_high', $towernya);
+  }
+
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  } 
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like)
+            ->orWhere('batchnya', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like);
+  }
+
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+
+        return $query->paginate($perPage);
+    }
+
+
+public function GetJobsRfiBautRevisi(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $infratype = $request->infratypenya; 
+        $towernya = $request->towernya;
+        $min = $request->min;
+        $max = $request->max;
+
+
+$query = DB::table('vsiterfibautrevisi')
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+ 
+
+ if (!empty($towernya))
+  { 
+   $query = $query->where('tower_high', $towernya);
+  }
+
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  } 
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like)
+            ->orWhere('batchnya', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like);
+  }
+
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+
+        return $query->paginate($perPage);
+    }
+
+
+
+
+public function GetJobsApprovalDocumentCME(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $infratype = $request->infratypenya; 
+        $towernya = $request->towernya;
+        $min = $request->min;
+        $max = $request->max;
+
+
+$query = DB::table('vsitecmeapproval')
+            ->where('area', Auth::guard('karyawan')->user()->area)->orderBy('id','DESC');
+ 
+
+ if (!empty($towernya))
+  { 
+   $query = $query->where('tower_high', $towernya);
+  }
+
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  } 
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like)
+            ->orWhere('batchnya', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like);
+  }
+
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+
+        return $query->paginate($perPage);
+    }
+
+
+
+
+
+
+public function GetJobsRfiDetail(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $infratype = $request->infratypenya; 
+        $towernya = $request->towernya;
+        $min = $request->min;
+        $max = $request->max;
+
+ $query =  DB::table('vsitecrfidetail')
+        ->where(function ($query) {
+    $query->where('area', Auth::guard('karyawan')->user()->area)
+          ->orWhere('area', Auth::guard('karyawan')->user()->area2);
+})
+        ->orderBy('id','DESC');
+
+ if (!empty($towernya))
+  { 
+   $query = $query->where('tower_high', $towernya);
+  }
+
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  } 
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like)
+            ->orWhere('batchnya', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like);
+  }
+
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+
+        return $query->paginate($perPage);
+    }
+
+
+
+
+
+public function GetJobsSubmitCMEApproval(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $infratype = $request->infratypenya; 
+        $towernya = $request->towernya;
+        $min = $request->min;
+        $max = $request->max;
+
+ $query =  DB::table('vsitecrfidetailapproval')
+        ->where(function ($query) {
+    $query->where('area', Auth::guard('karyawan')->user()->area)
+          ->orWhere('area', Auth::guard('karyawan')->user()->area2);
+})
+        ->orderBy('id','DESC');
+
+ if (!empty($towernya))
+  { 
+   $query = $query->where('tower_high', $towernya);
+  }
+
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  } 
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like)
+            ->orWhere('batchnya', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like);
+  }
+
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+
+        return $query->paginate($perPage);
+    }
+
+
+
+
+
+
+public function GetJobsRfiDetailRevisi(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $infratype = $request->infratypenya; 
+        $towernya = $request->towernya;
+        $min = $request->min;
+        $max = $request->max;
+
+ $query =  DB::table('vsitecrfidetailrevisi')
+        ->where(function ($query) {
+    $query->where('area', Auth::guard('karyawan')->user()->area)
+          ->orWhere('area', Auth::guard('karyawan')->user()->area2);
+})
+        ->orderBy('id','DESC');
+
+ if (!empty($towernya))
+  { 
+   $query = $query->where('tower_high', $towernya);
+  }
+
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  } 
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like)
+            ->orWhere('batchnya', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like);
+  }
+
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+
+        return $query->paginate($perPage);
+    }
+
+
+
+
+
+public function GetJobsSubmitCME(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $infratype = $request->infratypenya; 
+        $towernya = $request->towernya;
+        $min = $request->min;
+        $max = $request->max;
+
+ $query =  DB::table('vsitesubmitcme')
+        ->where(function ($query) {
+    $query->where('area', Auth::guard('karyawan')->user()->area)
+          ->orWhere('area', Auth::guard('karyawan')->user()->area2);
+})
+        ->orderBy('id','DESC');
+
+ if (!empty($towernya))
+  { 
+   $query = $query->where('tower_high', $towernya);
+  }
+
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  } 
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like)
+            ->orWhere('batchnya', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like);
+  }
+
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+
+        return $query->paginate($perPage);
+    }
+
+
+
+
 }

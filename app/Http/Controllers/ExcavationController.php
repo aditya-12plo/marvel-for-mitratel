@@ -52,7 +52,7 @@ class ExcavationController extends Controller
     }
 
 
-        public function AddDocumentPerbaikan(Request $request)
+        public function DocumentExcavationPerbaikan(Request $request)
     {
 $valid = $this->validate($request, [
         'id' => 'required|numeric|not_in:0',  
@@ -92,9 +92,8 @@ if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/p
        if(file_exists($destinationPath.$fileName))
     {
 File::delete($destinationPath .$fileName);
-    }   
-    else
-    {
+    } 
+
 $upload_success     = $file->move($destinationPath, $fileName);
 if(!$upload_success)
 {
@@ -110,7 +109,7 @@ Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>
 return response()->json(['success'=>'Successfully']); 
 }
 
-    }
+    
 }
 else
 {
@@ -125,28 +124,74 @@ else
     }
 else
     {
-return response()->json(['error'=>'Maaf Pekerjaan Ini Sudah Di Kerjakan Orang Lain']);
-    }    
-    }
-
-
-        public function RevisiDocumentSiteOpening(Request $request)
-    { 
 $valid = $this->validate($request, [ 
-        'site_opening_date' => 'required|date|date_format:Y-m-d',
-        'document_site_opening' => 'nullable|mimes:pdf,jpg,png,jpeg', 
+        'excavation_date' => 'required|date|date_format:Y-m-d',
+        'excavation_document' => 'required|mimes:pdf,jpg,png,jpeg', 
         'status' => 'required|numeric|not_in:0'
     ]);
 if (!$valid)
     {
- if(Input::file('document_site_opening'))
- {
-       $file = Input::file('document_site_opening');
-         $extension  = Input::file('document_site_opening')->getClientOriginalExtension(); // getting image extension
+        $file = Input::file('excavation_document');
+         $extension  = Input::file('excavation_document')->getClientOriginalExtension(); // getting image extension
 if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/png' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpg' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpeg')
 {
      $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path
-     $fileName   = Input::get('projectid').'-document-site-opening-'.time().'.'.$extension; // renameing image
+     $fileName   = Input::get('projectid').'-document-excavation-'.time().'.'.$extension; // renameing image
+       if(file_exists($destinationPath.$fileName))
+    {
+File::delete($destinationPath .$fileName);
+    } 
+    
+$upload_success     = $file->move($destinationPath, $fileName);
+if(!$upload_success)
+{
+ return response()->json(['error'=>'File Upload Gagal, Silahkan Ulangi']);
+}
+else
+{
+$masuk = array('project_id' => $request->project_id, 'excavation_date' => $request->excavation_date, 'excavation_document' => $fileName); 
+File::delete($destinationPath .$cekdata->excavation_document);
+Excavation::where('id',$cekdata->id)->update($masuk);
+ 
+Project::where('id',Input::get('project_id'))->update(['status_id'=>Input::get('status')]);
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'Excavation' ,'action' => 'update', 'data' => json_encode($masuk)]);
+return response()->json(['success'=>'Successfully']); 
+}
+
+    
+}
+else
+{
+    return response()->json(['error'=>'Please, check your file type / size']); 
+}
+        
+    }
+else
+    {
+ return response()->json('error', $valid);
+    }
+   
+    }    
+    }
+
+
+        public function RevisiDocumentExcavation(Request $request)
+    { 
+$valid = $this->validate($request, [ 
+        'excavation_date' => 'required|date|date_format:Y-m-d',
+        'excavation_document' => 'nullable|mimes:pdf,jpg,png,jpeg', 
+        'status' => 'required|numeric|not_in:0'
+    ]);
+if (!$valid)
+    {
+ if(Input::file('excavation_document'))
+ {
+       $file = Input::file('excavation_document');
+         $extension  = Input::file('excavation_document')->getClientOriginalExtension(); // getting image extension
+if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/png' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpg' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpeg')
+{
+     $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path
+     $fileName   = Input::get('projectid').'-document-excavation-'.time().'.'.$extension; // renameing image
        if(file_exists($destinationPath.$fileName))
     {
 File::delete($destinationPath .$fileName);
@@ -159,11 +204,11 @@ if(!$upload_success)
 }
 else
 {
-File::delete($destinationPath .Input::get('document_site_opening_lama'));
-$edit = array('site_opening_date' => $request->site_opening_date, 'document_site_opening' => $fileName);   
-SiteOpening::where('id',$request->id)->update($edit);
+File::delete($destinationPath .Input::get('excavation_document_lama'));
+$edit = array('excavation_date' => $request->excavation_date, 'excavation_document' => $fileName);   
+Excavation::where('id',$request->id)->update($edit);
 Project::where('id',Input::get('project_id'))->update(['status_id'=>Input::get('status')]);
-Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'site_opening' ,'action' => 'update', 'data' => json_encode($edit)]);
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'excavation' ,'action' => 'update', 'data' => json_encode($edit)]);
 return response()->json(['success'=>'Successfully']); 
 }
 
@@ -177,11 +222,11 @@ else
  else
  {
  
-$edit = array('site_opening_date' => $request->site_opening_date); 
-SiteOpening::where('id',$request->id)->update($edit);
+$edit = array('excavation_date' => $request->excavation_date); 
+Excavation::where('id',$request->id)->update($edit);
  
 Project::where('id',Input::get('project_id'))->update(['status_id'=>Input::get('status')]);
-Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'site_opening' ,'action' => 'update', 'data' => json_encode($edit)]);
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'excavation' ,'action' => 'update', 'data' => json_encode($edit)]);
 return response()->json(['success'=>'Successfully']); 
  
  

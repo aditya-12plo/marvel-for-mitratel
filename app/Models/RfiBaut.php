@@ -9,7 +9,7 @@ class RfiBaut extends Model
 
     protected $table = 'rfi_baut';
     protected $primaryKey = 'id';
-    protected $fillable = array('rfi_date','rfi_document','baut_date','baut_document','pks_document');
+    protected $fillable = array('project_id','rfi_date','rfi_document','baut_date','baut_document');
     public $timestamps = true; 
   
 }

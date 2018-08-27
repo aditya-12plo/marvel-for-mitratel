@@ -409,7 +409,239 @@ let routes=[
 	path:'/excavation-revisi',
 	component:require('./components/Excavation/IndexRevisi')
 },
+{
+	path:'/excavation-revisi/edit/:id',
+	name: 'revisiexcavation',
+	component:require('./components/Excavation/Revisi'),
+	props: true
+},
 /* Excavation  */
+
+/* Rebaring  */
+{
+	path:'/rebaring-add',
+	component:require('./components/Rebaring/')
+},
+{
+	path:'/rebaring-add/add/:id',
+	name: 'addrebaring',
+	component:require('./components/Rebaring/Add'),
+	props: true
+},
+{
+	path:'/rebaring-revisi',
+	component:require('./components/Rebaring/IndexRevisi')
+},
+{
+	path:'/rebaring-revisi/edit/:id',
+	name: 'revisirebaring',
+	component:require('./components/Rebaring/Revisi'),
+	props: true
+},
+/* Rebaring  */
+
+
+
+
+/* pouring  */
+{
+	path:'/pouring-add',
+	component:require('./components/Pouring/')
+},
+{
+	path:'/pouring-add/add/:id',
+	name: 'addpouring',
+	component:require('./components/Pouring/Add'),
+	props: true
+},
+{
+	path:'/pouring-revisi',
+	component:require('./components/Pouring/IndexRevisi')
+},
+{
+	path:'/pouring-revisi/edit/:id',
+	name: 'revisipouring',
+	component:require('./components/Pouring/Revisi'),
+	props: true
+},
+/* pouring  */
+
+
+/* curing  */
+{
+	path:'/curing-add',
+	component:require('./components/Curing/')
+},
+{
+	path:'/curing-add/add/:id',
+	name: 'addcuring',
+	component:require('./components/Curing/Add'),
+	props: true
+},
+{
+	path:'/curing-revisi',
+	component:require('./components/Curing/IndexRevisi')
+},
+{
+	path:'/curing-revisi/edit/:id',
+	name: 'revisicuring',
+	component:require('./components/Curing/Revisi'),
+	props: true
+},
+/* curing  */
+
+
+
+/* tower erection  */
+{
+	path:'/tower-erection-add',
+	component:require('./components/TowerErection/')
+},
+{
+	path:'/tower-erection-add/add/:id',
+	name: 'addTowerErection',
+	component:require('./components/TowerErection/Add'),
+	props: true
+},
+{
+	path:'/tower-erection-revisi',
+	component:require('./components/TowerErection/IndexRevisi')
+},
+{
+	path:'/tower-erection-revisi/edit/:id',
+	name: 'revisiTowerErection',
+	component:require('./components/TowerErection/Revisi'),
+	props: true
+},
+/* tower erection  */
+
+
+
+
+/* M-E Process  */
+{
+	path:'/m-e-process-add',
+	component:require('./components/MEProcess/')
+},
+{
+	path:'/m-e-process-add/add/:id',
+	name: 'addMEProcess',
+	component:require('./components/MEProcess/Add'),
+	props: true
+},
+{
+	path:'/m-e-process-revisi',
+	component:require('./components/MEProcess/IndexRevisi')
+},
+{
+	path:'/m-e-process-revisi/edit/:id',
+	name: 'revisiMEProcess',
+	component:require('./components/MEProcess/Revisi'),
+	props: true
+},
+/* M-E Process  */
+
+
+
+/* FenceYard  */
+{
+	path:'/fence-yard-add',
+	component:require('./components/Fence&Yard/')
+},
+{
+	path:'/fence-yard-add/add/:id',
+	name: 'addFenceYard',
+	component:require('./components/Fence&Yard/Add'),
+	props: true
+},
+{
+	path:'/fence-yard-revisi',
+	component:require('./components/Fence&Yard/IndexRevisi')
+},
+{
+	path:'/fence-yard-revisi/edit/:id',
+	name: 'revisiFenceYard',
+	component:require('./components/Fence&Yard/Revisi'),
+	props: true
+},
+/* FenceYard  */
+
+
+
+/* FenceYard  */
+{
+	path:'/rfi-baut-add',
+	component:require('./components/RFI&BAUT/')
+},
+{
+	path:'/rfi-baut-add/add/:id',
+	name: 'addRfiBaut',
+	component:require('./components/RFI&BAUT/Add'),
+	props: true
+},
+{
+	path:'/rfi-baut-revisi',
+	component:require('./components/RFI&BAUT/IndexRevisi')
+},
+{
+	path:'/rfi-baut-revisi/edit/:id',
+	name: 'revisiRfiBaut',
+	component:require('./components/RFI&BAUT/Revisi'),
+	props: true
+},
+/* FenceYard  */
+
+
+/* CME  */
+{
+	path:'/cme-submit',
+	component:require('./components/CME/Submit')
+},
+{
+	path:'/approval-cme',
+	component:require('./components/CME/')
+},
+{
+	path:'/approval-cme/detail/:id',
+	name: 'approvaldocumentcme',
+	component:require('./components/CME/Approved'),
+	props: true
+},
+/* CME  */
+
+
+/* RFI Detail  */
+{
+	path:'/cme-rfi-revisi',
+	component:require('./components/RFI/IndexRevisi')
+},
+{
+	path:'/cme-rfi-revisi/edit/:id',
+	name: 'revisiRfiDetail',
+	component:require('./components/RFI/Revisi'),
+	props: true
+},
+{
+	path:'/cme-rfi-detail',
+	component:require('./components/RFI/')
+},
+{
+	path:'/cme-rfi-detail/add/:id',
+	name: 'addRfiDetail',
+	component:require('./components/RFI/Add'),
+	props: true
+},
+{
+	path:'/approval-documents-rfi-haki',
+	component:require('./components/RFI/IndexApproval')
+},
+{
+	path:'/approval-documents-rfi-haki/approved/:id',
+	name: 'approvaldocumentrfidetail',
+	component:require('./components/RFI/Approved'),
+	props: true
+},
+/* RFI Detail  */
 
 
 

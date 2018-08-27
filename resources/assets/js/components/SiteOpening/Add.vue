@@ -476,7 +476,7 @@ return hashids.decode(id);
    masuk.set('site_opening_date', this.site_opening_date.time)
    masuk.set('document_site_opening', this.file_name)
    masuk.set('document', 'DOKUMEN SITE OPENING')
-   masuk.set('status', 21)
+   masuk.set('status', 23)
                 axios.post('/karyawan/AddDocumentSiteOpening', masuk)
                     .then(response => { 
                       if(response.data.success)

@@ -125,6 +125,28 @@ Route::get('GetJobsSiteOpening', 'JobsController@GetJobsSiteOpening');
 Route::get('GetJobsSiteOpeningRevisi', 'JobsController@GetJobsSiteOpeningRevisi');
 Route::get('GetJobsExcavation', 'JobsController@GetJobsExcavation');
 Route::get('GetJobsExcavationRevisi', 'JobsController@GetJobsExcavationRevisi');
+Route::get('GetJobsRebaring', 'JobsController@GetJobsRebaring');
+Route::get('GetJobsRebaringRevisi', 'JobsController@GetJobsRebaringRevisi');
+Route::get('GetJobsPouring', 'JobsController@GetJobsPouring');
+Route::get('GetJobsPouringRevisi', 'JobsController@GetJobsPouringRevisi');
+Route::get('GetJobsCuring', 'JobsController@GetJobsCuring');
+Route::get('GetJobsCuringRevisi', 'JobsController@GetJobsCuringRevisi');
+Route::get('GetJobsTowerErection', 'JobsController@GetJobsTowerErection');
+Route::get('GetJobsTowerErectionRevisi', 'JobsController@GetJobsTowerErectionRevisi');
+Route::get('GetJobsMEProcess', 'JobsController@GetJobsMEProcess');
+Route::get('GetJobsMEProcessRevisi', 'JobsController@GetJobsMEProcessRevisi');
+Route::get('GetJobsFenceYard', 'JobsController@GetJobsFenceYard');
+Route::get('GetJobsFenceYardRevisi', 'JobsController@GetJobsFenceYardRevisi');
+
+Route::get('GetJobsRfiBaut', 'JobsController@GetJobsRfiBaut');
+Route::get('GetJobsRfiBautRevisi', 'JobsController@GetJobsRfiBautRevisi');
+Route::get('GetJobsApprovalDocumentCME', 'JobsController@GetJobsApprovalDocumentCME');
+
+
+Route::get('GetJobsRfiDetailRevisi', 'JobsController@GetJobsRfiDetailRevisi');
+Route::get('GetJobsRfiDetail', 'JobsController@GetJobsRfiDetail');
+Route::get('GetJobsSubmitCME', 'JobsController@GetJobsSubmitCME');
+Route::get('GetJobsSubmitCMEApproval', 'JobsController@GetJobsSubmitCMEApproval');
 
  /* get jobs */
 
@@ -199,6 +221,7 @@ Route::get('GetInfratype', 'JobsController@GetInfratype');
  /* approval document */
   Route::post('ApprovalDocumentRegional', 'ApprovalController@approvalRegional');
   Route::post('ApprovalDocumentRegionalRFC', 'ApprovalController@approvalRFC');
+  Route::post('ApprovalDocumentRegionalCME', 'ApprovalController@approvalCME');
  /* approval document */
 
 
@@ -206,6 +229,7 @@ Route::get('GetInfratype', 'JobsController@GetInfratype');
    Route::post('DropProject', 'DropController@drop');
    Route::post('ApprovalDropSiteRegional', 'DropController@dropRegional');
    Route::post('DropProjectHQ', 'DropController@DropProjectHQ');
+   Route::post('DropProjectHaki', 'DropController@DropProjectHaki');
    Route::post('ApprovalDropSiteHQ', 'DropController@dropHQ');
  /* drop project */
 
@@ -245,8 +269,92 @@ Route::get('GetInfratype', 'JobsController@GetInfratype');
 
 
  /* excavation */
-  Route::post('AddDocumentExcavation', 'ExcavationController@AddDocumentExcavation');
+Route::post('AddDocumentExcavation', 'ExcavationController@AddDocumentExcavation');
+Route::post('DocumentExcavationPerbaikan', 'ExcavationController@DocumentExcavationPerbaikan');
+Route::post('RevisiDocumentExcavation', 'ExcavationController@RevisiDocumentExcavation');
  /* excavation */
+
+
+ /* Rebaring */
+Route::post('AddDocumentRebaring', 'RebaringController@AddDocumentRebaring');
+Route::post('DocumentRebaringPerbaikan', 'RebaringController@DocumentRebaringPerbaikan');
+Route::post('RevisiDocumentRebaring', 'RebaringController@RevisiDocumentRebaring');
+ /* Rebaring */
+
+
+
+ /* Pouring */
+Route::post('AddDocumentPouring', 'PouringController@AddDocumentPouring');
+Route::post('DocumentPouringPerbaikan', 'PouringController@DocumentPouringPerbaikan');
+Route::post('RevisiDocumentPouring', 'PouringController@RevisiDocumentPouring');
+ /* Pouring */
+
+
+
+
+ /* Curing */
+Route::post('AddDocumentCuring', 'CuringController@AddDocumentCuring');
+Route::post('DocumentCuringPerbaikan', 'CuringController@DocumentCuringPerbaikan');
+Route::post('RevisiDocumentCuring', 'CuringController@RevisiDocumentCuring');
+ /* Curing */
+
+
+
+ /* Tower Erection */
+Route::post('AddDocumentTowerErection', 'TowerErectionController@AddDocumentTowerErection');
+Route::post('DocumentTowerErectionPerbaikan', 'TowerErectionController@DocumentTowerErectionPerbaikan');
+Route::post('RevisiDocumentTowerErection', 'TowerErectionController@RevisiDocumentTowerErection');
+ /* Tower Erection */
+
+
+
+ /* M-E Process */
+Route::post('AddDocumentMEProcess', 'MEProcessController@AddDocumentMEProcess');
+Route::post('DocumentMEProcessPerbaikan', 'MEProcessController@DocumentMEProcessPerbaikan');
+Route::post('RevisiDocumentMEProcess', 'MEProcessController@RevisiDocumentMEProcess');
+ /* M-E Process */
+
+
+
+
+ /* FenceYard */
+Route::post('AddDocumentFenceYard', 'FenceYardController@AddDocumentFenceYard');
+Route::post('DocumentFenceYardPerbaikan', 'FenceYardController@DocumentFenceYardPerbaikan');
+Route::post('RevisiDocumentFenceYard', 'FenceYardController@RevisiDocumentFenceYard');
+ /* FenceYard */
+
+
+
+
+
+ /* RfiBaut */
+Route::post('AddDocumentRfiBaut', 'RfiBautController@AddDocumentRfiBaut');
+Route::post('DocumentRfiBautPerbaikan', 'RfiBautController@DocumentRfiBautPerbaikan');
+Route::post('RevisiDocumentCME', 'RfiBautController@RevisiDocumentCME');
+ /* RfiBaut */
+
+
+
+ /* CME */
+Route::post('uploadrfi_document', 'RfiBautController@uploadrfi_document');
+Route::post('uploadbaut_document', 'RfiBautController@uploadbaut_document');
+Route::post('uploadm_e_process_document', 'RfiBautController@uploadm_e_process_document');
+Route::post('uploadtower_erection_document', 'RfiBautController@uploadtower_erection_document');
+Route::post('uploadcuring_document', 'RfiBautController@uploadcuring_document');
+Route::post('uploadpouring_document', 'RfiBautController@uploadpouring_document');
+Route::post('uploadexcavation_document', 'RfiBautController@uploadexcavation_document');
+Route::post('uploaddocument_site_opening', 'RfiBautController@uploaddocument_site_opening');
+Route::post('ApprovedCMEMassal', 'RfiBautController@ApprovedCMEMassal');
+ /* CME */
+
+
+ /* RFI Detail */ 
+Route::post('AddDocumentRfiDetail', 'RfiDetailController@AddDocumentRfiDetail');
+Route::post('RevisiDocumentCMEDetail', 'RfiDetailController@RevisiDocumentCMEDetail');
+Route::post('SubmitCME', 'RfiDetailController@SubmitCME');
+Route::post('SubmitRFIDetailMassal', 'RfiDetailController@SubmitRFIDetailMassal');
+Route::post('ApprovalRfiDetail', 'RfiDetailController@ApprovalRfiDetail');
+ /* RFI Detail */
 
 
 

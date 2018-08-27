@@ -34,7 +34,7 @@
         <!-- main menu header-->
         <!-- Sidebar Header starts-->
         <div class="sidebar-header">
-          <div class="logo clearfix"><a href="/karyawan" class="logo-text float-left">
+          <div class="logo clearfix"><a href="/karyawan?#" class="logo-text float-left">
               <div class="logo-img">Dr</div> <span class="text align-middle">MARVEL</span></a><a id="sidebarToggle" href="javascript:;" class="nav-toggle d-none d-sm-none d-md-none d-lg-block"><i data-toggle="expanded" class="ft-toggle-left toggle-icon"></i></a><a id="sidebarClose" href="javascript:;" class="nav-close d-block d-md-block d-lg-none d-xl-none"><i class="ft-x"></i></a></div>
         </div>
         <!-- Sidebar Header Ends-->
@@ -50,24 +50,24 @@
 <!-- MENU -->
 
 
-<li class="nav-item"><a href="/karyawan?"><i class="ft-home"></i><span data-i18n="" class="menu-title">Dashboard</span></a></li>
+<li class="nav-item"><a href="/karyawan?#"><i class="ft-home"></i><span data-i18n="" class="menu-title">Dashboard</span></a></li>
 
 
 @if(Auth::guard('karyawan')->user()->level == 'REGIONAL' && Auth::guard('karyawan')->user()->posisi == 'AM SUPPORT')
 <li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">SIS</span></a>
                 <ul class="menu-content">
-<li><a onClick="window.location.replace('/karyawan#/documents-sis');window.location.reload();" class="menu-item">Input</a>
+<li><a onClick="window.location.replace('/karyawan?#/documents-sis');window.location.reload();" class="menu-item">Input</a>
                   </li>
-<li><a onClick="window.location.replace('/karyawan#/repair-documents-sis');window.location.reload();" class="menu-item">Revisi</a>
+<li><a onClick="window.location.replace('/karyawan?#/repair-documents-sis');window.location.reload();" class="menu-item">Revisi</a>
                   </li>           
 
                 </ul>
               </li>
               <li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">DRM</span></a>
                 <ul class="menu-content">
-<li><a onClick="window.location.replace('/karyawan#/documents-drm');window.location.reload();"  class="menu-item">Input</a>
+<li><a onClick="window.location.replace('/karyawan?#/documents-drm');window.location.reload();"  class="menu-item">Input</a>
                   </li>
-<li><a onClick="window.location.replace('/karyawan#/repair-documents-drm');window.location.reload();" class="menu-item">Revisi</a>
+<li><a onClick="window.location.replace('/karyawan?#/repair-documents-drm');window.location.reload();" class="menu-item">Revisi</a>
                   </li>           
 
                 </ul>
@@ -75,9 +75,9 @@
  
               <li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">SITAC</span></a>
                 <ul class="menu-content">
-<li><a onClick="window.location.replace('/karyawan#/documents-sitac');window.location.reload();" class="menu-item">Input</a>
+<li><a onClick="window.location.replace('/karyawan?#/documents-sitac');window.location.reload();" class="menu-item">Input</a>
                   </li>
-<li><a onClick="window.location.replace('/karyawan#/repair-documents-sitac');window.location.reload();" class="menu-item">Revisi</a>
+<li><a onClick="window.location.replace('/karyawan?#/repair-documents-sitac');window.location.reload();" class="menu-item">Revisi</a>
                   </li>           
 
                 </ul>
@@ -86,9 +86,9 @@
  
               <li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">RFC</span></a>
                 <ul class="menu-content">
-<li><a onClick="window.location.replace('/karyawan#/documents-rfc');window.location.reload();" class="menu-item">Input</a>
+<li><a onClick="window.location.replace('/karyawan?#/documents-rfc');window.location.reload();" class="menu-item">Input</a>
                   </li>
-<li><a onClick="window.location.replace('/karyawan#/repair-documents-rfc');window.location.reload();" class="menu-item">Revisi</a>
+<li><a onClick="window.location.replace('/karyawan?#/repair-documents-rfc');window.location.reload();" class="menu-item">Revisi</a>
                   </li>           
 
                 </ul>
@@ -101,8 +101,8 @@
 
 <li class="has-sub"><a href="#" class="menu-item">Site Opening</a>
                     <ul class="menu-content">
-<li><a onClick="window.location.replace('/karyawan#/site-opening-add');window.location.reload();" class="menu-item">Add</a></li>
-<li><a onClick="window.location.replace('/karyawan#/site-opening-revisi');window.location.reload();" class="menu-item">Revisi</a>
+<li><a onClick="window.location.replace('/karyawan?#/site-opening-add');window.location.reload();" class="menu-item">Add</a></li>
+<li><a onClick="window.location.replace('/karyawan?#/site-opening-revisi');window.location.reload();" class="menu-item">Revisi</a>
                       </li>
                     </ul>
                   </li>
@@ -110,19 +110,92 @@
  
 <li class="has-sub"><a href="#" class="menu-item">Excavation</a>
                     <ul class="menu-content">
-<li><a onClick="window.location.replace('/karyawan#/excavation-add');window.location.reload();" class="menu-item">Add</a></li>
-<li><a onClick="window.location.replace('/karyawan#/excavation-revisi');window.location.reload();" class="menu-item">Revisi</a>
+<li><a onClick="window.location.replace('/karyawan?#/excavation-add');window.location.reload();" class="menu-item">Add</a></li>
+<li><a onClick="window.location.replace('/karyawan?#/excavation-revisi');window.location.reload();" class="menu-item">Revisi</a>
                       </li>
                     </ul>
                   </li>
 
- 
+  
+<li class="has-sub"><a href="#" class="menu-item">Rebaring</a>
+                    <ul class="menu-content">
+<li><a onClick="window.location.replace('/karyawan?#/rebaring-add');window.location.reload();" class="menu-item">Add</a></li>
+<li><a onClick="window.location.replace('/karyawan?#/rebaring-revisi');window.location.reload();" class="menu-item">Revisi</a>
+                      </li>
+                    </ul>
+                  </li>
+
+  
+<li class="has-sub"><a href="#" class="menu-item">Pouring</a>
+                    <ul class="menu-content">
+<li><a onClick="window.location.replace('/karyawan?#/pouring-add');window.location.reload();" class="menu-item">Add</a></li>
+<li><a onClick="window.location.replace('/karyawan?#/pouring-revisi');window.location.reload();" class="menu-item">Revisi</a>
+                      </li>
+                    </ul>
+                  </li>
+
+
+<li class="has-sub"><a href="#" class="menu-item">Curing</a>
+                    <ul class="menu-content">
+<li><a onClick="window.location.replace('/karyawan?#/curing-add');window.location.reload();" class="menu-item">Add</a></li>
+<li><a onClick="window.location.replace('/karyawan?#/curing-revisi');window.location.reload();" class="menu-item">Revisi</a>
+                      </li>
+                    </ul>
+                  </li>
+
+
+
+
+<li class="has-sub"><a href="#" class="menu-item">Tower Erection</a>
+                    <ul class="menu-content">
+<li><a onClick="window.location.replace('/karyawan?#/tower-erection-add');window.location.reload();" class="menu-item">Add</a></li>
+<li><a onClick="window.location.replace('/karyawan?#/tower-erection-revisi');window.location.reload();" class="menu-item">Revisi</a>
+                      </li>
+                    </ul>
+                  </li>
+
+
+
+
+<li class="has-sub"><a href="#" class="menu-item">M-E Process</a>
+                    <ul class="menu-content">
+<li><a onClick="window.location.replace('/karyawan?#/m-e-process-add');window.location.reload();" class="menu-item">Add</a></li>
+<li><a onClick="window.location.replace('/karyawan?#/m-e-process-revisi');window.location.reload();" class="menu-item">Revisi</a>
+                      </li>
+                    </ul>
+                  </li>
+
+
+
+
+<li class="has-sub"><a href="#" class="menu-item">Fence & Yard</a>
+                    <ul class="menu-content">
+<li><a onClick="window.location.replace('/karyawan?#/fence-yard-add');window.location.reload();" class="menu-item">Add</a></li>
+<li><a onClick="window.location.replace('/karyawan?#/fence-yard-revisi');window.location.reload();" class="menu-item">Revisi</a>
+                      </li>
+                    </ul>
+                  </li>
+
+
+
+
+
+<li class="has-sub"><a href="#" class="menu-item">RFI & BAUT</a>
+                    <ul class="menu-content">
+<li><a onClick="window.location.replace('/karyawan?#/rfi-baut-add');window.location.reload();" class="menu-item">Add</a></li>
+<li><a onClick="window.location.replace('/karyawan?#/rfi-baut-revisi');window.location.reload();" class="menu-item">Revisi</a>
+                      </li>
+                    </ul>
+                  </li>
+
+
+
 
                 </ul>
               </li>
 
 
-<li class="nav-item"><a onClick="window.location.replace('/karyawan#/input-mapping-site');window.location.reload();"><i class="ft-shuffle"></i><span data-i18n="" class="menu-title">Input Mapping Site</span></a></li>
+<li class="nav-item"><a onClick="window.location.replace('/karyawan?#/input-mapping-site');window.location.reload();"><i class="ft-shuffle"></i><span data-i18n="" class="menu-title">Input Mapping Site</span></a></li>
  
  
 @endif
@@ -131,8 +204,8 @@
 @if(Auth::guard('karyawan')->user()->level == 'REGIONAL' && Auth::guard('karyawan')->user()->posisi == 'ACCOUNT MANAGER')
 <li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">SIS</span></a>
                 <ul class="menu-content">
-<li><a onClick="window.location.replace('/karyawan#/documents-sis');window.location.reload();" class="menu-item">Input</a></li>
-<li><a onClick="window.location.replace('/karyawan#/repair-documents-sis');window.location.reload();" class="menu-item">Revisi</a>
+<li><a onClick="window.location.replace('/karyawan?#/documents-sis');window.location.reload();" class="menu-item">Input</a></li>
+<li><a onClick="window.location.replace('/karyawan?#/repair-documents-sis');window.location.reload();" class="menu-item">Revisi</a>
                   </li>           
 
                 </ul>
@@ -140,9 +213,9 @@
 
               <li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">DRM</span></a>
                 <ul class="menu-content">
-<li><a onClick="window.location.replace('/karyawan#/documents-drm');window.location.reload();" class="menu-item">Input</a>
+<li><a onClick="window.location.replace('/karyawan?#/documents-drm');window.location.reload();" class="menu-item">Input</a>
                   </li>
-<li><a onClick="window.location.replace('/karyawan#/repair-documents-drm');window.location.reload();" class="menu-item">Revisi</a>
+<li><a onClick="window.location.replace('/karyawan?#/repair-documents-drm');window.location.reload();" class="menu-item">Revisi</a>
                   </li>           
 
                 </ul>
@@ -150,9 +223,9 @@
              
               <li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">SITAC</span></a>
                 <ul class="menu-content">
-<li><a onClick="window.location.replace('/karyawan#/documents-sitac');window.location.reload();" class="menu-item">Input</a>
+<li><a onClick="window.location.replace('/karyawan?#/documents-sitac');window.location.reload();" class="menu-item">Input</a>
                   </li>
-<li><a onClick="window.location.replace('/karyawan#/repair-documents-sitac');window.location.reload();" class="menu-item">Revisi</a>
+<li><a onClick="window.location.replace('/karyawan?#/repair-documents-sitac');window.location.reload();" class="menu-item">Revisi</a>
                   </li>           
 
                 </ul>
@@ -162,9 +235,9 @@
  
               <li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">RFC</span></a>
                 <ul class="menu-content">
-<li><a onClick="window.location.replace('/karyawan#/documents-rfc');window.location.reload();" class="menu-item">Input</a>
+<li><a onClick="window.location.replace('/karyawan?#/documents-rfc');window.location.reload();" class="menu-item">Input</a>
                   </li>
-<li><a onClick="window.location.replace('/karyawan#/repair-documents-rfc');window.location.reload();" class="menu-item">Revisi</a>
+<li><a onClick="window.location.replace('/karyawan?#/repair-documents-rfc');window.location.reload();" class="menu-item">Revisi</a>
                   </li>           
 
                 </ul>
@@ -178,41 +251,107 @@
 
 <li class="has-sub"><a href="#" class="menu-item">Site Opening</a>
                     <ul class="menu-content">
-<li><a onClick="window.location.replace('/karyawan#/site-opening-add');window.location.reload();" class="menu-item">Add</a></li>
-<li><a onClick="window.location.replace('/karyawan#/site-opening-revisi');window.location.reload();" class="menu-item">Revisi</a>
+<li><a onClick="window.location.replace('/karyawan?#/site-opening-add');window.location.reload();" class="menu-item">Add</a></li>
+<li><a onClick="window.location.replace('/karyawan?#/site-opening-revisi');window.location.reload();" class="menu-item">Revisi</a>
                       </li>
                     </ul>
                   </li>
 
 <li class="has-sub"><a href="#" class="menu-item">Excavation</a>
                     <ul class="menu-content">
-<li><a onClick="window.location.replace('/karyawan#/excavation-add');window.location.reload();" class="menu-item">Add</a></li>
-<li><a onClick="window.location.replace('/karyawan#/excavation-revisi');window.location.reload();" class="menu-item">Revisi</a>
+<li><a onClick="window.location.replace('/karyawan?#/excavation-add');window.location.reload();" class="menu-item">Add</a></li>
+<li><a onClick="window.location.replace('/karyawan?#/excavation-revisi');window.location.reload();" class="menu-item">Revisi</a>
                       </li>
                     </ul>
                   </li>
  
+<li class="has-sub"><a href="#" class="menu-item">Rebaring</a>
+                    <ul class="menu-content">
+<li><a onClick="window.location.replace('/karyawan?#/rebaring-add');window.location.reload();" class="menu-item">Add</a></li>
+<li><a onClick="window.location.replace('/karyawan?#/rebaring-revisi');window.location.reload();" class="menu-item">Revisi</a>
+                      </li>
+                    </ul>
+                  </li>
+   
+<li class="has-sub"><a href="#" class="menu-item">Pouring</a>
+                    <ul class="menu-content">
+<li><a onClick="window.location.replace('/karyawan?#/pouring-add');window.location.reload();" class="menu-item">Add</a></li>
+<li><a onClick="window.location.replace('/karyawan?#/pouring-revisi');window.location.reload();" class="menu-item">Revisi</a>
+                      </li>
+                    </ul>
+                  </li>
+
+
+<li class="has-sub"><a href="#" class="menu-item">Curing</a>
+                    <ul class="menu-content">
+<li><a onClick="window.location.replace('/karyawan?#/curing-add');window.location.reload();" class="menu-item">Add</a></li>
+<li><a onClick="window.location.replace('/karyawan?#/curing-revisi');window.location.reload();" class="menu-item">Revisi</a>
+                      </li>
+                    </ul>
+                  </li>
+
+
+
+<li class="has-sub"><a href="#" class="menu-item">Tower Erection</a>
+                    <ul class="menu-content">
+<li><a onClick="window.location.replace('/karyawan?#/tower-erection-add');window.location.reload();" class="menu-item">Add</a></li>
+<li><a onClick="window.location.replace('/karyawan?#/tower-erection-revisi');window.location.reload();" class="menu-item">Revisi</a>
+                      </li>
+                    </ul>
+                  </li>
+
+
+<li class="has-sub"><a href="#" class="menu-item">M-E Process</a>
+                    <ul class="menu-content">
+<li><a onClick="window.location.replace('/karyawan?#/m-e-process-add');window.location.reload();" class="menu-item">Add</a></li>
+<li><a onClick="window.location.replace('/karyawan?#/m-e-process-revisi');window.location.reload();" class="menu-item">Revisi</a>
+                      </li>
+                    </ul>
+                  </li>
+
+
+
+<li class="has-sub"><a href="#" class="menu-item">Fence & Yard</a>
+                    <ul class="menu-content">
+<li><a onClick="window.location.replace('/karyawan?#/fence-yard-add');window.location.reload();" class="menu-item">Add</a></li>
+<li><a onClick="window.location.replace('/karyawan?#/fence-yard-revisi');window.location.reload();" class="menu-item">Revisi</a>
+                      </li>
+                    </ul>
+                  </li>
+
+
+
+<li class="has-sub"><a href="#" class="menu-item">RFI & BAUT</a>
+                    <ul class="menu-content">
+<li><a onClick="window.location.replace('/karyawan?#/rfi-baut-add');window.location.reload();" class="menu-item">Add</a></li>
+<li><a onClick="window.location.replace('/karyawan?#/rfi-baut-revisi');window.location.reload();" class="menu-item">Revisi</a>
+                      </li>
+                    </ul>
+                  </li>
+
+
 
                 </ul>
               </li>
 
 
-<li class="nav-item"><a onClick="window.location.replace('/karyawan#/input-mapping-site');window.location.reload();"><i class="ft-shuffle"></i><span data-i18n="" class="menu-title">Input Mapping Site</span></a></li>
+<li class="nav-item"><a onClick="window.location.replace('/karyawan?#/input-mapping-site');window.location.reload();"><i class="ft-shuffle"></i><span data-i18n="" class="menu-title">Input Mapping Site</span></a></li>
  
                
-<li class="nav-item"><a onClick="window.location.replace('/karyawan#/user-access-for-regional-account-manager');window.location.reload();"><i class="icon-user-following"></i><span data-i18n="" class="menu-title">User Akses</span></a></li>
+<li class="nav-item"><a onClick="window.location.replace('/karyawan?#/user-access-for-regional-account-manager');window.location.reload();"><i class="icon-user-following"></i><span data-i18n="" class="menu-title">User Akses</span></a></li>
 @endif
 
 @if(Auth::guard('karyawan')->user()->level == 'REGIONAL' && Auth::guard('karyawan')->user()->posisi == 'MANAGER MARKETING')
-<li class="nav-item"><a onClick="window.location.replace('/karyawan#/approval-documents-sis');window.location.reload();"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Approval SIS</span></a></li>
-<li class="nav-item"><a onClick="window.location.replace('/karyawan#/approval-documents-drm');window.location.reload();"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Approval DRM</span></a></li>
-<li class="nav-item"><a onClick="window.location.replace('/karyawan#/approval-documents-sitac');window.location.reload();"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Approval SITAC</span></a></li>
-<li class="nav-item"><a onClick="window.location.replace('/karyawan#/approval-documents-rfc');window.location.reload();"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Approval RFC</span></a></li>
-<li class="nav-item"><a onClick="window.location.replace('/karyawan#/approval-drop-project');window.location.reload();"><i class="ft-trash-2"></i><span data-i18n="" class="menu-title">Approval Drop</span></a></li>
-<li class="nav-item"><a onClick="window.location.replace('/karyawan#/approval-mapping-site');window.location.reload();"><i class="ft-shuffle"></i><span data-i18n="" class="menu-title">Approval Mapping Site</span></a></li>
+<li class="nav-item"><a onClick="window.location.replace('/karyawan?#/approval-documents-sis');window.location.reload();"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Approval SIS</span></a></li>
+<li class="nav-item"><a onClick="window.location.replace('/karyawan?#/approval-documents-drm');window.location.reload();"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Approval DRM</span></a></li>
+<li class="nav-item"><a onClick="window.location.replace('/karyawan?#/approval-documents-sitac');window.location.reload();"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Approval SITAC</span></a></li>
+<li class="nav-item"><a onClick="window.location.replace('/karyawan?#/approval-documents-rfc');window.location.reload();"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Approval RFC</span></a></li>
+<li class="nav-item"><a onClick="window.location.replace('/karyawan?#/approval-cme');window.location.reload();"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Approval CME</span></a></li>
+<li class="nav-item"><a onClick="window.location.replace('/karyawan?#/approval-drop-project');window.location.reload();"><i class="ft-trash-2"></i><span data-i18n="" class="menu-title">Approval Drop</span></a></li>
+<li class="nav-item"><a onClick="window.location.replace('/karyawan?#/approval-mapping-site');window.location.reload();"><i class="ft-shuffle"></i><span data-i18n="" class="menu-title">Approval Mapping Site</span></a></li>
    
 
-<li class="nav-item"><a onClick="window.location.replace('/karyawan#/user-access-for-regional');window.location.reload();"><i class="icon-user-following"></i><span data-i18n="" class="menu-title">User Akses</span></a></li>
+<li class="nav-item"><a onClick="window.location.replace('/karyawan?#/user-access-for-regional');window.location.reload();"><i class="icon-user-following"></i><span data-i18n="" class="menu-title">User Akses</span></a></li>
 @endif
 
 
@@ -220,13 +359,13 @@
 @if(Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'ACCOUNT MANAGER')
 <li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">BOQ</span></a>
                 <ul class="menu-content">
-<li><a onClick="window.location.replace('/karyawan#/boq-input');window.location.reload();" class="menu-item">Add</a></li>
-<li><a onClick="window.location.replace('/karyawan#/boq-submit');window.location.reload();" class="menu-item">Submit</a></li>           
-<li><a onClick="window.location.replace('/karyawan#/boq-repair');window.location.reload();" class="menu-item">Repair</a></li>           
-<li><a onClick="window.location.replace('/karyawan#/boq-approved');window.location.reload();" class="menu-item">Cetak BOQ</a></li>           
-<li><a onClick="window.location.replace('/karyawan#/boq-verifikasi');window.location.reload();" class="menu-item">BOQ Verifikasi</a></li>           
-<li><a onClick="window.location.replace('/karyawan#/boq-proses-pr');window.location.reload();" class="menu-item">BOQ Proses PR</a></li>           
-<li><a onClick="window.location.replace('/karyawan#/boq-po-release');window.location.reload();" class="menu-item">BOQ PO Release</a></li>           
+<li><a onClick="window.location.replace('/karyawan?#/boq-input');window.location.reload();" class="menu-item">Add</a></li>
+<li><a onClick="window.location.replace('/karyawan?#/boq-submit');window.location.reload();" class="menu-item">Submit</a></li>           
+<li><a onClick="window.location.replace('/karyawan?#/boq-repair');window.location.reload();" class="menu-item">Repair</a></li>           
+<li><a onClick="window.location.replace('/karyawan?#/boq-approved');window.location.reload();" class="menu-item">Cetak BOQ</a></li>           
+<li><a onClick="window.location.replace('/karyawan?#/boq-verifikasi');window.location.reload();" class="menu-item">BOQ Verifikasi</a></li>           
+<li><a onClick="window.location.replace('/karyawan?#/boq-proses-pr');window.location.reload();" class="menu-item">BOQ Proses PR</a></li>           
+<li><a onClick="window.location.replace('/karyawan?#/boq-po-release');window.location.reload();" class="menu-item">BOQ PO Release</a></li>           
 
                 </ul>
               </li>              
@@ -234,18 +373,52 @@
 
 
 
-@if(Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'MANAGER')
-<li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">BOQ</span></a>
+@if(Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'HAKI - ACCOUNT MANAGER')
+
+<li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">RFI Detail</span></a>
                 <ul class="menu-content">
-<li><a onClick="window.location.replace('/karyawan#/approval-boq');window.location.reload();"  class="menu-item">Approval</a>
-<li><a onClick="window.location.replace('/karyawan#/boq-approved');window.location.reload();"  class="menu-item">Cetak BOQ</a></li>  
+<li><a onClick="window.location.replace('/karyawan?#/cme-rfi-detail');window.location.reload();"  class="menu-item">Add </a> 
+                  </li>         
+
+<li><a onClick="window.location.replace('/karyawan?#/cme-rfi-revisi');window.location.reload();"  class="menu-item">Revisi </a> 
+                  </li>         
+
+                </ul>
+              </li>
+<li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">CME</span></a>
+                <ul class="menu-content"> 
+<li><a onClick="window.location.replace('/karyawan?#/cme-submit');window.location.reload();"  class="menu-item">Submit CME</a></li>  
+<li><a onClick="window.location.replace('/karyawan?#/cme-data');window.location.reload();"  class="menu-item">Cetak CME</a></li>  
+<li><a onClick="window.location.replace('/karyawan?#/cme-accrual');window.location.reload();"  class="menu-item">CME Accrual</a></li>  
+<li><a onClick="window.location.replace('/karyawan?#/cme-accrued');window.location.reload();"  class="menu-item">CME Accrued</a></li>  
                   </li>         
 
                 </ul>
               </li>
 
-<li class="nav-item"><a onClick="window.location.replace('/karyawan#/approval-drop-project-hq');window.location.reload();"><i class="ft-check"></i><span data-i18n="" class="menu-title">Drop Approval</span></a></li>              
-<li class="nav-item"><a onClick="window.location.replace('/karyawan#/user-access-for-hq');window.location.reload();"><i class="icon-user-following"></i><span data-i18n="" class="menu-title">User Akses</span></a></li>              
+@endif
+
+
+@if(Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'HAKI - MANAGER')
+<li class="nav-item"><a onClick="window.location.replace('/karyawan?#/approval-documents-rfi-haki');window.location.reload();"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Approval RFI</span></a></li>
+
+@endif
+
+
+
+
+@if(Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'MANAGER')
+<li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">BOQ</span></a>
+                <ul class="menu-content">
+<li><a onClick="window.location.replace('/karyawan?#/approval-boq');window.location.reload();"  class="menu-item">Approval</a>
+<li><a onClick="window.location.replace('/karyawan?#/boq-approved');window.location.reload();"  class="menu-item">Cetak BOQ</a></li>  
+                  </li>         
+
+                </ul>
+              </li>
+
+<li class="nav-item"><a onClick="window.location.replace('/karyawan?#/approval-drop-project-hq');window.location.reload();"><i class="ft-check"></i><span data-i18n="" class="menu-title">Drop Approval</span></a></li>              
+<li class="nav-item"><a onClick="window.location.replace('/karyawan?#/user-access-for-hq');window.location.reload();"><i class="icon-user-following"></i><span data-i18n="" class="menu-title">User Akses</span></a></li>              
 @endif
 
 
@@ -255,9 +428,9 @@
 @if(Auth::guard('karyawan')->user()->level == 'ADMINISTRATOR')
 <li class="has-sub nav-item"><a href="#"><i class="ft-users"></i><span data-i18n="" class="menu-title">Root</span></a>
                 <ul class="menu-content">
-<li><a onClick="window.location.replace('/karyawan#/user-access');window.location.reload();" class="menu-item">Akses User</a>
+<li><a onClick="window.location.replace('/karyawan?#/user-access');window.location.reload();" class="menu-item">Akses User</a>
                   </li>
-<li><a onClick="window.location.replace('/karyawan#/list-project');window.location.reload();"  class="menu-item">Project</a>
+<li><a onClick="window.location.replace('/karyawan?#/list-project');window.location.reload();"  class="menu-item">Project</a>
                   </li>           
 
                 </ul>
@@ -265,7 +438,7 @@
 @endif
 
 
- <li class="nav-item"><a onClick="window.location.replace('/karyawan#/tracking-site');window.location.reload();"><i class="ft-radio font-medium-3"></i><span data-i18n="" class="menu-title">Tracking Site</span> </a></li>
+ <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/tracking-site');window.location.reload();"><i class="ft-radio font-medium-3"></i><span data-i18n="" class="menu-title">Tracking Site</span> </a></li>
 
 
    <li class="has-sub nav-item"><a href="#"><i class="ft-activity
@@ -274,8 +447,8 @@
           @foreach ($tahunproject as $thn)
 <li class="has-sub"><a href="#" class="menu-item">{{$thn->years}}</a>
                     <ul class="menu-content">
-<li><a onClick="window.location.replace('/karyawan#/project-history/{{$thn->years}}');window.location.reload();" class="menu-item">Chart</a></li>
-<li><a onClick="window.location.replace('/karyawan#/project-history-data/{{$thn->years}}');window.location.reload();" class="menu-item">Data</a>
+<li><a onClick="window.location.replace('/karyawan?#/project-history/{{$thn->years}}');window.location.reload();" class="menu-item">Chart</a></li>
+<li><a onClick="window.location.replace('/karyawan?#/project-history-data/{{$thn->years}}');window.location.reload();" class="menu-item">Data</a>
                       </li>
                     </ul>
                   </li>
@@ -287,19 +460,19 @@
 
    <li class="has-sub nav-item"><a href="#"><i class="ft-rotate-cw font-medium-3"></i><span data-i18n="" class="menu-title">History</span></a>
                 <ul class="menu-content">
-<li><a onClick="window.location.replace('/karyawan#/history-drop-site');window.location.reload();" class="menu-item">Drop</a>
+<li><a onClick="window.location.replace('/karyawan?#/history-drop-site');window.location.reload();" class="menu-item">Drop</a>
                   </li>
-<li><a onClick="window.location.replace('/karyawan#/history-mapping-site');window.location.reload();" class="menu-item">Mapping Site</a>
+<li><a onClick="window.location.replace('/karyawan?#/history-mapping-site');window.location.reload();" class="menu-item">Mapping Site</a>
                   </li>           
 
                 </ul>
               </li>
               
- <li class="nav-item"><a onClick="window.location.replace('/karyawan#/list-notifications');window.location.reload();"><i class="ft-bell font-medium-3"></i><span data-i18n="" class="menu-title">Notifikasi</span> </a></li> 
+ <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/list-notifications');window.location.reload();"><i class="ft-bell font-medium-3"></i><span data-i18n="" class="menu-title">Notifikasi</span> </a></li> 
  <li class="nav-item"><a id="navbar-fullscreen" href="javascript:;" class="nav-link apptogglefullscreen"><i class="ft-maximize font-medium-3"></i><span data-i18n="" class="menu-title">Fullscreen</span> </a></li>
 <li class="has-sub nav-item"><a href="#"><i class="ft-user"></i><span data-i18n="" class="menu-title">User</span></a>
                 <ul class="menu-content">
-<li><a onClick="window.location.replace('/karyawan#/KProfile');window.location.reload();" class="menu-item">Profil</a>
+<li><a onClick="window.location.replace('/karyawan?#/KProfile');window.location.reload();" class="menu-item">Profil</a>
                   </li>
 <li><a onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="menu-item">Sign Out</a>
                   </li>

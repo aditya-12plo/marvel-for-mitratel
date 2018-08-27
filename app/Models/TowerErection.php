@@ -9,7 +9,7 @@ class TowerErection extends Model
 
     protected $table = 'tower_erection';
     protected $primaryKey = 'id';
-    protected $fillable = array('tower_erection_date','tower_erection_document');
+    protected $fillable = array('project_id','tower_erection_date','tower_erection_document');
     public $timestamps = true;
 
 
