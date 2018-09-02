@@ -294,9 +294,7 @@ $valid = $this->validate($request, [
         'email' => 'required|max:255|unique:users,email',
         'password' => 'required|max:255',
         'level' => 'in:REGIONAL,HQ',
-        'posisi' => 'in:AM SUPPORT,ACCOUNT MANAGER,MANAGER MARKETING,MANAGER,HAKI - ACCOUNT MANAGER,HAKI - MANAGER',
-        'area' => 'in:1,2,3,4',
-        'area2' => 'in:1,2,3,4',
+        'posisi' => 'in:AM SUPPORT,ACCOUNT MANAGER,MANAGER MARKETING,MANAGER,HAKI - ACCOUNT MANAGER,HAKI - MANAGER,BISNIS', 
     ]);
 if (!$valid)
     {
@@ -343,6 +341,15 @@ Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>
 return response()->json(['success'=>'Add Successfully']);
 } 
 }
+else
+{ 
+
+$masuk = array('name' => $request->name, 'email' => $request->email , 'password' => Hash::make($request->password) , 'level' => $request->level ,'posisi' =>$request->posisi, 'area' => null, 'area2' => null, 'regional' =>  null); 
+$masukdb = User::create($masuk); 
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'users' ,'action' => 'insert', 'data' => json_encode($masuk)]);
+return response()->json(['success'=>'Add Successfully']);
+ 
+}
 
 
     }
@@ -369,8 +376,7 @@ $valid = $this->validate($request, [
         'name' => 'required|max:255',
         'email' => 'required|max:255|unique:users,email,'.$id,
         'level' => 'in:REGIONAL,HQ',
-        'posisi' => 'in:AM SUPPORT,ACCOUNT MANAGER,MANAGER MARKETING,MANAGER',
-        'area' => 'in:1,2,3,4',
+        'posisi' => 'in:AM SUPPORT,ACCOUNT MANAGER,MANAGER MARKETING,MANAGER,HAKI - ACCOUNT MANAGER,HAKI - MANAGER,BISNIS', 
     ]);
     }
     else
@@ -380,8 +386,7 @@ $valid = $this->validate($request, [
         'email' => 'required|max:255|unique:users,email,'.$id,
         'password' => 'required|max:255',
         'level' => 'in:REGIONAL,HQ',
-        'posisi' => 'in:AM SUPPORT,ACCOUNT MANAGER,MANAGER MARKETING,MANAGER',
-        'area' => 'in:1,2,3,4',
+        'posisi' => 'in:AM SUPPORT,ACCOUNT MANAGER,MANAGER MARKETING,MANAGER,HAKI - ACCOUNT MANAGER,HAKI - MANAGER,BISNIS', 
     ]);
     }
 if (!$valid)

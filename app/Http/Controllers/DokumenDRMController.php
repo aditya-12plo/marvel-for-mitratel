@@ -78,7 +78,7 @@ $extensiondrm  = Input::file('document_drm')->getClientOriginalExtension();
         $filedrm = Input::file('document_drm');
          $extension  = Input::file('document_kom')->getClientOriginalExtension(); 
          $extensiondrm  = Input::file('document_drm')->getClientOriginalExtension(); 
-if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf' || $filedrm->getSize() <= 10000000 && $filedrm->getClientMimeType() == 'application/pdf')
+if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf' && $filedrm->getSize() <= 10000000 && $filedrm->getClientMimeType() == 'application/pdf')
 {
      $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path
      $fileName   = Input::get('projectid').'-document-kom-'.time().'.'.$extension; 
@@ -238,7 +238,7 @@ if (!$valid)
         $filedrm = Input::file('document_drm');
          $extension  = Input::file('document_kom')->getClientOriginalExtension(); 
          $extensiondrm  = Input::file('document_drm')->getClientOriginalExtension(); 
-if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf' || $filedrm->getSize() <= 10000000 && $filedrm->getClientMimeType() == 'application/pdf')
+if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf' && $filedrm->getSize() <= 10000000 && $filedrm->getClientMimeType() == 'application/pdf')
 {
      $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path
      $fileName   = Input::get('projectid').'-document-kom-'.time().'.'.$extension; 
@@ -320,7 +320,7 @@ if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/p
      $fileNameDRM   = Input::get('projectid').'-document-drm-'.time().'.'.$extensiondrm; 
 
 
-       if(file_exists($destinationPath.$fileName) || file_exists($destinationPath.$fileNameDRM))
+       if(file_exists($destinationPath.$fileName) && file_exists($destinationPath.$fileNameDRM))
     {
 File::delete($destinationPath .$fileName);
 File::delete($destinationPath .$fileNameDRM);

@@ -91,6 +91,7 @@ Route::post('password/reset', 'Karyawan\Auth\ResetPasswordController@reset')->na
    Route::get('GetJobsRevisiDocumentRFC', 'JobsController@GetJobsRevisiDocumentRFC');
    Route::get('GetJobsBOQ', 'JobsController@GetJobsBOQ');
    Route::get('GetJobsBOQApproval', 'JobsController@GetJobsBOQApproval');
+   Route::get('GetJobsPO', 'JobsController@GetJobsPO');
    
    Route::get('GetJobsApprovalDrop', 'JobsController@GetJobsApprovalDrop');
 
@@ -147,6 +148,18 @@ Route::get('GetJobsRfiDetailRevisi', 'JobsController@GetJobsRfiDetailRevisi');
 Route::get('GetJobsRfiDetail', 'JobsController@GetJobsRfiDetail');
 Route::get('GetJobsSubmitCME', 'JobsController@GetJobsSubmitCME');
 Route::get('GetJobsSubmitCMEApproval', 'JobsController@GetJobsSubmitCMEApproval');
+Route::get('GetDetailProjectCME/{id}', 'JobsController@GetDetailProjectCME');
+Route::get('GetJobsApprovalDocumentCMESubmit', 'JobsController@GetJobsApprovalDocumentCMESubmit');
+Route::get('GetJobsApprovalDocumentCMESubmitRevisi', 'JobsController@GetJobsApprovalDocumentCMESubmitRevisi');
+Route::get('GetJobsApprovedDocumentCME', 'JobsController@GetJobsApprovedDocumentCME');
+Route::get('GetJobsSubmitCMERevisian/{id}/hasil', 'JobsController@GetJobsSubmitCMERevisian');
+Route::get('GetJobsApprovedDocumentCMEToAccrued', 'JobsController@GetJobsApprovedDocumentCMEToAccrued');
+Route::get('GetJobsApprovedDocumentCMEAccruedData', 'JobsController@GetJobsApprovedDocumentCMEAccruedData');
+Route::get('GetJobsDocumentBaksBauk', 'JobsController@GetJobsDocumentBaksBauk');
+Route::get('GetJobsApprovalDocumentBaksBauk', 'JobsController@GetJobsApprovalDocumentBaksBauk');
+Route::get('GetJobsDocumentBaksBaukRevisi', 'JobsController@GetJobsDocumentBaksBaukRevisi');
+Route::get('GetJobsDocumentBoqBaps', 'JobsController@GetJobsDocumentBoqBaps');
+Route::get('GetJobsDocumentBoqBapsRevisi', 'JobsController@GetJobsDocumentBoqBapsRevisi');
 
  /* get jobs */
 
@@ -261,6 +274,11 @@ Route::get('GetInfratype', 'JobsController@GetInfratype');
  /* boq */
 
 
+ /* po */
+ Route::post('AddPO', 'POController@AddPO');
+ /* po */
+
+
  /* site opening */
   Route::post('AddDocumentSiteOpening', 'SiteOpeningController@AddDocumentSiteOpening');
   Route::post('DocumentSiteOpeningPerbaikan', 'SiteOpeningController@DocumentSiteOpeningPerbaikan');
@@ -327,15 +345,15 @@ Route::post('RevisiDocumentFenceYard', 'FenceYardController@RevisiDocumentFenceY
 
 
 
- /* RfiBaut */
+ /* Rfi Baut */
 Route::post('AddDocumentRfiBaut', 'RfiBautController@AddDocumentRfiBaut');
 Route::post('DocumentRfiBautPerbaikan', 'RfiBautController@DocumentRfiBautPerbaikan');
 Route::post('RevisiDocumentCME', 'RfiBautController@RevisiDocumentCME');
- /* RfiBaut */
+ /* Rfi Baut */
 
 
 
- /* CME */
+ /* repair data haki */
 Route::post('uploadrfi_document', 'RfiBautController@uploadrfi_document');
 Route::post('uploadbaut_document', 'RfiBautController@uploadbaut_document');
 Route::post('uploadm_e_process_document', 'RfiBautController@uploadm_e_process_document');
@@ -345,7 +363,8 @@ Route::post('uploadpouring_document', 'RfiBautController@uploadpouring_document'
 Route::post('uploadexcavation_document', 'RfiBautController@uploadexcavation_document');
 Route::post('uploaddocument_site_opening', 'RfiBautController@uploaddocument_site_opening');
 Route::post('ApprovedCMEMassal', 'RfiBautController@ApprovedCMEMassal');
- /* CME */
+ /* repair data haki */
+
 
 
  /* RFI Detail */ 
@@ -357,6 +376,31 @@ Route::post('ApprovalRfiDetail', 'RfiDetailController@ApprovalRfiDetail');
  /* RFI Detail */
 
 
+ /* CME */
+Route::post('SubmitCMEAccrual', 'RfiDetailController@SubmitCMEAccrual');
+Route::post('CancelCMEAccrual', 'RfiDetailController@CancelCMEAccrual');
+Route::post('UpdateCMEAccrualRevisi', 'RfiDetailController@UpdateCMEAccrualRevisi');
+Route::post('UpdateCMEAccrual', 'RfiDetailController@UpdateCMEAccrual');
+Route::post('ApprovalDocumentCMEManagerHaki', 'RfiDetailController@ApprovalDocumentCMEManagerHaki');
+Route::post('SubmitCMEToAccrued', 'RfiDetailController@SubmitCMEToAccrued');
+Route::get('GetCMEAccruedData/{id}', 'RfiDetailController@GetCMEAccruedData');
+Route::get('GetCMEAccruedDataNya/{id}', 'RfiDetailController@GetCMEAccruedDataNya');
+ /* CME */
+
+
+ /* BAKS BAUK */
+ Route::post('AddDocumentBaksBauk', 'BaksBaukController@AddDocumentBaksBauk');
+ Route::post('uploaddokumenBaks', 'BaksBaukController@uploaddokumenBaks');
+ Route::post('uploaddokumenWctr', 'BaksBaukController@uploaddokumenWctr');
+ Route::post('uploaddokumenBoqProject', 'BaksBaukController@uploaddokumenBoqProject');
+ Route::post('uploaddokumenRfiCertificate', 'BaksBaukController@uploaddokumenRfiCertificate');
+ Route::post('RevisiDocumentBaksBauk', 'BaksBaukController@RevisiDocumentBaksBauk');
+ /* BAKS BAUK */
+
+/* BOQ BAPS */
+ Route::post('AddDocumentBoqBaps', 'BoqBapsController@AddDocumentBoqBaps');
+ Route::post('RevisiDocumentBoqBaps', 'BoqBapsController@RevisiDocumentBoqBaps');
+/* BOQ BAPS */
 
 
 
@@ -389,6 +433,9 @@ Route::get('GetAllDetailProject/{id}', 'ProjectController@GetAllDetailProject');
 
  /* download file */
  Route::post('DownloadExcelTracking', 'DownloadController@DownloadExcelTracking');
+ Route::post('printHaki', 'DownloadController@printHaki');
+ Route::post('printHakiAccrual', 'DownloadController@printHakiAccrual');
+ Route::post('printHakiAccrued', 'DownloadController@printHakiAccrued');
  /* download file */
 
 

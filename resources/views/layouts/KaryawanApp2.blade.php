@@ -195,6 +195,15 @@
               </li>
 
 
+              <li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">BAKS-BAUK</span></a>
+                <ul class="menu-content">
+<li><a onClick="window.location.replace('/karyawan?#/documents-baks-bauk');window.location.reload();" class="menu-item">Input</a>
+                  </li>
+<li><a onClick="window.location.replace('/karyawan?#/repair-documents-baks-bauk');window.location.reload();" class="menu-item">Revisi</a>
+                  </li>           
+
+                </ul>
+              </li>
 <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/input-mapping-site');window.location.reload();"><i class="ft-shuffle"></i><span data-i18n="" class="menu-title">Input Mapping Site</span></a></li>
  
  
@@ -335,6 +344,16 @@
               </li>
 
 
+              <li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">BAKS-BAUK</span></a>
+                <ul class="menu-content">
+<li><a onClick="window.location.replace('/karyawan?#/documents-baks-bauk');window.location.reload();" class="menu-item">Input</a>
+                  </li>
+<li><a onClick="window.location.replace('/karyawan?#/repair-documents-baks-bauk');window.location.reload();" class="menu-item">Revisi</a>
+                  </li>           
+
+                </ul>
+              </li>
+
 <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/input-mapping-site');window.location.reload();"><i class="ft-shuffle"></i><span data-i18n="" class="menu-title">Input Mapping Site</span></a></li>
  
                
@@ -346,7 +365,8 @@
 <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/approval-documents-drm');window.location.reload();"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Approval DRM</span></a></li>
 <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/approval-documents-sitac');window.location.reload();"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Approval SITAC</span></a></li>
 <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/approval-documents-rfc');window.location.reload();"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Approval RFC</span></a></li>
-<li class="nav-item"><a onClick="window.location.replace('/karyawan?#/approval-cme');window.location.reload();"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Approval CME</span></a></li>
+<li class="nav-item"><a onClick="window.location.replace('/karyawan?#/rfi-baut-approval');window.location.reload();"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Approval RFI & BAUT</span></a></li>
+<li class="nav-item"><a onClick="window.location.replace('/karyawan?#/documents-baks-bauk-approval');window.location.reload();"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Approval BAKS-BAUK</span></a></li>
 <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/approval-drop-project');window.location.reload();"><i class="ft-trash-2"></i><span data-i18n="" class="menu-title">Approval Drop</span></a></li>
 <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/approval-mapping-site');window.location.reload();"><i class="ft-shuffle"></i><span data-i18n="" class="menu-title">Approval Mapping Site</span></a></li>
    
@@ -366,6 +386,12 @@
 <li><a onClick="window.location.replace('/karyawan?#/boq-verifikasi');window.location.reload();" class="menu-item">BOQ Verifikasi</a></li>           
 <li><a onClick="window.location.replace('/karyawan?#/boq-proses-pr');window.location.reload();" class="menu-item">BOQ Proses PR</a></li>           
 <li><a onClick="window.location.replace('/karyawan?#/boq-po-release');window.location.reload();" class="menu-item">BOQ PO Release</a></li>           
+
+                </ul>
+              </li>  
+<li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">PO</span></a>
+                <ul class="menu-content">
+<li><a onClick="window.location.replace('/karyawan?#/po-input');window.location.reload();" class="menu-item">Add</a></li>           
 
                 </ul>
               </li>              
@@ -388,7 +414,8 @@
 <li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">CME</span></a>
                 <ul class="menu-content"> 
 <li><a onClick="window.location.replace('/karyawan?#/cme-submit');window.location.reload();"  class="menu-item">Submit CME</a></li>  
-<li><a onClick="window.location.replace('/karyawan?#/cme-data');window.location.reload();"  class="menu-item">Cetak CME</a></li>  
+<li><a onClick="window.location.replace('/karyawan?#/cme-revisi');window.location.reload();"  class="menu-item">Revisi CME</a></li>  
+<li><a onClick="window.location.replace('/karyawan?#/print-cme');window.location.reload();"  class="menu-item">Cetak CME</a></li>  
 <li><a onClick="window.location.replace('/karyawan?#/cme-accrual');window.location.reload();"  class="menu-item">CME Accrual</a></li>  
 <li><a onClick="window.location.replace('/karyawan?#/cme-accrued');window.location.reload();"  class="menu-item">CME Accrued</a></li>  
                   </li>         
@@ -401,7 +428,15 @@
 
 @if(Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'HAKI - MANAGER')
 <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/approval-documents-rfi-haki');window.location.reload();"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Approval RFI</span></a></li>
-
+ 
+<li class="has-sub"><a href="#" class="menu-item"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title"> CME</a>
+                    <ul class="menu-content">
+<li><a onClick="window.location.replace('/karyawan?#/approval-cme');window.location.reload();" class="menu-item">Approval</a></li>
+<li><a onClick="window.location.replace('/karyawan?#/print-cme');window.location.reload();" class="menu-item">Cetak</a>
+  <li><a onClick="window.location.replace('/karyawan?#/cme-accrued');window.location.reload();"  class="menu-item">CME Accrued</a></li> 
+                      </li>
+                    </ul>
+                  </li>
 @endif
 
 
@@ -421,6 +456,21 @@
 <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/user-access-for-hq');window.location.reload();"><i class="icon-user-following"></i><span data-i18n="" class="menu-title">User Akses</span></a></li>              
 @endif
 
+
+
+
+
+@if(Auth::guard('karyawan')->user()->posisi == 'BISNIS')
+<li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">BOQ BAPS</span></a>
+                <ul class="menu-content">
+<li><a onClick="window.location.replace('/karyawan?#/documents-boq-baps');window.location.reload();" class="menu-item">Add</a>
+                  </li>
+<li><a onClick="window.location.replace('/karyawan?#/documents-boq-baps-revisi');window.location.reload();"  class="menu-item">Revisi</a>
+                  </li>           
+
+                </ul>
+              </li>
+@endif
 
 
 

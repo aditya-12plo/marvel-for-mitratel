@@ -316,15 +316,22 @@ export default {
           dataClass: 'text-center'
         },
         {
-          name: 'harga_bulan',
+          name: 'rfi_detail_price_month',
       title: 'Sewa / Bulan',
           titleClass: 'text-center',
           dataClass: 'text-center',
           callback: 'formatNumberRupiah'
         },
         {
-          name: 'harga_tahun',
+          name: 'rfi_detail_price_year',
       title: 'Sewa / Tahun',
+          titleClass: 'text-center',
+          dataClass: 'text-center',
+          callback: 'formatNumberRupiah'
+        },
+        {
+          name: 'nilai_revenue',
+      title: 'Nilai Revenue',
           titleClass: 'text-center',
           dataClass: 'text-center',
           callback: 'formatNumberRupiah'

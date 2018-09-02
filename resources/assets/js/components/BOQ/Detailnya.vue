@@ -8,7 +8,6 @@
       Project Detail
       </h1>
     </section>
-    
 
 
 
@@ -20,6 +19,9 @@
       <div class="content-header"><button type="button" class="btn btn-raised btn-warning" @click="backLink()"> <i class="ft-power"></i> Close </button></div>
     </div>
   </div>
+  <h4 class="page-title text-left">Status Project  : <b>{{this.rowDatanya.statusnya}}</b></h4>
+  <h4 class="page-title text-left">Status BOQ : <b>{{this.rowDatanya.statusnyaboq}} </b></h4>
+  <h4 class="page-title text-left">Status Accrual : <b> {{this.rowDatanya.statusnyahaki}}</b></h4>
   <h3 class="page-title text-center">Detail Project {{this.rowDatanya.projectid}}</h3>
   <ul class="timeline">
     <li class="timeline-line"></li>
@@ -619,6 +621,56 @@ Latitude : {{this.rowDatanya.latitude_actual}}
     
   
   
+    <li class="timeline-item mt-5" v-if="this.rowDatanya.poid">
+      <div class="timeline-badge">
+        <span class="bg-yellow bg-lighten-1" data-toggle="tooltip" data-placement="left" title="DOKUMEN PO">
+      
+    </span>
+      </div>
+      <div class="timeline-card card border-grey border-lighten-2">
+        <div class="card-header">
+          <h4 class="card-title mb-0">
+            <a>PO</a> 
+          </h4>
+           
+        </div>
+        <div class="card-body"> 
+          <div class="card-body">
+            <div class="card-block">
+      <div class="feather-icons overflow-hidden">
+                          <div class="row">
+     <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="no_po">NO PO</label>
+                                        <br>
+{{this.rowDatanya.no_po}}
+                    </fieldset>
+                                </div>
+  
+                               
+  
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="po_date">PO DATE</label>
+                                        <br>
+{{this.rowDatanya.po_date}}
+                    </fieldset>
+                                </div>
+  
+  
+  
+ 
+                   </div>
+          </div>               
+            </div>
+          </div> 
+        </div>
+      </div>
+    </li>
+  
+    
+  
+  
   
     <li class="timeline-item mt-5" v-if="this.rowDatanya.siteopeningid">
       <div class="timeline-badge">
@@ -840,6 +892,350 @@ Latitude : {{this.rowDatanya.latitude_actual}}
   
     
   
+    <li class="timeline-item mt-5" v-if="this.rowDatanya.towererectionid">
+      <div class="timeline-badge">
+        <span class="bg-green bg-lighten-1" data-toggle="tooltip" data-placement="left" title="Dokumen Tower Erection (CME)">
+      
+    </span>
+      </div>
+      <div class="timeline-card card border-grey border-lighten-2">
+        <div class="card-header">
+          <h4 class="card-title mb-0">
+            <a>Dokumen Tower Erection (CME)</a> 
+          </h4>
+           
+        </div>
+        <div class="card-body"> 
+          <div class="card-body">
+            <div class="card-block">
+      <div class="feather-icons overflow-hidden">
+                          <div class="row">
+     <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="tower_erection_date">TANGGAL DOKUMEN </label>
+                                        <br>
+{{this.rowDatanya.tower_erection_date}}
+                    </fieldset>
+                                </div>
+     <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="tower_erection_document">DOKUMEN</label>
+                                        <br>
+<a v-bind:href="'/files/'+this.rowDatanya.projectid+'/'+this.rowDatanya.tower_erection_document" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a> 
+                                    </fieldset>
+                                </div>
+   
+                   </div>
+          </div>               
+            </div>
+          </div> 
+        </div>
+      </div>
+    </li>
+  
+    
+  
+  
+  
+    <li class="timeline-item mt-5" v-if="this.rowDatanya.meprocessid">
+      <div class="timeline-badge">
+        <span class="bg-orange bg-lighten-1" data-toggle="tooltip" data-placement="left" title="Dokumen M-E Process (CME)">
+      
+    </span>
+      </div>
+      <div class="timeline-card card border-grey border-lighten-2">
+        <div class="card-header">
+          <h4 class="card-title mb-0">
+            <a>Dokumen M-E Process (CME)</a> 
+          </h4>
+           
+        </div>
+        <div class="card-body"> 
+          <div class="card-body">
+            <div class="card-block">
+      <div class="feather-icons overflow-hidden">
+                          <div class="row">
+     <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="m_e_process_date">TANGGAL DOKUMEN </label>
+                                        <br>
+{{this.rowDatanya.m_e_process_date}}
+                    </fieldset>
+                                </div>
+     <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="m_e_process_document">DOKUMEN</label>
+                                        <br>
+<a v-bind:href="'/files/'+this.rowDatanya.projectid+'/'+this.rowDatanya.m_e_process_document" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a> 
+                                    </fieldset>
+                                </div>
+   
+                   </div>
+          </div>               
+            </div>
+          </div> 
+        </div>
+      </div>
+    </li>
+  
+    
+  
+  
+    <li class="timeline-item mt-5" v-if="this.rowDatanya.meprocessid">
+      <div class="timeline-badge">
+        <span class="bg-pink bg-lighten-1" data-toggle="tooltip" data-placement="left" title="Dokumen Fence & Yard (CME)">
+      
+    </span>
+      </div>
+      <div class="timeline-card card border-grey border-lighten-2">
+        <div class="card-header">
+          <h4 class="card-title mb-0">
+            <a>Dokumen Fence & Yard (CME)</a> 
+          </h4>
+           
+        </div>
+        <div class="card-body"> 
+          <div class="card-body">
+            <div class="card-block">
+      <div class="feather-icons overflow-hidden">
+                          <div class="row">
+     <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="fence_yard_date">TANGGAL DOKUMEN </label>
+                                        <br>
+{{this.rowDatanya.fence_yard_date}}
+                    </fieldset>
+                                </div>
+     <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="fence_yard_document">DOKUMEN</label>
+                                        <br>
+<a v-bind:href="'/files/'+this.rowDatanya.projectid+'/'+this.rowDatanya.fence_yard_document" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a> 
+                                    </fieldset>
+                                </div>
+   
+                   </div>
+          </div>               
+            </div>
+          </div> 
+        </div>
+      </div>
+    </li>
+  
+    
+    
+  
+  
+    <li class="timeline-item mt-5" v-if="this.rowDatanya.meprocessid">
+      <div class="timeline-badge">
+        <span class="bg-grey bg-lighten-1" data-toggle="tooltip" data-placement="left" title="Dokumen RFI & BAUT (CME)">
+      
+    </span>
+      </div>
+      <div class="timeline-card card border-grey border-lighten-2">
+        <div class="card-header">
+          <h4 class="card-title mb-0">
+            <a>Dokumen RFI & BAUT (CME)</a> 
+          </h4>
+           
+        </div>
+        <div class="card-body"> 
+          <div class="card-body">
+            <div class="card-block">
+      <div class="feather-icons overflow-hidden">
+                          <div class="row">
+     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="rfi_date">TANGGAL DOKUMEN RFI</label>
+                                        <br>
+{{this.rowDatanya.rfi_date}}
+                    </fieldset>
+                                </div>
+     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="rfi_document">DOKUMEN RFI</label>
+                                        <br>
+<a v-bind:href="'/files/'+this.rowDatanya.projectid+'/'+this.rowDatanya.rfi_document" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a> 
+                                    </fieldset>
+                                </div>
+   
+     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="baut_date">TANGGAL DOKUMEN BAUT</label>
+                                        <br>
+{{this.rowDatanya.baut_date}}
+                    </fieldset>
+                                </div>
+     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="baut_document">DOKUMEN BAUT</label>
+                                        <br>
+<a v-bind:href="'/files/'+this.rowDatanya.projectid+'/'+this.rowDatanya.baut_document" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a> 
+                                    </fieldset>
+                                </div>
+   
+                   </div>
+          </div>               
+            </div>
+          </div> 
+        </div>
+      </div>
+    </li>
+  
+    
+  
+  
+    <li class="timeline-item mt-5" v-if="this.rowDatanya.meprocessid">
+      <div class="timeline-badge">
+        <span class="bg-white bg-lighten-1" data-toggle="tooltip" data-placement="left" title="RFI Detail (CME)">
+      
+    </span>
+      </div>
+      <div class="timeline-card card border-grey border-lighten-2">
+        <div class="card-header">
+          <h4 class="card-title mb-0">
+            <a>RFI Detail (CME)</a> 
+          </h4>
+           
+        </div>
+        <div class="card-body"> 
+          <div class="card-body">
+            <div class="card-block">
+      <div class="feather-icons overflow-hidden">
+                          <div class="row">
+     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="rfi_detail_start_date">Tanggal Dimulai Sewa </label>
+                                        <br>
+{{this.rowDatanya.rfi_detail_start_date}}
+                    </fieldset>
+                                </div>
+     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="rfi_detail_end_date">Tanggal Berakhir Sewa</label>
+                                        <br>
+{{this.rowDatanya.rfi_detail_end_date}}
+                                    </fieldset>
+                                </div>
+     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="rfi_detail_price_month">Biaya Sewa / Bulan</label>
+                                        <br>
+{{formatNumberRupiah(this.rowDatanya.rfi_detail_price_month)}}
+                                    </fieldset>
+                                </div>
+   
+     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="rfi_detail_price_year">Biaya Sewa / Tahun</label>
+                                        <br>
+{{formatNumberRupiah(this.rowDatanya.rfi_detail_price_year)}}
+                                    </fieldset>
+                                </div>
+                                 <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="batch_accrue">Batch Accrue</label>
+                                        <br>
+{{this.rowDatanya.batch_accrue}}
+                                    </fieldset>
+                                </div>
+      
+     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="nilai_revenue">Nilai Revenue</label>
+                                        <br>
+{{formatNumberRupiah(this.rowDatanya.nilai_revenue)}}
+                                    </fieldset>
+                                </div>    
+
+                                
+                   </div>
+          </div>               
+            </div>
+          </div> 
+        </div>
+      </div>
+    </li>
+  
+    
+  
+  
+    <li class="timeline-item mt-5" v-if="this.rowDatanya.baksbaukid">
+      <div class="timeline-badge">
+        <span class="bg-white bg-lighten-1" data-toggle="tooltip" data-placement="left" title="BAKS-BAUK">
+      
+    </span>
+      </div>
+      <div class="timeline-card card border-grey border-lighten-2">
+        <div class="card-header">
+          <h4 class="card-title mb-0">
+            <a>BAKS-BAUK</a> 
+          </h4>
+           
+        </div>
+        <div class="card-body"> 
+          <div class="card-body">
+            <div class="card-block">
+      <div class="feather-icons overflow-hidden">
+                          <div class="row">
+     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="no_baks">NO BAKS </label>
+                                        <br>
+{{this.rowDatanya.no_baks}}
+                    </fieldset>
+                                </div>
+     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="date_baks">Tanggal BAKS</label>
+                                        <br>
+{{this.rowDatanya.date_baks}}
+                                    </fieldset>
+                                </div>   
+
+     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="document_baks">DOKUMEN BAKS</label>
+                                        <br>
+<a v-bind:href="'/files/'+this.rowDatanya.projectid+'/'+this.rowDatanya.document_baks" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a> 
+                                    </fieldset>
+                                </div>
+
+
+     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="document_wctr">DOKUMEN WCTR</label>
+                                        <br>
+<a v-bind:href="'/files/'+this.rowDatanya.projectid+'/'+this.rowDatanya.document_wctr" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a> 
+                                    </fieldset>
+                                </div>
+
+     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="document_boq_project">DOKUMEN BOQ PROJECT</label>
+                                        <br>
+<a v-bind:href="'/files/'+this.rowDatanya.projectid+'/'+this.rowDatanya.document_boq_project" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a> 
+                                    </fieldset>
+                                </div>
+
+     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="document_rfi_certificate">DOKUMEN RFI CERTIFICATE</label>
+                                        <br>
+<a v-bind:href="'/files/'+this.rowDatanya.projectid+'/'+this.rowDatanya.document_rfi_certificate" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a> 
+                                    </fieldset>
+                                </div>
+
+                                
+                   </div>
+          </div>               
+            </div>
+          </div> 
+        </div>
+      </div>
+    </li>
+  
+    
   
   
   

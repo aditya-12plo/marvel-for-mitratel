@@ -4,7 +4,7 @@
 <section class="basic-elements">
     <div class="row">
         <div class="col-sm-12">
-            <div class="content-header" align="center">Form Approval Dokumen CME Project ID {{this.rowDatanya.project.projectid}}</div>
+            <div class="content-header" align="center">Detail Project CME</div>
         </div>
     </div>
     <div class="row">
@@ -14,209 +14,76 @@
 <button type="button" class="btn btn-raised btn-warning" @click="backLink()"> <i class="ft-arrow-left position-left"></i> Kembali</button>
 <button type="button" class="btn btn-raised btn-danger" @click="RepairItem()">
     <i class="fa ft-x-square"></i> Perbaiki
-</button>
-<button type="button" @click="DetailData()" class="btn btn-raised btn-info">
-    <i class="ft-trending-up"></i> Detail
-</button>
+</button> 
 <button type="button" class="btn btn-raised btn-primary" @click="ApproveItem()">
     <i class="fa fa-check-square-o"></i> Setujui
 </button>
                 </div>
-                <div class="card-body">
-                    <div class="px-3">
-							<div class="form-body">
-		                        <div class="row">	 
 
-<!-- Ducument SITAC --> 
+<div class="card-body">
 
-<div class="col-xl-12 col-lg-12 col-md-12 mb-1">
-<fieldset class="form-group">
-<label for="documentsis"><h4>DOKUMEN CME</h4></label>
-</fieldset>
-</div>     
-   
-    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="rfi_date">TANGGAL DOKUMEN RFI</label>
-                                        <br>
- {{this.rowDatanya.project.rfi_date}}
-                                    </fieldset>
-                                </div>
+ <table class="table table-responsive-md text-center">
+                            <thead>
+                                <tr>
+                                    <th><b>NO</b></th>
+                                    <th><b>BATCH</b></th>
+                                    <th><b>PID</b></th>
+                                    <th><b>INFRATYPE</b></th>
+                                    <th><b>TOWER</b></th>
+                                    <th><b>REGIONAL</b></th>
+                                    <th><b>SITE ID AKTUAL</b></th>
+                                    <th><b>SITE NAME AKTUAL</b></th>
+                                    <th><b>ALAMAT AKTUAL</b></th>
+                                    <th><b>KOTA </b></th>
+                                    <th><b> PROVINSI</b></th>
+                                    <th><b>HARGA SEWA / BULAN </b></th>
+                                    <th><b>HARGA SEWA / TAHUN </b></th>
+                                    <th><b>DETAIL</b></th>
+                                </tr>
+                            </thead>
+                            <tbody>
 
-                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
-                                        <fieldset class="form-group">
-                                            <label for="rfi_document"><h4>DOKUMEN RFI</h4></label>
-                                        <br>
- <a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.rfi_document" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>  
+                                <tr v-for="(data, index) in dataBoqNya">
+                                    <td>{{index+1}} </td>
+                                    <td>{{data.batchnya}} </td>
+                                    <td>{{data.projectid}} </td>
+                                    <td>{{data.infratype}} </td> 
+                                    <td>{{data.towernya}} </td> 
+                                    <td>{{data.regional}} </td> 
+                                    <td>{{data.site_id_actual}}</td> 
+                                    <td>{{data.site_name_actual}} </td> 
+                                    <td>{{data.address_actual}} </td> 
+                                    <td>{{data.city}} </td> 
+                                    <td>{{data.province}} </td> 
+                                    <td>{{formatNumberRupiah(data.harga_bulan)}} </td> 
+                                    <td>{{formatNumberRupiah(data.harga_tahun)}} </td> 
+                                    <td><button type="button" class="btn btn-raised btn-danger" @click="viewEvent(data.id)"> <i class="ft-zoom-in"></i> Detail</button></td> 
+                                </tr>
+                                 
 
-                                        </fieldset>
-                                    </div>
-       
-                                
-
-    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="baut_date">TANGGAL DOKUMEN BAUT</label>
-                                        <br>
- {{this.rowDatanya.project.baut_date}}
-                                    </fieldset>
-                                </div>
-
-
-                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
-                                        <fieldset class="form-group">
-                                            <label for="baut_document"><h4>DOKUMEN BAUT</h4></label>
-                                        <br>
- <a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.baut_document" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>  
-
-                                        </fieldset>
-                                    </div>
-
-
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="m_e_process_date">TANGGAL DOKUMEN M-E Process</label>
-                                        <br>
- {{this.rowDatanya.project.m_e_process_date}}
-                                    </fieldset>
-                                </div>
+                                <tr>
+                                    <td> </td>
+                                    <td> </td>
+                                    <td> </td> 
+                                    <td> </td> 
+                                    <td> </td> 
+                                    <td> </td> 
+                                    <td> </td> 
+                                    <td> </td> 
+                                    <td> </td> 
+                                    <td> </td> 
+                                    <td> </td> 
+                                    <td><b>TOTAL</b> </td> 
+                                    <td><b>{{formatNumberRupiah(total(this.dataBoqNya))}}</b> </td><td> </td> 
+                                </tr>
 
 
-                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
-                                        <fieldset class="form-group">
-                                            <label for="m_e_process_document"><h4>DOKUMEN M-E PROCESS </h4></label>
-                                        <br> 
- <a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.m_e_process_document" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>   
-                                        </fieldset>
-                                    </div>
-                                    
-    
+                            </tbody>
+                        </table>
 
 
-       
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-<label for="tower_erection_date">TANGGAL DOKUMEN Tower Erection</label>
-                                        <br>
- {{this.rowDatanya.project.tower_erection_date}}
-                                    </fieldset>
-                                </div>
-
-
-                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
-                                        <fieldset class="form-group">
-                                            <label for="tower_erection_document"><h4>DOKUMEN Tower Erection</h4></label>
-                                        <br> 
- <a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.tower_erection_document" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>   
-                                        </fieldset>
-                                    </div>
-                                    
- 
-
-       
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-<label for="curing_date">TANGGAL DOKUMEN CURING</label>
-                                        <br> 
-{{this.rowDatanya.project.curing_date}}                                        
-                                    </fieldset>
-                                </div>
-
-
-                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
-                                        <fieldset class="form-group">
-                                            <label for="curing_document"><h4>DOKUMEN CURING</h4></label>
-                                        <br> 
- <a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.curing_document" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>   
-                                        </fieldset>
-                                    </div>
-                                    
- 
-       
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-<label for="pouring_date">TANGGAL DOKUMEN POURING</label>
-                                        <br>
-{{this.rowDatanya.project.pouring_date}}
-                                    </fieldset>
-                                </div>
-
-
-                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
-                                        <fieldset class="form-group">
-                                            <label for="pouring_document"><h4>DOKUMEN POURING</h4></label>
-                                        <br> 
- <a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.pouring_document" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>  
- 
-                                        </fieldset>
-                                    </div>
-                                    
- 
-
-       
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-<label for="excavation_date">TANGGAL DOKUMEN EXCAVATION</label>
-                                        <br>
-{{this.rowDatanya.project.excavation_date}}
-                                    </fieldset>
-                                </div>
-
-
-                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
-                                        <fieldset class="form-group">
-                                            <label for="excavation_document"><h4>DOKUMEN EXCAVATION</h4></label>
-                                        <br> 
- <a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.excavation_document" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>   
-                                        </fieldset>
-                                    </div>
-                                    
- 
-       
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-<label for="site_opening_date">TANGGAL DOKUMEN SITE OPENING</label>
-                                        <br>
-{{this.rowDatanya.project.site_opening_date}}
-                                    </fieldset>
-                                </div>
-
-
-                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
-                                        <fieldset class="form-group">
-                                            <label for="document_site_opening"><h4>DOKUMEN SITE OPENING</h4></label>
-                                        <br> 
- <a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.document_site_opening" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>   
-                                        </fieldset>
-                                    </div>
-                                    
- 
-
-
-
- <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="address_spk">KOMUNIKASI PROJECT</label>
-                                        <br>
-                                        
-<div v-if="this.komunikasi.length > 0">
-<button type="button" class="btn btn-raised btn-success" @click="modal.set('komunikasiproject', true)">
-  <i class="ft-message-square"></i> Lihat Komunikasi
-</button>
 </div>
 
-  
-
-                                    </fieldset>
-                                </div>
-<!-- Ducument SITAC --> 
- 
-		                            
-		                        </div>
-		                    </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -231,25 +98,12 @@
 
             <form method="POST" action="" @submit.prevent="submitData()">
                 <div class="modal-body">
-                
-<div class="col-sm-12" v-if="this.komunikasi.length > 0">             
-<div v-for="(row,index) in this.komunikasi" style="border: 1px solid grey;">              
-                    <!-- form Group -->
-                    <div class="form-group">
-                        <label for="pengirim">Pengirim : {{row.name}}</label><br>
-                        <label for="jabatan">Posisi : {{row.posisi}}</label><br>
-                        <label for="stts">Status : {{row.status}}</label><br>
-                        <label for="pesan">Pesan : {{row.message}}</label><br>
-                        <label for="time">Waktu : {{row.created_at}}</label><br>
-                    </div>
-</div>
-</div>
-<div class="col-sm-12" v-else>
- <!-- form Group -->
-                    <div class="form-group">
-                        <label for="pengirim">Belum Ada Komunikasi Project</label><br>
-                    </div>
-</div>
+
+                   <div class="form-group">
+  <label for="message">Pesan:</label>
+{{this.rowDatanya.project.message}}
+  
+  </div>
 
                    <div class="form-group">
   <label for="message">Pesan:</label>
@@ -267,43 +121,7 @@
             </form>
         </template>
         </modal>
-
-
-<!-- @komunikasiproject -->
-<modal  v-if="modal.get('komunikasiproject')" @close="modal.set('komunikasiproject', false)">
-        <template slot="header" align="center"><h4 align="center">Komunikasi Project</h4></template>
-        <template slot="body" >
-                <div class="modal-body">
-
-<div class="col-sm-12" v-if="this.komunikasi.length > 0">             
-<div v-for="(row,index) in this.komunikasi" style="border: 1px solid grey;">              
-                    <!-- form Group -->
-                    <div class="form-group">
-                        <label for="pengirim">Pengirim : {{row.name}}</label><br>
-                        <label for="jabatan">Posisi : {{row.posisi}}</label><br>
-                        <label for="stts">Status : {{row.status}}</label><br>
-                        <label for="pesan">Pesan : {{row.message}}</label><br>
-                        <label for="time">Waktu : {{row.created_at}}</label><br>
-                    </div>
-</div>
-</div>
-<div class="col-sm-12" v-else>
- <!-- form Group -->
-                    <div class="form-group">
-                        <label for="pengirim">Belum Ada Komunikasi Project</label><br>
-                    </div>
-</div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" @click="modal.set('komunikasiproject', false)" >Close</button>
-                    
-                </div>
-                </form>
-        </template>
-        </modal>
-        
-<!-- komunikasiproject -->
+ 
  </div> 
 </template>
 
@@ -458,9 +276,10 @@ export default {
   isLoading: false,
   modal:new CrudModal({komunikasiproject: false,approve: false}),
     formErrors:{},
-     file_name:'',
+     project_id_accrual:'',
      message:'',
      status:'',
+     batch_accrue:'',
 	kata:'', 
 	GetLevel:'', 
 	statusmessage:'',
@@ -468,6 +287,7 @@ export default {
     errors: new Errors() ,
     errorNya: [],
     komunikasi:[] ,
+    dataBoqNya:[] ,
     dataNya: {name : '', level:''}, 
     loading: false,
       moreParams: {}
@@ -477,6 +297,20 @@ export default {
         },
         methods: {
 
+                  total: function(data){
+
+  let total = [];
+
+  Object.entries(data).forEach(([key, val]) => {
+      total.push(val.rfi_detail_price_year) // the value of the current key.
+  });
+
+  return total.reduce(function(total, num){ return total + num }, 0);
+
+},
+    formatNumberRupiah (value) {
+      return accounting.formatMoney(value,  "Rp. ", 0, ".", ",")
+    },
           diacak(id)
            {
 var hashids = new Hashids('',1000,'abcdefghijklmnopqrstuvwxyz0987654321ABCDEFGHIJKLMNOPQRSTUVWXYZ'); // no padding
@@ -492,11 +326,15 @@ let routeData = this.$router.resolve({name:'approvalboqdetailprojectnya', params
 window.open(routeData.href, '_blank');
                
             }  ,
+viewEvent: function(id) {
+let routeData = this.$router.resolve({name:'approvalboqdetailprojectnya', params: {id: this.diacak(id) }});
+window.open(routeData.href, '_blank');
+},
                dataAction () {
       if(this.typenya === "approval-document-cme")
       {
-           this.resetforms();
-           this.GetKomunikasi(this.rowDatanya.project.id);
+            this.GetDetailData(this.rowDatanya.project.project_id);
+            //console.log(this.rowDatanya.project.project_id);
       }
       else
       {
@@ -504,13 +342,23 @@ window.open(routeData.href, '_blank');
       }
         
       },
+              GetDetailData(id){
+                axios.get('/karyawan/GetDetailProjectCME/'+id).then((response) => {
+                    this.dataBoqNya = response.data;
+                });
+            },
                   ApproveItem(){
 this.statusmessage = '';
 this.status = '';
 this.kata = '';                    
+this.project_id_accrual = '';                    
+this.batch_accrue = '';                    
 this.statusmessage = 'APPROVED DOKUMEN CME';
-this.status = 40;
-this.kata = 'Dokumen CME Project ID '+this.rowDatanya.project.projectid+' Di Setujui';
+this.status = 47;
+this.statuscme = 2;
+this.batch_accrue = new Date();
+this.project_id_accrual = this.rowDatanya.project.project_id;
+this.kata = 'Dokumen CME Project ID '+this.rowDatanya.project.cme_code+' Di Setujui';
 this.errorNya = '';
 this.message = '';
 this.modal.set('approve', true); 
@@ -520,9 +368,14 @@ this.modal.set('approve', true);
 this.statusmessage = '';
 this.status = '';
 this.kata = '';
+this.project_id_accrual = '';
+this.batch_accrue = '';
 this.statusmessage = 'REVISI DOKUMEN CME';
-this.status = 38;
-this.kata = 'Harap Perbaiki Dokumen CME Project ID '+this.rowDatanya.project.projectid;
+this.status = 46;
+this.statuscme = 3;
+this.project_id_accrual = null;
+this.batch_accrue = null;
+this.kata = 'Harap Perbaiki Dokumen CME '+this.rowDatanya.project.cme_code;
 this.errorNya = '';
 this.message = '';
 this.modal.set('approve', true); 
@@ -572,16 +425,12 @@ this.modal.set('approve', true);
 }).then((result) => {
   if (result.value) {
     this.isLoading = true;
-   let masuk = new FormData();
-   masuk.set('project_id', this.rowDatanya.project.id)
-   masuk.set('projectid', this.rowDatanya.project.projectid)
-   masuk.set('kata', this.kata)
-   masuk.set('infratype', this.rowDatanya.project.infratype)
-   masuk.set('message', this.message)
-   masuk.set('statusmessage', this.statusmessage)
-   masuk.set('document', 'DOKUMEN CME')
-   masuk.set('status', this.status)
-                axios.post('/karyawan/ApprovalDocumentRegionalCME', masuk)
+    var ttl = this.dataBoqNya;
+var masuk = {'project_id': this.rowDatanya.project.id,'kata': this.kata, 'message': this.message,'statusmessage': this.statusmessage,'document': 'DOKUMEN CME','detailproject': ttl,'statuscme': this.statuscme, 'project_id_accrual':this.project_id_accrual, 'batch_accrue':this.batch_accrue , 'status': this.status};
+ 
+
+
+                axios.post('/karyawan/ApprovalDocumentCMEManagerHaki', masuk)
                     .then(response => { 
                       if(response.data.success)
                       {
@@ -591,20 +440,23 @@ this.modal.set('approve', true);
                       }
                       else
                       {
-                         this.modal.set('approve', false); 
-                        this.errorNya = {document_sis:[response.data.error]};
+                        this.isLoading = false;
+                        this.errorNya = response.data.error;
                       }
                     })
                     .catch(error => {
                     if (! _.isEmpty(error.response)) {
                     if (error.response.status = 422) {
+                        this.isLoading = false;
                        this.errorNya = error.response.data;
                     }
                    else if (error.response.status = 500) {
+                        this.isLoading = false;
                         this.$router.push('/server-error');
                     }
                     else
                     {
+                        this.isLoading = false;
                          this.$router.push('/page-not-found');
                     }
                     }

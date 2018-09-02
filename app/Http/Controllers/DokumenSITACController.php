@@ -490,8 +490,7 @@ else
 
    public function upload(Request $request)
     {
-$cekdata = DB::table('vjobsdocumentsitacrevisi')->where('id',Input::get('project_id'))->first();
-if ($cekdata->status_id == '9') {
+ 
 $valid = $this->validate($request, [
         'id' => 'required|numeric|not_in:0', 
         'projectid' => 'required|max:255',
@@ -536,20 +535,13 @@ else
     {
  return response()->json('error', $valid); 
     }    
-
-}
-else
-{
-return response()->json(['error'=>'Maaf Pekerjaan Ini Sudah Di Kerjakan Orang Lain']);  
-}
+ 
 
     }
 
 
    public function uploadIjinWarga(Request $request)
     {
-$cekdata = DB::table('vjobsdocumentsitacrevisi')->where('id',Input::get('project_id'))->first();
-if ($cekdata->status_id == '9') {
 $valid = $this->validate($request, [
         'id' => 'required|numeric|not_in:0', 
         'projectid' => 'required|max:255',
@@ -595,18 +587,12 @@ else
  return response()->json('error', $valid); 
     }    
 
-}
-else
-{
-return response()->json(['error'=>'Maaf Pekerjaan Ini Sudah Di Kerjakan Orang Lain']);  
-}
 
     }
 
    public function uploadPKS(Request $request)
     {
-$cekdata = DB::table('vjobsdocumentsitacrevisi')->where('id',Input::get('project_id'))->first();
-if ($cekdata->status_id == '9') {
+ 
 $valid = $this->validate($request, [
         'id' => 'required|numeric|not_in:0', 
         'projectid' => 'required|max:255',
@@ -652,19 +638,14 @@ else
  return response()->json('error', $valid); 
     }    
 
-}
-else
-{
-return response()->json(['error'=>'Maaf Pekerjaan Ini Sudah Di Kerjakan Orang Lain']);  
-}
+ 
 
     }
 
 
    public function uploadIMB(Request $request)
     {
-$cekdata = DB::table('vjobsdocumentsitacrevisi')->where('id',Input::get('project_id'))->first();
-if ($cekdata->status_id == '9') {
+ 
 $valid = $this->validate($request, [
         'id' => 'required|numeric|not_in:0', 
         'projectid' => 'required|max:255',
@@ -709,12 +690,7 @@ else
     {
  return response()->json('error', $valid); 
     }    
-
-}
-else
-{
-return response()->json(['error'=>'Maaf Pekerjaan Ini Sudah Di Kerjakan Orang Lain']);  
-}
+ 
 
     }
 
@@ -754,7 +730,7 @@ $extension  = Input::file('document_ban_bak')->getClientOriginalExtension();
 $extensiondocument_ijin_warga  = Input::file('document_ijin_warga')->getClientOriginalExtension(); 
 $extensiondocument_pks  = Input::file('document_pks')->getClientOriginalExtension(); 
 $extensiondocument_imb  = Input::file('document_imb')->getClientOriginalExtension(); 
-if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf' || $filedrm->getSize() <= 10000000 && $filedrm->getClientMimeType() == 'application/pdf')
+if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf' && $filedocument_ijin_warga->getSize() <= 10000000 && $filedocument_ijin_warga->getClientMimeType() == 'application/pdf' && $filedocument_pks->getSize() <= 10000000 && $filedocument_pks->getClientMimeType() == 'application/pdf' && $filedocument_imb->getSize() <= 10000000 && $filedocument_imb->getClientMimeType() == 'application/pdf')
 {
      $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path
 $fileName   = Input::get('projectid').'-document-ban-bak-'.time().'.'.$extension; 
@@ -827,9 +803,7 @@ return response()->json(['error'=>'Maaf Pekerjaan Ini Sudah Di Kerjakan Orang La
 
 
     public function update(Request $request)
-    { 
-$cekdata = DB::table('vjobsdocumentsitacrevisi')->where('id',Input::get('project_id'))->first();
-if ($cekdata->status_id == '9') {
+    {  
 $valid = $this->validate($request, [ 
         'project_id' => 'required|max:255|unique:document_sitac,project_id,'.Input::get('documentsitacid'),
         'statusmessage' => 'required|max:255',
@@ -871,14 +845,7 @@ else
     {
  return response()->json('error', $valid);
     }
-
-
-
-    }
-else
-    {
-return response()->json(['error'=>'Maaf Pekerjaan Ini Sudah Di Kerjakan Orang Lain']);
-    }  
+  
  
     }
 

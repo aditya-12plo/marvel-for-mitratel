@@ -322,6 +322,12 @@ export default {
           dataClass: 'text-center'
         },
         {
+          name: 'statusnyahaki',
+      title: 'Accrual',
+      titleClass: 'text-center',
+          dataClass: 'text-center'
+        },
+        {
           name: 'created_at',
 		  title: 'Tanggal Input',
           titleClass: 'text-center',
@@ -580,7 +586,7 @@ var masuk =
   const url = window.URL.createObjectURL(new Blob([response.data]));
   const link = document.createElement('a');
   link.href = url;
-  link.setAttribute('download', filename+'.xlsx');
+  link.setAttribute('download', filename+'.xls');
   document.body.appendChild(link);
   link.click();
 }); 

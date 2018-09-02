@@ -65,5 +65,22 @@ class SendEmailController extends Controller
     }
 
 
+    public function kirimCME($to,$nodoc,$from,$level,$detailnya,$kata)
+    { 
+     $isipesan = array(  
+        'nodoc' => $nodoc, 
+        'detailnya' => $detailnya,
+        'kata' => $kata,
+        'level' => $level,
+        'name' => $from); 
+      $content = view('email_content_cme')->with($isipesan);
+        Mail::send('email', ['contentMessage' => $content], function($messageNya) use ($to) {
+         $messageNya->to($to)->subject('Notification Dr.MarveL (Dokumen Review MARketing Validation ELectronik)');
+         $messageNya->from('aplikasi.mitratel@gmail.com','Dr.MarveL (Dokumen Review MARketing Validation ELectronik)');
+      });
+  
+    }
+
+
     
 }

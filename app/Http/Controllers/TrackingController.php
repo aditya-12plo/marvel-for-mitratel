@@ -54,7 +54,7 @@ class TrackingController extends Controller
 {
         $query =  DB::table('vallprojectbyyears')->orderBy('id','DESC');
 }
- elseif(Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'MANAGER')
+ elseif(Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'MANAGER' || Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'HAKI - MANAGER' || Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'HAKI - ACCOUNT MANAGER')
 {
         $query =  DB::table('vallprojectbyyears')
          ->where(function ($query) {

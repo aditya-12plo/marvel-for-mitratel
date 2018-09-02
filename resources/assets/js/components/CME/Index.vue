@@ -43,7 +43,7 @@
     </tr>
     <tr>
       <td><label>Search for:</label></td>
-      <td colspan="3"><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="Project ID"></td>
+      <td colspan="3"><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="CME Code"></td>
     </tr>
      <tr>
       <td colspan="4" style="padding-top: 1%;"></td>
@@ -52,8 +52,7 @@
       <td colspan="4">
 <div class="text-left">
 <button class="btn btn-primary" @click.prevent="doFilter">Cari <i class="fa fa-thumbs-o-up position-right"></i></button>
-<button class="btn btn-warning" @click.prevent="resetFilter">Reset Form <i class="fa fa-refresh position-right"></i></button> 
-<button class="btn btn-danger" @click="sumSelectedItems()">Approved Terpilih <i class="ft-check-circle position-right"></i></button>
+<button class="btn btn-warning" @click.prevent="resetFilter">Reset Form <i class="fa fa-refresh position-right"></i></button>  
                                     </div>
 </td>
        </tr>
@@ -70,7 +69,7 @@
     <br>
     <div style="overflow-x:auto;"> 
     <vuetable ref="vuetable"
-      api-url="/karyawan/GetJobsApprovalDocumentCME"
+      api-url="/karyawan/GetJobsApprovalDocumentCMESubmit"
       :fields="fields"
       pagination-path=""
       :per-page="perPage"
@@ -206,12 +205,7 @@ export default {
      dataNya: {area:'' , level:'' , regional:''},
     perPage: 10,
     loading: false,
-      fields: [
-        {
-          name: '__checkbox:id',
-          titleClass: 'text-center',
-          dataClass: 'text-center',
-        },
+      fields: [ 
        {
           name: '__sequence',
           title: 'No',
@@ -219,41 +213,29 @@ export default {
           dataClass: 'text-center'
         },
         {
-          name: 'projectid',
-		  title: 'Project ID',
+          name: 'cme_code',
+		  title: 'Kode CME',
 		  titleClass: 'text-center',
           dataClass: 'text-center'
         },
         {
-          name: 'batchnya',
-      title: 'Batch',
+          name: 'total',
+      title: 'Total PID',
       titleClass: 'text-center',
           dataClass: 'text-center'
-        },
+        }, 
         {
-          name: 'no_wo',
-		  title: 'No WO',
-		  titleClass: 'text-center',
-          dataClass: 'text-center'
-        },
-        {
-          name: 'area',
-      title: 'Area',
+          name: 'message',
+      title: 'Pesan',
       titleClass: 'text-center',
           dataClass: 'text-center'
-        },
-        {
-          name: 'regional',
-      title: 'Regional',
-      titleClass: 'text-center',
-          dataClass: 'text-center'
-        },
+        }, 
         {
           name: 'created_at',
-		  title: 'Tanggal Submit',
-          titleClass: 'text-center',
-          dataClass: 'text-center',
-        },
+      title: 'Waktu Submit',
+      titleClass: 'text-center',
+          dataClass: 'text-center'
+        },  
         {
           name: '__component:approval-custom-actions',
           title: 'Actions',
@@ -393,7 +375,7 @@ return hashids.decode(id);
            },
   fetchIt(){
    this.isLoading = true;
-                axios.get('/karyawan/CekUserProfileAkses/DocumentSISApproval').then((response) => {
+                axios.get('/karyawan/CekUserProfileAkses/DocumentRfiDetailManager').then((response) => {
                     this.dataNya = response.data;
                     this.isLoading = false;
                 }).catch(error => {
@@ -503,7 +485,7 @@ onLoading() {
     },
     onLoadingError() {
                this.isLoading = true;
-                axios.get('karyawan/GetJobsApprovalDocumentCME').then((response) => {
+                axios.get('karyawan/GetJobsApprovalDocumentCMESubmit').then((response) => {
                      this.isLoading = false;
                 }).catch(error => {
 				if (! _.isEmpty(error.response)) {

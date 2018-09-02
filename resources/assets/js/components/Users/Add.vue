@@ -230,7 +230,7 @@ export default {
 	forms: new CrudForm({id:'' , name:'' , email:'' , level:'',  posisi:'',  area:'',  area2:'',  regional:'',  password:'' , created_at:''}), 
 	pilihan: ['REGIONAL','HQ'],
 	pilihanregional: ['AM SUPPORT','ACCOUNT MANAGER','MANAGER MARKETING'],
-	pilihanhq: ['ACCOUNT MANAGER','MANAGER','HAKI - ACCOUNT MANAGER','HAKI - MANAGER'],
+	pilihanhq: ['ACCOUNT MANAGER','MANAGER','HAKI - ACCOUNT MANAGER','HAKI - MANAGER','BISNIS'],
 	pilihanarea: ['1','2','3','4'],
     errors: new Errors() ,
     errorNya: [],

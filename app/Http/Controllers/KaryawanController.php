@@ -227,6 +227,28 @@ else
                 return response()->json('error',422);
             }
          }
+       elseif($kode == 'HAKI')
+         {
+            if(Auth::guard('karyawan')->user()->level == 'HQ')
+            {
+                return response()->json(['name'=>Auth::guard('karyawan')->user()->name,'level'=>Auth::guard('karyawan')->user()->level,'area'=>Auth::guard('karyawan')->user()->area,'area2'=>Auth::guard('karyawan')->user()->area2]);
+            }
+            else
+            {
+                return response()->json('error',422);
+            }
+         }
+       elseif($kode == 'DocumentBisnis')
+         {
+            if(Auth::guard('karyawan')->user()->posisi == 'BISNIS')
+            {
+                return response()->json(['name'=>Auth::guard('karyawan')->user()->name,'level'=>Auth::guard('karyawan')->user()->level]);
+            }
+            else
+            {
+                return response()->json('error',422);
+            }
+         }
          else
          {
             return response()->json('error',422);

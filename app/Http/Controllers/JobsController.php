@@ -50,6 +50,16 @@ class JobsController extends Controller
     }
 
     
+    public function GetDetailProjectCME($id)
+    {
+
+$query =  DB::table('vallproject')
+         ->whereIn('id',explode(",",$id))->get();
+return response()->json($query);
+
+}
+
+
     public function homePage()
     {
 $date = Carbon::now();  
@@ -802,6 +812,62 @@ return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,
         $min = $request->min;
         $max = $request->max;
         $query =  DB::table('vjobboq')
+        ->where('area',Auth::guard('karyawan')->user()->area)
+        ->orderBy('id','DESC');
+
+        if ($search && !$min && !$max) {
+            $like = "%{$search}%";
+            $query = $query
+            ->where('projectid', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like)
+            ->orWhere('infratype', 'LIKE', $like);
+        }
+        if(!$search && $min && !$max)
+        {
+            $query = $query->whereDate('created_at','=',$min);
+        }
+        if(!$search && !$min && $max)
+        {
+            $query = $query->whereDate('created_at','=',$max);
+        }
+        if($search && $min && !$max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','=',$min)
+            ->where('projectid', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like)
+            ->orWhere('infratype', 'LIKE', $like);
+        }
+        if($search && !$min && $max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','=',$max)
+            ->where('projectid', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like)
+            ->orWhere('infratype', 'LIKE', $like);
+        }
+        if(!$search && $min && $max)
+        {
+            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+        }
+        if($search && $min && $max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
+            ->where('projectid', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like)
+            ->orWhere('infratype', 'LIKE', $like);
+        }
+        return $query->paginate($perPage);
+    }
+
+    public function GetJobsPO(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+        $query =  DB::table('vjobpo')
         ->where('area',Auth::guard('karyawan')->user()->area)
         ->orderBy('id','DESC');
 
@@ -2651,6 +2717,49 @@ $query = DB::table('vsitecmeapproval')
 
 
 
+public function GetJobsApprovalDocumentBaksBauk(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $infratype = $request->infratypenya; 
+        $towernya = $request->towernya;
+        $min = $request->min;
+        $max = $request->max;
+
+
+$query = DB::table('vallprojectapprovalbaksbaukarea')
+            ->where('area', Auth::guard('karyawan')->user()->area)->orderBy('id','DESC');
+ 
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like)
+            ->orWhere('batchnya', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like);
+  }
+
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+
+        return $query->paginate($perPage);
+    }
+
+
+
+
 
 
 public function GetJobsRfiDetail(Request $request)
@@ -2871,6 +2980,411 @@ public function GetJobsSubmitCME(Request $request)
    $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
   }
 
+        return $query->paginate($perPage);
+    }
+
+
+
+// cme approval
+    public function GetJobsApprovalDocumentCMESubmit(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+ $query = DB::table('vcmesubmitdata')
+            ->where(function ($query) {
+    $query->where('area', Auth::guard('karyawan')->user()->area)
+          ->orWhere('area', Auth::guard('karyawan')->user()->area2);
+})
+        ->orderBy('id','DESC');
+ 
+
+        if (!empty($search)) {
+            $like = "%{$search}%";
+            $query = $query->where('cme_code', 'LIKE', $like);
+        }
+        
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+        return $query->paginate($perPage);
+    }
+
+
+
+
+// cme revisi
+    public function GetJobsApprovalDocumentCMESubmitRevisi(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+ $query = DB::table('vcmesubmitdatarevisi')
+            ->where(function ($query) {
+    $query->where('area', Auth::guard('karyawan')->user()->area)
+          ->orWhere('area', Auth::guard('karyawan')->user()->area2);
+})
+        ->orderBy('id','DESC');
+ 
+
+        if (!empty($search)) {
+            $like = "%{$search}%";
+            $query = $query->where('cme_code', 'LIKE', $like);
+        }
+        
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+        return $query->paginate($perPage);
+    }
+
+
+
+
+public function GetJobsSubmitCMERevisian(Request $request , $id)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+
+ $query =  DB::table('vsitesubmitcme')
+        ->where(function ($query) {
+    $query->where('area', Auth::guard('karyawan')->user()->area)
+          ->orWhere('area', Auth::guard('karyawan')->user()->area2);
+})->whereNotIn('id',explode(",",$id))
+        ->orderBy('id','DESC');
+
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like);
+  }
+
+
+        return $query->paginate($perPage);
+    }
+
+
+// cme print
+    public function GetJobsApprovedDocumentCME(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+ $query = DB::table('vsiteapprovedcme')
+            ->where(function ($query) {
+    $query->where('area', Auth::guard('karyawan')->user()->area)
+          ->orWhere('area', Auth::guard('karyawan')->user()->area2);
+})
+        ->orderBy('id','DESC');
+ 
+
+if (!empty($search)) {
+            $like = "%{$search}%";
+            $query = $query->where('cme_code', 'LIKE', $like);
+}
+        
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+        return $query->paginate($perPage);
+    }
+
+// cme To Accrued
+    public function GetJobsApprovedDocumentCMEToAccrued(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+ $query = DB::table('vsiteapprovedcmetoaccrued')
+            ->where(function ($query) {
+    $query->where('area', Auth::guard('karyawan')->user()->area)
+          ->orWhere('area', Auth::guard('karyawan')->user()->area2);
+})
+        ->orderBy('id','DESC');
+ 
+
+if (!empty($search)) {
+            $like = "%{$search}%";
+            $query = $query->where('cme_code', 'LIKE', $like);
+}
+        
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+        return $query->paginate($perPage);
+    }
+
+
+
+// cme Accrued
+    public function GetJobsApprovedDocumentCMEAccruedData(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+ $query = DB::table('vsiteapprovedcmeaccrueddata')
+            ->where(function ($query) {
+    $query->where('area', Auth::guard('karyawan')->user()->area)
+          ->orWhere('area', Auth::guard('karyawan')->user()->area2);
+})
+        ->orderBy('id','DESC');
+ 
+
+if (!empty($search)) {
+            $like = "%{$search}%";
+            $query = $query->where('cme_code', 'LIKE', $like);
+}
+        
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+        return $query->paginate($perPage);
+    }
+
+
+    
+    public function GetJobsDocumentBaksBauk(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+        $query =  DB::table('vjobsdocumentbaksbauk')
+        ->where([['regional',Auth::guard('karyawan')->user()->regional],['area',Auth::guard('karyawan')->user()->area],['regional',Auth::guard('karyawan')->user()->regional]])
+        ->orderBy('id','DESC');
+
+        if ($search && !$min && !$max) {
+            $like = "%{$search}%";
+            $query = $query
+            ->where('projectid', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like)
+            ->orWhere('infratype', 'LIKE', $like);
+        }
+        if(!$search && $min && !$max)
+        {
+            $query = $query->whereDate('created_at','=',$min);
+        }
+        if(!$search && !$min && $max)
+        {
+            $query = $query->whereDate('created_at','=',$max);
+        }
+        if($search && $min && !$max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','=',$min)
+            ->where('projectid', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like)
+            ->orWhere('infratype', 'LIKE', $like);
+        }
+        if($search && !$min && $max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','=',$max)
+            ->where('projectid', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like)
+            ->orWhere('infratype', 'LIKE', $like);
+        }
+        if(!$search && $min && $max)
+        {
+            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+        }
+        if($search && $min && $max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
+            ->where('projectid', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like)
+            ->orWhere('infratype', 'LIKE', $like);
+        }
+        return $query->paginate($perPage);
+    }
+
+
+    
+    public function GetJobsDocumentBaksBaukRevisi(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+        $query =  DB::table('vallprojectbaksbaukrevisi')
+        ->where([['regional',Auth::guard('karyawan')->user()->regional],['area',Auth::guard('karyawan')->user()->area],['regional',Auth::guard('karyawan')->user()->regional]])
+        ->orderBy('id','DESC');
+
+        if ($search && !$min && !$max) {
+            $like = "%{$search}%";
+            $query = $query
+            ->where('projectid', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like)
+            ->orWhere('infratype', 'LIKE', $like);
+        }
+        if(!$search && $min && !$max)
+        {
+            $query = $query->whereDate('created_at','=',$min);
+        }
+        if(!$search && !$min && $max)
+        {
+            $query = $query->whereDate('created_at','=',$max);
+        }
+        if($search && $min && !$max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','=',$min)
+            ->where('projectid', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like)
+            ->orWhere('infratype', 'LIKE', $like);
+        }
+        if($search && !$min && $max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','=',$max)
+            ->where('projectid', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like)
+            ->orWhere('infratype', 'LIKE', $like);
+        }
+        if(!$search && $min && $max)
+        {
+            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+        }
+        if($search && $min && $max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
+            ->where('projectid', 'LIKE', $like)
+            ->orWhere('no_wo', 'LIKE', $like)
+            ->orWhere('infratype', 'LIKE', $like);
+        }
+        return $query->paginate($perPage);
+    }
+
+
+
+// boq baps
+    public function GetJobsDocumentBoqBaps(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+ $query = DB::table('vsiteapprovedboqbapsadd')->orderBy('id','DESC');
+ 
+
+if (!empty($search)) {
+            $like = "%{$search}%";
+            $query = $query->where('projectid', 'LIKE', $like);
+}
+        
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+        return $query->paginate($perPage);
+    }
+
+
+
+
+    public function GetJobsDocumentBoqBapsRevisi(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+ $query = DB::table('vsiteapprovedboqbapsrevisi')->orderBy('id','DESC');
+ 
+
+if (!empty($search)) {
+            $like = "%{$search}%";
+            $query = $query->where('projectid', 'LIKE', $like);
+}
+        
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
         return $query->paginate($perPage);
     }
 

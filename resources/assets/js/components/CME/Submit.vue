@@ -421,7 +421,7 @@ return hashids.decode(id);
 window.open(routeData.href, '_blank');               
             }  , 
              	sumSelectedItems() {
-    this.datasubmitNya = [];
+  this.datasubmitNya = [];
    var ttl = this.$refs.vuetable.selectedTo;
    if(ttl.length <= 0)
    {
@@ -429,70 +429,9 @@ window.open(routeData.href, '_blank');
    }
    else
    {
-   	this.$swal({
-  title: 'Are you sure ?',
-  type: 'warning',
-  showCancelButton: true,
-  confirmButtonColor: '#3085d6',
-  cancelButtonColor: '#d33',
-  confirmButtonText: 'Yes!'
-}).then((result) => {
-  if (result.value) {
-    this.isLoading = true;
-
-   	var join_selected_values = ttl.join(","); 
-
-   let masuk = new FormData();
-   masuk.set('project_id', join_selected_values)    
-   masuk.set('document', 'APPROVAL CME')
-   masuk.set('status', 42)
-                axios.post('/karyawan/SubmitCME', masuk)
-                    .then(response => { 
-                      if(response.data.success)
-                      {
-                 this.success(response.data.success);
-                 this.isLoading = false;
-                 this.backLink();
-                      } 
-                      else if(response.data.error)
-                      {
-                 this.error(response.data.error);
-                 this.isLoading = false;
-                 this.backLink();
-                      }
-                      else
-                      {
-                         this.modal.set('approve', false);
-                          this.isLoading = false; 
-                        this.errorNya = {document_sis:[response.data.error]};
-                      }
-                    })
-                    .catch(error => {
-                    if (! _.isEmpty(error.response)) {
-                    if (error.response.status = 422) {
-                         this.modal.set('approve', false);
-                         this.isLoading = false;
-                       this.errorNya = error.response.data;
-                    }
-                   else if (error.response.status = 500) {
-                         this.modal.set('approve', false);
-                        this.isLoading = false;
-                        this.$router.push('/server-error');
-                    }
-                    else
-                    {
-                         this.modal.set('approve', false);
-                         this.isLoading = false;
-                         this.$router.push('/page-not-found');
-                    }
-                    }
-                        
-                    })
-  }
-})
-
+    var join_selected_values = ttl.join(","); 
+this.$router.push({name:'beforesubmitcmedata', params: {typenya:'before-submit-cme-data',rowDatanya:{datanya:this.dataNya,project:join_selected_values} }});
    }
-   
   },
         doFilter () {
         	 

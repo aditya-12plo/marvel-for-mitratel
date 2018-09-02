@@ -570,8 +570,18 @@ let routes=[
 
 /* FenceYard  */
 {
+	path:'/rfi-baut-approval',
+	component:require('./components/RFI&BAUT/IndexApproval')
+},
+{
 	path:'/rfi-baut-add',
 	component:require('./components/RFI&BAUT/')
+},
+{
+	path:'/rfi-baut-approval/data/:id',
+	name: 'approvaldocumentcmedata',
+	component:require('./components/RFI&BAUT/Approved'),
+	props: true
 },
 {
 	path:'/rfi-baut-add/add/:id',
@@ -592,6 +602,20 @@ let routes=[
 /* FenceYard  */
 
 
+/* PO  */
+{
+	path:'/po-input',
+	component:require('./components/PO')
+},
+{
+	path:'/po-input/data/:id',
+	name: 'addpo',
+	component:require('./components/PO/Add'),
+	props: true
+},
+/* PO  */
+
+
 /* CME  */
 {
 	path:'/cme-submit',
@@ -600,11 +624,57 @@ let routes=[
 {
 	path:'/approval-cme',
 	component:require('./components/CME/')
+}, 
+{
+	path:'/print-cme',
+	component:require('./components/CME/Print')
+}, 
+{
+	path:'/cme-revisi',
+	component:require('./components/CME/IndexRevisi')
+}, 
+{
+	path:'/cme-accrual',
+	component:require('./components/CME/IndexAccrual')
+},
+{
+	path:'/cme-accrued',
+	component:require('./components/CME/IndexAccrued')
+}, 
+{
+	path:'/cme-accrued/data/:id',
+	name: 'accruedcmedatanya',
+	component:require('./components/CME/CMEAccrued'),
+	props: true
+},
+{
+	path:'/cme-accrual/submit/:id',
+	name: 'accruedcmesubmit',
+	component:require('./components/CME/CMEAccrual'),
+	props: true
 },
 {
 	path:'/approval-cme/detail/:id',
 	name: 'approvaldocumentcme',
 	component:require('./components/CME/Approved'),
+	props: true
+},
+{
+	path:'/cme-submit/accrual',
+	name: 'beforesubmitcmedata',
+	component:require('./components/CME/BeforeSubmit'),
+	props: true
+},
+{
+	path:'/cme-revisi/edit/:id',
+	name: 'revisidocumentcme',
+	component:require('./components/CME/Revisi'),
+	props: true
+},
+{
+	path:'/print-cme/data/:id',
+	name: 'detailcmeapproved',
+	component:require('./components/CME/PrintDetail'),
 	props: true
 },
 /* CME  */
@@ -642,6 +712,65 @@ let routes=[
 	props: true
 },
 /* RFI Detail  */
+
+
+
+/* BAKS BAUK  */
+{
+	path:'/documents-baks-bauk',
+	component:require('./components/BaksBauk/')
+},
+{
+	path:'/documents-baks-bauk-approval',
+	component:require('./components/BaksBauk/IndexApproval')
+},
+{
+	path:'/repair-documents-baks-bauk',
+	component:require('./components/BaksBauk/IndexRevisi')
+},
+{
+	path:'/repair-documents-baks-bauk/data/:id',
+	name: 'revisidocumentbaksbauk',
+	component:require('./components/BaksBauk/Revisi'),
+	props: true
+},
+{
+	path:'/documents-baks-bauk-approval/data/:id',
+	name: 'approvaldocumentbaksbauk',
+	component:require('./components/BaksBauk/Approved'),
+	props: true
+},
+{
+	path:'/documents-baks-bauk/add/:id',
+	name: 'adddocumentbaksbauk',
+	component:require('./components/BaksBauk/Add'),
+	props: true
+},
+/* BAKS BAUK  */
+
+
+/* BOQ BAPS */
+{
+	path:'/documents-boq-baps',
+	component:require('./components/BoqBaps/')
+},
+{
+	path:'/documents-boq-baps-revisi',
+	component:require('./components/BoqBaps/IndexRevisi')
+},
+{
+	path:'/documents-boq-baps-revisi/data/:id',
+	name: 'revisidocumentboqbaps',
+	component:require('./components/BoqBaps/Revisi'),
+	props: true
+},
+{
+	path:'/documents-boq-baps/add/:id',
+	name: 'adddocumentboqbaps',
+	component:require('./components/BoqBaps/Add'),
+	props: true
+},
+/* BOQ BAPS */
 
 
 

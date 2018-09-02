@@ -18,8 +18,9 @@
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^5.2.0",
         "maatwebsite/excel": "~2.1.0",
+        "phpoffice/phpspreadsheet": "^1.4",
         "roksta/toast": "^1.0",
-		"tymon/jwt-auth": "0.5.*"
+        "tymon/jwt-auth": "0.5.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
