@@ -34,7 +34,7 @@
         <!-- main menu header-->
         <!-- Sidebar Header starts-->
         <div class="sidebar-header">
-          <div class="logo clearfix"><a href="/karyawan?#" class="logo-text float-left">
+          <div class="logo clearfix"><a href="/karyawan?" class="logo-text float-left">
               <div class="logo-img">Dr</div> <span class="text align-middle">MARVEL</span></a><a id="sidebarToggle" href="javascript:;" class="nav-toggle d-none d-sm-none d-md-none d-lg-block"><i data-toggle="expanded" class="ft-toggle-left toggle-icon"></i></a><a id="sidebarClose" href="javascript:;" class="nav-close d-block d-md-block d-lg-none d-xl-none"><i class="ft-x"></i></a></div>
         </div>
         <!-- Sidebar Header Ends-->
@@ -50,7 +50,7 @@
 <!-- MENU -->
 
 
-<li class="nav-item"><a href="/karyawan?#"><i class="ft-home"></i><span data-i18n="" class="menu-title">Dashboard</span></a></li>
+<li class="nav-item"><a href="/karyawan?"><i class="ft-home"></i><span data-i18n="" class="menu-title">Dashboard</span></a></li>
 
 
 @if(Auth::guard('karyawan')->user()->level == 'REGIONAL' && Auth::guard('karyawan')->user()->posisi == 'AM SUPPORT')
@@ -470,6 +470,25 @@
 
                 </ul>
               </li>
+<li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">BAPS</span></a>
+                <ul class="menu-content">
+<li><a onClick="window.location.replace('/karyawan?#/documents-baps');window.location.reload();" class="menu-item">Add</a>
+                  </li>
+<li><a onClick="window.location.replace('/karyawan?#/documents-baps-revisi');window.location.reload();"  class="menu-item">Revisi</a>
+                  </li>           
+
+                </ul>
+              </li>
+<li class="has-sub nav-item"><a href="#"><i class="ft-paperclip"></i><span data-i18n="" class="menu-title">Invoice</span></a>
+                <ul class="menu-content">
+<li><a onClick="window.location.replace('/karyawan?#/documents-invoice');window.location.reload();" class="menu-item">Add</a>
+                  </li>
+<li><a onClick="window.location.replace('/karyawan?#/documents-invoice-revisi');window.location.reload();"  class="menu-item">Revisi</a>
+                  </li>           
+
+                </ul>
+              </li>
+<li class="nav-item"><a onClick="window.location.replace('/karyawan?#/report-data-bisnis');window.location.reload();"><i class="ft-printer"></i><span data-i18n="" class="menu-title">Report</span></a></li>              
 @endif
 
 

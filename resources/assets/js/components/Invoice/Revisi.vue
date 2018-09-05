@@ -5,7 +5,7 @@
 <section class="basic-elements">
     <div class="row">
         <div class="col-sm-12">
-            <div class="content-header" align="center">Form Revisi Dokumen BOQ BAPS Project ID {{this.rowDatanya.project.projectid}}</div>
+            <div class="content-header" align="center">Form Penambahan Dokumen Invoice Project ID {{this.rowDatanya.project.projectid}}</div>
         </div>
     </div>
     <div class="row">
@@ -25,39 +25,44 @@
               <div class="form-body">
                             <div class="row">  
 
-                              
+                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="no_receive">NO RECEIVE</label>
+                                        <br>
+<money v-model="forms.no_receive" class="form-control border-input" placeholder="NO RECEIVE" v-bind="nomorinvoice"></money> 
+<div class="help-block"><ul role="alert"><li v-for="error of errorNya['no_receive']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+  
+                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="no_kontrak">NO KONTRAK</label>
+                                        <br>
+<money v-model="forms.no_kontrak" class="form-control border-input" placeholder="NO KONTRAK" v-bind="nomorinvoice"></money> 
+<div class="help-block"><ul role="alert"><li v-for="error of errorNya['no_kontrak']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+  
+
+                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="no_kontrak">NO INVOICE</label>
+                                        <br>
+<input type="text" @input="allcap($event, forms, 'no_invoice')" class="form-control" placeholder="NO INVOICE" v-model="forms.no_invoice" required>
+<div class="help-block"><ul role="alert"><li v-for="error of errorNya['no_invoice']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+  
 
                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="tgl_mulai_sewa">TANGGAL MULAI SEWA</label>
+                                        <label for="tgl_invoice">TANGGAL INVOICE</label>
                                         <br>
- <date-picker :date="tgl_mulai_sewa" :option="option"></date-picker>
-  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['tgl_mulai_sewa']"><span style="color:red;">{{ error }}</span></li></ul></div>
+ <date-picker :date="tgl_invoice" :option="option"></date-picker>
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['tgl_invoice']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="tgl_target_rfi">TANGGAL RFI</label>
-                                        <br>
- <date-picker :date="tgl_target_rfi" :option="option"></date-picker>
-  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['tgl_target_rfi']"><span style="color:red;">{{ error }}</span></li></ul></div>
-                                    </fieldset>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="document_boq_baps">DOKUMEN BOQ BAPS</label>
-                                        <br>
-<input type="file" accept="application/pdf" name="file_name" id="file_name" v-on:change="newAvatar"> 
-  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_boq_baps']"><span style="color:red;">{{ error }}</span></li></ul></div>
-  <br>
-  <a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.document_boq_baps" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>   
-  <br>
-<p class="center-block">* Type dokumen .pdf And Max 10 MB</p>
-                                    </fieldset>
-                                </div>
-
+                                </div> 
+ 
                               
 
                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
@@ -284,7 +289,15 @@ export default {
   Money,
   },
  data () {
-    return {
+    return { 
+    	nomorinvoice: {
+        decimal: '',
+        thousands: '',
+        prefix: '',
+        suffix: '',
+        precision: 0,
+        masked: false
+        },
         power_capacity: {
           decimal: ',',
           thousands: '.',
@@ -312,7 +325,7 @@ export default {
      document_pks:'',
      document_imb:'',
      message:'',
-    tgl_mulai_sewa: {
+    tgl_invoice: {
         time: ''
       }, 
     tgl_target_rfi: {
@@ -348,7 +361,7 @@ export default {
       },
     position: 'up right',
     closeBtn: true,
-  forms: new CrudForm({id:'' , project_id:'' , boqbapsid:'' , tgl_mulai_sewa:'' , tgl_target_rfi:'' , document_boq_baps:'', created_at:''}), 
+  forms: new CrudForm({id:'' , project_id:'' , invoiceid:'' , tgl_invoice:'' , no_receive:'', no_kontrak:'', no_invoice:'', created_at:''}), 
     errors: new Errors() ,
     errorNya: [], 
     komunikasi:[] ,
@@ -376,10 +389,10 @@ window.open(routeData.href, '_blank');
                
             }  ,
                dataAction () {
-      if(this.typenya === "revisi-document-boq-baps")
+      if(this.typenya === "revisi-document-invoice")
       { 
-      	this.tgl_mulai_sewa.time = this.rowDatanya.project.tgl_mulai_sewa;
-      	this.tgl_target_rfi.time = this.rowDatanya.project.tgl_target_rfi;
+      	this.forms = this.rowDatanya.project;
+      	this.tgl_invoice.time=this.rowDatanya.project.tgl_invoice;
            this.GetKomunikasi(this.rowDatanya.project.id);
       }
       else
@@ -438,7 +451,7 @@ window.open(routeData.href, '_blank');
 })
     },
             backLink() {
- this.$router.push('/documents-boq-baps-revisi');
+ this.$router.push('/documents-invoice-revisi');
             } ,
     allcap (e, o, prop) {
   const start = e.target.selectionStart;
@@ -480,20 +493,18 @@ window.open(routeData.href, '_blank');
   if (result.value) {    
     this.isLoading = true;
    let masuk = new FormData();
-   masuk.set('id', this.rowDatanya.project.boqbapsid)
    masuk.set('project_id', this.rowDatanya.project.id)
    masuk.set('projectid', this.rowDatanya.project.projectid)
-   masuk.set('kata', 'REVISI BOQ BAPS')
+   masuk.set('kata', 'REVISI INVOICE')
    masuk.set('infratype', this.rowDatanya.project.infratype) 
-   masuk.set('tgl_mulai_sewa', this.tgl_mulai_sewa.time)
-   masuk.set('tgl_target_rfi', this.tgl_target_rfi.time)
-   masuk.set('namafile', this.rowDatanya.project.document_boq_baps)  
-   masuk.set('document_boq_baps', this.file_name)  
-   masuk.set('message', this.message)
-   masuk.set('statusmessage', 'REVISI DOKUMEN BOQ BAPS')
-   masuk.set('document', 'DOKUMEN BOQ BAPS')
-   masuk.set('status', 52)
-                axios.post('/karyawan/RevisiDocumentBoqBaps', masuk)
+   masuk.set('tgl_invoice', this.tgl_invoice.time)  
+   masuk.set('no_receive', this.forms.no_receive)
+   masuk.set('no_kontrak', this.forms.no_kontrak)
+   masuk.set('no_invoice', this.forms.no_invoice)
+   masuk.set('statusmessage', 'REVISI DOKUMEN INVOICE')
+   masuk.set('document', 'REVISI INVOICE')
+   masuk.set('status', 54)
+                axios.post('/karyawan/AddDocumentRevisiInvoice', masuk)
                     .then(response => { 
                       if(response.data.success)
                       {
@@ -511,7 +522,7 @@ window.open(routeData.href, '_blank');
                       {
                          this.modal.set('approve', false);
                           this.isLoading = false; 
-                        this.errorNya = {document_boq_baps:[response.data.errorfile]};
+                        this.errorNya = {document_baps:[response.data.error]};
                       }
                     })
                     .catch(error => {

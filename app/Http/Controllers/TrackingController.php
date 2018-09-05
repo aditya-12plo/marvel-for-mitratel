@@ -125,9 +125,15 @@ else
 $total =  DB::table('vtotalproject')->where('years',$years)->first();     
 $totalline =  DB::table('vbiayasewanational')->where('years',$years)->first();     
 
-$labeltotal = ['Belum Dikerjakan '.$total->jumlahnew , 'Dokumen SIS '.$total->jumlahsis , 'Dokumen DRM '.$total->jumlahdrm , 'Dokumen SITAC '.$total->jumlahsitac , 'Dokumen RFC '.$total->jumlahrfc , 'Submit BOQ '.$total->jumlahboq , 'BOQ Verifikasi '.$total->jumlahboqverifikasi , 'BOQ Proses PR '.$total->jumlahboqprosespr , 'BOQ PO Release '.$total->jumlahboqrelease, 'DROP Site '.$total->jumlahdrop];
-$resultTotal = [$total->jumlahnew,$total->jumlahsis,$total->jumlahdrm ,$total->jumlahsitac , $total->jumlahrfc,$total->jumlahboq,$total->jumlahboqverifikasi,$total->jumlahboqprosespr ,$total->jumlahboqrelease,$total->jumlahdrop];  
+$labeltotal = ['Dokumen RFC '.$total->jumlahrfc , 'Submit BOQ '.$total->jumlahboq , 'BOQ Verifikasi '.$total->jumlahboqverifikasi , 'BOQ Proses PR '.$total->jumlahboqprosespr , 'BOQ PO Release '.$total->jumlahboqrelease, 'DROP Site '.$total->jumlahdrop];
+$resultTotal = [$total->jumlahrfc,$total->jumlahboq,$total->jumlahboqverifikasi,$total->jumlahboqprosespr ,$total->jumlahboqrelease,$total->jumlahdrop];  
 $totallabel = ['labels'=>$labeltotal , 'result'=> $resultTotal];
+
+$labeltotalproject = ['Dokumen KOM / SIS '.$total->jumlahsis , 'Dokumen SITAC '.$total->jumlahsitac , 'Dokumen RFC '.$total->jumlahrfc , 'Dokumen CME '.$total->cme];
+$resultTotalproject = [$total->jumlahsis,$total->jumlahsitac,$total->jumlahrfc,$total->cme];  
+$totallabelproject = ['labels'=>$labeltotalproject , 'result'=> $resultTotalproject];
+
+
 $labelslineavg = 'AVG Sewa National Rp. '.number_format($totalline->jumlah, 2 , '.' , ',' );
 $jumlahsemuanya =$total->jumlah;
 $totallineavg = ['labels'=> $labelslineavg, 'result'=> $totalline->jumlah];
@@ -169,7 +175,7 @@ $totalregionalnasionalline = ['labels'=>$regionaltitleline , 'result'=> $regiona
 
  
 
-return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'totallabelsbyyears'=>$totallabel,'totalareabyyears'=>$totalareanasional,'totalregionalbyyears'=>$totalregionalnasional, 'totallineavg'=>$totallineavg , 'totalareanasionalline'=>$totalareanasionalline, 'totalregionalnasionalline'=>$totalregionalnasionalline ]);
+return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'totallabelsbyyears'=>$totallabel,'totalareabyyears'=>$totalareanasional,'totalregionalbyyears'=>$totalregionalnasional, 'totallineavg'=>$totallineavg , 'totalareanasionalline'=>$totalareanasionalline, 'totalregionalnasionalline'=>$totalregionalnasionalline,'totallabelproject'=>$totallabelproject ]);
 
     }
 

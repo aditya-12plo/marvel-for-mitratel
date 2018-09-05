@@ -201,6 +201,70 @@ return Excel::create('ExportData', function($excel) use ($project){
 
     }
 
+            public function DownloadExcelBisnis(Request $request)
+    {
+$fileName = $request->filename;        
+$projectid =  $request->projectid;     
+$project =  DB::table('vallproject') 
+        ->whereIn('id',explode(",",$projectid))
+        ->orderBy('id','DESC')->get();
+// Create new PHPExcel object
+$objPHPExcel = new PHPExcel();
+
+ 
+// Set active sheet index to the first sheet, so Excel opens this as the first sheet
+$objPHPExcel->setActiveSheetIndex(0);
+
+// Add column headers
+$objPHPExcel->getActiveSheet()
+            ->setCellValue('A1', 'PROJECTID')
+            ->setCellValue('B1', 'SITE ID')
+            ->setCellValue('C1', 'SITE NAME')
+            ->setCellValue('D1', 'NO PO')
+            ->setCellValue('E1', 'TANGGAL PO')
+            ->setCellValue('F1', 'HARGA SEWA / BULAN')
+            ->setCellValue('G1', 'HARGA SEWA / TAHUN')
+            ->setCellValue('H1', 'NO BAKS/BAUK')
+            ->setCellValue('I1', 'TANGGAL BAKS/BAUK')
+            ->setCellValue('J1', 'TANGGAL RFI')
+            ->setCellValue('K1', 'TANGGAL MULAI SEWA')
+            ->setCellValue('L1', 'TANGGAL BERAKHIR SEWA')
+            ;
+
+$objPHPExcel->getActiveSheet()->getStyle('A1:L1')->getFont()->setBold(true);  
+$no=1;
+$row=2; 
+//Put each record in a new cell
+foreach ($project as $a){ 
+    $objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $a->projectid);
+    $objPHPExcel->getActiveSheet()->setCellValue('B'.$row, $a->site_id_actual);
+    $objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $a->site_name_actual);
+    $objPHPExcel->getActiveSheet()->setCellValue('D'.$row, $a->no_po);
+    $objPHPExcel->getActiveSheet()->setCellValue('E'.$row, $a->po_date);
+    $objPHPExcel->getActiveSheet()->setCellValue('F'.$row, $a->rfi_detail_price_month);
+    $objPHPExcel->getActiveSheet()->setCellValue('G'.$row, $a->rfi_detail_price_year);
+    $objPHPExcel->getActiveSheet()->setCellValue('H'.$row, $a->no_baks);
+    $objPHPExcel->getActiveSheet()->setCellValue('I'.$row, $a->date_baks);
+    $objPHPExcel->getActiveSheet()->setCellValue('J'.$row, $a->tgl_target_rfi);
+    $objPHPExcel->getActiveSheet()->setCellValue('K'.$row, $a->tgl_mulai_sewa);
+    $objPHPExcel->getActiveSheet()->setCellValue('L'.$row, $a->tgL_akhir_sewa);
+$no++; 
+$row++;   
+}
+ 
+// Set worksheet title
+$objPHPExcel->getActiveSheet()->setTitle('Sheet1');
+
+// Redirect output to a client’s web browser (Excel5)
+header('Content-Type: application/vnd.ms-excel');
+header('Content-Disposition: attachment;filename="' . $fileName . '.xls"');
+header('Cache-Control: max-age=0');
+
+$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+$objWriter->save('php://output'); 
+
+    }
+
 
             public function printHaki(Request $request)
     {

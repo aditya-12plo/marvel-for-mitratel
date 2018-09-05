@@ -772,6 +772,61 @@ let routes=[
 },
 /* BOQ BAPS */
 
+/* BAPS */
+{
+	path:'/documents-baps',
+	component:require('./components/Baps/')
+},
+{
+	path:'/documents-baps/add/:id',
+	name: 'adddocumentbaps',
+	component:require('./components/Baps/Add'),
+	props: true
+},
+{
+	path:'/documents-baps-revisi',
+	component:require('./components/Baps/IndexRevisi')
+},
+{
+	path:'/documents-baps-revisi/data/:id',
+	name: 'revisidocumentbaps',
+	component:require('./components/Baps/Revisi'),
+	props: true
+},
+/* BAPS */
+
+
+/* invoice */
+{
+	path:'/documents-invoice',
+	component:require('./components/Invoice/')
+},
+{
+	path:'/documents-invoice/add/:id',
+	name: 'adddocumentinvoice',
+	component:require('./components/Invoice/Add'),
+	props: true
+},
+{
+	path:'/documents-invoice-revisi',
+	component:require('./components/Invoice/IndexRevisi')
+},
+{
+	path:'/documents-invoice-revisi/data/:id',
+	name: 'revisidocumentinvoice',
+	component:require('./components/Invoice/Revisi'),
+	props: true
+},
+/* invoice */
+
+
+/* report data bisnis */
+{
+	path:'/report-data-bisnis',
+	component:require('./components/Report/Bisnis')
+},
+/* report data bisnis */
+
 
 
 

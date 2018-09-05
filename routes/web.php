@@ -160,6 +160,11 @@ Route::get('GetJobsApprovalDocumentBaksBauk', 'JobsController@GetJobsApprovalDoc
 Route::get('GetJobsDocumentBaksBaukRevisi', 'JobsController@GetJobsDocumentBaksBaukRevisi');
 Route::get('GetJobsDocumentBoqBaps', 'JobsController@GetJobsDocumentBoqBaps');
 Route::get('GetJobsDocumentBoqBapsRevisi', 'JobsController@GetJobsDocumentBoqBapsRevisi');
+Route::get('GetJobsDocumentBaps', 'JobsController@GetJobsDocumentBaps');
+Route::get('GetJobsDocumentBapsRevisi', 'JobsController@GetJobsDocumentBapsRevisi');
+Route::get('GetJobsDocumentInvoice', 'JobsController@GetJobsDocumentInvoice');
+Route::get('GetJobsDocumentInvoiceRevisi', 'JobsController@GetJobsDocumentInvoiceRevisi');
+Route::get('GetJobsReportBisnis', 'JobsController@GetJobsReportBisnis');
 
  /* get jobs */
 
@@ -403,6 +408,18 @@ Route::get('GetCMEAccruedDataNya/{id}', 'RfiDetailController@GetCMEAccruedDataNy
 /* BOQ BAPS */
 
 
+/* BAPS */
+ Route::post('AddDocumentBaps', 'BapsController@AddDocumentBaps'); 
+ Route::post('RevisiDocumentBaps', 'BapsController@RevisiDocumentBaps'); 
+/* BAPS */
+
+
+/* Invoice */
+ Route::post('AddDocumentInvoice', 'InvoiceController@AddDocumentInvoice');  
+ Route::post('AddDocumentRevisiInvoice', 'InvoiceController@AddDocumentRevisiInvoice');  
+/* Invoice */
+
+
 
  /* tracking site */
   Route::get('TrackingSite', 'TrackingController@index');
@@ -432,6 +449,7 @@ Route::get('GetAllDetailProject/{id}', 'ProjectController@GetAllDetailProject');
 
 
  /* download file */
+ Route::post('DownloadExcelBisnis', 'DownloadController@DownloadExcelBisnis');
  Route::post('DownloadExcelTracking', 'DownloadController@DownloadExcelTracking');
  Route::post('printHaki', 'DownloadController@printHaki');
  Route::post('printHakiAccrual', 'DownloadController@printHakiAccrual');

@@ -11,16 +11,17 @@
 
       <h3 style="padding-top: 1%;font-size: 30px;font-family:'arial';" align="center"><strong><font color="red">Dokumen </font> <font color="green">Review </font> <font color="orange">MARketing </font> <font color="blue">Validation </font> <font color="yellow">ELectronik</font></strong></h3>
 
-      </div>
+<h1 align="center">{{this.dataNya.jumlahsemuanya}} SITE TAHUN {{this.dataNya.years}}</h1>
+      </div> 
    
       <div class="row">
-  <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+
+  <div class="col-xl-6 col-lg-6 col-md-6 col-12">
     <div class="card gradient-white">
       <div class="card-body">
 
 
-<h2 align="center">Total Site Nasional {{this.dataNya.years}}</h2>
-<h3 align="center">{{this.dataNya.jumlahsemuanya}} SITE</h3>
+<h2 align="center">DOKUMEN PO</h2>
 <br>
 <pie-chart-home :height="500" :labelnya="this.dataNya.totallabels.labels" :resultnya="this.dataNya.totallabels.result"></pie-chart-home>
 
@@ -29,11 +30,28 @@
       </div>
     </div>
   </div>
-  <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+
+  <div class="col-xl-6 col-lg-6 col-md-6 col-12">
+    <div class="card gradient-white">
+      <div class="card-body">
+
+
+<h2 align="center">STATUS PROJECT</h2>
+<br>
+<pie-chart-home-project :height="500" :labelnya="this.dataNya.totallabelproject.labels" :resultnya="this.dataNya.totallabelproject.result"></pie-chart-home-project>
+
+
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-xl-6 col-lg-6 col-md-6 col-12">
     <div class="card gradient-white">
       <div class="card-body">
       
-      <h2 align="center">Total Site / AREA {{this.dataNya.years}}</h2>
+      <h2 align="center">Total Site / AREA</h2>
 <br>
 <pie-chart-home-area-nasional :height="500" :labelnya="this.dataNya.totalareanasional.labels" :resultnya="this.dataNya.totalareanasional.result"></pie-chart-home-area-nasional>
 
@@ -42,12 +60,12 @@
     </div>
   </div>
   
-  <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+  <div class="col-xl-6 col-lg-6 col-md-6 col-12">
     <div class="card gradient-white">
       <div class="card-body">
 
 
-      <h2 align="center">Total Site / REGIONAL {{this.dataNya.years}}</h2>
+      <h2 align="center">Total Site / REGIONAL </h2>
 <br>
 <pie-chart-home-regional-nasional :height="500" :labelnya="this.dataNya.totalregionalnasional.labels" :resultnya="this.dataNya.totalregionalnasional.result"></pie-chart-home-regional-nasional>
 
@@ -169,6 +187,45 @@ Vue.component("pie-chart-home", {
           pointBorderColor: 'white',
           borderWidth: 1,
           backgroundColor: ['#dd4b39','#1451A1','#9B3CB7', '#FF396F','#EE0979', '#FF6A00','#009DA0','#4aa7c4','#4aa7c4','#f21e07','#f21e07','#06f11a'],
+          data: this.resultnya,
+        },
+        ]
+        },
+        //Chart.js options that controls the appearance of the chart
+        options: {
+          scales: { },
+          legend: {
+            display: true
+          },
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      }
+    },
+    mounted () {
+    //renderChart function renders the chart with the datacollection and options object.
+      this.renderChart(this.datacollection, this.options) 
+    }
+})   
+
+
+
+
+Vue.component("pie-chart-home-project", {
+  extends: VueCharts.Pie,
+  props: ["labelnya","resultnya"],
+  data () {
+    return {
+        datacollection: {
+          //Data to be represented on x-axis
+          labels: this.labelnya,
+        datasets: [
+    { 
+          borderColor: '#05CBE1',
+          pointBackgroundColor: 'white',
+          pointBorderColor: 'white',
+          borderWidth: 1,
+          backgroundColor: ['#9B3CB7', '#FF396F','#EE0979', '#FF6A00','#009DA0','#4aa7c4','#4aa7c4','#f21e07','#f21e07','#06f11a','#dd4b39','#1451A1'],
           data: this.resultnya,
         },
         ]

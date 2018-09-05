@@ -66,9 +66,13 @@ $date = Carbon::now();
 // for national       
 $total =  DB::table('vtotalproject')->where('years',$date->year)->first();     
 $jumlahsemuanya =$total->jumlah;
-$labeltotal = ['Belum Dikerjakan '.$total->jumlahnew , 'Dokumen SIS '.$total->jumlahsis , 'Dokumen DRM '.$total->jumlahdrm , 'Dokumen SITAC '.$total->jumlahsitac , 'Dokumen RFC '.$total->jumlahrfc , 'Submit BOQ '.$total->jumlahboq , 'BOQ Verifikasi '.$total->jumlahboqverifikasi , 'BOQ Proses PR '.$total->jumlahboqprosespr , 'BOQ PO Release '.$total->jumlahboqrelease, 'DROP Site '.$total->jumlahdrop];
-$resultTotal = [$total->jumlahnew,$total->jumlahsis,$total->jumlahdrm ,$total->jumlahsitac , $total->jumlahrfc,$total->jumlahboq,$total->jumlahboqverifikasi,$total->jumlahboqprosespr ,$total->jumlahboqrelease,$total->jumlahdrop];  
+$labeltotal = ['Dokumen RFC '.$total->jumlahrfc , 'Submit BOQ '.$total->jumlahboq , 'BOQ Verifikasi '.$total->jumlahboqverifikasi , 'BOQ Proses PR '.$total->jumlahboqprosespr , 'BOQ PO Release '.$total->jumlahboqrelease, 'DROP Site '.$total->jumlahdrop];
+$resultTotal = [$total->jumlahrfc,$total->jumlahboq,$total->jumlahboqverifikasi,$total->jumlahboqprosespr ,$total->jumlahboqrelease,$total->jumlahdrop];  
 $totallabel = ['labels'=>$labeltotal , 'result'=> $resultTotal];
+
+$labeltotalproject = ['Dokumen KOM / SIS '.$total->jumlahsis , 'Dokumen SITAC '.$total->jumlahsitac , 'Dokumen RFC '.$total->jumlahrfc , 'Dokumen CME '.$total->cme];
+$resultTotalproject = [$total->jumlahsis,$total->jumlahsitac,$total->jumlahrfc,$total->cme];  
+$totallabelproject = ['labels'=>$labeltotalproject , 'result'=> $resultTotalproject];
 
 //for area
 $area =  DB::table('vtotalprojectarea')->where('years',$date->year)->get();
@@ -91,7 +95,7 @@ $totalregionalnasional = ['labels'=>$regionaltitle , 'result'=> $regionaljml];
 
  
 
-return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,'totallabels'=>$totallabel,'totalareanasional'=>$totalareanasional,'totalregionalnasional'=>$totalregionalnasional ]);
+return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,'totallabels'=>$totallabel,'totalareanasional'=>$totalareanasional,'totalregionalnasional'=>$totalregionalnasional,'totallabelproject'=>$totallabelproject ]);
     
 
     }
@@ -3385,6 +3389,181 @@ if (!empty($search)) {
   { 
    $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
   }
+        return $query->paginate($perPage);
+    }
+
+
+
+// baps
+    public function GetJobsDocumentBaps(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+ $query = DB::table('vsiteapprovedbapsadd')->orderBy('id','DESC');
+ 
+
+if (!empty($search)) {
+            $like = "%{$search}%";
+            $query = $query->where('projectid', 'LIKE', $like);
+}
+        
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+        return $query->paginate($perPage);
+    }
+
+
+
+
+    public function GetJobsDocumentBapsRevisi(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+ $query = DB::table('vsiteapprovedboqbapsrevisi')->orderBy('id','DESC');
+ 
+
+if (!empty($search)) {
+            $like = "%{$search}%";
+            $query = $query->where('projectid', 'LIKE', $like);
+}
+        
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+        return $query->paginate($perPage);
+    }
+
+
+
+
+// invoice
+    public function GetJobsDocumentInvoice(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+ $query = DB::table('vsiteapprovedinvoiceadd')->orderBy('id','DESC');
+ 
+
+if (!empty($search)) {
+            $like = "%{$search}%";
+            $query = $query->where('projectid', 'LIKE', $like);
+}
+        
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+        return $query->paginate($perPage);
+    }
+
+
+
+    public function GetJobsDocumentInvoiceRevisi(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+ $query = DB::table('vsiteapprovedboqbapsrevisi')->orderBy('id','DESC');
+ 
+
+if (!empty($search)) {
+            $like = "%{$search}%";
+            $query = $query->where('projectid', 'LIKE', $like);
+}
+        
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+        return $query->paginate($perPage);
+    }
+
+
+
+    public function GetJobsReportBisnis(Request $request)
+    { 
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $infratype = $request->infratypenya;
+        $statusnya = $request->statusnya;
+        $towernya = $request->towernya;
+        $min = $request->min;
+        $max = $request->max;
+
+$query =  DB::table('vsitereportbisnis')->orderBy('id','DESC');
+
+ 
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like);
+  }
+
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+ 
         return $query->paginate($perPage);
     }
 

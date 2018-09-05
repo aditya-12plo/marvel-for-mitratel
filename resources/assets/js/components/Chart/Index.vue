@@ -7,20 +7,21 @@
 
 
       <div class="card-header">
-       <h1 style="padding-top: 1%;font-size: 40px;font-family:'arial';" align="center"><strong>PROJECT TAHUN {{this.$route.params.years}}</strong></h1> 
+       <h1 style="padding-top: 1%;font-size: 40px;font-family:'arial';" align="center"><strong>PROJECT TAHUN {{this.$route.params.years}}
+<br>{{this.dataNya.jumlahsemuanya}} SITE</strong></h1> 
 
       </div>
    
     
 
       <div class="row">
-  <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+
+  <div class="col-xl-6 col-lg-6 col-md-6 col-12">
     <div class="card">
       <div class="card-body">
 
 
-<h2 align="center">Total Site {{this.dataNya.jumlahsemuanya}} Site</h2>
-<h3 align="center">{{this.dataNya.jumlahsemuanya}} SITE</h3>
+<h2 align="center">DOKUMEN PO</h2>
 <br>
 <pie-chart-history-by-years-all :height="500" :labelnyahistorybyyears="this.dataNya.totallabelsbyyears.labels" :resultnyahistorybyyears="this.dataNya.totallabelsbyyears.result"></pie-chart-history-by-years-all>
 
@@ -29,11 +30,27 @@
       </div>
     </div>
   </div>
-  <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+
+  <div class="col-xl-6 col-lg-6 col-md-6 col-12">
+    <div class="card">
+      <div class="card-body">
+
+
+<h2 align="center">STATUS PROJECT</h2>
+<br>
+<pie-chart-history-by-years-all-project :height="500" :labelnyahistorybyyears="this.dataNya.totallabelproject.labels" :resultnyahistorybyyears="this.dataNya.totallabelproject.result"></pie-chart-history-by-years-all-project>
+
+
+
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-6 col-lg-6 col-md-6 col-12">
     <div class="card">
       <div class="card-body">
       
-      <h2 align="center">Total Site / AREA {{this.dataNya.years}}</h2>
+      <h2 align="center">Total Site / AREA</h2>
 <br>
 <pie-chart-home-area-by-years :height="500" :labelnya="this.dataNya.totalareabyyears.labels" :resultnya="this.dataNya.totalareabyyears.result"></pie-chart-home-area-by-years>
 
@@ -42,12 +59,12 @@
     </div>
   </div>
   
-  <div class="col-xl-4 col-lg-6 col-md-6 col-12">
+  <div class="col-xl-6 col-lg-6 col-md-6 col-12">
     <div class="card">
       <div class="card-body">
 
 
-      <h2 align="center">Total Site / REGIONAL {{this.dataNya.years}}</h2>
+      <h2 align="center">Total Site / REGIONAL</h2>
 <br>
 <pie-chart-home-regional-by-years :height="500" :labelnya="this.dataNya.totalregionalbyyears.labels" :resultnya="this.dataNya.totalregionalbyyears.result"></pie-chart-home-regional-by-years>
 
@@ -352,6 +369,44 @@ Vue.component("pie-chart-history-by-years-all", {
           pointBorderColor: 'white',
           borderWidth: 1,
           backgroundColor: ['#dd4b39','#1451A1','#9B3CB7', '#FF396F','#EE0979', '#FF6A00','#009DA0','#4aa7c4','#4aa7c4','#f21e07','#f21e07','#06f11a'],
+          data: this.resultnyahistorybyyears,
+        },
+        ]
+        },
+        //Chart.js options that controls the appearance of the chart
+        options: {
+          scales: { },
+          legend: {
+            display: true
+          },
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      }
+    },
+    mounted () {
+    //renderChart function renders the chart with the datacollection and options object.
+      this.renderChart(this.datacollection, this.options) 
+    }
+})   
+
+
+
+Vue.component("pie-chart-history-by-years-all-project", {
+  extends: VueCharts.Pie,
+  props: ["labelnyahistorybyyears","resultnyahistorybyyears"],
+  data () {
+    return {
+        datacollection: {
+          //Data to be represented on x-axis
+          labels: this.labelnyahistorybyyears,
+        datasets: [
+    { 
+          borderColor: '#05CBE1',
+          pointBackgroundColor: 'white',
+          pointBorderColor: 'white',
+          borderWidth: 1,
+          backgroundColor: ['#9B3CB7', '#FF396F','#EE0979', '#FF6A00','#009DA0','#4aa7c4','#4aa7c4','#f21e07','#f21e07','#06f11a','#dd4b39','#1451A1'],
           data: this.resultnyahistorybyyears,
         },
         ]

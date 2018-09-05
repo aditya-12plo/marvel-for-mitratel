@@ -2,12 +2,13 @@
  <div> 
  	<loading :show="isLoading"></loading>
  	 <vue-toast ref='toast'></vue-toast>
+    <section class="content-header">
 
+      <h1 align="center">
+      Revisi Dokumen BAPS
+      </h1>
+    </section>
 
-   <div class="card-header">
-       <h1 style="padding-top: 1%;font-size: 40px;font-family:'arial';" align="center"><strong>PROJECT TAHUN {{this.$route.params.years}}</strong></h1> 
-
-      </div>
 
 
 
@@ -26,78 +27,32 @@
                     <option :value=50>50</option>
                     <option :value=75>75</option>
                     <option :value=100>100</option>
-                    <option :value=1000>1000</option>
                 </select>
             </div>
              <form class="form-inline">
 <div style="overflow-x:auto;">
   <table>
   <tr>
-      <td colspan="2"><label>Date From :</label></td>
-      <td colspan="2"><date-picker :date="startTime" :option="option" @keyup.enter="doFilter"></date-picker></td>
-      <td colspan="2"><label>&nbsp;&nbsp;Date To :</label></td>
-      <td colspan="2"><date-picker :date="endtime" :option="option" @keyup.enter="doFilter"></date-picker></td>
+      <td><label>Date From :</label></td>
+      <td><date-picker :date="startTime" :option="option" @keyup.enter="doFilter"></date-picker></td>
+      <td><label>&nbsp;&nbsp;Date To :</label></td>
+      <td><date-picker :date="endtime" :option="option" @keyup.enter="doFilter"></date-picker></td>
     </tr>
     <tr>
-      <td colspan="8" style="padding-top: 1%;"></td>
+      <td colspan="4" style="padding-top: 1%;"></td>
     </tr>
     <tr>
-      <td colspan="2"><label>Infratype :</label></td>
-      <td colspan="2">      	<select v-model="infratypenya" class="form-control" @keyup.enter="doFilter"> 
-      		<option v-for="opti in optionsnya">
-      			{{opti}}
-      		</option>
-      	</select></td>
-        <td colspan="2"><label>Tinggi Tower :</label></td>
-      <td colspan="2">
-        <select v-model="towernya" class="form-control" @keyup.enter="doFilter"> 
-          <option v-for="optit in optionstowernya">
-            {{ optit }}
-          </option>
-        </select></td>
+      <td><label>Search for:</label></td>
+      <td colspan="3"><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="Project ID"></td>
     </tr>
      <tr>
-     	<td colspan="8" style="padding-top: 1%;"></td>
-    </tr>
-     <tr>
-     	<td colspan="2"><label>Status :</label></td>
-      <td colspan="2">
-      	<select v-model="statusnya" class="form-control" @keyup.enter="doFilter"> 
-      		<option v-for="optit in optionsstatusnya" v-bind:value="optit.status_id">
-      			{{ optit.name }}
-      		</option>
-      	</select></td>
-     	      <td colspan="2"><label>Batch :</label></td>
-      <td colspan="2">
-
-        <select v-model="batchnya" class="form-control" @keyup.enter="doFilter"> 
-          <option v-for="optit in batchall" v-bind:value="optit.batchnya">
-            {{ optit.batchnya }}
-          </option>
-        </select>
-
-      </td>
-    </tr>
-     <tr>
-      <td colspan="8" style="padding-top: 1%;"></td>
-    </tr>
-
-     <tr>
-           <td colspan="4"><label>Search for:</label></td>
-      <td colspan="4"><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="Project ID"></td>
-    </tr> 
-    <tr>
-      <td colspan="8" style="padding-top: 1%;"></td>
-    </tr>
-     <tr>
-     	<td colspan="8" style="padding-top: 5%;"></td>
+      <td colspan="4" style="padding-top: 1%;"></td>
     </tr>
     <tr>
-      <td colspan="8">
+      <td colspan="4">
 <div class="text-left">
 <button class="btn btn-primary" @click.prevent="doFilter">Cari <i class="fa fa-thumbs-o-up position-right"></i></button>
-<button class="btn btn-warning" @click.prevent="resetFilter">Reset Form <i class="fa fa-refresh position-right"></i></button>   
-<button class="btn btn-info" @click="sumSelectedItemsExcel()">Download Excel <i class="ft-download position-right"></i></button> 
+<button class="btn btn-warning" @click.prevent="resetFilter">Reset Form <i class="fa fa-refresh position-right"></i></button> 
                                     </div>
 </td>
        </tr>
@@ -114,7 +69,7 @@
     <br>
     <div style="overflow-x:auto;"> 
     <vuetable ref="vuetable"
-      :api-url="URLNYA"
+      api-url="/karyawan/GetJobsDocumentBapsRevisi"
       :fields="fields"
       pagination-path=""
       :per-page="perPage"
@@ -181,7 +136,7 @@ import accounting from 'accounting'
 import moment from 'moment'
 import '!!vue-style-loader!css-loader!vue-toast/dist/vue-toast.min.css'
 import VueToast from 'vue-toast'
-import myDatepicker from 'vue-datepicker' 
+import myDatepicker from 'vue-datepicker'
 import Vuetable from 'vuetable-2/src/components/Vuetable'
 import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
@@ -189,10 +144,8 @@ import Vue from 'vue'
 import loading from '../Loading'
 import VueEvents from 'vue-events'
 import Hashids from 'hashids'
-import vSelect from 'vue-select'
 Vue.use(VueEvents)
-Vue.component('view-custom-actions', require('../Button/ViewActions.vue')) 
-Vue.component('v-select', vSelect)
+Vue.component('revisi-custom-actions', require('../Button/RevisiActions.vue'))
 window.axios = require('axios')
 window.eventBus = new Vue()
 export default {
@@ -201,7 +154,7 @@ export default {
     VuetablePagination,
     VuetablePaginationInfo,
     'vue-toast': VueToast,
-    'date-picker': myDatepicker, 
+    'date-picker': myDatepicker,
 	loading,
   },
   data () {
@@ -245,19 +198,10 @@ export default {
     formErrors:{},
     errors: new Errors() ,
      errorNya: [],
-	 optionsnya: [],
      token: localStorage.getItem('token'),
     submitted: false,
     submitSelectedItems:[] ,
-    optionstowernya: [],
-    batchall: [],
-    optionsstatusnya: [],
     displayItems:[] ,
-    URLNYA: "/karyawan/TrackingSiteByYears/"+this.$route.params.years,
-    infratypenya: '',
-    towernya: '',
-    batchnya: '',
-    statusnya: '',
      dataNya: {area:'' , level:'' , regional:''},
     perPage: 10,
     loading: false,
@@ -269,26 +213,15 @@ export default {
           dataClass: 'text-center'
         },
         {
-          name: '__checkbox:id',
-          titleClass: 'text-center',
-          dataClass: 'text-center',
-        },
-        {
           name: 'projectid',
-      title: 'Project ID',
-      titleClass: 'text-center',
+		  title: 'Project ID',
+		  titleClass: 'text-center',
           dataClass: 'text-center'
         },
         {
           name: 'batchnya',
-		  title: 'Batch',
-		  titleClass: 'text-center',
-          dataClass: 'text-center'
-        },
-        {
-          name: 'infratype',
-		  title: 'Infratype',
-		  titleClass: 'text-center',
+      title: 'Batch',
+      titleClass: 'text-center',
           dataClass: 'text-center'
         },
         {
@@ -310,40 +243,13 @@ export default {
           dataClass: 'text-center'
         },
         {
-          name: 'statusnya',
-      title: 'Status',
-      titleClass: 'text-center',
-          dataClass: 'text-center'
-        },
-        {
-          name: 'rfi_detail_price_month',
-      title: 'Sewa / Bulan',
-          titleClass: 'text-center',
-          dataClass: 'text-center',
-          callback: 'formatNumberRupiah'
-        },
-        {
-          name: 'rfi_detail_price_year',
-      title: 'Sewa / Tahun',
-          titleClass: 'text-center',
-          dataClass: 'text-center',
-          callback: 'formatNumberRupiah'
-        },
-        {
-          name: 'nilai_revenue',
-      title: 'Nilai Revenue',
-          titleClass: 'text-center',
-          dataClass: 'text-center',
-          callback: 'formatNumberRupiah'
-        },
-        {
           name: 'created_at',
 		  title: 'Tanggal Input',
           titleClass: 'text-center',
           dataClass: 'text-center',
         },
         {
-          name: '__component:view-custom-actions',
+          name: '__component:revisi-custom-actions',
           title: 'Actions',
           titleClass: 'text-center',
           dataClass: 'text-center'
@@ -381,33 +287,14 @@ export default {
   },
           watch: {
             'perPage'(newValue, oldValue) {
-               this.$events.fire('filter-set', this.filterText, this.towernya,this.infratypenya,this.statusnya,this.batchnya)
+               this.$events.fire('filter-set', this.filterText)
             },
             'delayOfJumps': 'resetOptions',
         'maxToasts': 'resetOptions',
         'position': 'resetOptions',
         },
   methods: {
-selectInfratype() { 
-                axios.get('/karyawan/GetInfratype').then((response) => {
-                    this.optionsnya = response.data;  
-                    });
-            } ,
-			            selectTowerHigh() { 
-                axios.get('/karyawan/GetTowerHigh').then((response) => {
-                    this.optionstowernya = response.data;  
-                    });
-            } ,
-			            selectStatus() { 
-                axios.get('/karyawan/GetStatus').then((response) => {
-                    this.optionsstatusnya = response.data;  
-                    });
-            } ,
-			            selectBatch() { 
-                axios.get('/karyawan/GetBatch').then((response) => {
-                    this.batchall = response.data;  
-                    });
-            } ,
+
  success(kata) {
       this.$swal({
   position: 'top-end',
@@ -449,7 +336,27 @@ dibalik(id)
            {
 var hashids = new Hashids('',1000,'abcdefghijklmnopqrstuvwxyz0987654321ABCDEFGHIJKLMNOPQRSTUVWXYZ'); // no padding
 return hashids.decode(id); 
-           }, 
+           },
+  fetchIt(){
+   this.isLoading = true;
+                axios.get('/karyawan/CekUserProfileAkses/DocumentBisnis').then((response) => {
+                    this.dataNya = response.data;
+                    this.isLoading = false;
+                }).catch(error => {
+				if (! _.isEmpty(error.response)) {
+                    if (error.response.status = 422) {
+                       this.$router.push('/server-error');
+                    }
+                   else if (error.response.status = 500) {
+                        this.$router.push('/server-error');
+                    }
+					else
+					{
+                         this.$router.push('/page-not-found');
+					}
+					}
+                    });
+            },
   resetOptions() {
           this.$refs.toast.setOptions({
             delayOfJumps: this.delayOfJumps,
@@ -465,21 +372,20 @@ return hashids.decode(id);
         },
            
             viewItem(item ,index = this.indexOf(item)){
-let routeData = this.$router.resolve({name:'approvalboqdetailprojectnya', params: {id: this.diacak(item.id) }});
-window.open(routeData.href, '_blank');
+                this.$router.push({name:'revisidocumentbaps', params: {id: this.diacak(item.id),typenya:'revisi-document-baps',rowDatanya:{project:item} }});
             }  ,
         doFilter () {
         		if(!this.startTime.time && !this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText, this.towernya ,this.infratypenya,this.statusnya, this.batchnya, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
 		}
 		else if(this.startTime.time && !this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText,this.towernya , this.infratypenya,this.statusnya, this.batchnya, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
 		}
 		else if(!this.startTime.time && this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText, this.towernya ,this.infratypenya,this.statusnya, this.batchnya, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
 		}
 		else if(this.startTime.time && this.endtime.time)
 		{ 
@@ -489,12 +395,12 @@ window.open(routeData.href, '_blank');
 		}
 		else
 		{
-		this.$events.fire('filter-set', this.filterText, this.towernya,this.infratypenya ,this.statusnya , this.batchnya , this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
 		}
 		}
 		else
 		{
-		this.$events.fire('filter-set', this.filterText, this.towernya,this.infratypenya , this.statusnya , this.batchnya , this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
 		}
       },
       resetFilter () {
@@ -502,10 +408,6 @@ window.open(routeData.href, '_blank');
         this.filterText = '';
          this.startTime.time = '';
         this.endtime.time = '';
-        this.towernya = '';
-        this.batchnya = '';
-        this.infratypenya = ''; 
-        this.statusnya = ''; 
         this.$events.fire('filter-reset');
       },
     allcap (value) {
@@ -522,10 +424,10 @@ window.open(routeData.href, '_blank');
 	formatNumberRupiah (value) {
       return accounting.formatMoney(value,  "Rp. ", 2, ".", ",")
     },
-    formatDate (value, fmt = 'DD-MM-YYYY') {
+    formatDate (value, fmt = 'DD-MM-YYYY HH:mm:ss') {
       return (value == null)
         ? ''
-        : moment(value, 'DD-MM-YYYY').format(fmt)
+        : moment(value, 'DD-MM-YYYY HH:mm:ss').format(fmt)
     },
     onPaginationData (paginationData) {
       this.$refs.pagination.setPaginationData(paginationData)
@@ -547,7 +449,7 @@ onLoading() {
     },
     onLoadingError() {
                this.isLoading = true;
-                axios.get(this.URLNYA).then((response) => { 
+                axios.get('karyawan/GetJobsDocumentBapsRevisi').then((response) => { 
                      this.isLoading = false;
                 }).catch(error => {
 				if (! _.isEmpty(error.response)) {
@@ -560,59 +462,12 @@ onLoading() {
 					}
 					}
                     });
-    },	
-    sumSelectedItemsExcel() {
-      this.$swal({
-  title: 'Are you sure ?',
-  type: 'warning',
-  showCancelButton: true,
-  confirmButtonColor: '#3085d6',
-  cancelButtonColor: '#d33',
-  confirmButtonText: 'Yes!'
-}).then((result) => {
-  if (result.value) {     
-   var ttl = this.$refs.vuetable.selectedTo;
-   if(ttl.length <= 0)
-   {
-   this.question('Silahkan Pilih Data Terlebih Dahulu');
-   }
-   else
-   {
-var join_selected_values = ttl.join(","); 
-var filename = this.formatDate(new Date());
-
-var masuk = 
-{
-	'filename' : filename,
-	'projectid' : join_selected_values, 
-}
-				axios({
-  url: '/karyawan/DownloadExcelTracking',
-  method: 'POST',
-  data: masuk,
-  responseType: 'blob', // important
-}).then((response) => {
-  const url = window.URL.createObjectURL(new Blob([response.data]));
-  const link = document.createElement('a');
-  link.href = url;
-  link.setAttribute('download', filename+'.xls');
-  document.body.appendChild(link);
-  link.click();
-}); 
-
-
-
-   } 
-}
-})
-   
-   
-  },		
+    },			
   },
   events: {
-    'filter-set' (filterText,towernya,infratypenya,statusnya,batchnya,startTime,endtime) {
+    'filter-set' (filterText,startTime,endtime) {
       this.moreParams = {
-        filter: filterText , towernya:towernya, infratypenya:infratypenya , statusnya:statusnya , batchnya:batchnya ,min: startTime, max: endtime
+        filter: filterText,min: startTime, max: endtime
       }
       Vue.nextTick(() => this.$refs.vuetable.refresh() )
     },
@@ -623,18 +478,14 @@ var masuk =
   },
  created: function() {
   let self = this;
-            this.$root.$on('viewitem', function(data,index){
-                //console.log(data);
+            this.$root.$on('viewitem', function(data,index){ 
                self.viewItem(data,index);
             });
         },
 		          mounted() { 
+            this.fetchIt();
              this.resetOptions();
                this.resetFilter();
-             this.selectInfratype();
-             this.selectTowerHigh();
-           this.selectStatus();
-           this.selectBatch();
 
         }
 
@@ -675,23 +526,5 @@ var masuk =
 }
 .pagination-info {
   float: left;
-}
-.form-control {
-    color: pink;
-    width: 10000px;
-    _go: nuts;
-}
-.glyphicon {
-    display:none;
-}
-.form-group {
-    background-color: pink;
-    font-size: 16px;
-}
- 
-.required {
-    color: #721c24;
-    background-color: #f8d7da;
-    border-color: #f5c6cb;
 }
 </style>

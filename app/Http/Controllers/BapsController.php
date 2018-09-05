@@ -28,8 +28,9 @@ use App\Models\ProjectStatus;
 use App\Models\BOQSubmit;
 use App\Models\BaksBauk;
 use App\Models\BoqBaps;
+use App\Models\Baps;
 
-class BoqBapsController extends Controller
+class BapsController extends Controller
 {
         public function __construct()
     {
@@ -39,9 +40,9 @@ class BoqBapsController extends Controller
     $this->data['tahunproject']  = DB::table('vtahun')->get();
     }
 
-  public function AddDocumentBoqBaps(Request $request)
+  public function AddDocumentBaps(Request $request)
     {
-$cekdata = BoqBaps::where('project_id',$request->project_id)->first();
+$cekdata = Baps::where('project_id',$request->project_id)->first();
 if (count($cekdata) > 0) 
 { 
 	return response()->json(['error'=>'Opps Something Wrong']);
@@ -49,20 +50,19 @@ if (count($cekdata) > 0)
 else
 {
       $valid = $this->validate($request, [
-        'project_id' => 'required|max:255|unique:boq_baps,project_id', 
+        'project_id' => 'required|max:255|unique:baps,project_id', 
         'projectid' => 'required|max:255', 
-        'tgl_mulai_sewa' => 'required|date|date_format:Y-m-d',
-        'tgl_target_rfi' => 'required|date|date_format:Y-m-d', 
-        'document_boq_baps' => 'required|mimes:pdf', 
+        'tgL_akhir_sewa' => 'required|date|date_format:Y-m-d', 
+        'document_baps' => 'required|mimes:pdf', 
     ]);
 if (!$valid)
 {
-$file = Input::file('document_boq_baps'); 
-$extension  = Input::file('document_boq_baps')->getClientOriginalExtension(); 
+$file = Input::file('document_baps'); 
+$extension  = Input::file('document_baps')->getClientOriginalExtension(); 
 if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf')
 { 
 $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path   
-$fileName   = Input::get('projectid').'-document-boq-baps-'.time().'.'.$extension;
+$fileName   = Input::get('projectid').'-document-baps-'.time().'.'.$extension;
     if(file_exists($destinationPath.$fileName))
     {
 File::delete($destinationPath .$fileName);
@@ -75,7 +75,7 @@ File::delete($destinationPath .$fileName);
 }
 else
 { 
-  BoqBaps::create(['project_id'=>$request->project_id,'tgl_mulai_sewa'=>$request->tgl_mulai_sewa,'tgl_target_rfi'=>$request->tgl_target_rfi,'document_boq_baps'=>$fileName]);
+Baps::create(['project_id'=>$request->project_id,'tgL_akhir_sewa'=>$request->tgL_akhir_sewa,'document_baps'=>$fileName]);
 $ProjectStatus = ProjectStatus::create(['project_id' => Input::get('project_id'),'users_id' => Auth::guard('karyawan')->user()->id , 'document'=>strtoupper(Input::get('document')),'status'=>strtoupper(Input::get('statusmessage')),'message'=>strtoupper(Input::get('kata'))]);
   Project::where('id',Input::get('project_id'))->update(['status_id'=>Input::get('status'),'project_status_id'=>$ProjectStatus->id]);
   return response()->json(['success'=>'Add Successfully']);
@@ -96,29 +96,27 @@ else
 }
     }
 
-  public function RevisiDocumentBoqBaps(Request $request)
+  public function RevisiDocumentBaps(Request $request)
     {
 $cekdata = BoqBaps::where('id',$request->id)->first();
 if (count($cekdata) > 0) 
 {
-      
       $valid = $this->validate($request, [
         'projectid' => 'required|max:255', 
         'namafile' => 'required', 
-        'tgl_mulai_sewa' => 'required|date|date_format:Y-m-d',
-        'tgl_target_rfi' => 'required|date|date_format:Y-m-d',  
+        'tgL_akhir_sewa' => 'required|date|date_format:Y-m-d', 
     ]);
 if (!$valid)
 {
-$file = Input::file('document_boq_baps');
+$file = Input::file('document_baps');
 
 if($file)
 {
-$extension  = Input::file('document_boq_baps')->getClientOriginalExtension(); 
+$extension  = Input::file('document_baps')->getClientOriginalExtension(); 
 if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf')
 { 
 $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path   
-$fileName   = Input::get('projectid').'-document-boq-baps-'.time().'.'.$extension;
+$fileName   = Input::get('projectid').'-document-baps-'.time().'.'.$extension;
     if(file_exists($destinationPath.$fileName))
     {
 File::delete($destinationPath .$fileName);
@@ -131,7 +129,7 @@ File::delete($destinationPath .$fileName);
 }
 else
 { 
-  BoqBaps::where('id',$request->id)->update(['tgl_mulai_sewa'=>$request->tgl_mulai_sewa,'tgl_target_rfi'=>$request->tgl_target_rfi,'document_boq_baps'=>$fileName]);
+Baps::where('id',$request->id)->update(['tgL_akhir_sewa'=>$request->tgL_akhir_sewa,'document_baps'=>$fileName]);
   File::delete($destinationPath .$request->namafile);
 $ProjectStatus = ProjectStatus::create(['project_id' => Input::get('project_id'),'users_id' => Auth::guard('karyawan')->user()->id , 'document'=>strtoupper(Input::get('document')),'status'=>strtoupper(Input::get('statusmessage')),'message'=>strtoupper(Input::get('kata'))]);
   Project::where('id',Input::get('project_id'))->update(['project_status_id'=>$ProjectStatus->id]);
@@ -149,9 +147,9 @@ return response()->json(['errorfile'=>'Please, check your file type / size']);
 else
 {
 
-  BoqBaps::where('id',$request->id)->update(['tgl_mulai_sewa'=>$request->tgl_mulai_sewa,'tgl_target_rfi'=>$request->tgl_target_rfi]);
+Baps::where('id',$request->id)->update(['tgL_akhir_sewa'=>$request->tgL_akhir_sewa]);
 $ProjectStatus = ProjectStatus::create(['project_id' => Input::get('project_id'),'users_id' => Auth::guard('karyawan')->user()->id , 'document'=>strtoupper(Input::get('document')),'status'=>strtoupper(Input::get('statusmessage')),'message'=>strtoupper(Input::get('kata'))]);
-  Project::where('id',Input::get('project_id'))->update(['project_status_id'=>$ProjectStatus->id]);
+  Project::where('id',Input::get('project_id'))->update(['status_id'=>Input::get('status'),'project_status_id'=>$ProjectStatus->id]);
   return response()->json(['success'=>'Add Successfully']);
 
 
