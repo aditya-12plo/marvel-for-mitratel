@@ -30,12 +30,7 @@
 
 
 
-<!-- Ducument BOQ --> 
-<div class="col-xl-12 col-lg-12 col-md-12 mb-1">
-<fieldset class="form-group">
-<label for="documentsis"><h4>DOKUMEN RFC</h4></label>
-</fieldset>
-</div>                              
+<!-- Ducument BOQ -->                              
                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="site_type">TIPE SITE</label>
@@ -106,7 +101,7 @@
                                     <fieldset class="form-group">
                                         <label for="harga_tahun">Harga Sewa / Tahun</label>
                                         <br>
-<money v-model="forms.harga_tahun" class="form-control border-input" placeholder="Harga Sewa / Tahun" v-bind="duit"></money> 
+{{this.perkalianTahun(this.forms.harga_bulan)}}
 <div class="help-block"><ul role="alert"><li v-for="error of errorNya['harga_tahun']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
@@ -606,8 +601,11 @@ window.open(routeData.href, '_blank');
 }
 })
             },
-
-   
+   perkalianTahun (value) {
+       this.forms.harga_tahun = value*12;
+      var tahunan = value*12;
+      return accounting.formatMoney(tahunan,  "Rp. ", 0, ".", ",")
+    }, 
 
 dropData() {
         this.$swal({

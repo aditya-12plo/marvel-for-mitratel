@@ -22,7 +22,7 @@ try {
 
 window.Vue = require('vue');
 import VueRouter from 'vue-router';
-
+window.swal = require('sweetalert2');
 Vue.use(VueRouter);
 
 window.axios = require('axios');

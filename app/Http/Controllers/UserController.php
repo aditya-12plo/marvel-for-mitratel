@@ -169,14 +169,15 @@ class UserController extends Controller
           ->orWhere([['area', Auth::guard('karyawan')->user()->area2],['level','HQ'],['posisi','ACCOUNT MANAGER']]);
 })
         ->whereNotIn('email',[Auth::guard('karyawan')->user()->email])
-        ->select('id','name','email','level','posisi','regional','area','created_at')->orderBy('id','DESC');
+        ->select('id','name','email','level','posisi','regional','area','area2','created_at')->orderBy('id','DESC');
         if ($search && !$min && !$max) {
             $like = "%{$search}%";
             $query = $query->where('email', 'LIKE', $like)
             ->orWhere('name', 'LIKE', $like)
             ->orWhere('level', 'LIKE', $like)
             ->orWhere('posisi', 'LIKE', $like)
-            ->orWhere('area', 'LIKE', $like);
+            ->orWhere('area', 'LIKE', $like)
+            ->orWhere('area2', 'LIKE', $like);
         }
         if(!$search && $min && !$max)
         {
@@ -194,7 +195,8 @@ class UserController extends Controller
             ->orWhere('name', 'LIKE', $like)
             ->orWhere('level', 'LIKE', $like)
             ->orWhere('posisi', 'LIKE', $like)
-            ->orWhere('area', 'LIKE', $like);
+            ->orWhere('area', 'LIKE', $like)
+            ->orWhere('area2', 'LIKE', $like);
         }
         if($search && !$min && $max)
         {
@@ -204,7 +206,8 @@ class UserController extends Controller
             ->orWhere('name', 'LIKE', $like)
             ->orWhere('level', 'LIKE', $like)
             ->orWhere('posisi', 'LIKE', $like)
-            ->orWhere('area', 'LIKE', $like);
+            ->orWhere('area', 'LIKE', $like)
+            ->orWhere('area2', 'LIKE', $like);
         }
         if(!$search && $min && $max)
         {
@@ -218,7 +221,77 @@ class UserController extends Controller
             ->orWhere('name', 'LIKE', $like)
             ->orWhere('level', 'LIKE', $like)
             ->orWhere('posisi', 'LIKE', $like)
-            ->orWhere('area', 'LIKE', $like);
+            ->orWhere('area', 'LIKE', $like)
+            ->orWhere('area2', 'LIKE', $like);
+        }
+        return $query->paginate($perPage);
+    }
+
+
+
+    public function listuserhaki(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+        $query = DB::table('vusershq')
+        ->where([['area', Auth::guard('karyawan')->user()->area],['area2', Auth::guard('karyawan')->user()->area2],['level','HQ'],['posisi','HAKI - ACCOUNT MANAGER']])
+        ->whereNotIn('email',[Auth::guard('karyawan')->user()->email])
+        ->select('id','name','email','level','posisi','regional','area','area2','created_at')->orderBy('id','DESC');
+        if ($search && !$min && !$max) {
+            $like = "%{$search}%";
+            $query = $query->where('email', 'LIKE', $like)
+            ->orWhere('name', 'LIKE', $like)
+            ->orWhere('level', 'LIKE', $like)
+            ->orWhere('posisi', 'LIKE', $like)
+            ->orWhere('area', 'LIKE', $like)
+            ->orWhere('area2', 'LIKE', $like);
+        }
+        if(!$search && $min && !$max)
+        {
+            $query = $query->whereDate('created_at','=',$min);
+        }
+        if(!$search && !$min && $max)
+        {
+            $query = $query->whereDate('created_at','=',$max);
+        }
+        if($search && $min && !$max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','=',$min)
+            ->where('email', 'LIKE', $like)
+            ->orWhere('name', 'LIKE', $like)
+            ->orWhere('level', 'LIKE', $like)
+            ->orWhere('posisi', 'LIKE', $like)
+            ->orWhere('area', 'LIKE', $like)
+            ->orWhere('area2', 'LIKE', $like);
+        }
+        if($search && !$min && $max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','=',$max)
+            ->where('email', 'LIKE', $like)
+            ->orWhere('name', 'LIKE', $like)
+            ->orWhere('level', 'LIKE', $like)
+            ->orWhere('posisi', 'LIKE', $like)
+            ->orWhere('area', 'LIKE', $like)
+            ->orWhere('area2', 'LIKE', $like);
+        }
+        if(!$search && $min && $max)
+        {
+            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+        }
+        if($search && $min && $max)
+        {
+            $like = "%{$search}%";
+            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
+            ->where('email', 'LIKE', $like)
+            ->orWhere('name', 'LIKE', $like)
+            ->orWhere('level', 'LIKE', $like)
+            ->orWhere('posisi', 'LIKE', $like)
+            ->orWhere('area', 'LIKE', $like)
+            ->orWhere('area2', 'LIKE', $like);
         }
         return $query->paginate($perPage);
     }
@@ -287,6 +360,28 @@ class UserController extends Controller
     }
 
 
+        public function adduserhaki(Request $request)
+    {
+$valid = $this->validate($request, [
+        'name' => 'required|max:255',
+        'email' => 'required|max:255|unique:users,email',
+        'password' => 'required|max:255',
+        'level' => 'in:REGIONAL,HQ',
+        'posisi' => 'in:AM SUPPORT,ACCOUNT MANAGER,MANAGER MARKETING,MANAGER,HAKI - ACCOUNT MANAGER,HAKI - MANAGER,BISNIS', 
+    ]);
+if (!$valid)
+    {    
+$masuk = array('name' => $request->name, 'email' => $request->email , 'password' => Hash::make($request->password) , 'level' => $request->level ,'posisi' =>$request->posisi, 'area' => Auth::guard('karyawan')->user()->area,  'area2' => Auth::guard('karyawan')->user()->area2, 'regional' =>  null); 
+User::create($masuk);
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'users' ,'action' => 'insert', 'data' => json_encode($masuk)]);
+return response()->json(['success'=>'Add Successfully']);
+    }
+else
+    {
+ return response()->json('error', $valid);
+    } 
+    }
+
         public function store(Request $request)
     {
 $valid = $this->validate($request, [
@@ -326,7 +421,7 @@ Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>
 return response()->json(['success'=>'Add Successfully']);
  
 }
-elseif($request->level == 'HQ' && $request->posisi == 'MANAGER' || $request->level == 'HQ' && $request->posisi == 'HAKI - ACCOUNT MANAGER' || $request->level == 'HQ' && $request->posisi == 'HAKI - MANAGER')
+elseif($request->level == 'HQ' && $request->posisi == 'HAKI - ACCOUNT MANAGER' || $request->level == 'HQ' && $request->posisi == 'HAKI - MANAGER')
 {
 if($request->area ==  $request->area2)
 {
@@ -340,6 +435,14 @@ $masukdb = User::create($masuk);
 Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'users' ,'action' => 'insert', 'data' => json_encode($masuk)]);
 return response()->json(['success'=>'Add Successfully']);
 } 
+}
+
+elseif($request->level == 'HQ' && $request->posisi == 'MANAGER')
+{
+$masuk = array('name' => $request->name, 'email' => $request->email , 'password' => Hash::make($request->password) , 'level' => $request->level ,'posisi' =>$request->posisi, 'area' => null, 'area2' => null, 'regional' => null); 
+$masukdb = User::create($masuk); 
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'users' ,'action' => 'insert', 'data' => json_encode($masuk)]);
+return response()->json(['success'=>'Add Successfully']);
 }
 else
 { 
@@ -360,6 +463,43 @@ else
     }
 
 
+
+    public function edituserhaki(Request $request, $id)
+    {
+if(Input::get('password') == '')
+    {
+$valid = $this->validate($request, [
+        'name' => 'required|max:255',
+        'email' => 'required|max:255|unique:users,email,'.$id, 
+    ]);
+    }
+    else
+    {
+$valid = $this->validate($request, [
+        'name' => 'required|max:255',
+        'email' => 'required|max:255|unique:users,email,'.$id,
+        'password' => 'required|max:255',
+    ]);
+    }
+if (!$valid)
+    {    
+if(Input::get('password') == '')
+    {
+$edit= array('name' => Input::get('name'), 'email' => Input::get('email'));
+    }
+else
+    {
+$edit =array('name' => Input::get('name'), 'email' => Input::get('email'), 'password' =>  Hash::make(Input::get('password')));
+    }
+User::where('id',$id)->update($edit);    
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'users' ,'action' => 'update', 'data' => json_encode($edit)]);  
+return response()->json(['success'=>'Edit Successfully']);
+    }
+else
+    {
+ return response()->json('error', $valid);
+    }
+    }
 
     public function update(Request $request, $id)
     {
@@ -395,28 +535,78 @@ if (!$valid)
     {
 if($request->level == 'REGIONAL' && $request->posisi == 'ACCOUNT MANAGER' || $request->level == 'REGIONAL' && $request->posisi == 'AM SUPPORT')
 {
-        $edit = array('name' => Input::get('name'), 'email' => Input::get('email'), 'level' => Input::get('level'), 'posisi' => Input::get('posisi'), 'regional' => strtoupper(Input::get('regional')), 'area' => Input::get('area'));
+$edit = array('name' => Input::get('name'), 'email' => Input::get('email'), 'level' => Input::get('level'), 'posisi' => Input::get('posisi'), 'regional' => strtoupper(Input::get('regional')), 'area' => Input::get('area'));
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'users' ,'action' => 'update', 'data' => json_encode($cek)]);
+$cek->update($edit); 
+return response()->json(['success'=>'Edit Successfully']);
 }
-elseif($request->level == 'HQ' && $request->posisi == 'MANAGER' || $request->level == 'HQ' && $request->posisi == 'ACCOUNT MANAGER' || $request->level == 'REGIONAL' && $request->posisi == 'MANAGER MARKETING')
+elseif($request->level == 'REGIONAL' && $request->posisi == 'MANAGER MARKETING')
 {
-        $edit = array('name' => Input::get('name'), 'email' => Input::get('email'), 'level' => Input::get('level'), 'posisi' => Input::get('posisi'), 'regional' => '', 'area' => Input::get('area'));
-}        
+$edit = array('name' => Input::get('name'), 'email' => Input::get('email'), 'level' => Input::get('level'), 'posisi' => Input::get('posisi'),  'area' => Input::get('area'));
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'users' ,'action' => 'update', 'data' => json_encode($cek)]);
+$cek->update($edit); 
+return response()->json(['success'=>'Edit Successfully']);
+} 
+elseif($request->level == 'HQ' && $request->posisi == 'ACCOUNT MANAGER' || $request->level == 'HQ' && $request->posisi == 'HAKI - ACCOUNT MANAGER' || $request->level == 'HQ' && $request->posisi == 'HAKI - MANAGER')
+{
+$edit = array('name' => Input::get('name'), 'email' => Input::get('email'), 'level' => Input::get('level'), 'posisi' => Input::get('posisi'), 'area' => Input::get('area'), 'area2' => Input::get('area2'));
+if($request->area ==  $request->area2)
+{
+return response()->json(['error'=>'Area 1 Dan Area 2 Tidak Boleh Sama']);
+}   
+else
+{
+    Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'users' ,'action' => 'update', 'data' => json_encode($cek)]);
+    $cek->update($edit); 
+    return response()->json(['success'=>'Edit Successfully']);  
+}
+} 
+else
+{
+$edit = array('name' => Input::get('name'), 'email' => Input::get('email'), 'level' => Input::get('level'), 'posisi' => Input::get('posisi'));
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'users' ,'action' => 'update', 'data' => json_encode($cek)]);
+$cek->update($edit); 
+return response()->json(['success'=>'Edit Successfully']);
+}       
     }
     else
     {
 if($request->level == 'REGIONAL' && $request->posisi == 'ACCOUNT MANAGER' || $request->level == 'REGIONAL' && $request->posisi == 'AM SUPPORT')
 {        
-         $edit = array('name' => Input::get('name'), 'email' => Input::get('email'), 'password' =>  Hash::make(Input::get('password')), 'level' => Input::get('level'), 'posisi' => Input::get('posisi'), 'regional' => strtoupper(Input::get('regional')), 'area' => Input::get('area'));
-} 
-elseif($request->level == 'HQ' && $request->posisi == 'MANAGER' || $request->level == 'HQ' && $request->posisi == 'ACCOUNT MANAGER' || $request->level == 'REGIONAL' && $request->posisi == 'MANAGER MARKETING')
-{
-         $edit = array('name' => Input::get('name'), 'email' => Input::get('email'), 'password' =>  Hash::make(Input::get('password')), 'level' => Input::get('level'), 'posisi' => Input::get('posisi'), 'regional' => '', 'area' => Input::get('area'));
-}        
-    }
+$edit = array('name' => Input::get('name'), 'email' => Input::get('email'), 'password' =>  Hash::make(Input::get('password')), 'level' => Input::get('level'), 'posisi' => Input::get('posisi'), 'regional' => strtoupper(Input::get('regional')), 'area' => Input::get('area'));
 Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'users' ,'action' => 'update', 'data' => json_encode($cek)]);
-$cek->update($edit);
-//UserExist::where("id",$id)->update($edit);
+$cek->update($edit); 
 return response()->json(['success'=>'Edit Successfully']);
+} 
+elseif($request->level == 'REGIONAL' && $request->posisi == 'MANAGER MARKETING')
+{
+$edit = array('name' => Input::get('name'), 'email' => Input::get('email'), 'password' =>  Hash::make(Input::get('password')), 'level' => Input::get('level'), 'posisi' => Input::get('posisi'), 'area' => Input::get('area'));
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'users' ,'action' => 'update', 'data' => json_encode($cek)]);
+$cek->update($edit); 
+return response()->json(['success'=>'Edit Successfully']);
+}   
+elseif($request->level == 'HQ' && $request->posisi == 'ACCOUNT MANAGER' || $request->level == 'HQ' && $request->posisi == 'HAKI - ACCOUNT MANAGER' || $request->level == 'HQ' && $request->posisi == 'HAKI - MANAGER')
+{
+    $edit = array('name' => Input::get('name'), 'email' => Input::get('email'), 'password' =>  Hash::make(Input::get('password')), 'level' => Input::get('level'), 'posisi' => Input::get('posisi'), 'area' => Input::get('area'), 'area2' => Input::get('area2'));
+    if($request->area ==  $request->area2)
+    {
+    return response()->json(['error'=>'Area 1 Dan Area 2 Tidak Boleh Sama']);
+    }   
+    else
+    {
+        Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'users' ,'action' => 'update', 'data' => json_encode($cek)]);
+        $cek->update($edit); 
+        return response()->json(['success'=>'Edit Successfully']);  
+    }
+} 
+else
+{
+    $edit = array('name' => Input::get('name'), 'email' => Input::get('email'),  'password' =>  Hash::make(Input::get('password')), 'level' => Input::get('level'), 'posisi' => Input::get('posisi'));
+    Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'users' ,'action' => 'update', 'data' => json_encode($cek)]);
+    $cek->update($edit); 
+    return response()->json(['success'=>'Edit Successfully']); 
+}         
+    }
     }
 else
     {

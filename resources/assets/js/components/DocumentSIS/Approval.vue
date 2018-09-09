@@ -145,6 +145,7 @@ import Vue from 'vue'
 import loading from '../Loading'
 import VueEvents from 'vue-events'
 import Hashids from 'hashids'
+
 Vue.use(VueEvents)
 Vue.component('approval-custom-actions', require('../Button/ApprovalActions.vue'))
 window.axios = require('axios')
@@ -322,7 +323,7 @@ export default {
     },
     
               sumSelectedItems() {
-      this.$swal({
+    this.$swal({
   title: 'Are you sure ?',
   type: 'warning',
   showCancelButton: true,
@@ -334,7 +335,7 @@ export default {
    var ttl = this.$refs.vuetable.selectedTo;
    if(ttl.length <= 0)
    {
-   this.question('Silahkan Pilih Data Terlebih Dahulu');
+   this.error('Silahkan Pilih Data Terlebih Dahulu');
    }
    else
    {

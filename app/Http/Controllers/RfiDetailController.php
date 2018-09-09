@@ -378,7 +378,7 @@ $showUser2 = User::where([['level', Auth::guard('karyawan')->user()->level],['po
 if(count($showUser2) > 0)
 {
 foreach ($showUser2 as $p2) {  
-$this->SendEmailController->kirimCME($p2['email'],$nodoc,Auth::guard('karyawan')->user()->name,Auth::guard('karyawan')->user()->posisi,$detailnya,strtoupper($kata));
+//$this->SendEmailController->kirimCME($p2['email'],$nodoc,Auth::guard('karyawan')->user()->name,Auth::guard('karyawan')->user()->posisi,$detailnya,strtoupper($kata));
 
 }
 }

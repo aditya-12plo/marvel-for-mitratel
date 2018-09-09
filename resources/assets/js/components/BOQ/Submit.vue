@@ -5,7 +5,7 @@
     <section class="content-header">
 
       <h1 align="center">
-      Submit BOQ Area {{this.dataNya.area}}
+      Submit BOQ
       </h1>
     </section> 
 
@@ -267,25 +267,7 @@ export default {
       title: 'Site Name Aktual',
       titleClass: 'text-center',
           dataClass: 'text-center'
-        }, 
-        {
-          name: 'address_actual',
-      title: 'Alamat Aktual',
-      titleClass: 'text-center',
-          dataClass: 'text-center'
-        }, 
-        {
-          name: 'city',
-      title: 'Kota',
-      titleClass: 'text-center',
-          dataClass: 'text-center'
-        }, 
-        {
-          name: 'province',
-      title: 'Provinsi',
-      titleClass: 'text-center',
-          dataClass: 'text-center'
-        }, 
+        },   
         {
           name: 'harga_bulan',
       title: 'Harga Sewa / Bulan',

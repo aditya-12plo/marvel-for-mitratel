@@ -73,7 +73,7 @@
 		                            </div>
 
 
-<div class="col-xl-4 col-lg-6 col-md-12 mb-1" v-if="this.forms.level=='HQ' && this.forms.posisi=='MANAGER' || this.forms.level=='HQ' && this.forms.posisi=='ACCOUNT MANAGER' || this.forms.level=='REGIONAL' && this.forms.posisi=='MANAGER MARKETING' || this.forms.level=='REGIONAL' && this.forms.posisi=='AM SUPPORT' || this.forms.level=='REGIONAL' && this.forms.posisi=='ACCOUNT MANAGER' || this.forms.level=='HQ' && this.forms.posisi=='HAKI - ACCOUNT MANAGER' || this.forms.level=='HQ' && this.forms.posisi=='HAKI - MANAGER'">
+<div class="col-xl-4 col-lg-6 col-md-12 mb-1" v-if="this.forms.level=='HQ' && this.forms.posisi=='ACCOUNT MANAGER' || this.forms.level=='HQ' && this.forms.posisi=='ACCOUNT MANAGER' || this.forms.level=='REGIONAL' && this.forms.posisi=='MANAGER MARKETING' || this.forms.level=='REGIONAL' && this.forms.posisi=='AM SUPPORT' || this.forms.level=='REGIONAL' && this.forms.posisi=='ACCOUNT MANAGER' || this.forms.level=='HQ' && this.forms.posisi=='HAKI - ACCOUNT MANAGER' || this.forms.level=='HQ' && this.forms.posisi=='HAKI - MANAGER'">
 <fieldset class="form-group">
                                         <label for="area">Area</label>
 <select class="form-control border-input" v-model="forms.area" required >
@@ -85,7 +85,7 @@
                                 </div>
 
 
-<div class="col-xl-4 col-lg-6 col-md-12 mb-1" v-if="this.forms.level=='HQ' && this.forms.posisi=='MANAGER' || this.forms.level=='HQ' && this.forms.posisi=='HAKI - ACCOUNT MANAGER' || this.forms.level=='HQ' && this.forms.posisi=='HAKI - MANAGER'">
+<div class="col-xl-4 col-lg-6 col-md-12 mb-1" v-if="this.forms.level=='HQ' && this.forms.posisi=='ACCOUNT MANAGER' || this.forms.level=='HQ' && this.forms.posisi=='HAKI - ACCOUNT MANAGER' || this.forms.level=='HQ' && this.forms.posisi=='HAKI - MANAGER'">
 <fieldset class="form-group">
 		                                    <label for="area">Area 2</label>
 <select class="form-control border-input" v-model="forms.area2" required >

@@ -30,10 +30,7 @@
                                     <th><b>TOWER</b></th>
                                     <th><b>REGIONAL</b></th>
                                     <th><b>SITE ID AKTUAL</b></th>
-                                    <th><b>SITE NAME AKTUAL</b></th>
-                                    <th><b>ALAMAT AKTUAL</b></th>
-                                    <th><b>KOTA </b></th>
-                                    <th><b> PROVINSI</b></th>
+                                    <th><b>SITE NAME AKTUAL</b></th> 
                                     <th><b>HARGA SEWA / BULAN </b></th>
                                     <th><b>HARGA SEWA / TAHUN </b></th>
                                     <th><b>DELETE</b></th>
@@ -49,10 +46,7 @@
                                     <td>{{data.towernya}} </td> 
                                     <td>{{data.regional}} </td> 
                                     <td>{{data.site_id_actual}}</td> 
-                                    <td>{{data.site_name_actual}} </td> 
-                                    <td>{{data.address_actual}} </td> 
-                                    <td>{{data.city}} </td> 
-                                    <td>{{data.province}} </td> 
+                                    <td>{{data.site_name_actual}} </td>  
                                     <td>{{formatNumberRupiah(data.harga_bulan)}} </td> 
                                     <td>{{formatNumberRupiah(data.harga_tahun)}} </td> 
                                     <td><button type="button" class="btn btn-raised btn-danger" @click="deleteEvent(index)"> <i class="ft-trash-2"></i> Delete</button></td> 
@@ -67,12 +61,10 @@
                                     <td> </td> 
                                     <td> </td> 
                                     <td> </td> 
-                                    <td> </td> 
-                                    <td> </td> 
-                                    <td> </td> 
-                                    <td> </td> 
+                                    <td> </td>  
                                     <td><b>TOTAL</b> </td> 
-                                    <td><b>{{formatNumberRupiah(total(this.dataBoqNya))}}</b> </td><td> </td> 
+                                    <td><b>{{formatNumberRupiah(total(this.dataBoqNya))}}</b> </td>
+                                    <td> </td> 
                                 </tr>
 
 

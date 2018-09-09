@@ -176,14 +176,14 @@ if (!$valid)
 $array_bulan = array(1=>"I","II","III", "IV", "V","VI","VII","VIII","IX","X", "XI","XII");        
 $jml =  DB::table('vcountboqsubmit')->select('jumlah')->first();
 $nodoc = 'BOQ/'.($jml->jumlah+1).'/'.$array_bulan[Carbon::now()->month].'/'.Carbon::now()->year;
-$masuk = array('boq_code'=>$nodoc,'title'=>$request->title,'nama_telkomsel'=>$request->nama_telkomsel,'posisi_telkomsel'=>$request->posisi_telkomsel,'nama_manager'=>$request->nama_manager,'posisi_manager'=>$request->posisi_manager,'nama_user'=>$request->nama_user,'posisi_user'=>$request->posisi_user,'project_id'=>$request->project_id,'message'=>$request->message,'status'=>$request->status,'area'=>Auth::guard('karyawan')->user()->area);
+$masuk = array('boq_code'=>$nodoc,'title'=>$request->title,'nama_telkomsel'=>$request->nama_telkomsel,'posisi_telkomsel'=>$request->posisi_telkomsel,'nama_manager'=>$request->nama_manager,'posisi_manager'=>$request->posisi_manager,'nama_user'=>$request->nama_user,'posisi_user'=>$request->posisi_user,'project_id'=>$request->project_id,'message'=>$request->message,'status'=>$request->status,'area'=>Auth::guard('karyawan')->user()->area,'area2'=>Auth::guard('karyawan')->user()->area2);
 $kata = 'SUBMIT BOQ '.$nodoc.'MENUNGGU APPROVAL ANDA';
 $detailnya = $request->detailproject;
 $emailusernya = array();
 
 for($x=0;$x < count($detailnya);$x++) {
 $ProjectStatus = ProjectStatus::create(['project_id' =>$detailnya[$x]['id'],'users_id' => Auth::guard('karyawan')->user()->id , 'document'=>strtoupper(Input::get('document')),'status'=>strtoupper(Input::get('statusmessage')),'message'=>strtoupper(Input::get('message'))]);  
-$showUser = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','MANAGER'],['area',Auth::guard('karyawan')->user()->area]])->orWhere([['level', Auth::guard('karyawan')->user()->level],['posisi','MANAGER'],['area2',Auth::guard('karyawan')->user()->area]])->get();
+$showUser = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','MANAGER']])->get();
 if(count($showUser) > 0)
 {
 foreach ($showUser as $p) {
@@ -197,7 +197,7 @@ Project::where('id',$detailnya[$x]['id'])->update(['boq_status'=>15]);
 
 BOQSubmit::create($masuk);
 Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'boq_submit' ,'action' => 'insert', 'data' => json_encode($masuk)]);
-$showUser2 = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','MANAGER'],['area',Auth::guard('karyawan')->user()->area]])->orWhere([['level', Auth::guard('karyawan')->user()->level],['posisi','MANAGER'],['area2',Auth::guard('karyawan')->user()->area]])->get();
+$showUser2 = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','MANAGER']])->get();
 if(count($showUser2) > 0)
 {
 foreach ($showUser2 as $p2) {  

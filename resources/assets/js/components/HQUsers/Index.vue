@@ -5,7 +5,7 @@
     <section class="content-header">
 
       <h1 align="center">
-      List User AREA {{this.dataNya.area}} Dan AREA {{this.dataNya.area2}}
+      List User Akses
       </h1>
     </section>
 

@@ -816,7 +816,10 @@ return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,
         $min = $request->min;
         $max = $request->max;
         $query =  DB::table('vjobboq')
-        ->where('area',Auth::guard('karyawan')->user()->area)
+        ->where(function ($query) {
+            $query->where('area', Auth::guard('karyawan')->user()->area)
+                  ->orWhere('area', Auth::guard('karyawan')->user()->area2);
+        }) 
         ->orderBy('id','DESC');
 
         if ($search && !$min && !$max) {

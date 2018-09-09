@@ -50,7 +50,10 @@ Route::post('password/reset', 'Karyawan\Auth\ResetPasswordController@reset')->na
 /* user akses */
  Route::resource('/listuser', 'UserController');
  Route::get('/listuserregional', 'UserController@userregional');
+ Route::post('/adduserhaki', 'UserController@adduserhaki');
+  Route::match(['put', 'patch'], '/edituserhaki/{id}','UserController@edituserhaki');
  Route::get('/listuserhq', 'UserController@userhq');
+ Route::get('/listuserhaki', 'UserController@listuserhaki');
  Route::get('/listuserregionalaccountmanager', 'UserController@userregionalaccountmanager');
  Route::delete('listuserDeleteAll/{id}', 'UserController@deleteAll');
  /* user akses */

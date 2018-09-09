@@ -1,15 +1,9 @@
-
-
-
-
-
-
 level
 'ADMINISTRATOR','REGIONAL','HQ'
 
 
 posisi
-'AM SUPPORT','ACCOUNT MANAGER','MANAGER MARKETING','MANAGER','HAKI - ACCOUNT MANAGER','HAKI - MANAGER'
+'AM SUPPORT','ACCOUNT MANAGER','MANAGER MARKETING','MANAGER','HAKI - ACCOUNT MANAGER','HAKI - MANAGER','BISNIS'
 
 
 
@@ -27,13 +21,13 @@ posisi
 
 CREATE VIEW vusersregional 
 AS
-SELECT * FROM users where level = 'REGIONAL'
+SELECT * FROM users where level = 'REGIONAL';
 
 
 
 CREATE VIEW vusershq 
 AS
-SELECT * FROM users where level = 'HQ'
+SELECT * FROM users where level = 'HQ';
 
 
 
@@ -42,7 +36,12 @@ SELECT * FROM users where level = 'HQ'
 
 CREATE VIEW vjobcommunication 
 AS
-SELECT project_status.id,project_status.project_id,project_status.users_id,project_status.status,project_status.message,users_exist.name,users_exist.email,users_exist.level,users_exist.posisi,users_exist.area,users_exist.regional,project_status.created_at FROM project_status join users_exist on project_status.users_id=users_exist.id
+SELECT project_status.id,project_status.project_id,project_status.users_id,project_status.status,project_status.message,users_exist.name,users_exist.email,users_exist.level,users_exist.posisi,users_exist.area,users_exist.regional,project_status.created_at FROM project_status join users_exist on project_status.users_id=users_exist.id;
+
+
+
+
+
 
 
 
@@ -56,7 +55,7 @@ WHERE notification.id IN (
     SELECT MAX(id)
     FROM notification
     GROUP BY project_id
-) 
+); 
 
 
 
@@ -66,7 +65,7 @@ AS
 SELECT project.id,status.detail
 FROM project
 join status
-on project.status_id=status.id 
+on project.status_id=status.id; 
 
 
 
@@ -75,13 +74,23 @@ CREATE VIEW vhistorydropsite
 AS
 SELECT drop_site_history.id,drop_site_history.projectid,drop_site_history.no_wo,drop_site_history.wo_date,
 CONCAT("Batch #",drop_site_history.batch, " ", drop_site_history.years) AS batchnya,
-drop_site_history.batch,drop_site_history.years,drop_site_history.infratype,drop_site_history.area,drop_site_history.regional,drop_site_history.site_id_spk,drop_site_history.site_name_spk,drop_site_history.address_spk,drop_site_history.longitude_spk,drop_site_history.latitude_spk,drop_site_history.status_id,drop_site_history.project_status_id,status.detail as statusnya,drop_site_history.created_at FROM drop_site_history join status on drop_site_history.status_id=status.id 
+drop_site_history.batch,drop_site_history.years,drop_site_history.infratype,drop_site_history.area,drop_site_history.regional,drop_site_history.site_id_spk,drop_site_history.site_name_spk,drop_site_history.address_spk,drop_site_history.longitude_spk,drop_site_history.latitude_spk,drop_site_history.status_id,drop_site_history.project_status_id,status.detail as statusnya,drop_site_history.created_at FROM drop_site_history join status on drop_site_history.status_id=status.id ;
 
 
 
 
 CREATE VIEW vcountboqsubmit
-select count(*) as jumlah from boq_submit
+as
+select count(*) as jumlah from boq_submit;
+
+
+
+
+
+
+
+
+
 
 
 
@@ -109,7 +118,7 @@ SELECT
 
   project_id,project_id_boq,project_id_verifikasi,project_id_proses_pr,project_id_po_release,
   area,message,status,created_at,updated_at
-FROM boq_submit
+FROM boq_submit;
 
 
 CREATE VIEW vboqsubmitdataverifikasi
@@ -138,7 +147,7 @@ SELECT
   area,message,status,created_at,updated_at
 FROM boq_submit
 where
-TRIM(IFNULL(project_id_boq, '')) > ''
+TRIM(IFNULL(project_id_boq, '')) > '';
 
 
 CREATE VIEW vboqsubmitdataprosespr
@@ -167,7 +176,7 @@ SELECT
   area,message,status,created_at,updated_at
 FROM boq_submit
 where
-TRIM(IFNULL(project_id_verifikasi, '')) > ''
+TRIM(IFNULL(project_id_verifikasi, '')) > '';
 
 
 
@@ -196,7 +205,7 @@ SELECT
   area,message,status,created_at,updated_at
 FROM boq_submit
 where
-TRIM(IFNULL(project_id_proses_pr, '')) > '' 
+TRIM(IFNULL(project_id_proses_pr, '')) > '' ;
 
 
 
@@ -206,8 +215,7 @@ CREATE VIEW vhistorymappingsite
 AS
 SELECT mapping_site_history.id,mapping_site_history.projectid,mapping_site_history.no_wo,mapping_site_history.wo_date,
 CONCAT("Batch #",mapping_site_history.batch, " ", mapping_site_history.years) AS batchnya,
-mapping_site_history.batch,mapping_site_history.years,mapping_site_history.infratype,mapping_site_history.area,mapping_site_history.regional,mapping_site_history.site_id_spk,mapping_site_history.site_name_spk,mapping_site_history.address_spk,mapping_site_history.longitude_spk,mapping_site_history.latitude_spk,mapping_site_history.status_id,mapping_site_history.project_status_id,status.detail as statusnya,mapping_site_history.created_at FROM mapping_site_history join status on mapping_site_history.status_id=status.id 
-
+mapping_site_history.batch,mapping_site_history.years,mapping_site_history.infratype,mapping_site_history.area,mapping_site_history.regional,mapping_site_history.site_id_spk,mapping_site_history.site_name_spk,mapping_site_history.address_spk,mapping_site_history.longitude_spk,mapping_site_history.latitude_spk,mapping_site_history.status_id,mapping_site_history.project_status_id,status.detail as statusnya,mapping_site_history.created_at FROM mapping_site_history join status on mapping_site_history.status_id=status.id;
 
 
 
@@ -216,18 +224,18 @@ CREATE VIEW vjobsdocumentsis
 AS
 SELECT project.id,project.projectid,project.no_wo,project.wo_date,
 CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
-project.batch,project.years,project.infratype,project.area,project.regional,project.site_id_spk,project.site_name_spk,project.address_spk,project.longitude_spk,project.latitude_spk,project.status_id,project.project_status_id,status.detail as statusnya,project.created_at FROM project join status on project.status_id=status.id where project.status_id = '1'
+project.batch,project.years,project.infratype,project.area,project.regional,project.site_id_spk,project.site_name_spk,project.address_spk,project.longitude_spk,project.latitude_spk,project.status_id,project.project_status_id,status.detail as statusnya,project.created_at FROM project join status on project.status_id=status.id where project.status_id = '1';
 
 
 CREATE VIEW vjobsdocumentsisrevisi 
 AS
-SELECT project.id,project.projectid,project.no_wo,project.wo_date,CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,project.batch,project.years,project.infratype,project.area,project.regional,project.site_id_spk,project.site_name_spk,project.address_spk,project.longitude_spk,project.latitude_spk,project.status_id,project.project_status_id,status.detail as statusnya,document_sis.id as documentsisid,document_sis.document_sis,project.updated_at as created_at FROM project join status on project.status_id=status.id join document_sis on project.id=document_sis.project_id where project.status_id = '3'
+SELECT project.id,project.projectid,project.no_wo,project.wo_date,CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,project.batch,project.years,project.infratype,project.area,project.regional,project.site_id_spk,project.site_name_spk,project.address_spk,project.longitude_spk,project.latitude_spk,project.status_id,project.project_status_id,status.detail as statusnya,document_sis.id as documentsisid,document_sis.document_sis,project.updated_at as created_at FROM project join status on project.status_id=status.id join document_sis on project.id=document_sis.project_id where project.status_id = '3';
 
 
 
 CREATE VIEW vjobsapprovaldocumentsis 
 AS
-SELECT project.id,project.projectid,project.no_wo,project.wo_date,CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,project.batch,project.years,project.infratype,project.area,project.regional,project.site_id_spk,project.site_name_spk,project.address_spk,project.longitude_spk,project.latitude_spk,project.status_id,project.project_status_id,status.detail as statusnya,document_sis.id as documentid,document_sis.document_sis,document_sis.created_at FROM project join status on project.status_id=status.id join document_sis on project.id=document_sis.project_id where project.status_id = '2'
+SELECT project.id,project.projectid,project.no_wo,project.wo_date,CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,project.batch,project.years,project.infratype,project.area,project.regional,project.site_id_spk,project.site_name_spk,project.address_spk,project.longitude_spk,project.latitude_spk,project.status_id,project.project_status_id,status.detail as statusnya,document_sis.id as documentid,document_sis.document_sis,document_sis.created_at FROM project join status on project.status_id=status.id join document_sis on project.id=document_sis.project_id where project.status_id = '2';
 
 
 CREATE VIEW vjobsdocumentdrm 
@@ -274,7 +282,7 @@ left join document_sis on
 project.id=document_sis.project_id 
 left join document_drm on 
 project.id=document_drm.project_id 
-where project.status_id = '4'
+where project.status_id = '4';
 
 
  CREATE VIEW vjobsapprovaldocumentdrm 
@@ -321,7 +329,7 @@ left join document_sis on
 project.id=document_sis.project_id 
 left join document_drm on 
 project.id=document_drm.project_id 
-where project.status_id = '5'
+where project.status_id = '5';
 
 
  CREATE VIEW vjobsdocumentdrmrevisi 
@@ -368,7 +376,7 @@ left join document_sis on
 project.id=document_sis.project_id 
 left join document_drm on 
 project.id=document_drm.project_id 
-where project.status_id = '6'
+where project.status_id = '6';
 
 
  
@@ -430,7 +438,7 @@ left join document_drm on
 project.id=document_drm.project_id 
 left join document_sitac on 
 project.id=document_sitac.project_id 
-where project.status_id = '7'
+where project.status_id = '7';
 
 
 
@@ -494,7 +502,7 @@ left join document_drm on
 project.id=document_drm.project_id 
 left join document_sitac on 
 project.id=document_sitac.project_id 
-where project.status_id = '8'
+where project.status_id = '8';
 
 
 CREATE VIEW vjobsdocumentsitacrevisi 
@@ -553,7 +561,7 @@ left join document_drm on
 project.id=document_drm.project_id 
 left join document_sitac on 
 project.id=document_sitac.project_id 
-where project.status_id = '9'
+where project.status_id = '9';
 
 
 
@@ -622,7 +630,7 @@ left join document_sitac on
 project.id=document_sitac.project_id 
 left join document_rfc on 
 project.id=document_rfc.project_id 
-where project.status_id = '10'
+where project.status_id = '10';
 
 
 
@@ -691,7 +699,7 @@ left join document_sitac on
 project.id=document_sitac.project_id 
 left join document_rfc on 
 project.id=document_rfc.project_id 
-where project.status_id = '11'
+where project.status_id = '11';
 
 
 
@@ -761,7 +769,7 @@ left join document_sitac on
 project.id=document_sitac.project_id 
 left join document_rfc on 
 project.id=document_rfc.project_id 
-where project.status_id = '12'
+where project.status_id = '12';
 
 
 
@@ -842,7 +850,7 @@ left join document_rfc on
 project.id=document_rfc.project_id 
 left join document_boq on 
 project.id=document_boq.project_id 
-where project.boq_status = '13'
+where project.boq_status = '13';
 
 
 
@@ -927,7 +935,7 @@ left join document_boq on
 project.id=document_boq.project_id 
 left join po on 
 project.id=po.project_id 
-where project.boq_status = '20'
+where project.boq_status = '20';
 
 
 
@@ -1008,7 +1016,7 @@ left join document_rfc on
 project.id=document_rfc.project_id 
 left join document_boq on 
 project.id=document_boq.project_id 
-where project.boq_status = '14'
+where project.boq_status = '14';
 
 
 
@@ -1088,12 +1096,12 @@ project.id=document_sitac.project_id
 left join document_rfc on 
 project.id=document_rfc.project_id 
 left join document_boq on 
-project.id=document_boq.project_id  
+project.id=document_boq.project_id  ;
 
 
 CREATE OR REPLACE VIEW vjobsubmitboqgroup
 AS
-select batchnya,batch,years,area,count(*) as totalsite from vjobsubmitboq group by batchnya,batch,years,area
+select batchnya,batch,years,area,count(*) as totalsite from vjobsubmitboq group by batchnya,batch,years,area;
 
 
 CREATE OR REPLACE VIEW vjobsmappingsite 
@@ -1120,28 +1128,28 @@ project.updated_at as created_at
 FROM project 
 left join status on 
 project.status_id=status.id  
-where project.status_id = '102'
+where project.status_id = '102';
 
 
 CREATE OR REPLACE VIEW vtinggitower
 AS
-select distinct(tower_high) from document_boq 
+select distinct(tower_high) from document_boq ;
 
 
 CREATE OR REPLACE VIEW vinfratype
 AS
-select distinct(infratype) from project 
+select distinct(infratype) from project; 
 
 
 CREATE OR REPLACE VIEW vallregional
 AS
-select distinct(regional) from project 
+select distinct(regional) from project; 
 
 
 
 CREATE OR REPLACE VIEW vtahun
 AS
-select distinct(years) from project 
+select distinct(years) from project ;
 
 
 
@@ -1151,7 +1159,7 @@ AS
 select years,
 IFNULL(avg(rfi_detail_price_year),0) as jumlah 
 from vallproject
-group by years 
+group by years ;
 
 
 
@@ -1160,7 +1168,7 @@ AS
 select years,area,
 IFNULL(avg(rfi_detail_price_year),0) as jumlah
 from vallproject
-group by years,area 
+group by years,area ;
 
 
 
@@ -1170,7 +1178,7 @@ AS
 select years,regional,
 IFNULL(avg(rfi_detail_price_year),0) as jumlah
 from vallproject
-group by years,regional 
+group by years,regional ;
 
 
 
@@ -1199,7 +1207,7 @@ project.updated_at as created_at
 FROM project 
 left join status on 
 project.status_id=status.id  
-where project.status_id = '103'
+where project.status_id = '103';
 
 
 
@@ -1227,7 +1235,7 @@ project.updated_at as created_at
 FROM project 
 left join status on 
 project.status_id=status.id 
-where project.status_id = '104' 
+where project.status_id = '104' ;
 
 
 CREATE OR REPLACE VIEW vjobsapprovaldropsiteHQ 
@@ -1254,7 +1262,7 @@ project.updated_at as created_at
 FROM project 
 left join status on 
 project.status_id=status.id 
-where project.status_id = '106' 
+where project.status_id = '106'; 
 
 
 
@@ -1298,7 +1306,7 @@ SELECT years,
 (select count(*) from project where boq_status in(20) and years=p.years) as jumlahboqrelease,
 (select count(*) from project where status_id in(21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45) and years=p.years) as cme,
 (select count(*) from project where status_id in(105) and years=p.years) as jumlahdrop,
-COUNT(*) as jumlah from project as p GROUP BY years
+COUNT(*) as jumlah from project as p GROUP BY years;
 
 
 
@@ -1318,7 +1326,7 @@ SELECT p.years,p.regional,
 (select count(*) from project where status_id in(105) and years=p.years and regional=p.regional) as jumlahdrop,
 COUNT(*) as jumlah 
 from project as p 
-GROUP BY years,regional
+GROUP BY years,regional;
 
 
 
@@ -1339,7 +1347,7 @@ SELECT p.years,p.area,
 (select count(*) from project where status_id in(105) and years=p.years and area=p.area) as jumlahdrop,
 COUNT(*) as jumlah 
 from project p 
-GROUP BY years,area
+GROUP BY years,area;
 
 
 
@@ -1347,7 +1355,7 @@ GROUP BY years,area
 CREATE OR REPLACE VIEW vallbatch 
 AS 
 SELECT 
-distinct(CONCAT("Batch #",project.batch, " ", project.years))AS batchnya from project
+distinct(CONCAT("Batch #",project.batch, " ", project.years))AS batchnya from project;
 
 
 CREATE OR REPLACE VIEW vallprojectbyyears 
@@ -1497,7 +1505,7 @@ left join rfi_detail on
 project.id=rfi_detail.project_id 
 left join po on 
 project.id=po.project_id   
-  where project.years = YEAR(CURDATE()) 
+  where project.years = YEAR(CURDATE()) ;
 
 
 
@@ -1586,7 +1594,7 @@ left join document_boq on
 project.id=document_boq.project_id
 left join site_opening on 
 project.id=site_opening.project_id
-where project.status_id=21
+where project.status_id=21;
 
 
 
@@ -1673,7 +1681,7 @@ left join document_boq on
 project.id=document_boq.project_id
 left join site_opening on 
 project.id=site_opening.project_id
-where project.status_id=22 
+where project.status_id=22 ;
 
 
 CREATE OR REPLACE VIEW vsiteexcavation 
@@ -1763,7 +1771,7 @@ left join site_opening on
 project.id=site_opening.project_id
 left join excavation on 
 project.id=excavation.project_id
-where project.status_id = 23
+where project.status_id = 23;
 
 
 CREATE OR REPLACE VIEW vsiteexcavationrevisi 
@@ -1853,7 +1861,7 @@ left join site_opening on
 project.id=site_opening.project_id
 left join excavation on 
 project.id=excavation.project_id
-where project.status_id = 24
+where project.status_id = 24;
 
 
 
@@ -1946,7 +1954,7 @@ left join site_opening on
 project.id=site_opening.project_id
 left join excavation on 
 project.id=excavation.project_id
-where project.status_id = 25
+where project.status_id = 25;
 
 
 
@@ -2044,7 +2052,7 @@ left join excavation on
 project.id=excavation.project_id
 left join rebaring on 
 project.id=rebaring.project_id
-where project.status_id = 26
+where project.status_id = 26;
 
 
 
@@ -2146,7 +2154,7 @@ left join rebaring on
 project.id=rebaring.project_id
 left join pouring on 
 project.id=pouring.project_id
-where project.status_id = 27
+where project.status_id = 27;
 
 
 
@@ -2248,7 +2256,7 @@ left join rebaring on
 project.id=rebaring.project_id
 left join pouring on 
 project.id=pouring.project_id
-where project.status_id = 28
+where project.status_id = 28;
 
 
 
@@ -2356,7 +2364,7 @@ left join pouring on
 project.id=pouring.project_id
 left join curing on 
 project.id=curing.project_id
-where project.status_id = 29
+where project.status_id = 29;
 
 
 
@@ -2463,7 +2471,7 @@ left join pouring on
 project.id=pouring.project_id
 left join curing on 
 project.id=curing.project_id
-where project.status_id = 30
+where project.status_id = 30;
 
 
 
@@ -2576,7 +2584,7 @@ left join curing on
 project.id=curing.project_id
 left join tower_erection on 
 project.id=tower_erection.project_id
-where project.status_id = 31
+where project.status_id = 31;
 
 
 
@@ -2690,7 +2698,7 @@ left join curing on
 project.id=curing.project_id
 left join tower_erection on 
 project.id=tower_erection.project_id
-where project.status_id = 32
+where project.status_id = 32;
 
 
 
@@ -2808,7 +2816,7 @@ left join tower_erection on
 project.id=tower_erection.project_id
 left join m_e_process on 
 project.id=m_e_process.project_id
-where project.status_id = 33
+where project.status_id = 33;
 
 
 
@@ -2929,7 +2937,7 @@ left join m_e_process on
 project.id=m_e_process.project_id
 left join fence_yard on 
 project.id=fence_yard.project_id
-where project.status_id = 35
+where project.status_id = 35;
 
 
 
@@ -3050,7 +3058,7 @@ left join m_e_process on
 project.id=m_e_process.project_id
 left join fence_yard on 
 project.id=fence_yard.project_id
-where project.status_id = 36
+where project.status_id = 36;
 
 
 
@@ -3167,7 +3175,7 @@ left join tower_erection on
 project.id=tower_erection.project_id
 left join m_e_process on 
 project.id=m_e_process.project_id
-where project.status_id = 34
+where project.status_id = 34;
 
 
 
@@ -3294,7 +3302,7 @@ left join m_e_process on
 project.id=m_e_process.project_id
 left join rfi_baut on 
 project.id=rfi_baut.project_id
-where project.status_id = 37
+where project.status_id = 37;
 
 
 
@@ -3418,7 +3426,7 @@ left join m_e_process on
 project.id=m_e_process.project_id
 left join rfi_baut on 
 project.id=rfi_baut.project_id
-where project.status_id = 38
+where project.status_id = 38;
 
 
 
@@ -3541,7 +3549,7 @@ left join m_e_process on
 project.id=m_e_process.project_id
 left join rfi_baut on 
 project.id=rfi_baut.project_id
-where project.status_id = 39
+where project.status_id = 39;
 
 
 
@@ -3671,7 +3679,7 @@ left join rfi_baut on
 project.id=rfi_baut.project_id
 left join rfi_detail on 
 project.id=rfi_detail.project_id
-where project.status_id = 40
+where project.status_id = 40;
 
 
 
@@ -3801,7 +3809,7 @@ left join rfi_baut on
 project.id=rfi_baut.project_id
 left join rfi_detail on 
 project.id=rfi_detail.project_id
-where project.status_id = 41
+where project.status_id = 41;
 
 
 CREATE OR REPLACE VIEW vsitecrfidetailrevisi
@@ -3930,7 +3938,7 @@ left join rfi_baut on
 project.id=rfi_baut.project_id
 left join rfi_detail on 
 project.id=rfi_detail.project_id
-where project.status_id = 43
+where project.status_id = 43;
 
 
 
@@ -4061,7 +4069,7 @@ left join rfi_baut on
 project.id=rfi_baut.project_id
 left join rfi_detail on 
 project.id=rfi_detail.project_id
-where project.haki_status = 44
+where project.haki_status = 44;
 
 
 
@@ -4087,7 +4095,7 @@ SELECT
    IFNULL((CHAR_LENGTH(project_id_accrued) - CHAR_LENGTH(REPLACE(project_id_accrued, ',', '')) + 1),0) as totalaccrued
  
 FROM cme_submit
-where status = 1
+where status=1;
 
 
 
@@ -4114,7 +4122,7 @@ SELECT
    IFNULL((CHAR_LENGTH(project_id_accrued) - CHAR_LENGTH(REPLACE(project_id_accrued, ',', '')) + 1),0) as totalaccrued
  
 FROM cme_submit
-where status=3
+where status=3;
 
 
 
@@ -4139,7 +4147,7 @@ SELECT
    IFNULL((CHAR_LENGTH(project_id_accrued) - CHAR_LENGTH(REPLACE(project_id_accrued, ',', '')) + 1),0) as totalaccrued
  
 FROM cme_submit
-where status=2
+where status=2;
 
 
 CREATE VIEW vsiteapprovedcmetoaccrued
@@ -4164,7 +4172,7 @@ SELECT
  
 FROM cme_submit
 where status=2 AND
-TRIM(IFNULL(project_id_accrual, '')) > ''
+TRIM(IFNULL(project_id_accrual, '')) > '';
 
 
 CREATE VIEW vsiteapprovedcmeaccrueddata
@@ -4189,7 +4197,7 @@ SELECT
  
 FROM cme_submit
 where status=2 AND
-TRIM(IFNULL(project_id_accrued, '')) > ''
+TRIM(IFNULL(project_id_accrued, '')) > '';
 
 
 
@@ -4326,7 +4334,7 @@ left join fence_yard on
 project.id=fence_yard.project_id
 left join rfi_detail on 
 project.id=rfi_detail.project_id 
-where project.haki_status=47
+where project.haki_status=47;
 
 
 
@@ -4464,7 +4472,7 @@ left join fence_yard on
 project.id=fence_yard.project_id
 left join rfi_detail on 
 project.id=rfi_detail.project_id 
-where project.haki_status=48
+where project.haki_status=48;
 
 
 
@@ -4617,7 +4625,7 @@ left join po on
 project.id=po.project_id 
 left join baks_bauk on 
 project.id=baks_bauk.project_id 
-where project.status_id=42
+where project.status_id=42;
 
 
 
@@ -4777,7 +4785,7 @@ left join po on
 project.id=po.project_id  
 left join baks_bauk on 
 project.id=baks_bauk.project_id  
-where project.status_id=49
+where project.status_id=49;
 
 
 
@@ -4936,7 +4944,7 @@ left join po on
 project.id=po.project_id  
 left join baks_bauk on 
 project.id=baks_bauk.project_id  
-where project.status_id=50
+where project.status_id=50;
 
 
 
@@ -5100,7 +5108,7 @@ left join baks_bauk on
 project.id=baks_bauk.project_id  
 left join boq_baps on 
 project.id=boq_baps.project_id 
-where project.status_id=51 
+where project.status_id=51; 
 
 
 
@@ -5270,7 +5278,7 @@ left join boq_baps on
 project.id=boq_baps.project_id  
 left join baps on 
 project.id=baps.project_id  
-where project.status_id=52
+where project.status_id=52;
 
 
 
@@ -5448,7 +5456,7 @@ left join baps on
 project.id=baps.project_id 
 left join invoice on 
 project.id=invoice.project_id  
-where project.status_id=53
+where project.status_id=53;
 
 
 
@@ -5626,7 +5634,7 @@ left join baps on
 project.id=baps.project_id 
 left join invoice on 
 project.id=invoice.project_id  
-where project.status_id=54
+where project.status_id=54;
 
 
 
@@ -5804,7 +5812,7 @@ left join baps on
 project.id=baps.project_id 
 left join invoice on 
 project.id=invoice.project_id  
-where project.status_id IN (52,53,54,55)
+where project.status_id IN (52,53,54,55);
 
 
 
@@ -5933,7 +5941,12 @@ invoice.no_receive,
 invoice.no_kontrak,
 invoice.no_invoice,
 invoice.tgl_invoice,
-IFNULL((((LAST_DAY(project.batch_accrue) - rfi_detail.rfi_detail_start_date)/DAY(LAST_DAY(project.batch_accrue)) * rfi_detail.rfi_detail_price_month)),0) as nilai_revenue,
+IFNULL(
+ROUND(
+(((datediff(LAST_DAY(project.batch_accrue), rfi_detail.rfi_detail_start_date))/DAY(LAST_DAY(project.batch_accrue)) * rfi_detail.rfi_detail_price_month))
+,0)
+,0) as nilai_revenue,
+
 project.updated_at as created_at
 FROM project 
 left join status on 
@@ -5981,4 +5994,5 @@ project.id=boq_baps.project_id
 left join baps on 
 project.id=baps.project_id 
 left join invoice on 
-project.id=invoice.project_id  
+project.id=invoice.project_id
+

@@ -31,6 +31,15 @@ let routes=[
 
 
 
+/* maps  */
+{
+	path:'/project-locations',
+	component:require('./components/Maps/')
+},
+/* maps  */
+
+
+
 /* list users akses account manager regional  */
 {
 	path:'/user-access-for-regional-account-manager',
@@ -881,6 +890,32 @@ let routes=[
 	 props: true
 },
 /* list users akses hq  */
+
+
+/* list users akses haki  */
+{
+	path:'/user-access-for-haki',
+	component:require('./components/HakiUsers/')
+},
+{
+	path:'/user-access-for-haki/add',
+	name: 'userhakiadd',
+	component:require('./components/HakiUsers/Add'),
+	props: true
+},
+{
+	path:'/user-access-for-haki/detail/:id',
+	name: 'userhakidetail',
+	component:require('./components/HakiUsers/Detail'),
+	 props: true
+},
+{
+	path:'/user-access-for-haki/edit/:id',
+	name: 'userhakiedit',
+	component:require('./components/HakiUsers/Edit'),
+	 props: true
+},
+/* list users akses haki  */
 
 
 /* list users akses  */

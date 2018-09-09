@@ -14,7 +14,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('app-assets/fonts/simple-line-icons/style.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('app-assets/fonts/font-awesome/css/font-awesome.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{asset('app-assets/vendors/css/perfect-scrollbar.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('app-assets/vendors/css/prism.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('app-assets/vendors/css/prism.min.css')}}"> 
     <!-- END VENDOR CSS-->
     <!-- BEGIN APEX CSS-->
 <link rel="stylesheet" type="text/css" href="{{asset('app-assets/css/app.css')}}"> 
@@ -437,6 +437,7 @@
                       </li>
                     </ul>
                   </li>
+<li class="nav-item"><a onClick="window.location.replace('/karyawan?#/user-access-for-haki');window.location.reload();"><i class="icon-user-following"></i><span data-i18n="" class="menu-title">User Akses</span></a></li>                  
 @endif
 
 
@@ -537,6 +538,7 @@
                 </ul>
               </li>
               
+ <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/project-locations');window.location.reload();"><i class="ft-navigation font-medium-3"></i><span data-i18n="" class="menu-title">Maps</span> </a></li> 
  <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/list-notifications');window.location.reload();"><i class="ft-bell font-medium-3"></i><span data-i18n="" class="menu-title">Notifikasi</span> </a></li> 
  <li class="nav-item"><a id="navbar-fullscreen" href="javascript:;" class="nav-link apptogglefullscreen"><i class="ft-maximize font-medium-3"></i><span data-i18n="" class="menu-title">Fullscreen</span> </a></li>
 <li class="has-sub nav-item"><a href="#"><i class="ft-user"></i><span data-i18n="" class="menu-title">User</span></a>
@@ -712,7 +714,8 @@
     <script src="{{asset('app-assets/vendors/js/prism.min.js')}}" type="text/javascript"></script>
     <script src="{{asset('app-assets/vendors/js/jquery.matchHeight-min.js')}}" type="text/javascript"></script>
     <script src="{{asset('app-assets/vendors/js/screenfull.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('app-assets/vendors/js/pace/pace.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('app-assets/vendors/js/pace/pace.min.js')}}" type="text/javascript"></script> 
+    
     <!-- BEGIN VENDOR JS-->
     <!-- BEGIN PAGE VENDOR JS-->
     <!-- END PAGE VENDOR JS-->

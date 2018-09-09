@@ -108,6 +108,7 @@ $valid = $this->validate($request, [
         'document' => 'required',
         'infratype' => 'required',
         'message' => 'required',
+        'regional' => 'required',
         'kata' => 'required',
         'status' => 'required|numeric|not_in:0'
     ]);
@@ -124,7 +125,9 @@ $kodestatus = Input::get('status');
 }        
 Project::where('id',Input::get('project_id'))->update(['status_id'=>$kodestatus]);
 $ProjectStatus = ProjectStatus::create(['project_id' => Input::get('project_id'),'users_id' => Auth::guard('karyawan')->user()->id , 'document'=>strtoupper(Input::get('document')),'status'=>strtoupper(Input::get('statusmessage')),'message'=>strtoupper(Input::get('message'))]);
-$showUser = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','MANAGER MARKETING'],['area',Auth::guard('karyawan')->user()->area]])->get();
+$showUser = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','ACCOUNT MANAGER'],['regional',strtoupper(Input::get('regional'))]])
+->orWhere([['level', Auth::guard('karyawan')->user()->level],['posisi','AM SUPPORT'],['regional',strtoupper(Input::get('regional'))]])
+->get();
 if(count($showUser) > 0)
 {
 foreach ($showUser as $p) {

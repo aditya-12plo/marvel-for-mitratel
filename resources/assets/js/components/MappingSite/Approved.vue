@@ -398,6 +398,7 @@ export default {
     formErrors:{},
      file_name:'',
      message:'',
+     regional:'',
      status:'',
 	kata:'', 
 	GetLevel:'', 
@@ -429,9 +430,11 @@ export default {
                   ApproveItem(){
 this.statusmessage = '';
 this.status = '';
+this.regional = '';  
 this.kata = '';                    
 this.statusmessage = 'MAPPING SITE';
 this.status = 103;
+this.regional = this.rowDatanya.project.regional;  
 this.kata = 'MAPPING SITE Project ID '+this.rowDatanya.project.projectid+' Di Setujui';
 this.errorNya = '';
 this.message = '';
@@ -441,10 +444,12 @@ this.modal.set('approve', true);
                   RepairItem(){
 this.statusmessage = '';
 this.status = '';
+this.regional = '';  
 this.kata = '';
 this.statusmessage = 'MAPPING SITE';
 this.status = 1;
-this.kata = 'MAPPING SITE Project ID '+this.rowDatanya.project.projectid+' DITOLAK, Silahkan Ulangi Dari Input Dokumen SIS';
+this.regional = this.rowDatanya.project.regional;  
+this.kata = 'MAPPING SITE Project ID '+this.rowDatanya.project.projectid+' DI Tolak';
 this.errorNya = '';
 this.message = '';
 this.modal.set('approve', true); 
@@ -494,12 +499,20 @@ this.modal.set('approve', true);
 }).then((result) => {
   if (result.value) {
     this.isLoading = true;
+if(this.status === 103)
+{
+ this.DeleteSIS(this.rowDatanya.project.documentid,this.rowDatanya.project.projectid ,this.rowDatanya.project.document_sis);       
+this.DeleteDRM(this.rowDatanya.project.documentdrmid,this.rowDatanya.project.projectid ,this.rowDatanya.project.document_kom ,this.rowDatanya.project.document_drm);       
+this.DeleteSITAC(this.rowDatanya.project.documentsitacid,this.rowDatanya.project.projectid ,this.rowDatanya.project.document_ban_bak ,this.rowDatanya.project.document_ijin_warga ,this.rowDatanya.project.document_pks ,this.rowDatanya.project.document_imb);                                      
+}
+
    let masuk = new FormData();
    masuk.set('project_id', this.rowDatanya.project.id)
    masuk.set('projectid', this.rowDatanya.project.projectid)
    masuk.set('kata', this.kata)
    masuk.set('infratype', this.rowDatanya.project.infratype)
    masuk.set('message', this.message)
+   masuk.set('regional', this.regional)
    masuk.set('statusmessage', this.statusmessage)
    masuk.set('document', 'MAPPING SITE')
    masuk.set('status', this.status)
@@ -530,6 +543,24 @@ this.modal.set('approve', true);
 })
             },
 
+DeleteSIS(id,projectid,fileNya){
+    var masuk = {kode:id , projectid:projectid , file:fileNya};
+                axios.post('/karyawan/DeleteSIS',masuk).then((response) => {
+                    return response.data.success;
+                });
+            },  
+DeleteDRM(id,projectid,documentkom,documentdrm){
+    var masuk = {kode:id , projectid:projectid , document_kom:documentkom , document_drm:documentdrm};
+                axios.post('/karyawan/DeleteDRM',masuk).then((response) => {
+                    return response.data.success;
+                });
+            },  
+DeleteSITAC(id,projectid,documentbanbak,documentijinwarga,documentpks,documentimb){
+    var masuk = {kode:id , projectid:projectid , document_ban_bak:documentbanbak , document_ijin_warga:documentijinwarga , document_pks:documentpks , document_imb:documentimb};
+                axios.post('/karyawan/DeleteSITAC',masuk).then((response) => {
+                    return response.data.success;
+                });
+            }, 
   GetKomunikasi(id){
                 axios.get('/karyawan/GetKomunikasiProject/'+id).then((response) => {
                     this.komunikasi = response.data;

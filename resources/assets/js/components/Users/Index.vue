@@ -5,7 +5,7 @@
     <section class="content-header">
 
       <h1 align="center">
-      List User MITRATel-RAVTING
+      List User Akses Dr. MARVEL
       </h1>
     </section>
 
@@ -241,6 +241,12 @@ export default {
         },
         {
           name: 'level',
+      title: 'Lokasi Kantor',
+      titleClass: 'text-center',
+          dataClass: 'text-center'
+        },
+        {
+          name: 'posisi',
 		  title: 'Posisi',
 		  titleClass: 'text-center',
           dataClass: 'text-center'
