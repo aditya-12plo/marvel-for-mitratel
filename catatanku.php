@@ -19,13 +19,13 @@ posisi
 
 /*   VIEW    */
 
-CREATE VIEW vusersregional 
+CREATE OR REPLACE VIEW vusersregional 
 AS
 SELECT * FROM users where level = 'REGIONAL';
 
 
 
-CREATE VIEW vusershq 
+CREATE OR REPLACE VIEW vusershq 
 AS
 SELECT * FROM users where level = 'HQ';
 
@@ -34,7 +34,7 @@ SELECT * FROM users where level = 'HQ';
 
 
 
-CREATE VIEW vjobcommunication 
+CREATE OR REPLACE VIEW vjobcommunication 
 AS
 SELECT project_status.id,project_status.project_id,project_status.users_id,project_status.status,project_status.message,users_exist.name,users_exist.email,users_exist.level,users_exist.posisi,users_exist.area,users_exist.regional,project_status.created_at FROM project_status join users_exist on project_status.users_id=users_exist.id;
 
@@ -70,7 +70,7 @@ on project.status_id=status.id;
 
 
 
-CREATE VIEW vhistorydropsite 
+CREATE OR REPLACE VIEW vhistorydropsite 
 AS
 SELECT drop_site_history.id,drop_site_history.projectid,drop_site_history.no_wo,drop_site_history.wo_date,
 CONCAT("Batch #",drop_site_history.batch, " ", drop_site_history.years) AS batchnya,
@@ -79,7 +79,7 @@ drop_site_history.batch,drop_site_history.years,drop_site_history.infratype,drop
 
 
 
-CREATE VIEW vcountboqsubmit
+CREATE OR REPLACE VIEW vcountboqsubmit
 as
 select count(*) as jumlah from boq_submit;
 
@@ -94,7 +94,95 @@ select count(*) as jumlah from boq_submit;
 
 
 
-CREATE VIEW vboqsubmitdata
+CREATE OR REPLACE VIEW vboqsubmitdata
+AS
+SELECT 
+  id, 
+  boq_code, 
+  title,
+  nama_telkomsel,
+  posisi_telkomsel,
+  nama_manager,
+  posisi_manager,
+  nama_user,
+  posisi_user,
+  IF(project_id='', 0 ,IFNULL((CHAR_LENGTH(project_id) - CHAR_LENGTH(REPLACE(project_id, ',', '')) + 1),0)) as total,
+  CASE status
+        WHEN 0 THEN 'MENUNGGU APPROVAL'
+        WHEN 1 THEN 'REPAIR BOQ'
+        WHEN 2 THEN 'APPROVED'
+        WHEN 3 THEN 'BOQ VERFIFIKASI'
+        WHEN 4 THEN 'BOQ PROSES PR'
+        WHEN 5 THEN 'BOQ PO RELEASE' 
+        ELSE 'CANCEL' END
+        AS 'statusnya',
+        project_id,
+  area,area2,message,status,created_at,updated_at
+FROM boq_submit
+where status=0
+;
+
+
+CREATE OR REPLACE VIEW vboqsubmitdatarepair
+AS
+SELECT 
+  id, 
+  boq_code, 
+  title,
+  nama_telkomsel,
+  posisi_telkomsel,
+  nama_manager,
+  posisi_manager,
+  nama_user,
+  posisi_user,
+ IF(project_id='', 0 ,IFNULL((CHAR_LENGTH(project_id) - CHAR_LENGTH(REPLACE(project_id, ',', '')) + 1),0)) as total, 
+  CASE status
+        WHEN 0 THEN 'MENUNGGU APPROVAL'
+        WHEN 1 THEN 'REPAIR BOQ'
+        WHEN 2 THEN 'APPROVED'
+        WHEN 3 THEN 'BOQ VERFIFIKASI'
+        WHEN 4 THEN 'BOQ PROSES PR'
+        WHEN 5 THEN 'BOQ PO RELEASE' 
+        ELSE 'CANCEL' END
+        AS 'statusnya',
+        project_id,
+  area,area2,message,status,created_at,updated_at
+FROM boq_submit
+where status=1
+;
+
+
+CREATE OR REPLACE VIEW vboqsubmitdataapproval
+AS
+SELECT 
+  id, 
+  boq_code, 
+  title,
+  nama_telkomsel,
+  posisi_telkomsel,
+  nama_manager,
+  posisi_manager,
+  nama_user,
+  posisi_user,
+ IF(project_id='', 0 ,IFNULL((CHAR_LENGTH(project_id) - CHAR_LENGTH(REPLACE(project_id, ',', '')) + 1),0)) as total, 
+  CASE status
+        WHEN 0 THEN 'MENUNGGU APPROVAL'
+        WHEN 1 THEN 'REPAIR BOQ'
+        WHEN 2 THEN 'APPROVED'
+        WHEN 3 THEN 'BOQ VERFIFIKASI'
+        WHEN 4 THEN 'BOQ PROSES PR'
+        WHEN 5 THEN 'BOQ PO RELEASE' 
+        ELSE 'CANCEL' END
+        AS 'statusnya',
+        project_id,
+  area,area2,message,status,created_at,updated_at
+FROM boq_submit
+where status=2
+;
+
+
+
+CREATE OR REPLACE VIEW vboqsubmitdataverifikasi
 AS
 SELECT 
   id, 
@@ -108,20 +196,23 @@ SELECT
   posisi_user,
  IF(project_id='', 0 ,IFNULL((CHAR_LENGTH(project_id) - CHAR_LENGTH(REPLACE(project_id, ',', '')) + 1),0)) as total,
 
- IF(project_id_boq='', 0 ,IFNULL((CHAR_LENGTH(project_id_boq) - CHAR_LENGTH(REPLACE(project_id_boq, ',', '')) + 1),0)) as totalboq,
+  CASE status
+        WHEN 0 THEN 'MENUNGGU APPROVAL'
+        WHEN 1 THEN 'REPAIR BOQ'
+        WHEN 2 THEN 'APPROVED'
+        WHEN 3 THEN 'BOQ VERFIFIKASI'
+        WHEN 4 THEN 'BOQ PROSES PR'
+        WHEN 5 THEN 'BOQ PO RELEASE' 
+        ELSE 'CANCEL' END
+        AS 'statusnya',
+  project_id,
+  area,area2,message,status,created_at,updated_at
+FROM boq_submit
+where
+status=2;
 
- IF(project_id_verifikasi='', 0 ,IFNULL((CHAR_LENGTH(project_id_verifikasi) - CHAR_LENGTH(REPLACE(project_id_verifikasi, ',', '')) + 1),0)) as totalverifikasi, 
 
- IF(project_id_proses_pr='', 0 ,IFNULL((CHAR_LENGTH(project_id_proses_pr) - CHAR_LENGTH(REPLACE(project_id_proses_pr, ',', '')) + 1),0)) as totalpr,  
-
- IF(project_id_po_release='',  0 ,IFNULL((CHAR_LENGTH(project_id_po_release) - CHAR_LENGTH(REPLACE(project_id_po_release, ',', '')) + 1),0)) as totalrelease, 
-
-  project_id,project_id_boq,project_id_verifikasi,project_id_proses_pr,project_id_po_release,
-  area,message,status,created_at,updated_at
-FROM boq_submit;
-
-
-CREATE VIEW vboqsubmitdataverifikasi
+CREATE OR REPLACE VIEW vboqsubmitdataprosespr
 AS
 SELECT 
   id, 
@@ -134,23 +225,24 @@ SELECT
   nama_user,
   posisi_user,
  IF(project_id='', 0 ,IFNULL((CHAR_LENGTH(project_id) - CHAR_LENGTH(REPLACE(project_id, ',', '')) + 1),0)) as total,
-
- IF(project_id_boq='', 0 ,IFNULL((CHAR_LENGTH(project_id_boq) - CHAR_LENGTH(REPLACE(project_id_boq, ',', '')) + 1),0)) as totalboq,
-
- IF(project_id_verifikasi='', 0 ,IFNULL((CHAR_LENGTH(project_id_verifikasi) - CHAR_LENGTH(REPLACE(project_id_verifikasi, ',', '')) + 1),0)) as totalverifikasi, 
-
- IF(project_id_proses_pr='', 0 ,IFNULL((CHAR_LENGTH(project_id_proses_pr) - CHAR_LENGTH(REPLACE(project_id_proses_pr, ',', '')) + 1),0)) as totalpr,  
-
- IF(project_id_po_release='',  0 ,IFNULL((CHAR_LENGTH(project_id_po_release) - CHAR_LENGTH(REPLACE(project_id_po_release, ',', '')) + 1),0)) as totalrelease, 
-   
-  project_id,project_id_boq,project_id_verifikasi,project_id_proses_pr,project_id_po_release,
-  area,message,status,created_at,updated_at
+ CASE status
+        WHEN 0 THEN 'MENUNGGU APPROVAL'
+        WHEN 1 THEN 'REPAIR BOQ'
+        WHEN 2 THEN 'APPROVED'
+        WHEN 3 THEN 'BOQ VERFIFIKASI'
+        WHEN 4 THEN 'BOQ PROSES PR'
+        WHEN 5 THEN 'BOQ PO RELEASE' 
+        ELSE 'CANCEL' END
+        AS 'statusnya',
+  project_id,
+  area,area2,message,status,created_at,updated_at
 FROM boq_submit
 where
-TRIM(IFNULL(project_id_boq, '')) > '';
+status=3;
 
 
-CREATE VIEW vboqsubmitdataprosespr
+
+CREATE OR REPLACE VIEW vboqsubmitdataporelease
 AS
 SELECT 
   id, 
@@ -163,55 +255,26 @@ SELECT
   nama_user,
   posisi_user,
  IF(project_id='', 0 ,IFNULL((CHAR_LENGTH(project_id) - CHAR_LENGTH(REPLACE(project_id, ',', '')) + 1),0)) as total,
-
- IF(project_id_boq='', 0 ,IFNULL((CHAR_LENGTH(project_id_boq) - CHAR_LENGTH(REPLACE(project_id_boq, ',', '')) + 1),0)) as totalboq,
-
- IF(project_id_verifikasi='', 0 ,IFNULL((CHAR_LENGTH(project_id_verifikasi) - CHAR_LENGTH(REPLACE(project_id_verifikasi, ',', '')) + 1),0)) as totalverifikasi, 
-
- IF(project_id_proses_pr='', 0 ,IFNULL((CHAR_LENGTH(project_id_proses_pr) - CHAR_LENGTH(REPLACE(project_id_proses_pr, ',', '')) + 1),0)) as totalpr,  
-
- IF(project_id_po_release='',  0 ,IFNULL((CHAR_LENGTH(project_id_po_release) - CHAR_LENGTH(REPLACE(project_id_po_release, ',', '')) + 1),0)) as totalrelease, 
-   
-  project_id,project_id_boq,project_id_verifikasi,project_id_proses_pr,project_id_po_release,
-  area,message,status,created_at,updated_at
+ CASE status
+        WHEN 0 THEN 'MENUNGGU APPROVAL'
+        WHEN 1 THEN 'REPAIR BOQ'
+        WHEN 2 THEN 'APPROVED'
+        WHEN 3 THEN 'BOQ VERFIFIKASI'
+        WHEN 4 THEN 'BOQ PROSES PR'
+        WHEN 5 THEN 'BOQ PO RELEASE' 
+        ELSE 'CANCEL' END
+        AS 'statusnya',
+  project_id,
+  area,area2,message,status,created_at,updated_at
 FROM boq_submit
 where
-TRIM(IFNULL(project_id_verifikasi, '')) > '';
-
-
-
-
-SELECT 
-  id, 
-  boq_code, 
-  title,
-  nama_telkomsel,
-  posisi_telkomsel,
-  nama_manager,
-  posisi_manager,
-  nama_user,
-  posisi_user,
- IF(project_id='', 0 ,IFNULL((CHAR_LENGTH(project_id) - CHAR_LENGTH(REPLACE(project_id, ',', '')) + 1),0)) as total,
-
- IF(project_id_boq='', 0 ,IFNULL((CHAR_LENGTH(project_id_boq) - CHAR_LENGTH(REPLACE(project_id_boq, ',', '')) + 1),0)) as totalboq,
-
- IF(project_id_verifikasi='', 0 ,IFNULL((CHAR_LENGTH(project_id_verifikasi) - CHAR_LENGTH(REPLACE(project_id_verifikasi, ',', '')) + 1),0)) as totalverifikasi, 
-
- IF(project_id_proses_pr='', 0 ,IFNULL((CHAR_LENGTH(project_id_proses_pr) - CHAR_LENGTH(REPLACE(project_id_proses_pr, ',', '')) + 1),0)) as totalpr,  
-
- IF(project_id_po_release='',  0 ,IFNULL((CHAR_LENGTH(project_id_po_release) - CHAR_LENGTH(REPLACE(project_id_po_release, ',', '')) + 1),0)) as totalrelease, 
-   
-  project_id,project_id_boq,project_id_verifikasi,project_id_proses_pr,project_id_po_release,
-  area,message,status,created_at,updated_at
-FROM boq_submit
-where
-TRIM(IFNULL(project_id_proses_pr, '')) > '' ;
+status=4;
 
 
 
 
 
-CREATE VIEW vhistorymappingsite 
+CREATE OR REPLACE VIEW vhistorymappingsite 
 AS
 SELECT mapping_site_history.id,mapping_site_history.projectid,mapping_site_history.no_wo,mapping_site_history.wo_date,
 CONCAT("Batch #",mapping_site_history.batch, " ", mapping_site_history.years) AS batchnya,
@@ -220,25 +283,25 @@ mapping_site_history.batch,mapping_site_history.years,mapping_site_history.infra
 
 
 
-CREATE VIEW vjobsdocumentsis 
+CREATE OR REPLACE VIEW vjobsdocumentsis 
 AS
 SELECT project.id,project.projectid,project.no_wo,project.wo_date,
 CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
 project.batch,project.years,project.infratype,project.area,project.regional,project.site_id_spk,project.site_name_spk,project.address_spk,project.longitude_spk,project.latitude_spk,project.status_id,project.project_status_id,status.detail as statusnya,project.created_at FROM project join status on project.status_id=status.id where project.status_id = '1';
 
 
-CREATE VIEW vjobsdocumentsisrevisi 
+CREATE OR REPLACE VIEW vjobsdocumentsisrevisi 
 AS
 SELECT project.id,project.projectid,project.no_wo,project.wo_date,CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,project.batch,project.years,project.infratype,project.area,project.regional,project.site_id_spk,project.site_name_spk,project.address_spk,project.longitude_spk,project.latitude_spk,project.status_id,project.project_status_id,status.detail as statusnya,document_sis.id as documentsisid,document_sis.document_sis,project.updated_at as created_at FROM project join status on project.status_id=status.id join document_sis on project.id=document_sis.project_id where project.status_id = '3';
 
 
 
-CREATE VIEW vjobsapprovaldocumentsis 
+CREATE OR REPLACE VIEW vjobsapprovaldocumentsis 
 AS
 SELECT project.id,project.projectid,project.no_wo,project.wo_date,CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,project.batch,project.years,project.infratype,project.area,project.regional,project.site_id_spk,project.site_name_spk,project.address_spk,project.longitude_spk,project.latitude_spk,project.status_id,project.project_status_id,status.detail as statusnya,document_sis.id as documentid,document_sis.document_sis,document_sis.created_at FROM project join status on project.status_id=status.id join document_sis on project.id=document_sis.project_id where project.status_id = '2';
 
 
-CREATE VIEW vjobsdocumentdrm 
+CREATE OR REPLACE VIEW vjobsdocumentdrm 
 AS
 SELECT 
 project.id,
@@ -285,7 +348,7 @@ project.id=document_drm.project_id
 where project.status_id = '4';
 
 
- CREATE VIEW vjobsapprovaldocumentdrm 
+ CREATE OR REPLACE VIEW vjobsapprovaldocumentdrm 
 AS
 SELECT 
 project.id,
@@ -332,7 +395,7 @@ project.id=document_drm.project_id
 where project.status_id = '5';
 
 
- CREATE VIEW vjobsdocumentdrmrevisi 
+ CREATE OR REPLACE VIEW vjobsdocumentdrmrevisi 
 AS
 SELECT 
 project.id,
@@ -382,7 +445,7 @@ where project.status_id = '6';
  
 
 
-CREATE VIEW vjobsdocumentsitac 
+CREATE OR REPLACE VIEW vjobsdocumentsitac 
 AS
 SELECT 
 project.id,
@@ -446,7 +509,7 @@ where project.status_id = '7';
 
 
 
-CREATE VIEW vjobsapprovaldocumentsitac 
+CREATE OR REPLACE VIEW vjobsapprovaldocumentsitac 
 AS
 SELECT 
 project.id,
@@ -505,7 +568,7 @@ project.id=document_sitac.project_id
 where project.status_id = '8';
 
 
-CREATE VIEW vjobsdocumentsitacrevisi 
+CREATE OR REPLACE VIEW vjobsdocumentsitacrevisi 
 AS
 SELECT 
 project.id,
@@ -854,7 +917,7 @@ where project.boq_status = '13';
 
 
 
-CREATE VIEW vjobpo 
+CREATE OR REPLACE VIEW vjobpo 
 AS 
 SELECT 
 project.id,
@@ -1357,155 +1420,6 @@ AS
 SELECT 
 distinct(CONCAT("Batch #",project.batch, " ", project.years))AS batchnya from project;
 
-
-CREATE OR REPLACE VIEW vallprojectbyyears 
-AS 
-SELECT 
-project.id,
-project.projectid,
-project.no_wo,
-project.wo_date,
-CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
-project.batch,
-project.years,
-project.infratype,
-project.area,
-project.regional,
-project.site_id_spk,
-project.site_name_spk,
-project.address_spk,
-project.longitude_spk,
-project.latitude_spk,
-project.status_id,
-project.batch_accrue,
-project.boq_status,
-project.haki_status,
-project.project_status_id,
-status.detail as statusnya,
-bqs.detail as statusnyaboq,
-bqh.detail as statusnyahaki,
-document_sis.id as documentid,
-document_sis.document_sis,
-document_drm.id as documentdrmid,
-document_drm.site_id_actual ,
-document_drm.site_name_actual ,
-document_drm.province ,
-document_drm.city ,
-document_drm.address_actual ,
-document_drm.longitude_actual ,
-document_drm.latitude_actual ,
-document_drm.kom_date ,
-document_drm.drm_date ,
-document_drm.document_kom ,
-document_drm.document_drm ,
-document_sitac.id as documentsitacid,
-document_sitac.no_ban_bak ,
-document_sitac.date_ban_bak ,
-document_sitac.document_ban_bak ,
-document_sitac.ijin_warga_date ,
-document_sitac.document_ijin_warga ,
-document_sitac.no_pks ,
-document_sitac.pks_date ,
-document_sitac.no_imb ,
-document_sitac.imb_date ,
-document_sitac.document_imb ,
-document_sitac.document_pks ,
-document_rfc.id as documentrfcid,
-document_rfc.no_rfc,
-document_rfc.rfc_date,
-document_rfc.document_rfc,
-document_rfc.id_pln,
-document_rfc.target_rfi,
-document_rfc.power_capacity,
-document_boq.id as documentboqid,
-CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
-document_boq.site_type,
-document_boq.tower_type,
-document_boq.roof_top_high,
-document_boq.tower_high,
-document_boq.rf_in_meters,
-document_boq.mw_in_meters,
-document_boq.harga_bulan,
-document_boq.harga_tahun,
-site_opening.id as siteopeningid,
-site_opening.site_opening_date,
-site_opening.document_site_opening,
-excavation.id as excavationid,
-excavation.excavation_date,
-excavation.excavation_document,
-rebaring.id as rebaringid,
-rebaring.rebaring_date,
-rebaring.rebaring_document,
-pouring.id as pouringid,
-pouring.pouring_date,
-pouring.pouring_document,
-curing.id as curingid,
-curing.curing_date,
-curing.curing_document,
-tower_erection.id as towererectionid,
-tower_erection.tower_erection_date,
-tower_erection.tower_erection_document,
-m_e_process.id as meprocessid,
-m_e_process.m_e_process_date,
-m_e_process.m_e_process_document,
-fence_yard.id as fenceyardid,
-fence_yard.fence_yard_date,
-fence_yard.fence_yard_document,
-rfi_baut.id as rfibautid,
-rfi_baut.rfi_date,
-rfi_baut.rfi_document,
-rfi_baut.baut_date,
-rfi_baut.baut_document,
-rfi_detail.id as rfidetailid,
-rfi_detail.rfi_detail_start_date,
-rfi_detail.rfi_detail_end_date,
-rfi_detail.rfi_detail_price_month,
-rfi_detail.rfi_detail_price_year,
-IFNULL((((LAST_DAY(project.batch_accrue) - rfi_detail.rfi_detail_start_date)/DAY(LAST_DAY(project.batch_accrue)) * rfi_detail.rfi_detail_price_month)),0) as nilai_revenue,
-po.id as poid,
-po.no_po,
-po.po_date,
-project.updated_at as created_at
-FROM project 
-left join status on 
-project.status_id=status.id 
-left join status  bqs on 
-project.boq_status=bqs.id 
-left join status  bqh on 
-project.haki_status=bqh.id 
-left join document_sis on 
-project.id=document_sis.project_id 
-left join document_drm on 
-project.id=document_drm.project_id 
-left join document_sitac on 
-project.id=document_sitac.project_id 
-left join document_rfc on 
-project.id=document_rfc.project_id 
-left join document_boq on 
-project.id=document_boq.project_id 
-left join site_opening on 
-project.id=site_opening.project_id
-left join excavation on 
-project.id=excavation.project_id
-left join rebaring on 
-project.id=rebaring.project_id
-left join pouring on 
-project.id=pouring.project_id
-left join curing on 
-project.id=curing.project_id
-left join tower_erection on 
-project.id=tower_erection.project_id
-left join m_e_process on 
-project.id=m_e_process.project_id
-left join rfi_baut on 
-project.id=rfi_baut.project_id
-left join fence_yard on 
-project.id=fence_yard.project_id
-left join rfi_detail on 
-project.id=rfi_detail.project_id 
-left join po on 
-project.id=po.project_id   
-  where project.years = YEAR(CURDATE()) ;
 
 
 
@@ -4075,14 +3989,12 @@ where project.haki_status = 44;
 
 
 
-CREATE VIEW vcmesubmitdata
+CREATE OR REPLACE VIEW vcmesubmitdata
 AS
 SELECT 
   id, 
   cme_code, 
-  project_id,
-  project_id_accrual,
-  project_id_accrued,
+  project_id, 
   area,
   area2,
   status,
@@ -4090,26 +4002,54 @@ SELECT
   created_at,
   updated_at, 
    IFNULL((CHAR_LENGTH(project_id) - CHAR_LENGTH(REPLACE(project_id, ',', '')) + 1),0) as total,
-
-   IFNULL((CHAR_LENGTH(project_id_accrual) - CHAR_LENGTH(REPLACE(project_id_accrual, ',', '')) + 1),0) as totalaccural,
-   IFNULL((CHAR_LENGTH(project_id_accrued) - CHAR_LENGTH(REPLACE(project_id_accrued, ',', '')) + 1),0) as totalaccrued
+   CASE status
+        WHEN 0 THEN 'MENUNGGU APPROVAL'
+        WHEN 1 THEN 'REPAIR CME'
+        WHEN 2 THEN 'ACCRUAL'
+        WHEN 3 THEN 'ACCRUED' 
+        ELSE 'CANCEL' END
+        AS 'statusnya'
  
+FROM cme_submit
+where status=0;
+
+
+
+
+
+
+CREATE OR REPLACE VIEW vcmesubmitdatarevisi
+AS
+SELECT 
+  id, 
+  cme_code, 
+  project_id, 
+  area,
+  area2,
+  status,
+  message,
+  created_at,
+  updated_at, 
+   IFNULL((CHAR_LENGTH(project_id) - CHAR_LENGTH(REPLACE(project_id, ',', '')) + 1),0) as total,
+   CASE status
+        WHEN 0 THEN 'MENUNGGU APPROVAL'
+        WHEN 1 THEN 'REPAIR CME'
+        WHEN 2 THEN 'ACCRUAL'
+        WHEN 3 THEN 'ACCRUED' 
+        ELSE 'CANCEL' END
+        AS 'statusnya'
 FROM cme_submit
 where status=1;
 
 
 
 
-
-
-CREATE VIEW vcmesubmitdatarevisi
+CREATE OR REPLACE VIEW vsiteapprovedcme
 AS
 SELECT 
   id, 
   cme_code, 
-  project_id,
-  project_id_accrual,
-  project_id_accrued,
+  project_id, 
   area,
   area2,
   status,
@@ -4117,91 +4057,67 @@ SELECT
   created_at,
   updated_at, 
    IFNULL((CHAR_LENGTH(project_id) - CHAR_LENGTH(REPLACE(project_id, ',', '')) + 1),0) as total,
+   CASE status
+        WHEN 0 THEN 'MENUNGGU APPROVAL'
+        WHEN 1 THEN 'REPAIR CME'
+        WHEN 2 THEN 'ACCRUAL'
+        WHEN 3 THEN 'ACCRUED' 
+        ELSE 'CANCEL' END
+        AS 'statusnya'
+FROM cme_submit
+where status in (2,3);
 
-   IFNULL((CHAR_LENGTH(project_id_accrual) - CHAR_LENGTH(REPLACE(project_id_accrual, ',', '')) + 1),0) as totalaccural,
-   IFNULL((CHAR_LENGTH(project_id_accrued) - CHAR_LENGTH(REPLACE(project_id_accrued, ',', '')) + 1),0) as totalaccrued
- 
+
+CREATE OR REPLACE VIEW vsiteapprovedcmetoaccrued
+AS
+SELECT 
+  id, 
+  cme_code, 
+  project_id, 
+  area,
+  area2,
+  status,
+  message,
+  created_at,
+  updated_at, 
+   IFNULL((CHAR_LENGTH(project_id) - CHAR_LENGTH(REPLACE(project_id, ',', '')) + 1),0) as total,
+   CASE status
+        WHEN 0 THEN 'MENUNGGU APPROVAL'
+        WHEN 1 THEN 'REPAIR CME'
+        WHEN 2 THEN 'ACCRUAL'
+        WHEN 3 THEN 'ACCRUED' 
+        ELSE 'CANCEL' END
+        AS 'statusnya'
+FROM cme_submit
+where status=2;
+
+
+CREATE OR REPLACE VIEW vsiteapprovedcmeaccrueddata
+AS
+SELECT 
+  id, 
+  cme_code, 
+  project_id, 
+  area,
+  area2,
+  status,
+  message,
+  created_at,
+  updated_at, 
+   IFNULL((CHAR_LENGTH(project_id) - CHAR_LENGTH(REPLACE(project_id, ',', '')) + 1),0) as total,
+   CASE status
+        WHEN 0 THEN 'MENUNGGU APPROVAL'
+        WHEN 1 THEN 'REPAIR CME'
+        WHEN 2 THEN 'ACCRUAL'
+        WHEN 3 THEN 'ACCRUED' 
+        ELSE 'CANCEL' END
+        AS 'statusnya'
 FROM cme_submit
 where status=3;
 
 
 
-
-CREATE VIEW vsiteapprovedcme
-AS
-SELECT 
-  id, 
-  cme_code, 
-  project_id,
-  project_id_accrual,
-  project_id_accrued,
-  area,
-  area2,
-  status,
-  message,
-  created_at,
-  updated_at, 
-   IFNULL((CHAR_LENGTH(project_id) - CHAR_LENGTH(REPLACE(project_id, ',', '')) + 1),0) as total,
-
-   IFNULL((CHAR_LENGTH(project_id_accrual) - CHAR_LENGTH(REPLACE(project_id_accrual, ',', '')) + 1),0) as totalaccural,
-   IFNULL((CHAR_LENGTH(project_id_accrued) - CHAR_LENGTH(REPLACE(project_id_accrued, ',', '')) + 1),0) as totalaccrued
- 
-FROM cme_submit
-where status=2;
-
-
-CREATE VIEW vsiteapprovedcmetoaccrued
-AS
-SELECT 
-  id, 
-  cme_code, 
-  project_id,
-  project_id_accrual,
-  project_id_accrued,
-  area,
-  area2,
-  status,
-  message,
-  created_at,
-  updated_at, 
-   IFNULL((CHAR_LENGTH(project_id) - CHAR_LENGTH(REPLACE(project_id, ',', '')) + 1),0) as total,
-
-   IFNULL((CHAR_LENGTH(project_id_accrual) - CHAR_LENGTH(REPLACE(project_id_accrual, ',', '')) + 1),0) as totalaccural,
-
-   IFNULL((CHAR_LENGTH(project_id_accrued) - CHAR_LENGTH(REPLACE(project_id_accrued, ',', '')) + 1),0) as totalaccrued
- 
-FROM cme_submit
-where status=2 AND
-TRIM(IFNULL(project_id_accrual, '')) > '';
-
-
-CREATE VIEW vsiteapprovedcmeaccrueddata
-AS
-SELECT 
-  id, 
-  cme_code, 
-  project_id,
-  project_id_accrual,
-  project_id_accrued,
-  area,
-  area2,
-  status,
-  message,
-  created_at,
-  updated_at, 
-   IFNULL((CHAR_LENGTH(project_id) - CHAR_LENGTH(REPLACE(project_id, ',', '')) + 1),0) as total,
-
-   IFNULL((CHAR_LENGTH(project_id_accrual) - CHAR_LENGTH(REPLACE(project_id_accrual, ',', '')) + 1),0) as totalaccural,
-
-   IFNULL((CHAR_LENGTH(project_id_accrued) - CHAR_LENGTH(REPLACE(project_id_accrued, ',', '')) + 1),0) as totalaccrued
- 
-FROM cme_submit
-where status=2 AND
-TRIM(IFNULL(project_id_accrued, '')) > '';
-
-
-
-CREATE VIEW vallprojectaccrual 
+CREATE OR REPLACE VIEW vallprojectaccrual 
 AS 
 SELECT 
 project.id,
@@ -4339,7 +4255,7 @@ where project.haki_status=47;
 
 
 
-CREATE VIEW vallprojectaccrued 
+CREATE OR REPLACE VIEW vallprojectaccrued 
 AS 
 SELECT 
 project.id,
@@ -4478,7 +4394,7 @@ where project.haki_status=48;
 
 
 
-CREATE VIEW vjobsdocumentbaksbauk 
+CREATE OR REPLACE VIEW vjobsdocumentbaksbauk 
 AS 
 SELECT 
 project.id,
@@ -4631,7 +4547,7 @@ where project.status_id=42;
 
 
 
-CREATE VIEW vallprojectapprovalbaksbaukarea 
+CREATE OR REPLACE VIEW vallprojectapprovalbaksbaukarea 
 AS 
 SELECT 
 project.id,
@@ -4790,7 +4706,7 @@ where project.status_id=49;
 
 
 
-CREATE VIEW vallprojectbaksbaukrevisi 
+CREATE OR REPLACE VIEW vallprojectbaksbaukrevisi 
 AS 
 SELECT 
 project.id,
@@ -4948,7 +4864,7 @@ where project.status_id=50;
 
 
 
-CREATE VIEW vsiteapprovedboqbapsadd 
+CREATE OR REPLACE VIEW vsiteapprovedboqbapsadd 
 AS 
 SELECT 
 project.id,
@@ -5284,7 +5200,7 @@ where project.status_id=52;
 
 
 
-CREATE VIEW vsiteapprovedinvoiceadd 
+CREATE OR REPLACE VIEW vsiteapprovedinvoiceadd 
 AS 
 SELECT 
 project.id,
@@ -5462,7 +5378,7 @@ where project.status_id=53;
 
 
 
-CREATE VIEW vsitereportbisnis
+CREATE OR REPLACE VIEW vsitereportbisnis
 AS 
 SELECT 
 project.id,
@@ -5640,7 +5556,7 @@ where project.status_id=54;
 
 
 
-CREATE VIEW vsiteapprovedboqbapsrevisi 
+CREATE OR REPLACE VIEW vsiteapprovedboqbapsrevisi 
 AS 
 SELECT 
 project.id,
@@ -5994,5 +5910,186 @@ project.id=boq_baps.project_id
 left join baps on 
 project.id=baps.project_id 
 left join invoice on 
-project.id=invoice.project_id
+project.id=invoice.project_id;
 
+
+
+
+CREATE OR REPLACE VIEW vallprojectbyyears 
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.batch_accrue,
+po.id as poid,
+po.no_po,
+po.po_date,
+project.project_status_id,
+status.detail as statusnya,
+bqs.detail as statusnyaboq,
+bqh.detail as statusnyahaki,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+excavation.id as excavationid,
+excavation.excavation_date,
+excavation.excavation_document,
+rebaring.id as rebaringid,
+rebaring.rebaring_date,
+rebaring.rebaring_document,
+pouring.id as pouringid,
+pouring.pouring_date,
+pouring.pouring_document,
+curing.id as curingid,
+curing.curing_date,
+curing.curing_document,
+tower_erection.id as towererectionid,
+tower_erection.tower_erection_date,
+tower_erection.tower_erection_document,
+m_e_process.id as meprocessid,
+m_e_process.m_e_process_date,
+m_e_process.m_e_process_document,
+fence_yard.id as fenceyardid,
+fence_yard.fence_yard_date,
+fence_yard.fence_yard_document,
+rfi_baut.id as rfibautid,
+rfi_baut.rfi_date,
+rfi_baut.rfi_document,
+rfi_baut.baut_date,
+rfi_baut.baut_document,
+rfi_detail.id as rfidetailid,
+rfi_detail.rfi_detail_start_date,
+rfi_detail.rfi_detail_end_date,
+rfi_detail.rfi_detail_price_month,
+rfi_detail.rfi_detail_price_year,
+baks_bauk.id as baksbaukid,
+baks_bauk.no_baks,
+baks_bauk.date_baks,
+baks_bauk.document_baks,
+baks_bauk.document_wctr,
+baks_bauk.document_boq_project,
+baks_bauk.document_rfi_certificate,
+boq_baps.id as boqbapsid,
+boq_baps.tgl_mulai_sewa,
+boq_baps.tgl_target_rfi,
+boq_baps.document_boq_baps,
+baps.id as bapsid,
+baps.tgL_akhir_sewa,
+baps.document_baps,
+invoice.id as invoiceid,
+invoice.no_receive,
+invoice.no_kontrak,
+invoice.no_invoice,
+invoice.tgl_invoice,
+IFNULL(
+ROUND(
+(((datediff(LAST_DAY(project.batch_accrue), rfi_detail.rfi_detail_start_date))/DAY(LAST_DAY(project.batch_accrue)) * rfi_detail.rfi_detail_price_month))
+,0)
+,0) as nilai_revenue,
+
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join status  bqs on 
+project.boq_status=bqs.id 
+left join status  bqh on 
+project.haki_status=bqh.id
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+left join site_opening on 
+project.id=site_opening.project_id
+left join excavation on 
+project.id=excavation.project_id
+left join rebaring on 
+project.id=rebaring.project_id
+left join pouring on 
+project.id=pouring.project_id
+left join curing on 
+project.id=curing.project_id
+left join tower_erection on 
+project.id=tower_erection.project_id
+left join m_e_process on 
+project.id=m_e_process.project_id
+left join rfi_baut on 
+project.id=rfi_baut.project_id
+left join fence_yard on 
+project.id=fence_yard.project_id
+left join rfi_detail on 
+project.id=rfi_detail.project_id 
+left join po on 
+project.id=po.project_id  
+left join baks_bauk on 
+project.id=baks_bauk.project_id  
+left join boq_baps on 
+project.id=boq_baps.project_id  
+left join baps on 
+project.id=baps.project_id 
+left join invoice on 
+project.id=invoice.project_id 
+  where project.years = YEAR(CURDATE()) ;

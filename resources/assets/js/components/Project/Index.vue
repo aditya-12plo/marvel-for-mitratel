@@ -85,33 +85,78 @@
                     <option :value=50>50</option>
                     <option :value=75>75</option>
                     <option :value=100>100</option>
+                    <option :value=1000>1000</option>
                 </select>
             </div>
              <form class="form-inline">
 <div style="overflow-x:auto;">
   <table>
   <tr>
-      <td><label>Date From :</label></td>
-      <td><date-picker :date="startTime" :option="option" @keyup.enter="doFilter"></date-picker></td>
-      <td><label>&nbsp;&nbsp;Date To :</label></td>
-      <td><date-picker :date="endtime" :option="option" @keyup.enter="doFilter"></date-picker></td>
+      <td colspan="2"><label>Date From :</label></td>
+      <td colspan="2"><date-picker :date="startTime" :option="option" @keyup.enter="doFilter"></date-picker></td>
+      <td colspan="2"><label>&nbsp;&nbsp;Date To :</label></td>
+      <td colspan="2"><date-picker :date="endtime" :option="option" @keyup.enter="doFilter"></date-picker></td>
     </tr>
     <tr>
-      <td colspan="4" style="padding-top: 1%;"></td>
+      <td colspan="8" style="padding-top: 1%;"></td>
     </tr>
     <tr>
-      <td><label>Search for:</label></td>
-      <td colspan="3"><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="Project ID"></td>
+      <td colspan="2"><label>Infratype :</label></td>
+      <td colspan="2">      	<select v-model="infratypenya" class="form-control" @keyup.enter="doFilter"> 
+      		<option v-for="opti in optionsnya">
+      			{{opti}}
+      		</option>
+      	</select></td>
+        <td colspan="2"><label>Tinggi Tower :</label></td>
+      <td colspan="2">
+        <select v-model="towernya" class="form-control" @keyup.enter="doFilter"> 
+          <option v-for="optit in optionstowernya">
+            {{ optit }}
+          </option>
+        </select></td>
     </tr>
      <tr>
-      <td colspan="4" style="padding-top: 1%;"></td>
+     	<td colspan="8" style="padding-top: 1%;"></td>
+    </tr>
+     <tr>
+     	<td colspan="2"><label>Status :</label></td>
+      <td colspan="2">
+      	<select v-model="statusnya" class="form-control" @keyup.enter="doFilter"> 
+      		<option v-for="optit in optionsstatusnya" v-bind:value="optit.status_id">
+      			{{ optit.name }}
+      		</option>
+      	</select></td>
+     	      <td colspan="2"><label>Batch :</label></td>
+      <td colspan="2">
+
+        <select v-model="batchnya" class="form-control" @keyup.enter="doFilter"> 
+          <option v-for="optit in batchall" v-bind:value="optit.batchnya">
+            {{ optit.batchnya }}
+          </option>
+        </select>
+
+      </td>
+    </tr>
+     <tr>
+      <td colspan="8" style="padding-top: 1%;"></td>
+    </tr>
+
+     <tr>
+      <td colspan="4"><label>Search for:</label></td>
+      <td colspan="4"><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="Project ID"></td>
+    </tr> 
+    <tr>
+      <td colspan="8" style="padding-top: 1%;"></td>
+    </tr>
+     <tr>
+     	<td colspan="8" style="padding-top: 5%;"></td>
     </tr>
     <tr>
-      <td colspan="4">
+      <td colspan="8">
 <div class="text-left">
 <button class="btn btn-primary" @click.prevent="doFilter">Cari <i class="fa fa-thumbs-o-up position-right"></i></button>
-<button class="btn btn-warning" @click.prevent="resetFilter">Reset Form <i class="fa fa-refresh position-right"></i></button>
-<button class="btn btn-danger" @click="sumSelectedItems()">Hapus Terpilih <i class="fa fa-trash position-right"></i></button>
+<button class="btn btn-warning" @click.prevent="resetFilter">Reset Form <i class="fa fa-refresh position-right"></i></button>   
+<button class="btn btn-info" @click="sumSelectedItemsExcel()">Download Excel <i class="ft-download position-right"></i></button> 
                                     </div>
 </td>
        </tr>
@@ -337,6 +382,10 @@ export default {
     formErrors:{},
     errors: new Errors() ,
      errorNya: [],
+	 optionsnya: [],
+    optionstowernya: [],
+    batchall: [],
+    optionsstatusnya: [],
      token: localStorage.getItem('token'),
     submitted: false,
   file_name:'',
@@ -347,6 +396,10 @@ export default {
   boq:'',
     submitSelectedItems:[] ,
     displayItems:[] ,
+    infratypenya: '',
+    towernya: '',
+    batchnya: '',
+    statusnya: '',
      dataNya: {name : '', level:''},
      AlldataNya: '',
     modal:new CrudModal({upload:false}),
@@ -371,8 +424,8 @@ export default {
           dataClass: 'text-center'
         },
         {
-          name: 'no_wo',
-		  title: 'No WO',
+          name: 'batchnya',
+		  title: 'Batch',
 		  titleClass: 'text-center',
           dataClass: 'text-center'
         },
@@ -389,8 +442,26 @@ export default {
           dataClass: 'text-center'
         },
         {
-          name: 'projectstatus.detailstatus',
-		  title: 'Status',
+          name: 'towernya',
+      title: 'Tower',
+      titleClass: 'text-center',
+          dataClass: 'text-center'
+        },
+        {
+          name: 'statusnya',
+		  title: 'Status Project',
+		  titleClass: 'text-center',
+          dataClass: 'text-center'
+        },
+        {
+          name: 'statusnyaboq',
+		  title: 'Status BOQ',
+		  titleClass: 'text-center',
+          dataClass: 'text-center'
+        },
+        {
+          name: 'statusnyahaki',
+		  title: 'Status Haki',
 		  titleClass: 'text-center',
           dataClass: 'text-center'
         },
@@ -447,6 +518,26 @@ export default {
         'position': 'resetOptions',
         },
   methods: {
+    selectInfratype() { 
+                axios.get('/karyawan/GetInfratype').then((response) => {
+                    this.optionsnya = response.data;  
+                    });
+            } ,
+			            selectTowerHigh() { 
+                axios.get('/karyawan/GetTowerHigh').then((response) => {
+                    this.optionstowernya = response.data;  
+                    });
+            } ,
+			            selectStatus() { 
+                axios.get('/karyawan/GetStatus').then((response) => {
+                    this.optionsstatusnya = response.data;  
+                    });
+            } ,
+			            selectBatch() { 
+                axios.get('/karyawan/GetBatch').then((response) => {
+                    this.batchall = response.data;  
+                    });
+            } ,
          newAvatar(event) {
                let files = event.target.files || e.dataTransfer.files;
                if (files.length) this.file_name = files[0];
@@ -655,18 +746,18 @@ window.open(routeData.href, '_blank');
                 this.errors.clearAll();
                  this.modal.set('upload', true);
             } ,
-        doFilter () {
+         doFilter () {
         		if(!this.startTime.time && !this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText, this.towernya ,this.infratypenya,this.statusnya, this.batchnya, this.startTime.time, this.endtime.time )
 		}
 		else if(this.startTime.time && !this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText,this.towernya , this.infratypenya,this.statusnya, this.batchnya, this.startTime.time, this.endtime.time )
 		}
 		else if(!this.startTime.time && this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText, this.towernya ,this.infratypenya,this.statusnya, this.batchnya, this.startTime.time, this.endtime.time )
 		}
 		else if(this.startTime.time && this.endtime.time)
 		{ 
@@ -676,19 +767,23 @@ window.open(routeData.href, '_blank');
 		}
 		else
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText, this.towernya,this.infratypenya ,this.statusnya , this.batchnya , this.startTime.time, this.endtime.time )
 		}
 		}
 		else
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText, this.towernya,this.infratypenya , this.statusnya , this.batchnya , this.startTime.time, this.endtime.time )
 		}
       },
-      resetFilter () {
-        this.filterText = ''
-         this.startTime.time = ''
-        this.endtime.time = ''
-        this.$events.fire('filter-reset')
+      resetFilter () { 
+        this.filterText = '';
+         this.startTime.time = '';
+        this.endtime.time = '';
+        this.towernya = '';
+        this.batchnya = '';
+        this.infratypenya = ''; 
+        this.statusnya = ''; 
+        this.$events.fire('filter-reset');
       },
     allcap (value) {
       return value.toUpperCase()
@@ -762,9 +857,9 @@ onLoading() {
     },			
   },
   events: {
-    'filter-set' (filterText,startTime,endtime) {
+    'filter-set' (filterText,towernya,infratypenya,statusnya,batchnya,startTime,endtime) {
       this.moreParams = {
-        filter: filterText,min: startTime, max: endtime
+        filter: filterText , towernya:towernya, infratypenya:infratypenya , statusnya:statusnya , batchnya:batchnya ,min: startTime, max: endtime
       }
       Vue.nextTick(() => this.$refs.vuetable.refresh() )
     },
@@ -790,6 +885,10 @@ onLoading() {
             //console.log(this.token);
             this.fetchIt();
              this.resetOptions();
+             this.selectInfratype();
+             this.selectTowerHigh();
+           this.selectStatus();
+           this.selectBatch();
 
         }
 

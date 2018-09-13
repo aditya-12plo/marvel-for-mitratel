@@ -1,77 +1,73 @@
 <template>
-    
-<section id="error">
-    <div class="container-fluid bg-grey bg-lighten-3">
-        <div class="container">
-            <div class="row full-height-vh"> 
+  <div>
 
- <div id="rootnya">
-    <gmap-map :center="center" :zoom="7" style="width: 100%; height: 100%">
-      <gmap-cluster>
-        <gmap-marker v-for="(m, index) in markers"
-          :position="m.position"
-          :clickable="true" :draggable="true"
-          @click="center=m.position"
-          :key="index"
-          ></gmap-marker>
-      </gmap-cluster>
-    </gmap-map>
+<div class="google-map" :id="mapName"></div>
+
+
   </div>
 
-
-
-
-</div>
-                    </div>
-                </div>
-            </section>
 </template>
-
-
-<script>
      
-
+<script>
 import accounting from 'accounting'
 import moment from 'moment' 
 import Vue from 'vue'
 import * as VueGoogleMaps from 'vue2-google-maps'
 import Hashids from 'hashids'
 import loading from '../Loading'
-import VueEvents from 'vue-events'
-Vue.use(VueGoogleMaps, {
-      load: {
-        key: 'AIzaSyBqm-Kv3qfKrXf2Iei3eQ150JsGh4RQQyQ'
-      },
-    });
+import VueEvents from 'vue-events' 
+Vue.use(VueEvents)
+Vue.use(VueGoogleMaps)
+window.axios = require('axios')
+window.eventBus = new Vue()
 
-    document.addEventListener('DOMContentLoaded', function() {
-      // gmapCluster *must* be manually imported
-      Vue.component('gmap-cluster', VueGoogleMaps.Cluster);
- new Vue({
-        el: '#rootnya',
-        data: {
-          center: {
-            lat: 10.0,
-            lng: 10.0
-          },
-          markers: [{
-            position: {
-              lat: 10.0,
-              lng: 10.0
-            }
-          }, {
-            position: {
-              lat: 11.0,
-              lng: 11.0
-            }
-          }]
-        },
+
+export default {
+  name: 'google-map',
+  props: ['name'],
+  data: function () {
+    return {
+      mapName: this.name + "-map",
+      markerCoordinates: [{
+        latitude: 51.501527,
+        longitude: -0.1921837
+      }, {
+        latitude: 51.505874,
+        longitude: -0.1838486
+      }, {
+        latitude: 51.4998973,
+        longitude: -0.202432
+      }],
+      map: null,
+      bounds: null,
+      markers: []
+    }
+  },
+  mounted: function () {
+    this.bounds = new google.maps.LatLngBounds();
+    const element = document.getElementById(this.mapName)
+    const mapCentre = this.markerCoordinates[0]
+    const options = {
+      center: new google.maps.LatLng(mapCentre.latitude, mapCentre.longitude)
+    }
+    this.map = new google.maps.Map(element, options);
+    this.markerCoordinates.forEach((coord) => {
+      const position = new google.maps.LatLng(coord.latitude, coord.longitude);
+      const marker = new google.maps.Marker({ 
+        position,
+        map: this.map
       });
+    this.markers.push(marker)
+      this.map.fitBounds(this.bounds.extend(position))
     });
-
+  }
+};
 </script>
-
-
-
-<style> 
+<style>
+ .google-map {
+  width: 800px;
+  height: 600px;
+  margin: 0 auto;
+  background: gray;
+}
 </style>

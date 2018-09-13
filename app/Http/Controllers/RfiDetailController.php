@@ -48,6 +48,23 @@ class RfiDetailController extends Controller
     $this->data['tahunproject']  = DB::table('vtahun')->get();
     }
 
+
+    public function SubmitCMEToAccrued(Request $request)
+    {
+        $id = $request->id;        
+        $project_id= $request->project_id;  
+        $status= $request->status;  
+        $haki_status= $request->haki_status;  
+         $edit = ['project_id'=>$project_id ,'status'=>$status , 'haki_status'=> $haki_status]; 
+         CMESubmit::where('id',$id)->update(['status'=>$status , 'status'=> $status]);
+        Project::whereIn('id',explode(",",$project_id))->update(['haki_status'=> $haki_status]);
+        
+        Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'cme_submit' ,'action' => 'update', 'data' => json_encode($edit)]);
+        return response()->json(['success'=>'Successfully']);  
+  
+    }
+
+/*
         public function SubmitCMEToAccrued(Request $request)
     {
 $id = $request->id;        
@@ -82,6 +99,9 @@ Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>
 return response()->json(['success'=>'Successfully']); 
 
     }
+
+*/
+
 
      public function GetCMEAccruedData(Request $request,$id)
     {
@@ -220,7 +240,7 @@ return response()->json(['success'=>'Successfully']);
         'message' => 'required',   
         'kodeproject' => 'required',   
         'status' => 'required|numeric|not_in:0',
-        'statuscme' => 'required|numeric|not_in:0',
+        'statuscme' => 'required|numeric',
     ]);
     
 if (!$valid)
@@ -315,7 +335,7 @@ Project::where('id',$detailnya[$x]['id'])->update(['haki_status'=>Input::get('st
 
 }
 
-CMESubmit::where('id',Input::get('project_id'))->update(['status'=>Input::get('statuscme'),'message'=>Input::get('message'),'project_id_accrual'=>Input::get('project_id_accrual')]);
+CMESubmit::where('id',Input::get('project_id'))->update(['status'=>Input::get('statuscme'),'message'=>Input::get('message')]);
  
 $showUser2 = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','HAKI - ACCOUNT MANAGER'],['area',Auth::guard('karyawan')->user()->area]])->orWhere([['level', Auth::guard('karyawan')->user()->level],['posisi','HAKI - ACCOUNT MANAGER'],['area2',Auth::guard('karyawan')->user()->area2]])->get();
 if(count($showUser2) > 0)
@@ -345,7 +365,7 @@ else{
 $valid = $this->validate($request, [
         'project_id' => 'required',   
         'message' => 'required',   
-        'status' => 'required|numeric|not_in:0',
+        'status' => 'required|numeric',
         'projectstatus' => 'required|numeric|not_in:0'
     ]);
 
@@ -411,7 +431,7 @@ if (!$valid)
 $masuk = array('project_id' => $request->project_id,'rfi_detail_start_date' => $request->rfi_detail_start_date,'rfi_detail_end_date' => $request->rfi_detail_end_date,'rfi_detail_price_month' => $request->rfi_detail_price_month,'rfi_detail_price_year' => $request->rfi_detail_price_year); 
 RfiDetail::create($masuk);
 $ProjectStatus = ProjectStatus::create(['project_id' => Input::get('project_id'),'users_id' => Auth::guard('karyawan')->user()->id , 'document'=>strtoupper(Input::get('document')),'status'=>strtoupper(Input::get('statusmessage')),'message'=>strtoupper(Input::get('message'))]);
-$showUser = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','HAKI - MANAGER'],['area',Auth::guard('karyawan')->user()->area]])->orWhere([['level', Auth::guard('karyawan')->user()->level],['posisi','HAKI - MANAGER'],['area2',Auth::guard('karyawan')->user()->area]])->get();
+$showUser = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','HAKI - MANAGER'],['area',Auth::guard('karyawan')->user()->area]])->orWhere([['level', Auth::guard('karyawan')->user()->level],['posisi','HAKI - MANAGER'],['area2',Auth::guard('karyawan')->user()->area2]])->get();
 if(count($showUser) > 0)
 {
 foreach ($showUser as $p) {
@@ -456,7 +476,7 @@ if (!$valid)
     {
  
 $ProjectStatus = ProjectStatus::create(['project_id' => Input::get('project_id'),'users_id' => Auth::guard('karyawan')->user()->id , 'document'=>strtoupper(Input::get('document')),'status'=>strtoupper(Input::get('statusmessage')),'message'=>strtoupper(Input::get('message'))]);
-$showUser = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','HAKI - MANAGER'],['area',Auth::guard('karyawan')->user()->area]])->orWhere([['level', Auth::guard('karyawan')->user()->level],['posisi','HAKI - ACCOUNT MANAGER'],['area2',Auth::guard('karyawan')->user()->area]])->get();
+$showUser = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','HAKI - ACCOUNT MANAGER'],['area',Auth::guard('karyawan')->user()->area]])->orWhere([['level', Auth::guard('karyawan')->user()->level],['posisi','HAKI - ACCOUNT MANAGER'],['area2',Auth::guard('karyawan')->user()->area2]])->get();
 if(count($showUser) > 0)
 {
 foreach ($showUser as $p) {
@@ -500,7 +520,7 @@ if (!$valid)
 $edit = array('rfi_detail_start_date' => $request->rfi_detail_start_date,'rfi_detail_end_date' => $request->rfi_detail_end_date,'rfi_detail_price_month' => $request->rfi_detail_price_month,'rfi_detail_price_year' => $request->rfi_detail_price_year); 
 RfiDetail::where('id',$request->id)->update($edit);
 $ProjectStatus = ProjectStatus::create(['project_id' => Input::get('project_id'),'users_id' => Auth::guard('karyawan')->user()->id , 'document'=>strtoupper(Input::get('document')),'status'=>strtoupper(Input::get('statusmessage')),'message'=>strtoupper(Input::get('message'))]);
-$showUser = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','HAKI - MANAGER'],['area',Auth::guard('karyawan')->user()->area]])->orWhere([['level', Auth::guard('karyawan')->user()->level],['posisi','HAKI - MANAGER'],['area2',Auth::guard('karyawan')->user()->area]])->get();
+$showUser = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','HAKI - MANAGER'],['area',Auth::guard('karyawan')->user()->area]])->orWhere([['level', Auth::guard('karyawan')->user()->level],['posisi','HAKI - MANAGER'],['area2',Auth::guard('karyawan')->user()->area2]])->get();
 if(count($showUser) > 0)
 {
 foreach ($showUser as $p) {

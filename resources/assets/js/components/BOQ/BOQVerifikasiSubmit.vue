@@ -66,7 +66,8 @@
 <div class="text-left">
 <button class="btn btn-primary" @click.prevent="doFilter">Cari <i class="fa fa-thumbs-o-up position-right"></i></button>
 <button class="btn btn-warning" @click.prevent="resetFilter">Reset Form <i class="fa fa-refresh position-right"></i></button> 
-<button class="btn btn-danger" @click="sumSelectedItems()">Submit Terpilih <i class="ft-check-circle position-right"></i></button>
+<button class="btn btn-danger" @click="CancelBOQ()">Cancel BOQ <i class="ft-check-circle position-right"></i></button>
+<button class="btn btn-default" @click="sumSelectedItems()">Ubah Status BOQ Menjadi Verifikasi <i class="ft-check-circle position-right"></i></button>
                                     </div>
 </td>
        </tr>
@@ -238,12 +239,7 @@ export default {
      dataNya: {name:'',area:'' , level:'' , regional:''},
     perPage: 10,
     loading: false,
-      fields: [
-        {
-          name: '__checkbox:id',
-          titleClass: 'text-center',
-          dataClass: 'text-center',
-        },
+      fields: [ 
         {
           name: 'projectid',
 		  title: 'PID',
@@ -277,24 +273,6 @@ export default {
         {
           name: 'site_name_actual',
       title: 'Site Name Aktual',
-      titleClass: 'text-center',
-          dataClass: 'text-center'
-        }, 
-        {
-          name: 'address_actual',
-      title: 'Alamat Aktual',
-      titleClass: 'text-center',
-          dataClass: 'text-center'
-        }, 
-        {
-          name: 'city',
-      title: 'Kota',
-      titleClass: 'text-center',
-          dataClass: 'text-center'
-        }, 
-        {
-          name: 'province',
-      title: 'Provinsi',
       titleClass: 'text-center',
           dataClass: 'text-center'
         }, 
@@ -458,20 +436,16 @@ window.open(routeData.href, '_blank');
   confirmButtonText: 'Yes!'
 }).then((result) => {
   if (result.value) {     
-   var ttl = this.$refs.vuetable.selectedTo;
-   if(ttl.length <= 0)
-   {
-   this.question('Silahkan Pilih Data Terlebih Dahulu');
-   }
-   else
-   {
-var join_selected_values = ttl.join(","); 
+
+//var join_selected_values = ttl.join(","); 
 var masuk = 
 {
 	'id' : this.rowDatanya.project.id,
-	'project_id_boq' : this.rowDatanya.project.project_id_boq,
-	'project_id_verifikasi' : join_selected_values,
+	'status' : 3, 
+	'statusproject' : 18, 
+	'project_id' : this.rowDatanya.project.project_id, 
 }
+
 axios.post('/karyawan/SubmitBOQApprovalVerifikasi', masuk)
                     .then(response => { 
                       if(response.data.success)
@@ -487,7 +461,46 @@ axios.post('/karyawan/SubmitBOQApprovalVerifikasi', masuk)
                  this.backLink();
                       } 
                     })
-   } 
+   
+}
+})
+   
+   
+  },
+   	CancelBOQ() {
+      this.$swal({
+  title: 'Are you sure ?',
+  type: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes!'
+}).then((result) => {
+  if (result.value) {     
+ 
+var masuk = 
+{
+	'id' : this.rowDatanya.project.id,
+	'status' : 6, 
+	'project_id' : this.rowDatanya.project.project_id, 
+}
+
+axios.post('/karyawan/SubmitBOQCancel', masuk)
+                    .then(response => { 
+                      if(response.data.success)
+                      {
+                 this.success(response.data.success);
+                 this.isLoading = false;
+                 this.backLink();
+                      } 
+                      else 
+                      {
+                 this.error(response.data.error);
+                 this.isLoading = false;
+                 this.backLink();
+                      } 
+                    })
+   
 }
 })
    

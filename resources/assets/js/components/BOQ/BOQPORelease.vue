@@ -223,43 +223,19 @@ export default {
       title: 'Subjek BOQ',
       titleClass: 'text-center',
           dataClass: 'text-center'
-        },
-        {
-          name: 'area',
-      title: 'Area',
-      titleClass: 'text-center',
-          dataClass: 'text-center'
         }, 
         {
           name: 'total',
       title: 'Total Site',
       titleClass: 'text-center',
           dataClass: 'text-center'
-        },
+        },  
         {
-          name: 'totalboq',
-      title: 'Total Site BOQ Submit',
-      titleClass: 'text-center',
-          dataClass: 'text-center',
-        },   
-        {
-          name: 'totalverifikasi',
-      title: 'Total Site BOQ Verifikasi',
+          name: 'statusnya',
+      title: 'Status BOQ',
       titleClass: 'text-center',
           dataClass: 'text-center'
-        },   
-        {
-          name: 'totalpr',
-      title: 'Total Site BOQ Proses PR',
-      titleClass: 'text-center',
-          dataClass: 'text-center'
-        },    
-        {
-          name: 'totalrelease',
-      title: 'Total Site BOQ Proses PO Release',
-      titleClass: 'text-center',
-          dataClass: 'text-center'
-        },    
+        }, 
         {
           name: 'created_at',
       title: 'Tanggal Submit',
@@ -390,7 +366,7 @@ return hashids.decode(id);
         },
  
             viewItem(item ,index = this.indexOf(item)){ 
-          this.$router.push({name:'approvedboqporeleasesubmit', params: {id: this.diacak(item.id),typenya:'approved-boq-po-release-submit',urlporelease:'/karyawan/GetBOQPORelease/'+item.project_id_proses_pr,rowDatanya:{datanya:this.dataNya,project:item} }});  
+          this.$router.push({name:'approvedboqporeleasesubmit', params: {id: this.diacak(item.id),typenya:'approved-boq-po-release-submit',urlporelease:'/karyawan/GetBOQPORelease/'+item.project_id,rowDatanya:{datanya:this.dataNya,project:item} }});  
             }  ,
         doFilter () {
             if(!this.startTime.time && !this.endtime.time)

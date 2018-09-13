@@ -488,8 +488,7 @@ window.open(routeData.href, '_blank');
 		this.$events.fire('filter-set', this.filterText, this.towernya,this.infratypenya , this.statusnya , this.batchnya , this.startTime.time, this.endtime.time )
 		}
       },
-      resetFilter () {
-      	this.komunikasi = '';
+      resetFilter () { 
         this.filterText = '';
          this.startTime.time = '';
         this.endtime.time = '';

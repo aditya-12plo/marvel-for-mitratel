@@ -92,13 +92,9 @@
                                     <th><b>TOWER</b></th>
                                     <th><b>REGIONAL</b></th>
                                     <th><b>SITE ID AKTUAL</b></th>
-                                    <th><b>SITE NAME AKTUAL</b></th>
-                                    <th><b>ALAMAT AKTUAL</b></th>
-                                    <th><b>KOTA </b></th>
-                                    <th><b> PROVINSI</b></th>
+                                    <th><b>SITE NAME AKTUAL</b></th> 
                                     <th><b>HARGA SEWA / BULAN </b></th>
                                     <th><b>HARGA SEWA / TAHUN </b></th>
-                                    <th><b>STATUS BOQ </b></th>
                                     <th><b>ACTION</b></th>
                                 </tr>
                             </thead>
@@ -112,13 +108,9 @@
                                     <td>{{data.towernya}} </td> 
                                     <td>{{data.regional}} </td> 
                                     <td>{{data.site_id_actual}}</td> 
-                                    <td>{{data.site_name_actual}} </td> 
-                                    <td>{{data.address_actual}} </td> 
-                                    <td>{{data.city}} </td> 
-                                    <td>{{data.province}} </td> 
+                                    <td>{{data.site_name_actual}} </td>  
                                     <td>{{formatNumberRupiah(data.harga_bulan)}} </td> 
                                     <td>{{formatNumberRupiah(data.harga_tahun)}} </td> 
-                                    <td><b>{{checkStatus(data.id)}}</b></td> 
                                     <td><button type="button" class="btn btn-raised btn-primary" @click="viewEvent(data.id)"> <i class="ft-zoom-in"></i> Detail</button>
                                     </td> 
                                 </tr>
@@ -132,13 +124,9 @@
                                     <td> </td> 
                                     <td> </td> 
                                     <td> </td> 
-                                    <td> </td> 
-                                    <td> </td> 
-                                    <td> </td> 
-                                    <td> </td> 
+                                    <td> </td>  
                                     <td><b>TOTAL</b> </td> 
                                     <td><b>{{formatNumberRupiah(total(this.dataBoqNya))}}</b> </td>
-                                    <td> </td> 
                                     <td> </td> 
                                 </tr>
 
@@ -380,24 +368,6 @@ export default {
         'position': 'resetOptions',
         },
   methods: { 
- checkStatus(value) {
-if(this.projectboq.indexOf(value) > -1)
-{
- return 'Submit BOQ'; 
-}
-if(this.projectverifikasi.indexOf(value) > -1)
-{
-return 'BOQ Verifikasi';
-}
-if(this.projectprosespr.indexOf(value) > -1)
-{
-return 'BOQ Proses PR';
-}
-if(this.projectpo.indexOf(value) > -1)
-{
-return 'BOQ Proses PO Release';
-}
-            } ,
  backLink() {
  this.$router.push('/boq-approved');
             } ,

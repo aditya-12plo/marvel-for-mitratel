@@ -223,12 +223,6 @@ export default {
       title: 'Subjek BOQ',
       titleClass: 'text-center',
           dataClass: 'text-center'
-        },
-        {
-          name: 'area',
-      title: 'Area',
-      titleClass: 'text-center',
-          dataClass: 'text-center'
         }, 
         {
           name: 'total',
@@ -237,29 +231,11 @@ export default {
           dataClass: 'text-center'
         },   
         {
-          name: 'totalboq',
-      title: 'Total Site BOQ Submit',
-      titleClass: 'text-center',
-          dataClass: 'text-center'
-        },   
-        {
-          name: 'totalverifikasi',
-      title: 'Total Site BOQ Verifikasi',
-      titleClass: 'text-center',
-          dataClass: 'text-center'
-        },   
-        {
-          name: 'totalpr',
-      title: 'Total Site BOQ Proses PR',
+          name: 'statusnya',
+      title: 'Status BOQ',
       titleClass: 'text-center',
           dataClass: 'text-center'
         },    
-        {
-          name: 'totalrelease',
-      title: 'Total Site BOQ Proses PO Release',
-      titleClass: 'text-center',
-          dataClass: 'text-center'
-        },   
         {
           name: 'created_at',
       title: 'Tanggal Submit',

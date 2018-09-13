@@ -267,6 +267,7 @@ Route::get('GetInfratype', 'JobsController@GetInfratype');
  /* boq */
  Route::post('AddBOQ', 'BOQController@store');
  Route::post('SubmitBOQ', 'BOQController@SubmitBOQ');
+ Route::post('SubmitBOQCancel', 'BOQController@SubmitBOQCancel');
  Route::post('SubmitBOQApproval', 'BOQController@SubmitBOQApproval');
  Route::post('SubmitBOQApprovalRevisi', 'BOQController@SubmitBOQApprovalRevisi');
  Route::match(['put', 'patch'], 'EditBOQ/{id}','BOQController@update'); 

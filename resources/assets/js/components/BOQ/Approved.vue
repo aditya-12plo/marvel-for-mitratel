@@ -35,10 +35,7 @@
                                     <th><b>TOWER</b></th>
                                     <th><b>REGIONAL</b></th>
                                     <th><b>SITE ID AKTUAL</b></th>
-                                    <th><b>SITE NAME AKTUAL</b></th>
-                                    <th><b>ALAMAT AKTUAL</b></th>
-                                    <th><b>KOTA </b></th>
-                                    <th><b> PROVINSI</b></th>
+                                    <th><b>SITE NAME AKTUAL</b></th> 
                                     <th><b>HARGA SEWA / BULAN </b></th>
                                     <th><b>HARGA SEWA / TAHUN </b></th>
                                     <th><b>DETAIL</b></th>
@@ -54,10 +51,7 @@
                                     <td>{{data.towernya}} </td> 
                                     <td>{{data.regional}} </td> 
                                     <td>{{data.site_id_actual}}</td> 
-                                    <td>{{data.site_name_actual}} </td> 
-                                    <td>{{data.address_actual}} </td> 
-                                    <td>{{data.city}} </td> 
-                                    <td>{{data.province}} </td> 
+                                    <td>{{data.site_name_actual}} </td>  
                                     <td>{{formatNumberRupiah(data.harga_bulan)}} </td> 
                                     <td>{{formatNumberRupiah(data.harga_tahun)}} </td> 
                                     <td><button type="button" class="btn btn-raised btn-danger" @click="viewEvent(data.id)"> <i class="ft-zoom-in"></i> Detail</button></td> 
@@ -69,10 +63,7 @@
                                     <td> </td>
                                     <td> </td> 
                                     <td> </td> 
-                                    <td> </td> 
-                                    <td> </td> 
-                                    <td> </td> 
-                                    <td> </td> 
+                                    <td> </td>  
                                     <td> </td> 
                                     <td> </td> 
                                     <td> </td> 
@@ -455,7 +446,8 @@ dataAction () {
   if (result.value) { 
 this.isLoading = true; 
 var jointtl = Array.prototype.map.call(this.dataBoqNya, function(item) { return item.id; }).join(",") ;
-var masuk = {'id' : this.rowDatanya.project.id,'title' : this.rowDatanya.project.title,'boq_code' :  this.rowDatanya.project.id,'project_id' : jointtl,'statusboq':this.statusboq,'status':this.status,'detailproject':this.dataBoqNya,'document':'BOQ SUBMIT','statusmessage': this.statusmessage,'kata': this.kata,'message': this.message};
+var masuk = {'id' : this.rowDatanya.project.id,'title' : this.rowDatanya.project.title,'nodoc':this.rowDatanya.project.boq_code,'area':this.rowDatanya.project.area,'area2':this.rowDatanya.project.area2,'boq_code' :  this.rowDatanya.project.id,'area':this.rowDatanya.project.area,'area2':this.rowDatanya.project.area2,'project_id' : jointtl,'statusboq':this.statusboq,'status':this.status,'detailproject':this.dataBoqNya,'document':'BOQ SUBMIT','statusmessage': this.statusmessage,'kata': this.kata,'message': this.message};
+
  axios.post('/karyawan/SubmitBOQApproval', masuk)
                     .then(response => { 
                       if(response.data.success)

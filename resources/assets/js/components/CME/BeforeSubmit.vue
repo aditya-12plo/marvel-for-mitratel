@@ -30,10 +30,7 @@
                                     <th><b>TOWER</b></th>
                                     <th><b>REGIONAL</b></th>
                                     <th><b>SITE ID AKTUAL</b></th>
-                                    <th><b>SITE NAME AKTUAL</b></th>
-                                    <th><b>ALAMAT AKTUAL</b></th>
-                                    <th><b>KOTA </b></th>
-                                    <th><b> PROVINSI</b></th>
+                                    <th><b>SITE NAME AKTUAL</b></th> 
                                     <th><b>HARGA SEWA / BULAN </b></th>
                                     <th><b>HARGA SEWA / TAHUN </b></th>
                                     <th><b>DELETE</b></th>
@@ -49,10 +46,7 @@
                                     <td>{{data.towernya}} </td> 
                                     <td>{{data.regional}} </td> 
                                     <td>{{data.site_id_actual}}</td> 
-                                    <td>{{data.site_name_actual}} </td> 
-                                    <td>{{data.address_actual}} </td> 
-                                    <td>{{data.city}} </td> 
-                                    <td>{{data.province}} </td> 
+                                    <td>{{data.site_name_actual}} </td>  
                                     <td>{{formatNumberRupiah(data.rfi_detail_price_month)}} </td> 
                                     <td>{{formatNumberRupiah(data.rfi_detail_price_year)}} </td> 
                                     <td><button type="button" class="btn btn-raised btn-danger" @click="deleteEvent(index)"> <i class="ft-trash-2"></i> Delete</button></td> 
@@ -66,10 +60,7 @@
                                     <td> </td> 
                                     <td> </td> 
                                     <td> </td> 
-                                    <td> </td> 
-                                    <td> </td> 
-                                    <td> </td> 
-                                    <td> </td> 
+                                    <td> </td>  
                                     <td> </td> 
                                     <td><b>TOTAL</b> </td> 
                                     <td><b>{{formatNumberRupiah(total(this.dataBoqNya))}}</b> </td><td> </td> 
@@ -440,7 +431,7 @@ if(ttl.length <= 0)
    { 
 this.isLoading = true;
 var jointtl = Array.prototype.map.call(ttl, function(item) { return item.id; }).join(",") ; 
-var masuk = {'project_id':jointtl,'detailproject':ttl,'status':1,'statusmessage': 'APPROVAL ACCRUAL CME','projectstatus':45,'message': this.message};
+var masuk = {'project_id':jointtl,'detailproject':ttl,'status':0,'statusmessage': 'APPROVAL ACCRUAL CME','projectstatus':45,'message': this.message};
  
  axios.post('/karyawan/SubmitCMEAccrual', masuk)
                     .then(response => { 

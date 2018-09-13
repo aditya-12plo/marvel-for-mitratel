@@ -223,12 +223,6 @@ export default {
       title: 'Subjek BOQ',
       titleClass: 'text-center',
           dataClass: 'text-center'
-        },
-        {
-          name: 'area',
-      title: 'Area',
-      titleClass: 'text-center',
-          dataClass: 'text-center'
         }, 
         {
           name: 'total',
@@ -236,6 +230,12 @@ export default {
       titleClass: 'text-center',
           dataClass: 'text-center'
         }, 
+        {
+          name: 'statusnya',
+      title: 'Status',
+      titleClass: 'text-center',
+          dataClass: 'text-center'
+        },
         {
           name: 'created_at',
       title: 'Tanggal Submit',

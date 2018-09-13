@@ -40,65 +40,57 @@ class ProjectController extends Controller
 
     
     public function index(Request $request)
-    {
-       $perPage = $request->per_page;
-        $search = $request->filter;
-        $min = $request->min;
-        $max = $request->max;
-        $query = Project::select('id','projectid','no_wo','wo_date','batch','years','infratype','area','regional','site_id_spk','site_name_spk','address_spk','status_id','project_status_id','longitude_spk','latitude_spk','created_at')->with(['projectstatus'=>function($querystatusnya){
-        $querystatusnya->select('id','detail as detailstatus');
-    }])->orderBy('project.id','DESC');
-        if ($search && !$min && !$max) {
-            $like = "%{$search}%";
-            $query = $query->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like)
-            ->orWhere('area', 'LIKE', $like)
-            ->orWhere('regional', 'LIKE', $like);
-        }
-        if(!$search && $min && !$max)
-        {
-            $query = $query->whereDate('created_at','=',$min);
-        }
-        if(!$search && !$min && $max)
-        {
-            $query = $query->whereDate('created_at','=',$max);
-        }
-        if($search && $min && !$max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$min)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like)
-            ->orWhere('area', 'LIKE', $like)
-            ->orWhere('regional', 'LIKE', $like);
-        }
-        if($search && !$min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like)
-            ->orWhere('area', 'LIKE', $like)
-            ->orWhere('regional', 'LIKE', $like);
-        }
-        if(!$search && $min && $max)
-        {
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
-        }
-        if($search && $min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like)
-            ->orWhere('area', 'LIKE', $like)
-            ->orWhere('regional', 'LIKE', $like);
-        }
-        return $query->paginate($perPage);
+    { 
+        $perPage = $request->per_page;
+         $search = $request->filter;
+         $infratype = $request->infratypenya;
+         $statusnya = $request->statusnya;
+         $towernya = $request->towernya;
+         $min = $request->min;
+         $max = $request->max;
+ 
+ $query =  DB::table('vallproject')->orderBy('id','DESC');
+ 
+ 
+  if (!empty($towernya))
+   { 
+    $query = $query->where('tower_high', $towernya);
+   }
+ 
+  if (!empty($infratype))
+   { 
+    $query = $query->where('infratype', $infratype);
+   }
+  if (!empty($statusnya))
+   { 
+    $query = $query->whereIn('status_id', [$statusnya]);
+   }
+ 
+  if (!empty($search))
+   {
+     $like = "%{$search}%";
+     $query = $query->where('projectid', 'LIKE', $like)
+             ->orWhere('batchnya', 'LIKE', $like)
+             ->orWhere('no_wo', 'LIKE', $like)
+             ->orWhere('regional', 'LIKE', $like);
+   }
+ 
+  if (!empty($min) && empty($max))
+   { 
+    $query = $query->whereDate('created_at','=',$min);
+   }
+  
+  if (empty($min) && !empty($max))
+   { 
+    $query = $query->whereDate('created_at','=',$max);
+   }
+  
+  if (!empty($min) && !empty($max))
+   { 
+    $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+   }
+  
+         return $query->paginate($perPage);
     }
 
 

@@ -34,7 +34,7 @@
 	 <div class="help-block"><ul role="alert"><li v-for="error of errorNya"><span style="color:red;">{{ error }}</span></li></ul></div>
 </div>
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="rfi_detail_start_date">TANGGAL MULAI RFI</label>
                                         <br>
@@ -45,7 +45,7 @@
 
  
  
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="rfi_detail_end_date">TANGGAL BERAKHIR RFI</label>
                                         <br>
@@ -55,7 +55,7 @@
                                 </div>
 
  
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="rfi_detail_price_month">Harga Sewa / Bulan</label>
                                         <br>
@@ -65,18 +65,18 @@
                                 </div>
 
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="rfi_detail_price_year">Harga Sewa / Tahun</label>
                                         <br>
-<money v-model="forms.rfi_detail_price_year" class="form-control border-input" placeholder="Harga Sewa / Tahun" v-bind="duit"></money> 
+{{this.perkalianTahun(this.forms.rfi_detail_price_month)}}
 <div class="help-block"><ul role="alert"><li v-for="error of errorNya['rfi_detail_price_year']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
   
 
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="address_spk">Komunikasi Project</label>
                                         <br>
@@ -663,6 +663,11 @@ window.open(routeData.href, '_blank');
   }
 })
             },
+   perkalianTahun (value) {
+       this.forms.rfi_detail_price_year = value*12;
+      var tahunan = value*12;
+      return accounting.formatMoney(tahunan,  "Rp. ", 0, ".", ",")
+    }, 
 
   GetKomunikasi(id){
                 axios.get('/karyawan/GetKomunikasiProject/'+id).then((response) => {

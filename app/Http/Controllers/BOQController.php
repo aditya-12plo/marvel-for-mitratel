@@ -233,19 +233,17 @@ $valid = $this->validate($request, [
     ]);
 if (!$valid)
     {
-if($request->statusboq == 1)
-{
+
 $edit = array('message'=>$request->message,'status'=>$request->statusboq);
-}
-else
-{
-$edit = array('project_id_boq'=>$request->project_id,'message'=>$request->message,'status'=>$request->statusboq);
-} 
+
 $detailnya = $request->detailproject;
 $emailusernya = array();
 for($x=0;$x < count($detailnya);$x++) {
 $ProjectStatus = ProjectStatus::create(['project_id' =>$detailnya[$x]['id'],'users_id' => Auth::guard('karyawan')->user()->id , 'document'=>strtoupper(Input::get('document')),'status'=>strtoupper(Input::get('statusmessage')),'message'=>strtoupper(Input::get('message'))]);  
-$showUser = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','ACCOUNT MANAGER'],['area',Auth::guard('karyawan')->user()->area]])->get();
+$showUser = User::where(function ($query) {
+    $query->where([['level', Auth::guard('karyawan')->user()->level],['posisi','ACCOUNT MANAGER'],['area',Input::get('area')]])
+          ->orWhere([['level', Auth::guard('karyawan')->user()->level],['posisi','ACCOUNT MANAGER'],['area2',Input::get('area2')]]);
+})->get();
 if(count($showUser) > 0)
 {
 foreach ($showUser as $p) {
@@ -259,11 +257,14 @@ Project::where('id',$detailnya[$x]['id'])->update(['boq_status'=>Input::get('sta
 
 BOQSubmit::where('id',Input::get('id'))->update($edit);
 Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'boq_submit' ,'action' => 'update', 'data' => json_encode($edit)]);
-$showUser2 = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','MANAGER'],['area',Auth::guard('karyawan')->user()->area]])->get();
+$showUser2 = User::where(function ($query) {
+    $query->where([['level', Auth::guard('karyawan')->user()->level],['posisi','ACCOUNT MANAGER'],['area',Input::get('area')]])
+          ->orWhere([['level', Auth::guard('karyawan')->user()->level],['posisi','ACCOUNT MANAGER'],['area2',Input::get('area2')]]);
+})->get();
 if(count($showUser2) > 0)
 {
 foreach ($showUser2 as $p2) {  
-//$this->SendEmailController->kirimBOQ($p2['email'],Input::get('title'),$nodoc,Auth::guard('karyawan')->user()->name,Auth::guard('karyawan')->user()->posisi,$detailnya,strtoupper($kata));
+//$this->SendEmailController->kirimBOQ($p2['email'],Input::get('title'),Input::get('nodoc'),Auth::guard('karyawan')->user()->name,Auth::guard('karyawan')->user()->posisi,$detailnya,strtoupper($kata));
 
 }
 }
@@ -551,42 +552,38 @@ return $pdf->download($header['boq_code'].'.pdf');
     }
 
 
-
-        public function SubmitBOQApprovalVerifikasi(Request $request)
+    public function SubmitBOQCancel(Request $request)
     {
 $id = $request->id;        
-$project_id_boq = $request->project_id_boq;  
-$cek = BOQSubmit::where('id',$id)->first();
-if($cek->project_id_verifikasi == null OR $cek->project_id_verifikasi == '')
-{
-    $project_id_verifikasi =  $request->project_id_verifikasi;
-}
-else
-{
-    $parts = explode(',', $request->project_id_verifikasi);
-    $parts[] = $cek->project_id_verifikasi;
-    $project_id_verifikasi = implode(',', $parts);
-}   
-     
-
-$project_id_boq_Array = explode(",",$project_id_boq);
-$project_id_verifikasi_Array = explode(",",$project_id_verifikasi);
-for($x=0;$x < count($project_id_verifikasi_Array) ; $x++) {
-$deleteKey = array_search($project_id_verifikasi_Array[$x],$project_id_boq_Array);
-Project::where('id',$project_id_verifikasi_Array[$x])->update(['boq_status'=>18]);
-unset($project_id_boq_Array[$deleteKey]);
-}
-
-$project_id_boq_update = implode(",",$project_id_boq_Array);
-
-$edit = ['project_id_boq'=>$project_id_boq_update,'project_id_verifikasi'=>$project_id_verifikasi]; 
-
+$project_id= $request->project_id;  
+ 
+$edit = ['project_id'=>null,'status'=>6]; 
 BOQSubmit::where('id',$id)->update($edit);
+Project::whereIn('id',explode(",",$project_id))->update(['boq_status'=>14]);
+
 Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'boq_submit' ,'action' => 'update', 'data' => json_encode($edit)]);
 return response()->json(['success'=>'Successfully']); 
 
     }
 
+
+        public function SubmitBOQApprovalVerifikasi(Request $request)
+    {
+        $id = $request->id;        
+        $project_id= $request->project_id;  
+        $status= $request->status;  
+        $boq_status= $request->statusproject;  
+         $edit = ['project_id'=>$project_id ,'status'=>$status , 'boq_status'=> $boq_status]; 
+        BOQSubmit::where('id',$id)->update(['status'=>$status]);
+        Project::whereIn('id',explode(",",$project_id))->update(['boq_status'=> $boq_status]);
+        
+        Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'boq_submit' ,'action' => 'update', 'data' => json_encode($edit)]);
+        return response()->json(['success'=>'Successfully']);  
+  
+
+    }
+
+    /*
 
         public function SubmitBOQApprovalProsesPR(Request $request)
     {
@@ -660,5 +657,5 @@ return response()->json(['success'=>'Successfully']);
 
     }
 
-
+*/
 }

@@ -5,7 +5,7 @@
     <section class="content-header">
 
       <h1 align="center">
-      Submit CME To Accrued
+      Submit CME To Accrued {{this.rowDatanya.project.cme_code}}
       </h1>
     </section> 
 
@@ -66,8 +66,8 @@
 <div class="text-left">
 <button class="btn btn-primary" @click.prevent="doFilter">Cari <i class="fa fa-thumbs-o-up position-right"></i></button>
 <button class="btn btn-warning" @click.prevent="resetFilter">Reset Form <i class="fa fa-refresh position-right"></i></button> 
-<button class="btn btn-danger" @click="sumSelectedItems()">Submit Terpilih <i class="ft-check-circle position-right"></i></button>
-<button class="btn btn-success" @click="print()">Print <i class="fa fa-print position-right"></i></button>
+<button class="btn btn-danger" @click="CancelSelectedItems()">Cancel Dokumen <i class="ft-trash-2 position-right"></i></button>
+<button class="btn btn-default" @click="AccruedItems()">Rubah Dokumen Menjadi Accrued <i class="ft-check-circle position-right"></i></button>
                                     </div>
 </td>
        </tr>
@@ -239,12 +239,7 @@ export default {
      dataNya: {name:'',area:'' , level:'' , regional:''},
     perPage: 10,
     loading: false,
-      fields: [
-        {
-          name: '__checkbox:id',
-          titleClass: 'text-center',
-          dataClass: 'text-center',
-        },
+      fields: [ 
         {
           name: 'projectid',
 		  title: 'PID',
@@ -435,23 +430,8 @@ return hashids.decode(id);
 let routeData = this.$router.resolve({name:'approvalboqdetailprojectnya', params: {id: this.diacak(item.id) }});
 window.open(routeData.href, '_blank');
             }  , 
-                              print(){
-var masuk = {cme_code:this.rowDatanya.project.cme_code,projectid:this.rowDatanya.project.project_id_accrual};		
-				axios({
-  url: '/karyawan/printHakiAccrual',
-  method: 'POST',
-  data: masuk,
-  responseType: 'blob', // important
-}).then((response) => {
-  const url = window.URL.createObjectURL(new Blob([response.data]));
-  const link = document.createElement('a');
-  link.href = url;
-  link.setAttribute('download', this.rowDatanya.project.cme_code+'.xls');
-  document.body.appendChild(link);
-  link.click();
-});
-            },
-             	sumSelectedItems() {
+                              CancelSelectedItems(){
+
       this.$swal({
   title: 'Are you sure ?',
   type: 'warning',
@@ -461,19 +441,13 @@ var masuk = {cme_code:this.rowDatanya.project.cme_code,projectid:this.rowDatanya
   confirmButtonText: 'Yes!'
 }).then((result) => {
   if (result.value) {     
-   var ttl = this.$refs.vuetable.selectedTo;
-   if(ttl.length <= 0)
-   {
-   this.question('Silahkan Pilih Data Terlebih Dahulu');
-   }
-   else
-   {
-var join_selected_values = ttl.join(","); 
+
 var masuk = 
 {
 	'id' : this.rowDatanya.project.id,
-	'project_id_accrual' : this.rowDatanya.project.project_id_accrual,
-	'project_id_accrued' : join_selected_values,
+	'project_id' : this.rowDatanya.project.project_id,
+	'status' : 4,
+	'haki_status' : 44,
 }
 axios.post('/karyawan/SubmitCMEToAccrued', masuk)
                     .then(response => { 
@@ -490,7 +464,44 @@ axios.post('/karyawan/SubmitCMEToAccrued', masuk)
                  this.backLink();
                       } 
                     })
-   } 
+    
+}
+})
+            },
+             	AccruedItems() {
+      this.$swal({
+  title: 'Are you sure ?',
+  type: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes!'
+}).then((result) => {
+  if (result.value) {     
+
+var masuk = 
+{
+	'id' : this.rowDatanya.project.id,
+	'project_id' : this.rowDatanya.project.project_id,
+	'status' : 3,
+	'haki_status' : 48,
+}
+axios.post('/karyawan/SubmitCMEToAccrued', masuk)
+                    .then(response => { 
+                      if(response.data.success)
+                      {
+                 this.success(response.data.success);
+                 this.isLoading = false;
+                 this.backLink();
+                      } 
+                      else 
+                      {
+                 this.error(response.data.error);
+                 this.isLoading = false;
+                 this.backLink();
+                      } 
+                    })
+    
 }
 })
    

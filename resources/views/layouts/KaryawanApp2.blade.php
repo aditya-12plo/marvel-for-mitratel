@@ -21,6 +21,7 @@
       <link rel="stylesheet" type="text/css" href="{{asset('app-assets/css/custom.css')}}">  
       
     <link href="{{ asset('app-assets/css/vue2-autocomplete.css') }}" rel="stylesheet">
+    
     <!-- <link rel="stylesheet" href="{{asset('css/app.css')}}">--> 
   </head>
   <body data-col="2-columns" class=" 2-columns ">
@@ -538,7 +539,7 @@
                 </ul>
               </li>
               
- <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/project-locations');window.location.reload();"><i class="ft-navigation font-medium-3"></i><span data-i18n="" class="menu-title">Maps</span> </a></li> 
+<!-- <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/project-locations');window.location.reload();"><i class="ft-navigation font-medium-3"></i><span data-i18n="" class="menu-title">Maps</span> </a></li> -->
  <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/list-notifications');window.location.reload();"><i class="ft-bell font-medium-3"></i><span data-i18n="" class="menu-title">Notifikasi</span> </a></li> 
  <li class="nav-item"><a id="navbar-fullscreen" href="javascript:;" class="nav-link apptogglefullscreen"><i class="ft-maximize font-medium-3"></i><span data-i18n="" class="menu-title">Fullscreen</span> </a></li>
 <li class="has-sub nav-item"><a href="#"><i class="ft-user"></i><span data-i18n="" class="menu-title">User</span></a>
@@ -725,5 +726,6 @@
     <script src="{{asset('app-assets/js/customizer.js')}}" type="text/javascript"></script>
     <!-- END APEX JS-->
   <script src="{{asset('app-assets/js/components-modal.min.js')}}" type="text/javascript"></script>
+  
   </body>
 </html>

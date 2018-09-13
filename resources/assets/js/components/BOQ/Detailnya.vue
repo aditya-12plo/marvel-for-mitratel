@@ -1162,7 +1162,7 @@ Latitude : {{this.rowDatanya.latitude_actual}}
   
     <li class="timeline-item mt-5" v-if="this.rowDatanya.baksbaukid">
       <div class="timeline-badge">
-        <span class="bg-white bg-lighten-1" data-toggle="tooltip" data-placement="left" title="BAKS-BAUK">
+        <span class="bg-yellow bg-lighten-1" data-toggle="tooltip" data-placement="left" title="BAKS-BAUK">
       
     </span>
       </div>
@@ -1236,8 +1236,162 @@ Latitude : {{this.rowDatanya.latitude_actual}}
     </li>
   
     
+  <li class="timeline-item mt-5" v-if="this.rowDatanya.boqbapsid">
+      <div class="timeline-badge">
+        <span class="bg-red bg-lighten-1" data-toggle="tooltip" data-placement="left" title="BOQ BAPS">
+      
+    </span>
+      </div>
+      <div class="timeline-card card border-grey border-lighten-2">
+        <div class="card-header">
+          <h4 class="card-title mb-0">
+            <a>BOQ BAPS</a> 
+          </h4>
+           
+        </div>
+        <div class="card-body"> 
+          <div class="card-body">
+            <div class="card-block">
+      <div class="feather-icons overflow-hidden">
+                          <div class="row">
+     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="tgl_mulai_sewa">Tanggal Dimulai Sewa </label>
+                                        <br>
+{{this.rowDatanya.tgl_mulai_sewa}}
+                    </fieldset>
+                                </div>
+     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="tgl_target_rfi">Target RFI</label>
+                                        <br>
+{{this.rowDatanya.tgl_target_rfi}}
+                                    </fieldset>
+                                </div>
+            <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="document_boq_baps">DOKUMEN BOQ BAPS</label>
+                                        <br>
+<a v-bind:href="'/files/'+this.rowDatanya.projectid+'/'+this.rowDatanya.document_boq_baps" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a> 
+                                    </fieldset>
+                                </div>
+
+                                
+                   </div>
+          </div>               
+            </div>
+          </div> 
+        </div>
+      </div>
+    </li>
+  
+
+
+  <li class="timeline-item mt-5" v-if="this.rowDatanya.bapsid">
+      <div class="timeline-badge">
+        <span class="bg-orange bg-lighten-1" data-toggle="tooltip" data-placement="left" title="BAPS">
+      
+    </span>
+      </div>
+      <div class="timeline-card card border-grey border-lighten-2">
+        <div class="card-header">
+          <h4 class="card-title mb-0">
+            <a>BAPS</a> 
+          </h4>
+           
+        </div>
+        <div class="card-body"> 
+          <div class="card-body">
+            <div class="card-block">
+      <div class="feather-icons overflow-hidden">
+                          <div class="row">
+     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="tgL_akhir_sewa">Tanggal Berakhir Sewa </label>
+                                        <br>
+{{this.rowDatanya.tgL_akhir_sewa}}
+                    </fieldset>
+                                </div>
+ 
+            <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="document_baps">DOKUMEN BAPS</label>
+                                        <br>
+<a v-bind:href="'/files/'+this.rowDatanya.projectid+'/'+this.rowDatanya.document_baps" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a> 
+                                    </fieldset>
+                                </div>
+
+                                
+                   </div>
+          </div>               
+            </div>
+          </div> 
+        </div>
+      </div>
+    </li>
+
+
+
+  <li class="timeline-item mt-5" v-if="this.rowDatanya.invoiceid">
+      <div class="timeline-badge">
+        <span class="bg-blue bg-lighten-1" data-toggle="tooltip" data-placement="left" title="INVOICE">
+      
+    </span>
+      </div>
+      <div class="timeline-card card border-grey border-lighten-2">
+        <div class="card-header">
+          <h4 class="card-title mb-0">
+            <a>INVOICE</a> 
+          </h4>
+           
+        </div>
+        <div class="card-body"> 
+          <div class="card-body">
+            <div class="card-block">
+      <div class="feather-icons overflow-hidden">
+                          <div class="row">
+     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="no_receive">NO RECEIVE </label>
+                                        <br>
+{{this.rowDatanya.no_receive}}
+                    </fieldset>
+                                </div>
+  
+     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="no_kontrak">NO KONTRAK </label>
+                                        <br>
+{{this.rowDatanya.no_kontrak}}
+                    </fieldset>
+                                </div>
+  
+     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="no_invoice">NO INVOICE </label>
+                                        <br>
+{{this.rowDatanya.no_invoice}}
+                    </fieldset>
+                                </div>
   
   
+     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="tgl_invoice">TANGGAL INVOICE </label>
+                                        <br>
+{{this.rowDatanya.tgl_invoice}}
+                    </fieldset>
+                                </div>
+                                
+                   </div>
+          </div>               
+            </div>
+          </div> 
+        </div>
+      </div>
+    </li>
+
+
   
   </ul>
 

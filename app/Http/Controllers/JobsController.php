@@ -875,7 +875,10 @@ return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,
         $min = $request->min;
         $max = $request->max;
         $query =  DB::table('vjobpo')
-        ->where('area',Auth::guard('karyawan')->user()->area)
+        ->where(function ($query) {
+            $query->where('area', Auth::guard('karyawan')->user()->area)
+                  ->orWhere('area', Auth::guard('karyawan')->user()->area2);
+        }) 
         ->orderBy('id','DESC');
 
         if ($search && !$min && !$max) {
@@ -1416,11 +1419,7 @@ $data = DB::table('status_group')->select('name','status_id')->orderBy('id','ASC
         $search = $request->filter;
         $min = $request->min;
         $max = $request->max;
- $query = DB::table('vboqsubmitdata')
-            ->where(function ($query) {
-    $query->where([['area', Auth::guard('karyawan')->user()->area],['status',0]])
-          ->orWhere([['area', Auth::guard('karyawan')->user()->area2],['status',0]]);
-})->orderBy('id','DESC');
+ $query = DB::table('vboqsubmitdata')->orderBy('id','DESC');
  
 
         if ($search && !$min && !$max) {
@@ -1471,8 +1470,11 @@ $data = DB::table('status_group')->select('name','status_id')->orderBy('id','ASC
         $search = $request->filter;
         $min = $request->min;
         $max = $request->max;
- $query = DB::table('vboqsubmitdata')
-            ->where([['area', Auth::guard('karyawan')->user()->area],['status',1]])->orderBy('id','DESC');
+ $query = DB::table('vboqsubmitdatarepair')
+            ->where(function ($query) {
+                $query->where('area', Auth::guard('karyawan')->user()->area)
+                      ->orWhere('area2', Auth::guard('karyawan')->user()->area2);
+            })->orderBy('id','DESC');
  
 
         if ($search && !$min && !$max) {
@@ -1523,8 +1525,11 @@ $data = DB::table('status_group')->select('name','status_id')->orderBy('id','ASC
         $search = $request->filter;
         $min = $request->min;
         $max = $request->max;
- $query = DB::table('vboqsubmitdata')
-            ->where([['area', Auth::guard('karyawan')->user()->area],['status',2]])->orderBy('id','DESC');
+ $query = DB::table('vboqsubmitdataapproval')
+ ->where(function ($query) {
+    $query->where('area', Auth::guard('karyawan')->user()->area)
+          ->orWhere('area2', Auth::guard('karyawan')->user()->area2);
+})->orderBy('id','DESC');
  
 
         if ($search && !$min && !$max) {
@@ -1577,7 +1582,10 @@ public function GetJobsSubmitBOQVerifikasi(Request $request)
         $min = $request->min;
         $max = $request->max;
  $query = DB::table('vboqsubmitdataverifikasi')
-            ->where([['area', Auth::guard('karyawan')->user()->area],['status',2]])->orderBy('id','DESC');
+ ->where(function ($query) {
+    $query->where('area', Auth::guard('karyawan')->user()->area)
+          ->orWhere('area2', Auth::guard('karyawan')->user()->area2);
+})->orderBy('id','DESC');
  
 
         if ($search && !$min && !$max) {
@@ -1628,7 +1636,10 @@ public function GetJobsSubmitBOQProsesPR(Request $request)
         $min = $request->min;
         $max = $request->max;
  $query = DB::table('vboqsubmitdataprosespr')
-            ->where([['area', Auth::guard('karyawan')->user()->area],['status',2]])->orderBy('id','DESC');
+ ->where(function ($query) {
+    $query->where('area', Auth::guard('karyawan')->user()->area)
+          ->orWhere('area2', Auth::guard('karyawan')->user()->area2);
+})->orderBy('id','DESC');
  
 
         if ($search && !$min && !$max) {
@@ -1680,7 +1691,10 @@ public function GetJobsSubmitBOQPORelease(Request $request)
         $min = $request->min;
         $max = $request->max;
  $query = DB::table('vboqsubmitdataporelease')
-            ->where([['area', Auth::guard('karyawan')->user()->area],['status',2]])->orderBy('id','DESC');
+ ->where(function ($query) {
+    $query->where('area', Auth::guard('karyawan')->user()->area)
+          ->orWhere('area2', Auth::guard('karyawan')->user()->area2);
+})->orderBy('id','DESC');
  
 
         if ($search && !$min && !$max) {

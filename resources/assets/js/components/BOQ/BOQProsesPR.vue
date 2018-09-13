@@ -237,28 +237,10 @@ export default {
           dataClass: 'text-center'
         },
         {
-          name: 'totalboq',
-      title: 'Total Site BOQ Submit',
+          name: 'statusnya',
+      title: 'Status BOQ',
       titleClass: 'text-center',
           dataClass: 'text-center',
-        },   
-        {
-          name: 'totalverifikasi',
-      title: 'Total Site BOQ Verifikasi',
-      titleClass: 'text-center',
-          dataClass: 'text-center'
-        },   
-        {
-          name: 'totalpr',
-      title: 'Total Site BOQ Proses PR',
-      titleClass: 'text-center',
-          dataClass: 'text-center'
-        },    
-        {
-          name: 'totalrelease',
-      title: 'Total Site BOQ Proses PO Release',
-      titleClass: 'text-center',
-          dataClass: 'text-center'
         },    
         {
           name: 'created_at',
@@ -390,7 +372,7 @@ return hashids.decode(id);
         },
  
             viewItem(item ,index = this.indexOf(item)){ 
-          this.$router.push({name:'approvedboqprosesprsubmit', params: {id: this.diacak(item.id),typenya:'approved-boq-proses-pr-submit',urlprosespr:'/karyawan/GetBOQProsesPR/'+item.project_id_verifikasi,rowDatanya:{datanya:this.dataNya,project:item} }});  
+          this.$router.push({name:'approvedboqprosesprsubmit', params: {id: this.diacak(item.id),typenya:'approved-boq-proses-pr-submit',urlprosespr:'/karyawan/GetBOQProsesPR/'+item.project_id,rowDatanya:{datanya:this.dataNya,project:item} }});  
             }  ,
         doFilter () {
             if(!this.startTime.time && !this.endtime.time)

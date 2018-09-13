@@ -20,7 +20,7 @@ use App\Models\Pesan;
 use App\Models\Log;
 use App\Models\Project;
 use App\Models\DokumenSIS;
-use App\Models\ProjectStatus;
+use App\Models\ProjectStatus; 
 
 class DokumenSISController extends Controller
 {
@@ -124,74 +124,75 @@ return response()->json($cek);
 
     public function updateSISByAdmin(Request $request)
     { 
-$cekdata = DokumenSIS::where('project_id',Input::get('project_id'))->first();
-if(count($cekdata) > 0)
+
+if(Input::get('id') == 0)
 {
-$file = Input::file('document_sis');
-$extension  = Input::file('document_sis')->getClientOriginalExtension();
-        if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf')
-{
-     $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path
-     $fileName   = Input::get('projectid').'-document-sis-'.time().'.'.$extension; // renameing image
-       if(file_exists($destinationPath.$fileName))
+
+    $file = Input::file('document_sis');
+    $extension  = Input::file('document_sis')->getClientOriginalExtension();
+            if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf')
     {
-File::delete($destinationPath .$fileName);
-    }  
-$upload_success     = $file->move($destinationPath, $fileName);
-if(!$upload_success)
-{
- return response()->json(['error'=>'File Upload Gagal, Silahkan Ulangi']);
-}
-else
-{
-File::delete($destinationPath .$cekdata->document_sis);    
-$edit = array('document_sis' => $fileName); 
-DokumenSIS::where('id',Input::get('id'))->update($edit);
-
-Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'document_sis' ,'action' => 'update', 'data' => json_encode($edit)]);
-return response()->json(['success'=>'Edit Successfully']); 
-}
-
-}
-else
-{
-    return response()->json(['error'=>'Please, check your file type / size']); 
-}
-}
-else
-{
-$file = Input::file('document_sis');
-$extension  = Input::file('document_sis')->getClientOriginalExtension();
-        if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf')
-{
-     $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path
-     $fileName   = Input::get('projectid').'-document-sis-'.time().'.'.$extension; // renameing image
-       if(file_exists($destinationPath.$fileName))
+         $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path
+         $fileName   = Input::get('projectid').'-document-sis-'.time().'.'.$extension; // renameing image
+           if(file_exists($destinationPath.$fileName))
+        {
+    File::delete($destinationPath .$fileName);
+        }  
+    $upload_success     = $file->move($destinationPath, $fileName);
+    if(!$upload_success)
     {
-File::delete($destinationPath .$fileName);
-    }  
-$upload_success     = $file->move($destinationPath, $fileName);
-if(!$upload_success)
-{
- return response()->json(['error'=>'File Upload Gagal, Silahkan Ulangi']);
+     return response()->json(['error'=>'File Upload Gagal, Silahkan Ulangi']);
+    }
+    else
+    {
+    $masuk = array('project_id' => $request->project_id, 'document_sis' => $fileName); 
+    DokumenSIS::create($masuk);
+    Project::where('id',Input::get('project_id'))->update(['status_id'=>4]);
+    $project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+    Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'document_sis' ,'action' => 'insert', 'data' => json_encode($masuk)]);
+    return response()->json(['success'=>'Edit Successfully','project'=>$project]); 
+    }
+    
+    }
+    else
+    {
+        return response()->json(['error'=>'Please, check your file type / size']); 
+    }
 }
 else
 {
-$masuk = array('project_id' => $request->project_id, 'document_sis' => $fileName); 
-DokumenSIS::create($masuk);
 
-Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'document_sis' ,'action' => 'insert', 'data' => json_encode($masuk)]);
-return response()->json(['success'=>'Add Successfully']); 
+    $file = Input::file('document_sis');
+    $extension  = Input::file('document_sis')->getClientOriginalExtension();
+            if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf')
+    {
+         $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path
+         $fileName   = Input::get('projectid').'-document-sis-'.time().'.'.$extension; // renameing image
+           if(file_exists($destinationPath.$fileName))
+        {
+    File::delete($destinationPath .$fileName);
+        }  
+    $upload_success     = $file->move($destinationPath, $fileName);
+    if(!$upload_success)
+    {
+     return response()->json(['error'=>'File Upload Gagal, Silahkan Ulangi']);
+    }
+    else
+    {
+    File::delete($destinationPath .Input::get('document_sis_old'));    
+    $edit = array('document_sis' => $fileName); 
+    DokumenSIS::where('id',Input::get('id'))->update($edit);
+    $project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+    Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'document_sis' ,'action' => 'update', 'data' => json_encode($edit)]);
+    return response()->json(['success'=>'Edit Successfully','project'=>$project]); 
+    }
+    
+    }
+    else
+    {
+        return response()->json(['error'=>'Please, check your file type / size']); 
+    }
 }
-
-}
-else
-{
-    return response()->json(['error'=>'Please, check your file type / size']); 
-}
-
-}
-
     }
 
 

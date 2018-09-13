@@ -245,6 +245,15 @@
                                     </fieldset>
                                 </div>
 
+<div class="col-xl-2 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="latitude_spk">Cek Lokasi</label>
+<br>
+<a :href="'http://www.google.com/maps/place/'+this.forms.latitude_spk+','+this.forms.longitude_spk" target="_blank"><button type="button" class="btn btn-raised btn-success">
+  <i class="ft-navigation"></i> Maps
+</button></a>
+ </fieldset>
+                                </div>
 </div>
 </div>
 </div>
@@ -266,12 +275,12 @@
 
 <!-- @edit SIS -->
 <modal  v-if="modal.get('editSIS')" @close="modal.set('editSIS', false)">
-        <template slot="header" align="center"><h4 align="center">Edit Dokumen SIS</h4></template>
+        <template slot="header" align="center"><h4 align="center">Dokumen SIS</h4></template>
         <template slot="body" >
           <form method="POST" action="" @submit.prevent="rubahDokumenSISsubmitData()">
                 <div class="modal-body">
 
-<div class="col-sm-12">        
+<div class="col-sm-12" v-if="this.forms.documentid">        
 <div class="form-body">
                             <div class="row">
 
@@ -279,7 +288,7 @@
 
                                     <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
                                         <fieldset class="form-group">
-                                            <label for="documentsis"><h4>Dokumen SIS</h4></label>
+                                            <label for="documentsis"><h4>Edit Dokumen SIS</h4></label>
                                         <br>
 <label id="projectinput8" class="file center-block">
                         <input type="file" accept="application/pdf" name="file_name" id="file_name" v-on:change="newAvatar" required="required"> 
@@ -287,8 +296,9 @@
                     </label>        
 <div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_sis']"><span style="color:red;">{{ error }}</span></li></ul></div>
 <br>
-<div v-if="this.formsSIS.id">
-<a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.formsSIS.document_sis" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a></div>
+
+<a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.forms.document_sis" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>
+
 <p class="center-block">* Type dokumen .pdf And Max 10 MB</p>
                                         </fieldset>
                                     </div>
@@ -300,6 +310,37 @@
 </div>
 </div>
 </div>
+
+<div class="col-sm-12" v-else>        
+<div class="form-body">
+                            <div class="row">
+
+
+
+                                    <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label for="documentsis"><h4>Add Dokumen SIS</h4></label>
+                                        <br>
+<label id="projectinput8" class="file center-block">
+                        <input type="file" accept="application/pdf" name="file_name" id="file_name" v-on:change="newAvatar" required="required"> 
+            <span class="file-custom"></span>
+                    </label>        
+<div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_sis']"><span style="color:red;">{{ error }}</span></li></ul></div>
+<br> 
+<p class="center-block">* Type dokumen .pdf And Max 10 MB</p>
+                                        </fieldset>
+                                    </div>
+           
+                                
+  
+ 
+
+</div>
+</div>
+</div>
+
+
+
 
                 </div>
                 <div class="modal-footer">
@@ -852,14 +893,56 @@ export default {
   modal:new CrudModal({editProject: false , editSIS: false ,  editDRM: false ,   editSITAC: false , }),
 
 
-  forms: new CrudForm({id:'' , projectid:'' , no_wo:'' , wo_date:'',  batch:'',  years:'',  infratype:'',  area:'' , regional:'' , site_id_spk:'' , site_name_spk:'' , address_spk:'', longitude_spk:'' , latitude_spk:'' , status_id:'' , project_status_id:''}), 
+  forms: new CrudForm({
+      id:'' , projectid:'' , no_wo:'' , wo_date:'',  batch:'',  years:'',  infratype:'',  area:'' , 
+      regional:'' , site_id_spk:'' , site_name_spk:'' , address_spk:'', longitude_spk:'' , latitude_spk:'' , 
+      status_id:'' , boq_status:'' , haki_status:'' , project_status_id:'' , batch_accrue:'' , 
 
-  formsSIS: new CrudForm({id:'' , project_id:'' , document_sis:''}), 
+      documentid:'', document_sis:'', 
 
-  formsDRM: new CrudForm({id:'' , project_id:'' , site_id_actual:'' , site_name_actual:'' , province:'' , city:'' , address_actual:'' , longitude_actual:'' , latitude_actual:'' , kom_date:'' , drm_date:'' , document_kom:'' , document_drm:''}), 
+      documentdrmid:'', site_id_actual:'', site_name_actual:'', province:'', city:'', address_actual:'',
+       longitude_actual:'',latitude_actual:'',kom_date:'',drm_date:'',document_kom:'',document_drm:'',
 
-	formsSITAC: new CrudForm({id:'' , project_id:'' , no_ban_bak:'' , date_ban_bak:'' , document_ban_bak:'' , ijin_warga_date:'' , document_ijin_warga:'' , no_pks:'' , pks_date:'' , kom_date:'' , document_pks:'' , no_imb:'' , imb_date:'' , document_imb:''}), 
+       documentsitacid:'', no_ban_bak:'', date_ban_bak:'', document_ban_bak:'', ijin_warga_date:'', document_ijin_warga:'',
+        no_pks:'', pks_date:'', no_imb:'', document_imb:'', document_pks:'', 
+        
+        documentrfcid:'', no_rfc:'', rfc_date:'', document_rfc:'', id_pln:'', target_rfi:'', target_rfi:'',targepower_capacityt_rfi:'', 
+        
+        documentboqid:'', site_type:'', tower_type:'', roof_top_high:'', tower_high:'', rf_in_meters:'', mw_in_meters:'',
+         harga_bulan:'', harga_tahun:'', 
+         
+         poid:'',no_po:'',po_date:'',
+         
+         siteopeningid:'', site_opening_date:'', document_site_opening:'', 
+         
+         excavationid:'', excavation_date:'', excavation_document:'',
 
+          rebaringid:'', rebaring_date:'', rebaring_document:'',
+
+           pouringid:'', pouring_date:'', pouring_document:'', 
+           
+           curingid:'', curing_date:'', curing_document:'', 
+           
+           towererectionid:'', tower_erection_date:'', tower_erection_document:'',
+
+           meprocessid:'',m_e_process_date:'',m_e_process_document:'',
+           
+           fenceyardid:'', fence_yard_date:'', fence_yard_document:'', 
+           
+           rfibautid:'', rfi_date:'', rfi_document:'', baut_date:'', baut_document:'', 
+           
+           rfidetailid:'', rfi_detail_start_date:'', rfi_detail_end_date:'', rfi_detail_price_month:'', rfi_detail_price_year:'',
+        
+           baksbaukid:'', no_baks:'', date_baks:'', document_baks:'', document_wctr:'', document_boq_project:'',document_rfi_certificate:'',
+
+           boqbapsid:'', tgl_mulai_sewa:'', tgl_target_rfi:'', document_boq_baps:'', 
+           
+           bapsid:'', tgL_akhir_sewa:'',  document_baps:'',  
+           
+           invoiceid:'',  no_receive:'',   no_kontrak:'',   no_invoice:'',   tgl_invoice:''
+
+      }), 
+ 
 	pilihaninratype: ['B2S','UNTAPPED'],
 	pilihanarea: ['1','2','3','4'],
      datenyaIMB: false,
@@ -1058,12 +1141,24 @@ var datenya = 'SELAMANYA';
 }).then((result) => {
  if (result.value) {
     this.isLoading = true;
- 
-      let masuk = new FormData();
-   masuk.set('id', this.formsSIS.id)
-   masuk.set('project_id', this.rowDatanya.project.id)
-   masuk.set('projectid', this.rowDatanya.project.projectid)
+  let masuk = new FormData();
+ if(this.forms.documentid)
+ {
+   masuk.set('id', this.forms.documentid)
+   masuk.set('project_id', this.forms.id) 
+   masuk.set('projectid', this.forms.projectid)
+   masuk.set('document_sis_old', this.forms.document_sis) 
    masuk.set('document_sis', this.file_name);
+ }
+ else
+ { 
+   masuk.set('id', 0)
+   masuk.set('project_id', this.forms.id) 
+   masuk.set('projectid', this.forms.projectid)
+   masuk.set('document_sis_old', this.forms.document_sis)
+   masuk.set('document_sis', this.file_name);
+ }
+
 
                 axios.post('/karyawan/updateSISByAdmin', masuk)
                     .then(response => { 
@@ -1071,7 +1166,9 @@ var datenya = 'SELAMANYA';
                       {
                  this.success(response.data.success);
                  this.isLoading = false;
-                 this.backLink();
+                  this.modal.set('editSIS', false);
+               this.forms = response.data.project;
+                //  this.forms.$set(response.data.project)
                       } 
                       else if(response.data.error)
                       {
@@ -1089,7 +1186,7 @@ var datenya = 'SELAMANYA';
                     if (! _.isEmpty(error.response)) {
                     if (error.response.status = 422) {
                         this.isLoading = false;
-                       this.errorNya = error.response.data;
+                        this.errorNya = {document_sis:[response.data.error]};
                     }
                    else if (error.response.status = 500) {
     this.isLoading = false;
@@ -1102,8 +1199,7 @@ var datenya = 'SELAMANYA';
                     }
                     }
                         
-    this.isLoading = false;
-                 this.backLink();
+    this.isLoading = false; 
                     })
   }
 
@@ -1188,11 +1284,7 @@ area:this.forms.area,
       if(this.typenya === "edit-project")
       {
 
-          this.forms = this.rowDatanya.project;
-          this.woDate.time = this.rowDatanya.project.wo_date;
-          this.getSIS(this.rowDatanya.project.id);
-          this.getDRM(this.rowDatanya.project.id);
-          this.getSITAC(this.rowDatanya.project.id);
+          this.forms = this.rowDatanya.project; 
       }
       else
       {

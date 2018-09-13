@@ -223,13 +223,7 @@ export default {
       title: 'Total PID',
       titleClass: 'text-center',
           dataClass: 'text-center'
-        },   
-        {
-          name: 'totalaccrued',
-      title: 'Total PID Accrued',
-      titleClass: 'text-center',
-          dataClass: 'text-center'
-        },   
+        },    
         {
           name: '__component:view-custom-actions',
           title: 'Actions',
@@ -354,7 +348,7 @@ return hashids.decode(id);
         },
  
             viewItem(item ,index = this.indexOf(item)){ 
-          this.$router.push({name:'accruedcmedatanya', params: {id: this.diacak(item.id),typenya:'accrued-cme-datanya',urlporelease:'/karyawan/GetCMEAccruedDataNya/'+item.project_id_accrued,rowDatanya:{datanya:this.dataNya,project:item} }});  
+          this.$router.push({name:'accruedcmedatanya', params: {id: this.diacak(item.id),typenya:'accrued-cme-datanya',urlporelease:'/karyawan/GetCMEAccruedDataNya/'+item.project_id,rowDatanya:{datanya:this.dataNya,project:item} }});  
             }  ,
         doFilter () {
         		if(!this.startTime.time && !this.endtime.time)
