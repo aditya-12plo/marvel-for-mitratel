@@ -46,7 +46,7 @@
                                         <fieldset class="form-group">
                                             <label for="no_po"><h4>NO PO</h4></label>
                                         <br>
-<input type="text" @input="allcap($event, forms, 'no_po')" class="form-control" placeholder="PO NUMBER" v-model="forms.id_pln" required>
+<input type="text" @input="allcap($event, forms, 'no_po')" class="form-control" placeholder="PO NUMBER" v-model="forms.forms" required>
  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['no_po']"><span style="color:red;">{{ error }}</span></li></ul></div> 
                                         </fieldset>
                                     </div>

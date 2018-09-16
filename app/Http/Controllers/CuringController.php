@@ -52,6 +52,135 @@ class CuringController extends Controller
     }
 
 
+    public function RevisiDocumentCuringByAdmin(Request $request)
+    {
+        if(Input::get('id') == 0)
+        {
+$valid = $this->validate($request, [
+        'project_id' => 'required|max:255|unique:curing,project_id', 
+        'projectid' => 'required|max:255',
+        'curing_date' => 'required|date|date_format:Y-m-d',
+        'curing_document' => 'required|mimes:pdf,jpg,png,jpeg', 
+    ]);
+if (!$valid)
+    {
+        $file = Input::file('curing_document');
+         $extension  = Input::file('curing_document')->getClientOriginalExtension(); // getting image extension
+if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/png' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpg' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpeg')
+{
+     $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path
+     $fileName   = Input::get('projectid').'-document-curing-'.time().'.'.$extension; // renameing image
+       if(file_exists($destinationPath.$fileName))
+    {
+File::delete($destinationPath .$fileName);
+    } 
+    
+$upload_success     = $file->move($destinationPath, $fileName);
+if(!$upload_success)
+{
+    File::delete($destinationPath .$fileName);
+ return response()->json(['error'=>'File Upload Gagal, Silahkan Ulangi']);
+}
+else
+{
+$masuk = array('project_id' => $request->project_id, 'curing_date' => $request->curing_date, 'curing_document' => $fileName); 
+Curing::create($masuk);
+ 
+Project::where('id',Input::get('project_id'))->update(['status_id'=>31]);
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'curing' ,'action' => 'insert', 'data' => json_encode($masuk)]);
+$project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+return response()->json(['success'=>'Edit Successfully','project'=>$project]);   
+}
+
+    
+}
+else
+{
+    return response()->json(['error'=>'Please, check your file type / size']); 
+} 
+    }
+else
+    {
+ return response()->json('error', $valid);
+    }
+}
+else
+{
+    
+$valid = $this->validate($request, [
+    'project_id' => 'required|max:255|unique:curing,project_id,'.$request->id, 
+    'projectid' => 'required|max:255',
+    'curing_date' => 'required|date|date_format:Y-m-d',
+]);
+if (!$valid)
+{
+
+$edit = array('curing_date' => $request->curing_date); 
+Curing::where('id',Input::get('id'))->update($edit);
+
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'curing' ,'action' => 'update', 'data' => json_encode($edit)]);
+$project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+return response()->json(['success'=>'Edit Successfully','project'=>$project]);   
+ 
+}
+else
+{
+return response()->json('error', $valid);
+}
+}
+    }
+
+
+    public function uploaddokumenCuringByAdmin(Request $request)
+    { 
+$valid = $this->validate($request, [ 
+        'project_id' => 'required',
+        'projectid' => 'required',
+        'curing_document_old' => 'required',
+        'curing_document' => 'required|mimes:pdf,jpg,png,jpeg'
+    ]);
+if (!$valid)
+    {
+       $file = Input::file('curing_document');
+         $extension  = Input::file('curing_document')->getClientOriginalExtension(); // getting image extension
+if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/png' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpg' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpeg')
+{
+     $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path
+     $fileName   = Input::get('projectid').'-document-curing-'.time().'.'.$extension; // renameing image
+       if(file_exists($destinationPath.$fileName))
+    {
+File::delete($destinationPath .$fileName);
+    } 
+
+$upload_success     = $file->move($destinationPath, $fileName);
+if(!$upload_success)
+{
+ File::delete($destinationPath .$fileName);
+ return response()->json(['error'=>'File Upload Gagal, Silahkan Ulangi']);
+}
+else
+{
+File::delete($destinationPath .Input::get('curing_document_old'));
+$edit = array('curing_document' => $fileName);   
+Curing::where('id',$request->id)->update($edit);
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'Curing' ,'action' => 'update', 'data' => json_encode($edit)]);
+$project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+return response()->json(['success'=>'Edit Successfully','namafilenya'=>$fileName]);   
+}
+}
+else
+{
+    return response()->json(['error'=>'Please, check your file type / size']); 
+}	      
+    }
+else
+    {
+ return response()->json('error', $valid);
+    }
+  
+    }
+
+
         public function DocumentCuringPerbaikan(Request $request)
     {
 $valid = $this->validate($request, [

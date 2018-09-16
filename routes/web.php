@@ -208,6 +208,8 @@ Route::get('GetInfratype', 'JobsController@GetInfratype');
    Route::post('DeleteDRM','DokumenDRMController@delete');
    Route::post('ApprovedDRMMassal','DokumenDRMController@ApprovedMassal');
    Route::post('updateDRMByAdmin','DokumenDRMController@updateDRMByAdmin');
+   Route::post('uploaddokumenKOMByAdmin','DokumenDRMController@uploaddokumenKOMByAdmin');
+   Route::post('uploaddokumenDRMByAdmin','DokumenDRMController@uploaddokumenDRMByAdmin');
    Route::get('getDRMDocument/{id}','DokumenDRMController@getDRMDocument');
  /* document drm */
 
@@ -236,6 +238,8 @@ Route::get('GetInfratype', 'JobsController@GetInfratype');
    Route::post('uploaddokumenRFC','DokumenRFCController@uploaddokumenRFC');
    Route::post('DeleteRFC','DokumenRFCController@delete');
    Route::post('ApprovedRFCMassal','DokumenRFCController@ApprovedRFCMassal');
+   Route::post('uploaddokumenRFCByAdmin','DokumenRFCController@uploaddokumenRFCByAdmin');
+   Route::post('RevisiDocumentRFCByAdmin','DokumenRFCController@RevisiDocumentRFCByAdmin');
  /* document RFC */
 
 
@@ -267,6 +271,7 @@ Route::get('GetInfratype', 'JobsController@GetInfratype');
  /* boq */
  Route::post('AddBOQ', 'BOQController@store');
  Route::post('SubmitBOQ', 'BOQController@SubmitBOQ');
+ Route::post('RevisiDocumentBOQByAdmin', 'BOQController@RevisiDocumentBOQByAdmin');
  Route::post('SubmitBOQCancel', 'BOQController@SubmitBOQCancel');
  Route::post('SubmitBOQApproval', 'BOQController@SubmitBOQApproval');
  Route::post('SubmitBOQApprovalRevisi', 'BOQController@SubmitBOQApprovalRevisi');
@@ -285,10 +290,13 @@ Route::get('GetInfratype', 'JobsController@GetInfratype');
 
  /* po */
  Route::post('AddPO', 'POController@AddPO');
+ Route::post('RevisiDocumentPOByAdmin', 'POController@RevisiDocumentPOByAdmin');
  /* po */
 
 
  /* site opening */
+  Route::post('RevisiDocumentSiteOpeningByAdmin', 'SiteOpeningController@RevisiDocumentSiteOpeningByAdmin');
+  Route::post('uploaddokumenSiteOpeningByAdmin', 'SiteOpeningController@uploaddokumenSiteOpeningByAdmin');
   Route::post('AddDocumentSiteOpening', 'SiteOpeningController@AddDocumentSiteOpening');
   Route::post('DocumentSiteOpeningPerbaikan', 'SiteOpeningController@DocumentSiteOpeningPerbaikan');
   Route::post('RevisiDocumentSiteOpening', 'SiteOpeningController@RevisiDocumentSiteOpening');
@@ -296,6 +304,8 @@ Route::get('GetInfratype', 'JobsController@GetInfratype');
 
 
  /* excavation */
+Route::post('RevisiDocumentExcavationByAdmin', 'ExcavationController@RevisiDocumentExcavationByAdmin');
+Route::post('uploaddokumenExcavationByAdmin', 'ExcavationController@uploaddokumenExcavationByAdmin');
 Route::post('AddDocumentExcavation', 'ExcavationController@AddDocumentExcavation');
 Route::post('DocumentExcavationPerbaikan', 'ExcavationController@DocumentExcavationPerbaikan');
 Route::post('RevisiDocumentExcavation', 'ExcavationController@RevisiDocumentExcavation');
@@ -303,6 +313,8 @@ Route::post('RevisiDocumentExcavation', 'ExcavationController@RevisiDocumentExca
 
 
  /* Rebaring */
+Route::post('RevisiDocumentRebaringByAdmin', 'RebaringController@RevisiDocumentRebaringByAdmin');
+Route::post('uploaddokumenRebaringByAdmin', 'RebaringController@uploaddokumenRebaringByAdmin');
 Route::post('AddDocumentRebaring', 'RebaringController@AddDocumentRebaring');
 Route::post('DocumentRebaringPerbaikan', 'RebaringController@DocumentRebaringPerbaikan');
 Route::post('RevisiDocumentRebaring', 'RebaringController@RevisiDocumentRebaring');
@@ -311,6 +323,8 @@ Route::post('RevisiDocumentRebaring', 'RebaringController@RevisiDocumentRebaring
 
 
  /* Pouring */
+Route::post('RevisiDocumentPouringByAdmin', 'PouringController@RevisiDocumentPouringByAdmin');
+Route::post('uploaddokumenPouringByAdmin', 'PouringController@uploaddokumenPouringByAdmin');
 Route::post('AddDocumentPouring', 'PouringController@AddDocumentPouring');
 Route::post('DocumentPouringPerbaikan', 'PouringController@DocumentPouringPerbaikan');
 Route::post('RevisiDocumentPouring', 'PouringController@RevisiDocumentPouring');
@@ -320,6 +334,8 @@ Route::post('RevisiDocumentPouring', 'PouringController@RevisiDocumentPouring');
 
 
  /* Curing */
+Route::post('RevisiDocumentCuringByAdmin', 'CuringController@RevisiDocumentCuringByAdmin');
+Route::post('uploaddokumenCuringByAdmin', 'CuringController@uploaddokumenCuringByAdmin');
 Route::post('AddDocumentCuring', 'CuringController@AddDocumentCuring');
 Route::post('DocumentCuringPerbaikan', 'CuringController@DocumentCuringPerbaikan');
 Route::post('RevisiDocumentCuring', 'CuringController@RevisiDocumentCuring');
@@ -328,6 +344,8 @@ Route::post('RevisiDocumentCuring', 'CuringController@RevisiDocumentCuring');
 
 
  /* Tower Erection */
+Route::post('uploaddokumenTowerErectionByAdmin', 'TowerErectionController@uploaddokumenTowerErectionByAdmin');
+Route::post('RevisiDocumentTowerErectionByAdmin', 'TowerErectionController@RevisiDocumentTowerErectionByAdmin');
 Route::post('AddDocumentTowerErection', 'TowerErectionController@AddDocumentTowerErection');
 Route::post('DocumentTowerErectionPerbaikan', 'TowerErectionController@DocumentTowerErectionPerbaikan');
 Route::post('RevisiDocumentTowerErection', 'TowerErectionController@RevisiDocumentTowerErection');
@@ -336,6 +354,8 @@ Route::post('RevisiDocumentTowerErection', 'TowerErectionController@RevisiDocume
 
 
  /* M-E Process */
+Route::post('uploaddokumenMEProcessByAdmin', 'MEProcessController@uploaddokumenMEProcessByAdmin');
+Route::post('RevisiDocumentMEProcessByAdmin', 'MEProcessController@RevisiDocumentMEProcessByAdmin');
 Route::post('AddDocumentMEProcess', 'MEProcessController@AddDocumentMEProcess');
 Route::post('DocumentMEProcessPerbaikan', 'MEProcessController@DocumentMEProcessPerbaikan');
 Route::post('RevisiDocumentMEProcess', 'MEProcessController@RevisiDocumentMEProcess');
@@ -345,6 +365,8 @@ Route::post('RevisiDocumentMEProcess', 'MEProcessController@RevisiDocumentMEProc
 
 
  /* FenceYard */
+Route::post('uploaddokumenFenceYardByAdmin', 'FenceYardController@uploaddokumenFenceYardByAdmin');
+Route::post('RevisiDocumentFenceYardByAdmin', 'FenceYardController@RevisiDocumentFenceYardByAdmin');
 Route::post('AddDocumentFenceYard', 'FenceYardController@AddDocumentFenceYard');
 Route::post('DocumentFenceYardPerbaikan', 'FenceYardController@DocumentFenceYardPerbaikan');
 Route::post('RevisiDocumentFenceYard', 'FenceYardController@RevisiDocumentFenceYard');
@@ -355,6 +377,9 @@ Route::post('RevisiDocumentFenceYard', 'FenceYardController@RevisiDocumentFenceY
 
 
  /* Rfi Baut */
+Route::post('uploaddokumenBAUTByAdmin', 'RfiBautController@uploaddokumenBAUTByAdmin');
+Route::post('uploaddokumenRFIByAdmin', 'RfiBautController@uploaddokumenRFIByAdmin');
+Route::post('RevisiDocumentRFIBAUTByAdmin', 'RfiBautController@RevisiDocumentRFIBAUTByAdmin');
 Route::post('AddDocumentRfiBaut', 'RfiBautController@AddDocumentRfiBaut');
 Route::post('DocumentRfiBautPerbaikan', 'RfiBautController@DocumentRfiBautPerbaikan');
 Route::post('RevisiDocumentCME', 'RfiBautController@RevisiDocumentCME');

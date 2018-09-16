@@ -52,10 +52,53 @@ class POController extends Controller
         $this->data['tahunproject']  = DB::table('vtahun')->get();
     }
 
+
+
+    public function RevisiDocumentPOByAdmin(Request $request)
+    {if(Input::get('id') == 0)
+        {
+$valid = $this->validate($request, [
+        'project_id' => 'required|max:255|unique:po,project_id', 
+        'projectid' => 'required',
+        'po_date' => 'required|date|date_format:Y-m-d',
+        'no_po' => 'required|max:255', 
+    ]);
+if (!$valid)
+    {  
+PO::create(['project_id'=>Input::get('project_id') , 'no_po'=>Input::get('no_po') ,  'po_date'=>Input::get('po_date')]);
+$project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+return response()->json(['success'=>'Edit Successfully','project'=>$project]);    
+    }
+else
+{
+return response()->json('error', $valid);
+}
+        }
+        else
+        {
+            $valid = $this->validate($request, [ 
+                'projectid' => 'required',
+                'po_date' => 'required|date|date_format:Y-m-d',
+                'no_po' => 'required|max:255', 
+            ]);
+        if (!$valid)
+            {  
+        PO::where('id',Input::get('id'))->update(['no_po'=>Input::get('no_po') ,  'po_date'=>Input::get('po_date')]);
+        $project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+        return response()->json(['success'=>'Edit Successfully','project'=>$project]);    
+            }
+        else
+        {
+        return response()->json('error', $valid);
+        }
+        }
+
+    }
+
         public function AddPO(Request $request)
     {
 $valid = $this->validate($request, [
-        'project_id' => 'required|numeric|not_in:0',  
+        'project_id' =>'required|max:255|unique:po,project_id', 
         'projectid' => 'required',
         'po_date' => 'required|date|date_format:Y-m-d',
         'no_po' => 'required|max:255',

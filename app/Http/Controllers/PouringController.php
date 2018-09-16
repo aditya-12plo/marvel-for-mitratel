@@ -52,6 +52,136 @@ class PouringController extends Controller
     }
 
 
+    public function RevisiDocumentPouringByAdmin(Request $request)
+    {
+        if(Input::get('id') == 0)
+        {
+$valid = $this->validate($request, [
+        'project_id' => 'required|max:255|unique:pouring,project_id', 
+        'projectid' => 'required|max:255',
+        'pouring_date' => 'required|date|date_format:Y-m-d',
+        'pouring_document' => 'required|mimes:pdf,jpg,png,jpeg', 
+    ]);
+if (!$valid)
+    {
+        $file = Input::file('pouring_document');
+         $extension  = Input::file('pouring_document')->getClientOriginalExtension(); // getting image extension
+if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/png' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpg' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpeg')
+{
+     $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path
+     $fileName   = Input::get('projectid').'-document-pouring-'.time().'.'.$extension; // renameing image
+       if(file_exists($destinationPath.$fileName))
+    {
+File::delete($destinationPath .$fileName);
+    } 
+    
+$upload_success     = $file->move($destinationPath, $fileName);
+if(!$upload_success)
+{
+    File::delete($destinationPath .$fileName);
+ return response()->json(['error'=>'File Upload Gagal, Silahkan Ulangi']);
+}
+else
+{
+$masuk = array('project_id' => $request->project_id, 'pouring_date' => $request->pouring_date, 'pouring_document' => $fileName); 
+Pouring::create($masuk);
+ 
+Project::where('id',Input::get('project_id'))->update(['status_id'=>29]);
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'pouring' ,'action' => 'insert', 'data' => json_encode($masuk)]);
+$project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+return response()->json(['success'=>'Edit Successfully','project'=>$project]);   
+}
+
+    
+}
+else
+{
+    return response()->json(['error'=>'Please, check your file type / size']); 
+} 
+    }
+else
+    {
+ return response()->json('error', $valid);
+    }
+}
+else
+{
+    
+$valid = $this->validate($request, [
+    'project_id' => 'required|max:255|unique:pouring,project_id,'.$request->id, 
+    'projectid' => 'required|max:255',
+    'pouring_date' => 'required|date|date_format:Y-m-d',
+]);
+if (!$valid)
+{
+
+$edit = array('pouring_date' => $request->pouring_date); 
+Pouring::where('id',Input::get('id'))->update($edit);
+
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'pouring' ,'action' => 'update', 'data' => json_encode($edit)]);
+$project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+return response()->json(['success'=>'Edit Successfully','project'=>$project]);   
+ 
+}
+else
+{
+return response()->json('error', $valid);
+}
+}
+    }
+
+
+    public function uploaddokumenPouringByAdmin(Request $request)
+    { 
+$valid = $this->validate($request, [ 
+        'project_id' => 'required',
+        'projectid' => 'required',
+        'pouring_document_old' => 'required',
+        'pouring_document' => 'required|mimes:pdf,jpg,png,jpeg'
+    ]);
+if (!$valid)
+    {
+       $file = Input::file('pouring_document');
+         $extension  = Input::file('pouring_document')->getClientOriginalExtension(); // getting image extension
+if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/png' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpg' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpeg')
+{
+     $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path
+     $fileName   = Input::get('projectid').'-document-pouring-'.time().'.'.$extension; // renameing image
+       if(file_exists($destinationPath.$fileName))
+    {
+File::delete($destinationPath .$fileName);
+    } 
+
+$upload_success     = $file->move($destinationPath, $fileName);
+if(!$upload_success)
+{
+ File::delete($destinationPath .$fileName);
+ return response()->json(['error'=>'File Upload Gagal, Silahkan Ulangi']);
+}
+else
+{
+File::delete($destinationPath .Input::get('pouring_document_old'));
+$edit = array('pouring_document' => $fileName);   
+Pouring::where('id',$request->id)->update($edit);
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'pouring' ,'action' => 'update', 'data' => json_encode($edit)]);
+$project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+return response()->json(['success'=>'Edit Successfully','namafilenya'=>$fileName]);   
+}
+}
+else
+{
+    return response()->json(['error'=>'Please, check your file type / size']); 
+}	      
+    }
+else
+    {
+ return response()->json('error', $valid);
+    }
+  
+    }
+
+
+
         public function DocumentPouringPerbaikan(Request $request)
     {
 $valid = $this->validate($request, [

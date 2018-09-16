@@ -38,6 +38,88 @@ class BOQController extends Controller
     }
 
 
+
+
+    public function RevisiDocumentBOQByAdmin(Request $request)
+    {
+        if(Input::get('id') == 0)
+        {
+$valid = $this->validate($request, [
+        'project_id' => 'required|max:255|unique:document_boq,project_id', 
+        'projectid' => 'required|max:255',
+        'site_type' => 'required|max:200',
+        'tower_type' => 'required|max:255',
+        'roof_top_high' => 'nullable|numeric',
+        'tower_high' => 'required|numeric|not_in:0',
+        'rf_in_meters' => 'required|max:255',
+        'mw_in_meters' => 'required|max:255', 
+        'harga_bulan' => 'required|numeric|not_in:0', 
+        'harga_tahun' => 'required|numeric|not_in:0',  
+    ]);
+if (!$valid)
+    {
+if($request->roof_top_high == 0)
+{
+$roof_top_high = null;    
+}
+else
+{
+$roof_top_high = $request->roof_top_high;     
+}
+$masuk = array('project_id' => $request->project_id,'site_type' => $request->site_type,'tower_type' => $request->tower_type,'roof_top_high' => $roof_top_high,'tower_high' => $request->tower_high,'rf_in_meters' => $request->rf_in_meters,'mw_in_meters' => $request->mw_in_meters,'harga_bulan' => $request->harga_bulan,'harga_tahun' => $request->harga_tahun); 
+BOQ::create($masuk);
+Project::where('id',Input::get('project_id'))->update(['boq_status'=>14]); 
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'document_boq' ,'action' => 'insert', 'data' => json_encode($masuk)]);
+$project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+return response()->json(['success'=>'Edit Successfully','project'=>$project]);      
+    }
+else
+    {
+ return response()->json('error', $valid);
+    }
+}
+else
+{
+
+    $valid = $this->validate($request, [
+        'project_id' => 'required|max:255|unique:document_boq,project_id,'.$request->id, 
+        'projectid' => 'required|max:255',
+        'site_type' => 'required|max:200',
+        'tower_type' => 'required|max:255',
+        'roof_top_high' => 'nullable|numeric',
+        'tower_high' => 'required|numeric|not_in:0',
+        'rf_in_meters' => 'required|max:255',
+        'mw_in_meters' => 'required|max:255', 
+        'harga_bulan' => 'required|numeric|not_in:0', 
+        'harga_tahun' => 'required|numeric|not_in:0',  
+    ]);
+if (!$valid)
+    {
+if($request->roof_top_high == 0)
+{
+$roof_top_high = null;    
+}
+else
+{
+$roof_top_high = $request->roof_top_high;     
+}
+$edit = array('site_type' => $request->site_type,'tower_type' => $request->tower_type,'roof_top_high' => $roof_top_high,'tower_high' => $request->tower_high,'rf_in_meters' => $request->rf_in_meters,'mw_in_meters' => $request->mw_in_meters,'harga_bulan' => $request->harga_bulan,'harga_tahun' => $request->harga_tahun); 
+BOQ::where('id',$request->id)->update($edit);
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'document_boq' ,'action' => 'insert', 'data' => json_encode($edit)]);
+$project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+return response()->json(['success'=>'Edit Successfully','project'=>$project]);      
+    }
+else
+    {
+ return response()->json('error', $valid);
+    }
+}
+    }
+
+
+
+
+
         public function store(Request $request)
     {
 $cekdata = BOQ::where('project_id',Input::get('project_id'))->first();

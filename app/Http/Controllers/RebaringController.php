@@ -52,6 +52,139 @@ class RebaringController extends Controller
     }
 
 
+
+    public function RevisiDocumentRebaringByAdmin(Request $request)
+    {
+        if(Input::get('id') == 0)
+        {
+$valid = $this->validate($request, [
+        'project_id' => 'required|max:255|unique:rebaring,project_id', 
+        'projectid' => 'required|max:255',
+        'rebaring_date' => 'required|date|date_format:Y-m-d',
+        'rebaring_document' => 'required|mimes:pdf,jpg,png,jpeg', 
+    ]);
+if (!$valid)
+    {
+        $file = Input::file('rebaring_document');
+         $extension  = Input::file('rebaring_document')->getClientOriginalExtension(); // getting image extension
+if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/png' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpg' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpeg')
+{
+     $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path
+     $fileName   = Input::get('projectid').'-document-rebaring-'.time().'.'.$extension; // renameing image
+       if(file_exists($destinationPath.$fileName))
+    {
+File::delete($destinationPath .$fileName);
+    } 
+    
+$upload_success     = $file->move($destinationPath, $fileName);
+if(!$upload_success)
+{
+    File::delete($destinationPath .$fileName);
+ return response()->json(['error'=>'File Upload Gagal, Silahkan Ulangi']);
+}
+else
+{
+$masuk = array('project_id' => $request->project_id, 'rebaring_date' => $request->rebaring_date, 'rebaring_document' => $fileName); 
+Rebaring::create($masuk);
+ 
+Project::where('id',Input::get('project_id'))->update(['status_id'=>27]);
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'rebaring' ,'action' => 'insert', 'data' => json_encode($masuk)]);
+$project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+return response()->json(['success'=>'Edit Successfully','project'=>$project]);   
+}
+
+    
+}
+else
+{
+    return response()->json(['error'=>'Please, check your file type / size']); 
+} 
+    }
+else
+    {
+ return response()->json('error', $valid);
+    }
+}
+else
+{
+    
+$valid = $this->validate($request, [
+    'project_id' => 'required|max:255|unique:rebaring,project_id,'.$request->id, 
+    'projectid' => 'required|max:255',
+    'rebaring_date' => 'required|date|date_format:Y-m-d',
+]);
+if (!$valid)
+{
+
+$edit = array('rebaring_date' => $request->rebaring_date); 
+Rebaring::where('id',Input::get('id'))->update($edit);
+
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'rebaring' ,'action' => 'update', 'data' => json_encode($edit)]);
+$project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+return response()->json(['success'=>'Edit Successfully','project'=>$project]);   
+ 
+}
+else
+{
+return response()->json('error', $valid);
+}
+}
+    }
+
+
+    public function uploaddokumenRebaringByAdmin(Request $request)
+    { 
+$valid = $this->validate($request, [ 
+        'project_id' => 'required',
+        'projectid' => 'required',
+        'rebaring_document_old' => 'required',
+        'rebaring_document' => 'required|mimes:pdf,jpg,png,jpeg'
+    ]);
+if (!$valid)
+    {
+       $file = Input::file('rebaring_document');
+         $extension  = Input::file('rebaring_document')->getClientOriginalExtension(); // getting image extension
+if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/png' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpg' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpeg')
+{
+     $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path
+     $fileName   = Input::get('projectid').'-document-rebaring-'.time().'.'.$extension; // renameing image
+       if(file_exists($destinationPath.$fileName))
+    {
+File::delete($destinationPath .$fileName);
+    } 
+
+$upload_success     = $file->move($destinationPath, $fileName);
+if(!$upload_success)
+{
+ File::delete($destinationPath .$fileName);
+ return response()->json(['error'=>'File Upload Gagal, Silahkan Ulangi']);
+}
+else
+{
+File::delete($destinationPath .Input::get('rebaring_document_old'));
+$edit = array('rebaring_document' => $fileName);   
+Rebaring::where('id',$request->id)->update($edit);
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'rebaring' ,'action' => 'update', 'data' => json_encode($edit)]);
+$project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+return response()->json(['success'=>'Edit Successfully','namafilenya'=>$fileName]);   
+}
+}
+else
+{
+    return response()->json(['error'=>'Please, check your file type / size']); 
+}	      
+    }
+else
+    {
+ return response()->json('error', $valid);
+    }
+  
+    }
+
+
+
+
+
         public function DocumentRebaringPerbaikan(Request $request)
     {
 $valid = $this->validate($request, [

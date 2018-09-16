@@ -53,6 +53,201 @@ class RfiBautController extends Controller
     }
 
 
+
+
+    public function RevisiDocumentRFIBAUTByAdmin(Request $request)
+    {
+        if(Input::get('id') == 0)
+        {
+$valid = $this->validate($request, [
+        'project_id' => 'required|max:255|unique:rfi_baut,project_id', 
+        'projectid' => 'required|max:255',
+        'rfi_date' => 'required|date|date_format:Y-m-d',
+        'rfi_document' => 'required|mimes:pdf,jpg,png,jpeg', 
+        'baut_date' => 'required|date|date_format:Y-m-d',
+        'baut_document' => 'required|mimes:pdf,jpg,png,jpeg', 
+    ]);
+if (!$valid)
+    {
+        $file = Input::file('rfi_document');
+         $extension  = Input::file('rfi_document')->getClientOriginalExtension(); // getting image extension
+         $file2 = Input::file('baut_document');
+          $extension2  = Input::file('baut_document')->getClientOriginalExtension(); // getting image extension
+if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/png' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpg' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpeg' || $file2->getSize() <= 10000000 && $file2->getClientMimeType() == 'application/pdf' || $file2->getSize() <= 10000000 && $file2->getClientMimeType() == 'image/png' || $file2->getSize() <= 10000000 && $file2->getClientMimeType() == 'image/jpg' || $file2->getSize() <= 10000000 && $file2->getClientMimeType() == 'image/jpeg')
+{
+     $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path
+     $fileName   = Input::get('projectid').'-document-rfi-'.time().'.'.$extension; // renameing image
+     $fileName2   = Input::get('projectid').'-document-baut-'.time().'.'.$extension2; // renameing image
+       if(file_exists($destinationPath.$fileName) || file_exists($destinationPath.$fileName2))
+    {
+File::delete($destinationPath .$fileName);
+File::delete($destinationPath .$fileName2);
+    } 
+    
+$upload_success     = $file->move($destinationPath, $fileName);
+$upload_success2     = $file2->move($destinationPath, $fileName2);
+if(!$upload_success || !$upload_success2)
+{
+    File::delete($destinationPath .$fileName);
+    File::delete($destinationPath .$fileName2);
+ return response()->json(['error'=>'File Upload Gagal, Silahkan Ulangi']);
+}
+else
+{
+$masuk = array('project_id' => $request->project_id, 'rfi_date' => $request->rfi_date, 'rfi_document' => $fileName, 'baut_date' => $request->baut_date, 'baut_document' => $fileName2); 
+RfiBaut::create($masuk);
+ 
+Project::where('id',Input::get('project_id'))->update(['status_id'=>41]);
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'rfi_baut' ,'action' => 'insert', 'data' => json_encode($masuk)]);
+$project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+return response()->json(['success'=>'Edit Successfully','project'=>$project]);   
+}
+
+    
+}
+else
+{
+    return response()->json(['error'=>'Please, check your file type / size']); 
+} 
+    }
+else
+    {
+ return response()->json('error', $valid);
+    }
+}
+else
+{
+    
+$valid = $this->validate($request, [
+    'project_id' => 'required|max:255|unique:rfi_baut,project_id,'.$request->id, 
+    'projectid' => 'required|max:255',
+    'baut_date' => 'required|date|date_format:Y-m-d',
+    'rfi_date' => 'required|date|date_format:Y-m-d',
+]);
+if (!$valid)
+{
+
+$edit = array('baut_date' => $request->baut_date,'rfi_date' => $request->rfi_date); 
+RfiBaut::where('id',Input::get('id'))->update($edit);
+
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'rfi_baut' ,'action' => 'update', 'data' => json_encode($edit)]);
+$project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+return response()->json(['success'=>'Edit Successfully','project'=>$project]);   
+ 
+}
+else
+{
+return response()->json('error', $valid);
+}
+}
+    }
+
+
+
+    public function uploaddokumenBAUTByAdmin(Request $request)
+    { 
+$valid = $this->validate($request, [ 
+        'project_id' => 'required',
+        'projectid' => 'required',
+        'baut_document_old' => 'required',
+        'baut_document' => 'required|mimes:pdf,jpg,png,jpeg'
+    ]);
+if (!$valid)
+    {
+       $file = Input::file('baut_document');
+         $extension  = Input::file('baut_document')->getClientOriginalExtension(); // getting image extension
+if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/png' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpg' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpeg')
+{
+     $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path
+     $fileName   = Input::get('projectid').'-document-baut-'.time().'.'.$extension; // renameing image
+       if(file_exists($destinationPath.$fileName))
+    {
+File::delete($destinationPath .$fileName);
+    } 
+
+$upload_success     = $file->move($destinationPath, $fileName);
+if(!$upload_success)
+{
+ File::delete($destinationPath .$fileName);
+ return response()->json(['error'=>'File Upload Gagal, Silahkan Ulangi']);
+}
+else
+{
+File::delete($destinationPath .Input::get('baut_document_old'));
+$edit = array('baut_document' => $fileName);   
+RfiBaut::where('id',$request->id)->update($edit);
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'rfi_baut' ,'action' => 'update', 'data' => json_encode($edit)]);
+$project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+return response()->json(['success'=>'Edit Successfully','namafilenya'=>$fileName]);   
+}
+}
+else
+{
+    return response()->json(['error'=>'Please, check your file type / size']); 
+}	      
+    }
+else
+    {
+ return response()->json('error', $valid);
+    }
+  
+    }
+
+
+
+    public function uploaddokumenRFIByAdmin(Request $request)
+    { 
+$valid = $this->validate($request, [ 
+        'project_id' => 'required',
+        'projectid' => 'required',
+        'rfi_document_old' => 'required',
+        'rfi_document' => 'required|mimes:pdf,jpg,png,jpeg'
+    ]);
+if (!$valid)
+    {
+       $file = Input::file('rfi_document');
+         $extension  = Input::file('rfi_document')->getClientOriginalExtension(); // getting image extension
+if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/png' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpg' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpeg')
+{
+     $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path
+     $fileName   = Input::get('projectid').'-document-rfi-'.time().'.'.$extension; // renameing image
+       if(file_exists($destinationPath.$fileName))
+    {
+File::delete($destinationPath .$fileName);
+    } 
+
+$upload_success     = $file->move($destinationPath, $fileName);
+if(!$upload_success)
+{
+ File::delete($destinationPath .$fileName);
+ return response()->json(['error'=>'File Upload Gagal, Silahkan Ulangi']);
+}
+else
+{
+File::delete($destinationPath .Input::get('rfi_document_old'));
+$edit = array('rfi_document' => $fileName);   
+RfiBaut::where('id',$request->id)->update($edit);
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'rfi_baut' ,'action' => 'update', 'data' => json_encode($edit)]);
+$project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+return response()->json(['success'=>'Edit Successfully','namafilenya'=>$fileName]);   
+}
+}
+else
+{
+    return response()->json(['error'=>'Please, check your file type / size']); 
+}	      
+    }
+else
+    {
+ return response()->json('error', $valid);
+    }
+  
+    }
+
+
+
+
+
         public function DocumentRfiBautPerbaikan(Request $request)
     {
 $valid = $this->validate($request, [

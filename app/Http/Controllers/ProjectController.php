@@ -23,6 +23,21 @@ use App\Models\DokumenDRM;
 use App\Models\DokumenSITAC;
 use App\Models\DokumenRFC;
 use App\Models\BOQ;
+use App\Models\SiteOpening;
+use App\Models\Excavation;
+use App\Models\Rebaring;
+use App\Models\Pouring;
+use App\Models\Curing;
+use App\Models\TowerErection;
+use App\Models\MEProcess;
+use App\Models\FenceYard;
+use App\Models\RfiBaut;
+use App\Models\RfiDetail;
+use App\Models\BaksBauk;
+use App\Models\BoqBaps;
+use App\Models\Baps;
+use App\Models\Invoice;
+
 
 class ProjectController extends Controller
 {
@@ -142,8 +157,29 @@ if(!$cek)
 }
 else
 {
+    $destinationPath = 'files/'.$cek->projectid; // upload path
+    File::delete($destinationPath);
 Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'project' ,'action' => 'delete', 'data' => json_encode($cek)]);
 Project::where('id',$id)->delete();
+DokumenSIS::where('project_id',$id)->delete(); 
+DokumenDRM::where('project_id',$id)->delete(); 
+DokumenSITAC::where('project_id',$id)->delete(); 
+DokumenRFC::where('project_id',$id)->delete(); 
+BOQ::where('project_id',$id)->delete(); 
+SiteOpening::where('project_id',$id)->delete(); 
+Excavation::where('project_id',$id)->delete(); 
+Rebaring::where('project_id',$id)->delete(); 
+Pouring::where('project_id',$id)->delete(); 
+Curing::where('project_id',$id)->delete(); 
+TowerErection::where('project_id',$id)->delete(); 
+MEProcess::where('project_id',$id)->delete(); 
+FenceYard::where('project_id',$id)->delete(); 
+RfiBaut::where('project_id',$id)->delete(); 
+RfiDetail::where('project_id',$id)->delete();
+BaksBauk::where('project_id',$id)->delete();
+BoqBaps::where('project_id',$id)->delete();
+Baps::where('project_id',$id)->delete();
+Invoice::where('project_id',$id)->delete();
 return response()->json(['success'=>'Delete Successfully']);
 
 }

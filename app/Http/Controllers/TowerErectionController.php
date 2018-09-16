@@ -52,6 +52,137 @@ class TowerErectionController extends Controller
     }
 
 
+
+    public function RevisiDocumentTowerErectionByAdmin(Request $request)
+    {
+        if(Input::get('id') == 0)
+        {
+$valid = $this->validate($request, [
+        'project_id' => 'required|max:255|unique:tower_erection,project_id', 
+        'projectid' => 'required|max:255',
+        'tower_erection_date' => 'required|date|date_format:Y-m-d',
+        'tower_erection_document' => 'required|mimes:pdf,jpg,png,jpeg', 
+    ]);
+if (!$valid)
+    {
+        $file = Input::file('tower_erection_document');
+         $extension  = Input::file('tower_erection_document')->getClientOriginalExtension(); // getting image extension
+if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/png' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpg' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpeg')
+{
+     $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path
+     $fileName   = Input::get('projectid').'-document-tower-erection-'.time().'.'.$extension; // renameing image
+       if(file_exists($destinationPath.$fileName))
+    {
+File::delete($destinationPath .$fileName);
+    } 
+    
+$upload_success     = $file->move($destinationPath, $fileName);
+if(!$upload_success)
+{
+    File::delete($destinationPath .$fileName);
+ return response()->json(['error'=>'File Upload Gagal, Silahkan Ulangi']);
+}
+else
+{
+$masuk = array('project_id' => $request->project_id, 'tower_erection_date' => $request->tower_erection_date, 'tower_erection_document' => $fileName); 
+TowerErection::create($masuk);
+ 
+Project::where('id',Input::get('project_id'))->update(['status_id'=>33]);
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'tower_erection' ,'action' => 'insert', 'data' => json_encode($masuk)]);
+$project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+return response()->json(['success'=>'Edit Successfully','project'=>$project]);   
+}
+
+    
+}
+else
+{
+    return response()->json(['error'=>'Please, check your file type / size']); 
+} 
+    }
+else
+    {
+ return response()->json('error', $valid);
+    }
+}
+else
+{
+    
+$valid = $this->validate($request, [
+    'project_id' => 'required|max:255|unique:tower_erection,project_id,'.$request->id, 
+    'projectid' => 'required|max:255',
+    'tower_erection_date' => 'required|date|date_format:Y-m-d',
+]);
+if (!$valid)
+{
+
+$edit = array('tower_erection_date' => $request->tower_erection_date); 
+TowerErection::where('id',Input::get('id'))->update($edit);
+
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'tower-erection' ,'action' => 'update', 'data' => json_encode($edit)]);
+$project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+return response()->json(['success'=>'Edit Successfully','project'=>$project]);   
+ 
+}
+else
+{
+return response()->json('error', $valid);
+}
+}
+    }
+
+
+    public function uploaddokumenTowerErectionByAdmin(Request $request)
+    { 
+$valid = $this->validate($request, [ 
+        'project_id' => 'required',
+        'projectid' => 'required',
+        'tower_erection_document_old' => 'required',
+        'tower_erection_document' => 'required|mimes:pdf,jpg,png,jpeg'
+    ]);
+if (!$valid)
+    {
+       $file = Input::file('tower_erection_document');
+         $extension  = Input::file('tower_erection_document')->getClientOriginalExtension(); // getting image extension
+if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/png' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpg' || $file->getSize() <= 10000000 && $file->getClientMimeType() == 'image/jpeg')
+{
+     $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path
+     $fileName   = Input::get('projectid').'-document-tower-erection-'.time().'.'.$extension; // renameing image
+       if(file_exists($destinationPath.$fileName))
+    {
+File::delete($destinationPath .$fileName);
+    } 
+
+$upload_success     = $file->move($destinationPath, $fileName);
+if(!$upload_success)
+{
+ File::delete($destinationPath .$fileName);
+ return response()->json(['error'=>'File Upload Gagal, Silahkan Ulangi']);
+}
+else
+{
+File::delete($destinationPath .Input::get('tower_erection_document_old'));
+$edit = array('tower_erection_document' => $fileName);   
+TowerErection::where('id',$request->id)->update($edit);
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'tower-erection' ,'action' => 'update', 'data' => json_encode($edit)]);
+$project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+return response()->json(['success'=>'Edit Successfully','namafilenya'=>$fileName]);   
+}
+}
+else
+{
+    return response()->json(['error'=>'Please, check your file type / size']); 
+}	      
+    }
+else
+    {
+ return response()->json('error', $valid);
+    }
+  
+    }
+
+
+
         public function DocumentTowerErectionPerbaikan(Request $request)
     {
 $valid = $this->validate($request, [

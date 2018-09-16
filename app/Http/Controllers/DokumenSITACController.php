@@ -48,9 +48,89 @@ return response()->json($cek);
 
 
    public function RevisiDocumentSITACByAdmin(Request $request)
+    { 
+        if(Input::get('id') == 0)
+{
+      $valid = $this->validate($request, [
+        'project_id' => 'required|max:255|unique:document_sitac,project_id,'.Input::get('id'),
+        'projectid' => 'required|max:255',
+        'no_ban_bak' => 'required|max:255',
+        'date_ban_bak' => 'required|date|date_format:Y-m-d',
+        'ijin_warga_date' => 'required|date|date_format:Y-m-d',
+        'no_pks' => 'required|max:255',  
+        'pks_date' => 'required|date|date_format:Y-m-d', 
+        'no_imb' => 'required|max:255',
+        'imb_date' => 'required|max:255', 
+        'document_ban_bak' => 'required|mimes:pdf', 
+        'document_ijin_warga' => 'required|mimes:pdf', 
+        'document_pks' => 'required|mimes:pdf', 
+        'document_imb' => 'required|mimes:pdf', 
+    ]);
+if (!$valid)
+{
+    $file = Input::file('document_ban_bak');
+    $filedocument_ijin_warga = Input::file('document_ijin_warga');
+    $filedocument_pks = Input::file('document_pks');
+    $filedocument_imb = Input::file('document_imb');
+    $extension  = Input::file('document_ban_bak')->getClientOriginalExtension(); 
+    $extensiondocument_ijin_warga  = Input::file('document_ijin_warga')->getClientOriginalExtension(); 
+    $extensiondocument_pks  = Input::file('document_pks')->getClientOriginalExtension(); 
+    $extensiondocument_imb  = Input::file('document_imb')->getClientOriginalExtension(); 
+    if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf' && $filedocument_ijin_warga->getSize() <= 10000000 && $filedocument_ijin_warga->getClientMimeType() == 'application/pdf' && $filedocument_pks->getSize() <= 10000000 && $filedocument_pks->getClientMimeType() == 'application/pdf' && $filedocument_imb->getSize() <= 10000000 && $filedocument_imb->getClientMimeType() == 'application/pdf')
     {
-$cekdata = DokumenSITAC::where('project_id',$request->project_id)->first();
-if (count($cekdata) > 0) 
+         $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path
+    $fileName   = Input::get('projectid').'-document-ban-bak-'.time().'.'.$extension; 
+    $fileNamedocument_ijin_warga   = Input::get('projectid').'-document-ijin-warga-'.time().'.'.$extensiondocument_ijin_warga; 
+    $fileNamedocument_pks   = Input::get('projectid').'-document-pks-'.time().'.'.$extensiondocument_pks; 
+    $fileNamedocument_imb   = Input::get('projectid').'-document-imb-'.time().'.'.$extensiondocument_imb; 
+    
+    
+    if(file_exists($destinationPath.$fileName) || file_exists($destinationPath.$fileNamedocument_ijin_warga) || file_exists($destinationPath.$fileNamedocument_pks) || file_exists($destinationPath.$fileNamedocument_imb))
+        {
+    File::delete($destinationPath .$fileName);
+    File::delete($destinationPath .$fileNamedocument_ijin_warga);
+    File::delete($destinationPath .$fileNamedocument_pks);
+    File::delete($destinationPath .$fileNamedocument_imb);
+        }   
+        else
+        {
+    $upload_success     = $file->move($destinationPath, $fileName);
+    $upload_success_ijin_warga     = $filedocument_ijin_warga->move($destinationPath, $fileNamedocument_ijin_warga);
+    $upload_success_pks     = $filedocument_pks->move($destinationPath, $fileNamedocument_pks);
+    $upload_success_imb     = $filedocument_imb->move($destinationPath, $fileNamedocument_imb);
+    if(!$upload_success || !$upload_success_ijin_warga || !$upload_success_pks || !$upload_success_imb)
+    {
+    File::delete($destinationPath .$fileName);
+    File::delete($destinationPath .$fileNamedocument_ijin_warga);
+    File::delete($destinationPath .$fileNamedocument_pks);
+    File::delete($destinationPath .$fileNamedocument_imb);
+     return response()->json(['error'=>'File Upload Gagal, Silahkan Ulangi']);
+    }
+    else
+    {
+    $masuk = array('project_id' => $request->project_id,'no_ban_bak' => $request->no_ban_bak,'date_ban_bak' => $request->date_ban_bak,'document_ban_bak' =>$fileName ,'ijin_warga_date' => $request->ijin_warga_date, 'document_ijin_warga' =>$fileNamedocument_ijin_warga, 'no_pks' => $request->no_pks, 'pks_date' => $request->pks_date, 'document_pks' => $fileNamedocument_pks, 'no_imb' => $request->no_imb, 'imb_date' => $request->imb_date, 'document_imb' => $fileNamedocument_imb); 
+    DokumenSITAC::create($masuk);
+    Project::where('id',Input::get('project_id'))->update(['status_id'=>10]);
+    Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'document_sitac' ,'action' => 'insert', 'data' => json_encode($masuk)]);
+    $project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+    return response()->json(['success'=>'Successfully','project'=>$project]); 
+    }
+    
+        }
+    }
+    else
+    {
+        return response()->json(['error'=>'Please, check your file type / size']); 
+    }
+}
+else
+    {
+ return response()->json('error', $valid);
+    }
+
+
+}
+else
 {
       $valid = $this->validate($request, [
         'project_id' => 'required|max:255|unique:document_sitac,project_id,'.Input::get('id'),
@@ -67,37 +147,10 @@ if (!$valid)
 {
 
 $edit = array('no_ban_bak' => $request->no_ban_bak,'date_ban_bak' => $request->date_ban_bak,'ijin_warga_date' => $request->ijin_warga_date, 'no_pks' => $request->no_pks, 'pks_date' => $request->pks_date, 'no_imb' => $request->no_imb, 'imb_date' => $request->imb_date);  
-DokumenSITAC::where('id',$cekdata->id)->update($edit);
-Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'document_sitac' ,'action' => 'update', 'data' => json_encode($edit)]);
-return response()->json(['success'=>'Edit Successfully']);
-}
-else
-    {
- return response()->json('error', $valid);
-    }
-
-
-}
-else
-{
-      $valid = $this->validate($request, [
-        'project_id' => 'required|max:255|unique:document_sitac,project_id', 
-        'projectid' => 'required|max:255',
-        'no_ban_bak' => 'required|max:255',
-        'date_ban_bak' => 'required|date|date_format:Y-m-d',
-        'ijin_warga_date' => 'required|date|date_format:Y-m-d',
-        'no_pks' => 'required|max:255',  
-        'pks_date' => 'required|date|date_format:Y-m-d', 
-        'no_imb' => 'required|max:255',
-        'imb_date' => 'required|max:255', 
-    ]);
-if (!$valid)
-{
-
-$masuk = array('no_ban_bak' => $request->no_ban_bak,'date_ban_bak' => $request->date_ban_bak,'ijin_warga_date' => $request->ijin_warga_date, 'no_pks' => $request->no_pks, 'pks_date' => $request->pks_date, 'no_imb' => $request->no_imb, 'imb_date' => $request->imb_date);  
-DokumenSITAC::create($masuk);
-Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'document_sitac' ,'action' => 'insert', 'data' => json_encode($masuk)]);
-return response()->json(['success'=>'Add Successfully']);
+DokumenSITAC::where('id',Input::get('id'))->update($edit);
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'document_sitac' ,'action' => 'edit', 'data' => json_encode($edit)]);
+$project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+return response()->json(['success'=>'Edit Successfully','project'=>$project]); 
 }
 else
     {
@@ -112,8 +165,6 @@ else
 
    public function uploaddokumenSITACijinWargaByAdmin(Request $request)
     {
-$cekdata = DokumenSITAC::where('project_id',$request->project_id)->first();
-if (count($cekdata) > 0) {
       $valid = $this->validate($request, [
         'projectid' => 'required|max:255',
         'document_ijin_warga' => 'required|mimes:pdf', 
@@ -138,9 +189,9 @@ if(!$upload_success)
 }
 else
 {
- File::delete($destinationPath .$cekdata->document_ijin_warga);
-DokumenSITAC::where('id',$cekdata->id)->update(['document_ijin_warga'=>$fileName]);
-  return response()->json(['success'=>'Upload Successfully' , 'namafilenya'=>$fileName ,'id'=>$cekdata->id]);
+ File::delete($destinationPath .Input::get('document_ijin_warga_old'));
+DokumenSITAC::where('id',Input::get('id'))->update(['document_ijin_warga'=>$fileName]);
+  return response()->json(['success'=>'Upload Successfully' , 'namafilenya'=>$fileName]);
 }
 }
 else
@@ -154,60 +205,12 @@ else
     {
  return response()->json('error', $valid); 
     }
-}
-else
-{
-   $valid = $this->validate($request, [
-        'projectid' => 'required|max:255',
-        'document_ijin_warga' => 'required|mimes:pdf', 
-    ]);
-if (!$valid)
-    {
-$file = Input::file('document_ijin_warga'); 
-$extension  = Input::file('document_ijin_warga')->getClientOriginalExtension(); 
-if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf')
-{ 
-$destinationPath = 'files/'.Input::get('projectid').'/'; // upload path   
-$fileName   = Input::get('projectid').'-document-ijin-warga-'.time().'.'.$extension;
-    if(file_exists($destinationPath.$fileName))
-    {
-File::delete($destinationPath .$fileName);
-    }
-
-$upload_success     = $file->move($destinationPath, $fileName);
-if(!$upload_success)
-{
- return response()->json(['errorfile'=>'File Upload Gagal, Silahkan Ulangi']);
-}
-else
-{
-
-$masukdata =  DokumenSITAC::create(['project_id' => $request->project_id,'document_ijin_warga'=>$fileName]);
-  return response()->json(['success'=>'Upload Successfully' , 'namafilenya'=>$fileName ,'id'=>$masukdata->id]);
-}
-
-
-
-}
-else
-{
-return response()->json(['errorfile'=>'Please, check your file type / size']);  
-}
-    }
-
-else
-    {
- return response()->json('error', $valid); 
-    }
-}
 
     }
 
 
    public function uploaddokumenSITACByAdmin(Request $request)
     {
-$cekdata = DokumenSITAC::where('project_id',$request->project_id)->first();
-if (count($cekdata) > 0) {
       $valid = $this->validate($request, [
         'projectid' => 'required|max:255',
         'document_ban_bak' => 'required|mimes:pdf', 
@@ -232,9 +235,9 @@ if(!$upload_success)
 }
 else
 {
- File::delete($destinationPath .$cekdata->document_ban_bak);
-DokumenSITAC::where('id',$cekdata->id)->update(['document_ban_bak'=>$fileName]);
-  return response()->json(['success'=>'Upload Successfully' , 'namafilenya'=>$fileName ,'id'=>$cekdata->id]);
+ File::delete($destinationPath . Input::get('document_ban_bak_old'));
+DokumenSITAC::where('id',Input::get('id'))->update(['document_ban_bak'=>$fileName]);
+  return response()->json(['success'=>'Upload Successfully' , 'namafilenya'=>$fileName]);
 }
 }
 else
@@ -248,52 +251,7 @@ else
     {
  return response()->json('error', $valid); 
     }
-}
-else
-{
-   $valid = $this->validate($request, [
-        'projectid' => 'required|max:255',
-        'document_ban_bak' => 'required|mimes:pdf', 
-    ]);
-if (!$valid)
-    {
-$file = Input::file('document_ban_bak'); 
-$extension  = Input::file('document_ban_bak')->getClientOriginalExtension(); 
-if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf')
-{ 
-$destinationPath = 'files/'.Input::get('projectid').'/'; // upload path   
-$fileName   = Input::get('projectid').'-document-ban-bak-'.time().'.'.$extension;
-    if(file_exists($destinationPath.$fileName))
-    {
-File::delete($destinationPath .$fileName);
-    }
 
-$upload_success     = $file->move($destinationPath, $fileName);
-if(!$upload_success)
-{
- return response()->json(['errorfile'=>'File Upload Gagal, Silahkan Ulangi']);
-}
-else
-{
-
-$masukdata =  DokumenSITAC::create(['project_id' => $request->project_id,'document_ban_bak'=>$fileName]);
-  return response()->json(['success'=>'Upload Successfully' , 'namafilenya'=>$fileName ,'id'=>$masukdata->id]);
-}
-
-
-
-}
-else
-{
-return response()->json(['errorfile'=>'Please, check your file type / size']);  
-}
-    }
-
-else
-    {
- return response()->json('error', $valid); 
-    }
-}
 
     }
 
@@ -302,8 +260,6 @@ else
 
    public function uploaddokumenSITACPKSByAdmin(Request $request)
     {
-$cekdata = DokumenSITAC::where('project_id',$request->project_id)->first();
-if (count($cekdata) > 0) {
       $valid = $this->validate($request, [
         'projectid' => 'required|max:255',
         'document_pks' => 'required|mimes:pdf', 
@@ -328,9 +284,9 @@ if(!$upload_success)
 }
 else
 {
- File::delete($destinationPath .$cekdata->document_pks);
-DokumenSITAC::where('id',$cekdata->id)->update(['document_pks'=>$fileName]);
-  return response()->json(['success'=>'Upload Successfully' , 'namafilenya'=>$fileName ,'id'=>$cekdata->id]);
+ File::delete($destinationPath . Input::get('document_pks_old'));
+DokumenSITAC::where('id',Input::get('id'))->update(['document_pks'=>$fileName]);
+  return response()->json(['success'=>'Upload Successfully' , 'namafilenya'=>$fileName]);
 }
 }
 else
@@ -344,60 +300,12 @@ else
     {
  return response()->json('error', $valid); 
     }
-}
-else
-{
-   $valid = $this->validate($request, [
-        'projectid' => 'required|max:255',
-        'document_pks' => 'required|mimes:pdf', 
-    ]);
-if (!$valid)
-    {
-$file = Input::file('document_pks'); 
-$extension  = Input::file('document_pks')->getClientOriginalExtension(); 
-if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf')
-{ 
-$destinationPath = 'files/'.Input::get('projectid').'/'; // upload path   
-$fileName   = Input::get('projectid').'-document-pks-'.time().'.'.$extension;
-    if(file_exists($destinationPath.$fileName))
-    {
-File::delete($destinationPath .$fileName);
-    }
-
-$upload_success     = $file->move($destinationPath, $fileName);
-if(!$upload_success)
-{
- return response()->json(['errorfile'=>'File Upload Gagal, Silahkan Ulangi']);
-}
-else
-{
-
-$masukdata =  DokumenSITAC::create(['project_id' => $request->project_id,'document_pks'=>$fileName]);
-  return response()->json(['success'=>'Upload Successfully' , 'namafilenya'=>$fileName ,'id'=>$masukdata->id]);
-}
-
-
-
-}
-else
-{
-return response()->json(['errorfile'=>'Please, check your file type / size']);  
-}
-    }
-
-else
-    {
- return response()->json('error', $valid); 
-    }
-}
 
     }
 
 
    public function uploaddokumenSITACIMBByAdmin(Request $request)
     {
-$cekdata = DokumenSITAC::where('project_id',$request->project_id)->first();
-if (count($cekdata) > 0) {
       $valid = $this->validate($request, [
         'projectid' => 'required|max:255',
         'document_imb' => 'required|mimes:pdf', 
@@ -422,9 +330,9 @@ if(!$upload_success)
 }
 else
 {
- File::delete($destinationPath .$cekdata->document_imb);
-DokumenSITAC::where('id',$cekdata->id)->update(['document_imb'=>$fileName]);
-  return response()->json(['success'=>'Upload Successfully' , 'namafilenya'=>$fileName ,'id'=>$cekdata->id]);
+ File::delete($destinationPath .Input::get('document_imb_old'));
+DokumenSITAC::where('id',Input::get('id'))->update(['document_imb'=>$fileName]);
+  return response()->json(['success'=>'Upload Successfully' , 'namafilenya'=>$fileName]);
 }
 }
 else
@@ -438,52 +346,6 @@ else
     {
  return response()->json('error', $valid); 
     }
-}
-else
-{
-   $valid = $this->validate($request, [
-        'projectid' => 'required|max:255',
-        'document_imb' => 'required|mimes:pdf', 
-    ]);
-if (!$valid)
-    {
-$file = Input::file('document_imb'); 
-$extension  = Input::file('document_imb')->getClientOriginalExtension(); 
-if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf')
-{ 
-$destinationPath = 'files/'.Input::get('projectid').'/'; // upload path   
-$fileName   = Input::get('projectid').'-document-imb-'.time().'.'.$extension;
-    if(file_exists($destinationPath.$fileName))
-    {
-File::delete($destinationPath .$fileName);
-    }
-
-$upload_success     = $file->move($destinationPath, $fileName);
-if(!$upload_success)
-{
- return response()->json(['errorfile'=>'File Upload Gagal, Silahkan Ulangi']);
-}
-else
-{
-
-$masukdata =  DokumenSITAC::create(['project_id' => $request->project_id,'document_imb'=>$fileName]);
-  return response()->json(['success'=>'Upload Successfully' , 'namafilenya'=>$fileName ,'id'=>$masukdata->id]);
-}
-
-
-
-}
-else
-{
-return response()->json(['errorfile'=>'Please, check your file type / size']);  
-}
-    }
-
-else
-    {
- return response()->json('error', $valid); 
-    }
-}
 
     }
 

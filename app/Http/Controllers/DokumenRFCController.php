@@ -37,6 +37,192 @@ class DokumenRFCController extends Controller
     $this->data['tahunproject']  = DB::table('vtahun')->get();
     }
 
+
+
+    public function RevisiDocumentRFCByAdmin(Request $request)
+    { 
+        if(Input::get('id') == 0)
+{
+      $valid = $this->validate($request, [
+        'project_id' => 'required|max:255|unique:document_rfc,project_id',
+        'projectid' => 'required|max:255',
+        'no_rfc' => 'required|max:255',
+        'rfc_date' => 'required|date|date_format:Y-m-d', 
+        'id_pln' => 'required|max:255',   
+        'target_rfi' => 'required|numeric|not_in:0',
+        'power_capacity' => 'required|max:255',  
+        'document_rfc' => 'required|mimes:pdf', 
+    ]);
+if (!$valid)
+{
+    $file = Input::file('document_rfc'); 
+    $extension  = Input::file('document_rfc')->getClientOriginalExtension();  
+
+    if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf')
+    {
+   $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path
+    $fileName   = Input::get('projectid').'-document-rfc-'.time().'.'.$extension;  
+
+    if(file_exists($destinationPath.$fileName))
+        {
+    File::delete($destinationPath .$fileName); 
+        }   
+        else
+        {
+    $upload_success     = $file->move($destinationPath, $fileName);
+    if(!$upload_success)
+    {
+    File::delete($destinationPath .$fileName); 
+     return response()->json(['error'=>'File Upload Gagal, Silahkan Ulangi']);
+    }
+    else
+    {
+        $masuk = array('project_id' => $request->project_id, 'no_rfc' => $request->no_rfc , 'rfc_date' => $request->rfc_date ,'document_rfc' => $fileName , 'id_pln' => $request->id_pln , 'target_rfi' =>$request->target_rfi ,'power_capacity'=>$request->power_capacity); 
+        DokumenRFC::create($masuk);
+        Project::where('id',Input::get('project_id'))->update(['status_id'=>13]);
+        Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'document_rfc' ,'action' => 'insert', 'data' => json_encode($masuk)]);
+        $project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+        return response()->json(['success'=>'Edit Successfully','project'=>$project]); 
+    }
+    
+        }
+    }
+    else
+    {
+        return response()->json(['error'=>'Please, check your file type / size']); 
+    }
+}
+else
+    {
+ return response()->json('error', $valid);
+    }
+
+
+}
+else
+{
+      $valid = $this->validate($request, [
+        'project_id' => 'required|max:255|unique:document_rfc,project_id,'.Input::get('id'),
+        'projectid' => 'required|max:255',
+        'no_rfc' => 'required|max:255',
+        'rfc_date' => 'required|date|date_format:Y-m-d', 
+        'id_pln' => 'required|max:255',   
+        'target_rfi' => 'required|numeric|not_in:0',
+        'power_capacity' => 'required|max:255', 
+    ]);
+if (!$valid)
+{
+
+$edit = array('no_rfc' => $request->no_rfc,'rfc_date' => $request->rfc_date, 'id_pln' => $request->id_pln, 'target_rfi' => $request->target_rfi, 'power_capacity' => $request->power_capacity);  
+DokumenRFC::where('id',Input::get('id'))->update($edit);
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'document_rfc' ,'action' => 'edit', 'data' => json_encode($edit)]);
+$project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+return response()->json(['success'=>'Edit Successfully','project'=>$project]); 
+}
+else
+    {
+ return response()->json('error', $valid);
+    }
+}
+    }
+
+
+
+
+
+   public function uploaddokumenSITACijinWargaByAdmin(Request $request)
+    {
+      $valid = $this->validate($request, [
+        'projectid' => 'required|max:255',
+        'document_ijin_warga' => 'required|mimes:pdf', 
+    ]);
+if (!$valid)
+    { 
+$file = Input::file('document_ijin_warga'); 
+$extension  = Input::file('document_ijin_warga')->getClientOriginalExtension(); 
+if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf')
+{ 
+$destinationPath = 'files/'.Input::get('projectid').'/'; // upload path   
+$fileName   = Input::get('projectid').'-document-ijin-warga-'.time().'.'.$extension;
+    if(file_exists($destinationPath.$fileName))
+    {
+File::delete($destinationPath .$fileName);
+    }
+
+$upload_success     = $file->move($destinationPath, $fileName);
+if(!$upload_success)
+{
+ return response()->json(['errorfile'=>'File Upload Gagal, Silahkan Ulangi']);
+}
+else
+{
+ File::delete($destinationPath .Input::get('document_ijin_warga_old'));
+DokumenRFC::where('id',Input::get('id'))->update(['document_ijin_warga'=>$fileName]);
+  return response()->json(['success'=>'Upload Successfully' , 'namafilenya'=>$fileName]);
+}
+}
+else
+{
+return response()->json(['errorfile'=>'Please, check your file type / size']);  
+}
+
+    }
+
+else
+    {
+ return response()->json('error', $valid); 
+    }
+
+    }
+
+
+
+
+
+    public function uploaddokumenRFCByAdmin(Request $request)
+    {
+      $valid = $this->validate($request, [
+        'projectid' => 'required|max:255',
+        'document_rfc' => 'required|mimes:pdf', 
+    ]);
+if (!$valid)
+    { 
+$file = Input::file('document_rfc'); 
+$extension  = Input::file('document_rfc')->getClientOriginalExtension(); 
+if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf')
+{ 
+$destinationPath = 'files/'.Input::get('projectid').'/'; // upload path   
+$fileName   = Input::get('projectid').'-document-rfc-'.time().'.'.$extension;
+    if(file_exists($destinationPath.$fileName))
+    {
+File::delete($destinationPath .$fileName);
+    }
+
+$upload_success     = $file->move($destinationPath, $fileName);
+if(!$upload_success)
+{
+ return response()->json(['errorfile'=>'File Upload Gagal, Silahkan Ulangi']);
+}
+else
+{
+ File::delete($destinationPath .Input::get('document_rfc_old'));
+ DokumenRFC::where('id',Input::get('id'))->update(['document_rfc'=>$fileName]);
+  return response()->json(['success'=>'Upload Successfully' , 'namafilenya'=>$fileName]);
+}
+}
+else
+{
+return response()->json(['errorfile'=>'Please, check your file type / size']);  
+}
+
+    }
+
+else
+    {
+ return response()->json('error', $valid); 
+    }
+
+    }
      public function uploaddokumenRFC(Request $request)
     {
 $cekdata = DB::table('vjobsdocumentrfcrevisi')->where('id',Input::get('project_id'))->first();
