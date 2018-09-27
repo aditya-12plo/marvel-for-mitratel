@@ -42,14 +42,15 @@
 
 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
 <fieldset class="form-group">
-<label for="Area">Area</label>
- <select class="form-control border-input" v-model="forms.area" required >
-<option value="" selected>Area</option>
-<option v-for="area in pilihanarea" :value="area">{{ area }}</option>
+                                        <label for="area">Area HQ</label>
+<select class="form-control border-input" v-model="forms.areahq" required >
+<option value="" selected>Pilih Area HQ</option>
+<option v-for="pilihareahq in pilihanareahq" :value="pilihareahq">{{ pilihareahq }}</option>
 </select>
-<div class="help-block"><ul role="alert"><li v-for="error of errorNya['area']"><span style="color:red;">{{ error }}</span></li></ul></div>
-</fieldset>
-		                            </div>
+<div class="help-block"><ul role="alert"><li v-for="error of errorNya['areahq']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+
 
 
  
@@ -177,11 +178,11 @@ export default {
 	isLoading: false,
     formErrors:{},
 	GetLevel:'', 
-	forms: new CrudForm({id:'' , name:'' , email:'' , level:'',  posisi:'',  area:'',  regional:'',  password:'' , created_at:''}), 
+	forms: new CrudForm({id:'' , name:'' , email:'' , level:'',  posisi:'', areahq:'' ,  area:'',  regional:'',  password:'' , created_at:''}), 
 	pilihan: ['REGIONAL','HQ'],
 	pilihanregional: ['AM SUPPORT','ACCOUNT MANAGER'],
 	pilihanhq: ['ACCOUNT MANAGER','MANAGER'],
-	pilihanarea: [this.rowDatanya.admin.area , this.rowDatanya.admin.area2],
+    pilihanareahq:['WEST','EAST'],
     errors: new Errors() ,
     errorNya: [],
     dataNya: {name : '', level:''},

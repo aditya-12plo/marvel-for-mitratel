@@ -726,8 +726,6 @@ dropData() {
    masuk.set('status', 104)
                 axios.post('/karyawan/DropProject', masuk)
                     .then(response => { 
-this.DeleteSIS(this.rowDatanya.project.documentid,this.rowDatanya.project.projectid ,this.rowDatanya.project.document_sis);       
-this.DeleteDRM(this.rowDatanya.project.documentdrmid,this.rowDatanya.project.projectid ,this.rowDatanya.project.document_kom ,this.rowDatanya.project.document_drm);       
                  this.success(response.data.success);
                  this.isLoading = false;
                  this.backLink();

@@ -479,9 +479,11 @@ axios.post('/karyawan/SubmitCMEToAccrued', masuk)
 }).then((result) => {
   if (result.value) {     
 
+this.isLoading = true;
 var masuk = 
 {
 	'id' : this.rowDatanya.project.id,
+	'cme_code' : this.rowDatanya.project.cme_code,
 	'project_id' : this.rowDatanya.project.project_id,
 	'status' : 3,
 	'haki_status' : 48,

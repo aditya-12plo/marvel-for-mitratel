@@ -118,7 +118,7 @@
                                     <fieldset class="form-group">
          <label for="id_pln">ID PLN</label>
                                         <br> 
-<input type="text" @input="allcap($event, forms, 'id_pln')" class="form-control" placeholder="RFC NUMBER" v-model="forms.id_pln" required>
+<input type="text" @input="allcap($event, forms, 'id_pln')" class="form-control" placeholder="ID PLN" v-model="forms.id_pln" required>
  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['id_pln']"><span style="color:red;">{{ error }}</span></li></ul></div>  
                                     </fieldset>
                                 </div>
@@ -864,11 +864,7 @@ dropData() {
    masuk.set('status', 104)
                 axios.post('/karyawan/DropProject', masuk)
                     .then(response => { 
-this.DeleteSIS(this.rowDatanya.project.documentid,this.rowDatanya.project.projectid ,this.rowDatanya.project.document_sis);       
-this.DeleteDRM(this.rowDatanya.project.documentdrmid,this.rowDatanya.project.projectid ,this.rowDatanya.project.document_kom ,this.rowDatanya.project.document_drm);       
-this.DeleteSITAC(this.rowDatanya.project.documentsitacid,this.rowDatanya.project.projectid ,this.rowDatanya.project.document_ban_bak ,this.rowDatanya.project.document_ijin_warga ,this.rowDatanya.project.document_pks ,this.rowDatanya.project.document_imb);             
-this.DeleteRFC(this.rowDatanya.project.documentrfcid,this.rowDatanya.project.projectid ,this.rowDatanya.project.document_rfc); 
-                 this.success(response.data.success);
+  this.success(response.data.success);
                  this.isLoading = false;
                  this.backLink();
                       

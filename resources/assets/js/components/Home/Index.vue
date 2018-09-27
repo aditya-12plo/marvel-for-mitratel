@@ -186,7 +186,7 @@ Vue.component("pie-chart-home", {
           pointBackgroundColor: 'white',
           pointBorderColor: 'white',
           borderWidth: 1,
-          backgroundColor: ['#dd4b39','#1451A1','#9B3CB7', '#FF396F','#EE0979', '#FF6A00','#009DA0','#4aa7c4','#4aa7c4','#f21e07','#f21e07','#06f11a'],
+          backgroundColor:[this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex()],
           data: this.resultnya,
         },
         ]
@@ -195,13 +195,23 @@ Vue.component("pie-chart-home", {
         options: {
           scales: { },
           legend: {
-            display: true
+            display: true,
+            position: 'left',
           },
           responsive: true,
           maintainAspectRatio: false
         }
       }
     },
+       methods: {  
+    
+    getRandomColorHex () {
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    return "rgb(" + r + "," + g + "," + b + ")";
+    },
+},
     mounted () {
     //renderChart function renders the chart with the datacollection and options object.
       this.renderChart(this.datacollection, this.options) 
@@ -225,7 +235,7 @@ Vue.component("pie-chart-home-project", {
           pointBackgroundColor: 'white',
           pointBorderColor: 'white',
           borderWidth: 1,
-          backgroundColor: ['#9B3CB7', '#FF396F','#EE0979', '#FF6A00','#009DA0','#4aa7c4','#4aa7c4','#f21e07','#f21e07','#06f11a','#dd4b39','#1451A1'],
+          backgroundColor:[this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex()],
           data: this.resultnya,
         },
         ]
@@ -234,13 +244,23 @@ Vue.component("pie-chart-home-project", {
         options: {
           scales: { },
           legend: {
-            display: true
+            display: true,
+            position: 'left',
           },
           responsive: true,
           maintainAspectRatio: false
         }
       }
     },
+       methods: {  
+    
+    getRandomColorHex () {
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    return "rgb(" + r + "," + g + "," + b + ")";
+    },
+},
     mounted () {
     //renderChart function renders the chart with the datacollection and options object.
       this.renderChart(this.datacollection, this.options) 
@@ -263,7 +283,7 @@ Vue.component("pie-chart-home-area-nasional", {
           pointBackgroundColor: 'white',
           pointBorderColor: 'white',
           borderWidth: 1,
-          backgroundColor: ['#dd4b39','#1451A1','#9B3CB7', '#FF396F','#EE0979', '#FF6A00','#009DA0','#4aa7c4','#4aa7c4','#f21e07','#f21e07','#06f11a'],
+          backgroundColor:[this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex()],
           data: this.resultnya,
         },
         ]
@@ -272,13 +292,23 @@ Vue.component("pie-chart-home-area-nasional", {
         options: {
           scales: { },
           legend: {
-            display: true
+            display: true,
+            position: 'left',
           },
           responsive: true,
           maintainAspectRatio: false
         }
       }
     },
+       methods: {  
+    
+    getRandomColorHex () {
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    return "rgb(" + r + "," + g + "," + b + ")";
+    },
+},
     mounted () {
     //renderChart function renders the chart with the datacollection and options object.
       this.renderChart(this.datacollection, this.options) 
@@ -301,7 +331,7 @@ Vue.component("pie-chart-home-regional-nasional", {
           pointBackgroundColor: 'white',
           pointBorderColor: 'white',
           borderWidth: 1,
-          backgroundColor: ['#dd4b39','#1451A1','#e2d814','#9B3CB7', '#FF396F','#EE0979', '#FF6A00','#009DA0','#4aa7c4','#4aa7c4','#f21e07','#f21e07','#06f11a','#0f1868','#0f5468','#88a817','#74f404','#6d266d','#6d264f','#9e5d6a','#b7a7a5','#443d35','#efa34c','#161201'],
+          backgroundColor:[this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex()],
           data: this.resultnya,
         },
         ]
@@ -310,13 +340,23 @@ Vue.component("pie-chart-home-regional-nasional", {
         options: {
           scales: { },
           legend: {
-            display: true
+            display: true,
+            position: 'left',
           },
           responsive: true,
           maintainAspectRatio: false
         }
       }
     },
+       methods: {  
+    
+    getRandomColorHex () {
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    return "rgb(" + r + "," + g + "," + b + ")";
+    },
+},
     mounted () {
     //renderChart function renders the chart with the datacollection and options object.
       this.renderChart(this.datacollection, this.options) 

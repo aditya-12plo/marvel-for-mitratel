@@ -98,7 +98,7 @@
                                     <fieldset class="form-group">
                                         <label for="no_pks">NO PKS</label>
                                         <br>
-<input type="text" @input="allcap($event, forms, 'no_pks')" class="form-control" placeholder="AKTUAL SITE ID" v-model="forms.no_pks" required>
+<input type="text" @input="allcap($event, forms, 'no_pks')" class="form-control" placeholder="NO PKS" v-model="forms.no_pks" required>
 <div class="help-block"><ul role="alert"><li v-for="error of errorNya['no_pks']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
@@ -133,7 +133,7 @@
                                     <fieldset class="form-group">
                                         <label for="no_imb">NO IMB</label>
                                         <br>
-<input type="text" @input="allcap($event, forms, 'no_imb')" class="form-control" placeholder="AKTUAL SITE ID" v-model="forms.no_imb" required>
+<input type="text" @input="allcap($event, forms, 'no_imb')" class="form-control" placeholder="NO IMB" v-model="forms.no_imb" required>
 <div class="help-block"><ul role="alert"><li v-for="error of errorNya['no_imb']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>

@@ -8,7 +8,11 @@ posisi
 
 
 
-
+this.DeleteSIS(this.rowDatanya.project.documentid,this.rowDatanya.project.projectid ,this.rowDatanya.project.document_sis);       
+this.DeleteDRM(this.rowDatanya.project.documentdrmid,this.rowDatanya.project.projectid ,this.rowDatanya.project.document_kom ,this.rowDatanya.project.document_drm);       
+this.DeleteSITAC(this.rowDatanya.project.documentsitacid,this.rowDatanya.project.projectid ,this.rowDatanya.project.document_ban_bak ,this.rowDatanya.project.document_ijin_warga ,this.rowDatanya.project.document_pks ,this.rowDatanya.project.document_imb);             
+this.DeleteRFC(this.rowDatanya.project.documentrfcid,this.rowDatanya.project.projectid ,this.rowDatanya.project.document_rfc); 
+               
 
 
 
@@ -765,7 +769,15 @@ project.id=document_rfc.project_id
 where project.status_id = '11';
 
 
-
+CREATE OR REPLACE VIEW v_check_invoice_data
+AS
+SELECT
+invoice.project_id,project.projectid
+from 
+invoice
+join
+project
+on invoice.project_id=project.id;
 
 CREATE OR REPLACE VIEW vjobsdocumentrfcrevisi 
 AS 
@@ -1219,18 +1231,22 @@ select distinct(years) from project ;
 
 CREATE OR REPLACE VIEW vbiayasewanational
 AS
-select years,
-IFNULL(avg(rfi_detail_price_year),0) as jumlah 
+select infratype,years,
+IFNULL(avg(nilai_revenue),0) as jumlah 
 from vallproject
-group by years ;
+where
+nilai_revenue > 0
+group by infratype,years  ;
 
 
 
 CREATE OR REPLACE VIEW vbiayasewaarea
 AS
 select years,area,
-IFNULL(avg(rfi_detail_price_year),0) as jumlah
+IFNULL(avg(nilai_revenue),0) as jumlah
 from vallproject
+where
+nilai_revenue > 0
 group by years,area ;
 
 
@@ -1239,8 +1255,10 @@ group by years,area ;
 CREATE OR REPLACE VIEW vbiayasewaregional
 AS
 select years,regional,
-IFNULL(avg(rfi_detail_price_year),0) as jumlah
+IFNULL(avg(nilai_revenue),0) as jumlah
 from vallproject
+where
+nilai_revenue > 0
 group by years,regional ;
 
 
@@ -4117,6 +4135,33 @@ where status=3;
 
 
 
+CREATE OR REPLACE VIEW v_extract_accured_data_total
+as
+SELECT 
+a.id,
+  a.cme_code,  
+  a.area,
+  a.area2,
+  a.status ,
+GROUP_CONCAT(project_id SEPARATOR ',') as project_id,
+ (
+ SELECT  
+   SUM(IFNULL((CHAR_LENGTH(project_id) - CHAR_LENGTH(REPLACE(project_id, ',', '')) + 1),0)) as total
+FROM cme_submit
+where cme_code = a.cme_code and area=a.area and area2=a.area2 and status=a.status
+  )
+  as total,
+  a.created_at,a.updated_at
+FROM cme_submit a
+where 
+a.status =3
+group by
+a.cme_code, a.area,a.area2,a.status
+order by a.id desc
+
+
+
+
 CREATE OR REPLACE VIEW vallprojectaccrual 
 AS 
 SELECT 
@@ -4864,7 +4909,9 @@ where project.status_id=50;
 
 
 
-CREATE OR REPLACE VIEW vsiteapprovedboqbapsadd 
+
+
+CREATE OR REPLACE VIEW vsiteapprovedinvoiceadd 
 AS 
 SELECT 
 project.id,
@@ -4974,11 +5021,17 @@ baks_bauk.date_baks,
 baks_bauk.document_baks,
 baks_bauk.document_wctr,
 baks_bauk.document_boq_project,
-baks_bauk.document_rfi_certificate,
-boq_baps.id as boqbapsid,
-boq_baps.tgl_mulai_sewa,
-boq_baps.tgl_target_rfi,
-boq_baps.document_boq_baps,
+baks_bauk.document_rfi_certificate, 
+invoice.tgl_mulai_sewa,
+invoice.tgl_target_rfi,
+invoice.document_boq_baps, 
+invoice.tgL_akhir_sewa,
+invoice.document_baps,
+invoice.id as invoiceid,
+invoice.no_receive,
+invoice.no_kontrak,
+invoice.no_invoice,
+invoice.tgl_invoice,
 IFNULL((((LAST_DAY(project.batch_accrue) - rfi_detail.rfi_detail_start_date)/DAY(LAST_DAY(project.batch_accrue)) * rfi_detail.rfi_detail_price_month)),0) as nilai_revenue,
 project.updated_at as created_at
 FROM project 
@@ -5021,11 +5074,731 @@ project.id=rfi_detail.project_id
 left join po on 
 project.id=po.project_id  
 left join baks_bauk on 
-project.id=baks_bauk.project_id  
-left join boq_baps on 
-project.id=boq_baps.project_id 
-where project.status_id=51; 
+project.id=baks_bauk.project_id   
+left join invoice on 
+project.id=invoice.project_id  
+where project.status_id=51;
 
+
+
+
+
+CREATE OR REPLACE VIEW vsitereportbisnis
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.batch_accrue,
+po.id as poid,
+po.no_po,
+po.po_date,
+project.project_status_id,
+status.detail as statusnya,
+bqs.detail as statusnyaboq,
+bqh.detail as statusnyahaki,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+excavation.id as excavationid,
+excavation.excavation_date,
+excavation.excavation_document,
+rebaring.id as rebaringid,
+rebaring.rebaring_date,
+rebaring.rebaring_document,
+pouring.id as pouringid,
+pouring.pouring_date,
+pouring.pouring_document,
+curing.id as curingid,
+curing.curing_date,
+curing.curing_document,
+tower_erection.id as towererectionid,
+tower_erection.tower_erection_date,
+tower_erection.tower_erection_document,
+m_e_process.id as meprocessid,
+m_e_process.m_e_process_date,
+m_e_process.m_e_process_document,
+fence_yard.id as fenceyardid,
+fence_yard.fence_yard_date,
+fence_yard.fence_yard_document,
+rfi_baut.id as rfibautid,
+rfi_baut.rfi_date,
+rfi_baut.rfi_document,
+rfi_baut.baut_date,
+rfi_baut.baut_document,
+rfi_detail.id as rfidetailid,
+rfi_detail.rfi_detail_start_date,
+rfi_detail.rfi_detail_end_date,
+rfi_detail.rfi_detail_price_month,
+rfi_detail.rfi_detail_price_year,
+baks_bauk.id as baksbaukid,
+baks_bauk.no_baks,
+baks_bauk.date_baks,
+baks_bauk.document_baks,
+baks_bauk.document_wctr,
+baks_bauk.document_boq_project,
+baks_bauk.document_rfi_certificate, 
+invoice.tgl_mulai_sewa,
+invoice.tgl_target_rfi,
+invoice.document_boq_baps, 
+invoice.tgL_akhir_sewa,
+invoice.document_baps,
+invoice.id as invoiceid,
+invoice.no_receive,
+invoice.no_kontrak,
+invoice.no_invoice,
+invoice.tgl_invoice,
+IFNULL((((LAST_DAY(project.batch_accrue) - rfi_detail.rfi_detail_start_date)/DAY(LAST_DAY(project.batch_accrue)) * rfi_detail.rfi_detail_price_month)),0) as nilai_revenue,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join status  bqs on 
+project.boq_status=bqs.id 
+left join status  bqh on 
+project.haki_status=bqh.id
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+left join site_opening on 
+project.id=site_opening.project_id
+left join excavation on 
+project.id=excavation.project_id
+left join rebaring on 
+project.id=rebaring.project_id
+left join pouring on 
+project.id=pouring.project_id
+left join curing on 
+project.id=curing.project_id
+left join tower_erection on 
+project.id=tower_erection.project_id
+left join m_e_process on 
+project.id=m_e_process.project_id
+left join rfi_baut on 
+project.id=rfi_baut.project_id
+left join fence_yard on 
+project.id=fence_yard.project_id
+left join rfi_detail on 
+project.id=rfi_detail.project_id 
+left join po on 
+project.id=po.project_id  
+left join baks_bauk on 
+project.id=baks_bauk.project_id    
+left join invoice on 
+project.id=invoice.project_id  
+where project.status_id=54;
+
+
+
+
+
+CREATE OR REPLACE VIEW vsiteapprovedboqbapsrevisi 
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.batch_accrue,
+po.id as poid,
+po.no_po,
+po.po_date,
+project.project_status_id,
+status.detail as statusnya,
+bqs.detail as statusnyaboq,
+bqh.detail as statusnyahaki,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+excavation.id as excavationid,
+excavation.excavation_date,
+excavation.excavation_document,
+rebaring.id as rebaringid,
+rebaring.rebaring_date,
+rebaring.rebaring_document,
+pouring.id as pouringid,
+pouring.pouring_date,
+pouring.pouring_document,
+curing.id as curingid,
+curing.curing_date,
+curing.curing_document,
+tower_erection.id as towererectionid,
+tower_erection.tower_erection_date,
+tower_erection.tower_erection_document,
+m_e_process.id as meprocessid,
+m_e_process.m_e_process_date,
+m_e_process.m_e_process_document,
+fence_yard.id as fenceyardid,
+fence_yard.fence_yard_date,
+fence_yard.fence_yard_document,
+rfi_baut.id as rfibautid,
+rfi_baut.rfi_date,
+rfi_baut.rfi_document,
+rfi_baut.baut_date,
+rfi_baut.baut_document,
+rfi_detail.id as rfidetailid,
+rfi_detail.rfi_detail_start_date,
+rfi_detail.rfi_detail_end_date,
+rfi_detail.rfi_detail_price_month,
+rfi_detail.rfi_detail_price_year,
+baks_bauk.id as baksbaukid,
+baks_bauk.no_baks,
+baks_bauk.date_baks,
+baks_bauk.document_baks,
+baks_bauk.document_wctr,
+baks_bauk.document_boq_project,
+baks_bauk.document_rfi_certificate, 
+invoice.id as invoiceid,
+invoice.tgl_mulai_sewa,
+invoice.tgl_target_rfi,
+invoice.document_boq_baps, 
+invoice.tgL_akhir_sewa,
+invoice.document_baps,
+invoice.no_receive,
+invoice.no_kontrak,
+invoice.no_invoice,
+invoice.tgl_invoice,
+IFNULL((((LAST_DAY(project.batch_accrue) - rfi_detail.rfi_detail_start_date)/DAY(LAST_DAY(project.batch_accrue)) * rfi_detail.rfi_detail_price_month)),0) as nilai_revenue,
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join status  bqs on 
+project.boq_status=bqs.id 
+left join status  bqh on 
+project.haki_status=bqh.id
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+left join site_opening on 
+project.id=site_opening.project_id
+left join excavation on 
+project.id=excavation.project_id
+left join rebaring on 
+project.id=rebaring.project_id
+left join pouring on 
+project.id=pouring.project_id
+left join curing on 
+project.id=curing.project_id
+left join tower_erection on 
+project.id=tower_erection.project_id
+left join m_e_process on 
+project.id=m_e_process.project_id
+left join rfi_baut on 
+project.id=rfi_baut.project_id
+left join fence_yard on 
+project.id=fence_yard.project_id
+left join rfi_detail on 
+project.id=rfi_detail.project_id 
+left join po on 
+project.id=po.project_id  
+left join baks_bauk on 
+project.id=baks_bauk.project_id   
+left join invoice on 
+project.id=invoice.project_id  
+where project.status_id IN (54,55);
+
+
+
+
+
+CREATE OR REPLACE VIEW vallproject 
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.batch_accrue,
+po.id as poid,
+po.no_po,
+po.po_date,
+project.project_status_id,
+status.detail as statusnya,
+bqs.detail as statusnyaboq,
+bqh.detail as statusnyahaki,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+ifnull(document_rfc.target_rfi,0) as target_rfi,
+ifnull(document_rfc.power_capacity,0) as power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+ifnull(document_boq.roof_top_high,0) as roof_top_high,
+ifnull(document_boq.tower_high,0) as tower_high,
+ifnull(document_boq.rf_in_meters,0) as rf_in_meters,
+ifnull(document_boq.mw_in_meters,0) as mw_in_meters,
+ifnull(document_boq.harga_bulan,0) as harga_bulan,
+ifnull(document_boq.harga_tahun,0) as harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+excavation.id as excavationid,
+excavation.excavation_date,
+excavation.excavation_document,
+rebaring.id as rebaringid,
+rebaring.rebaring_date,
+rebaring.rebaring_document,
+pouring.id as pouringid,
+pouring.pouring_date,
+pouring.pouring_document,
+curing.id as curingid,
+curing.curing_date,
+curing.curing_document,
+tower_erection.id as towererectionid,
+tower_erection.tower_erection_date,
+tower_erection.tower_erection_document,
+m_e_process.id as meprocessid,
+m_e_process.m_e_process_date,
+m_e_process.m_e_process_document,
+fence_yard.id as fenceyardid,
+fence_yard.fence_yard_date,
+fence_yard.fence_yard_document,
+rfi_baut.id as rfibautid,
+rfi_baut.rfi_date,
+rfi_baut.rfi_document,
+rfi_baut.baut_date,
+rfi_baut.baut_document,
+rfi_detail.id as rfidetailid,
+rfi_detail.rfi_detail_start_date,
+rfi_detail.rfi_detail_end_date,
+rfi_detail.rfi_detail_price_month,
+rfi_detail.rfi_detail_price_year,
+baks_bauk.id as baksbaukid,
+baks_bauk.no_baks,
+baks_bauk.date_baks,
+baks_bauk.document_baks,
+baks_bauk.document_wctr,
+baks_bauk.document_boq_project,
+baks_bauk.document_rfi_certificate, 
+invoice.tgl_mulai_sewa,
+invoice.tgl_target_rfi,
+invoice.document_boq_baps, 
+invoice.tgL_akhir_sewa,
+invoice.document_baps,
+invoice.id as invoiceid,
+invoice.no_receive,
+invoice.no_kontrak,
+invoice.no_invoice,
+invoice.tgl_invoice,
+IFNULL(
+ROUND(
+(((datediff(LAST_DAY(project.batch_accrue), rfi_detail.rfi_detail_start_date))/DAY(LAST_DAY(project.batch_accrue)) * rfi_detail.rfi_detail_price_month))
+,0)
+,0) as nilai_revenue,
+
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join status  bqs on 
+project.boq_status=bqs.id 
+left join status  bqh on 
+project.haki_status=bqh.id
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+left join site_opening on 
+project.id=site_opening.project_id
+left join excavation on 
+project.id=excavation.project_id
+left join rebaring on 
+project.id=rebaring.project_id
+left join pouring on 
+project.id=pouring.project_id
+left join curing on 
+project.id=curing.project_id
+left join tower_erection on 
+project.id=tower_erection.project_id
+left join m_e_process on 
+project.id=m_e_process.project_id
+left join rfi_baut on 
+project.id=rfi_baut.project_id
+left join fence_yard on 
+project.id=fence_yard.project_id
+left join rfi_detail on 
+project.id=rfi_detail.project_id 
+left join po on 
+project.id=po.project_id  
+left join baks_bauk on 
+project.id=baks_bauk.project_id   
+left join invoice on 
+project.id=invoice.project_id;
+
+
+
+
+CREATE OR REPLACE VIEW vallprojectbyyears 
+AS 
+SELECT 
+project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.batch_accrue,
+po.id as poid,
+po.no_po,
+po.po_date,
+project.project_status_id,
+status.detail as statusnya,
+bqs.detail as statusnyaboq,
+bqh.detail as statusnyahaki,
+document_sis.id as documentid,
+document_sis.document_sis,
+document_drm.id as documentdrmid,
+document_drm.site_id_actual ,
+document_drm.site_name_actual ,
+document_drm.province ,
+document_drm.city ,
+document_drm.address_actual ,
+document_drm.longitude_actual ,
+document_drm.latitude_actual ,
+document_drm.kom_date ,
+document_drm.drm_date ,
+document_drm.document_kom ,
+document_drm.document_drm ,
+document_sitac.id as documentsitacid,
+document_sitac.no_ban_bak ,
+document_sitac.date_ban_bak ,
+document_sitac.document_ban_bak ,
+document_sitac.ijin_warga_date ,
+document_sitac.document_ijin_warga ,
+document_sitac.no_pks ,
+document_sitac.pks_date ,
+document_sitac.no_imb ,
+document_sitac.imb_date ,
+document_sitac.document_imb ,
+document_sitac.document_pks ,
+document_rfc.id as documentrfcid,
+document_rfc.no_rfc,
+document_rfc.rfc_date,
+document_rfc.document_rfc,
+document_rfc.id_pln,
+document_rfc.target_rfi,
+document_rfc.power_capacity,
+document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
+document_boq.site_type,
+document_boq.tower_type,
+document_boq.roof_top_high,
+document_boq.tower_high,
+document_boq.rf_in_meters,
+document_boq.mw_in_meters,
+document_boq.harga_bulan,
+document_boq.harga_tahun,
+site_opening.id as siteopeningid,
+site_opening.site_opening_date,
+site_opening.document_site_opening,
+excavation.id as excavationid,
+excavation.excavation_date,
+excavation.excavation_document,
+rebaring.id as rebaringid,
+rebaring.rebaring_date,
+rebaring.rebaring_document,
+pouring.id as pouringid,
+pouring.pouring_date,
+pouring.pouring_document,
+curing.id as curingid,
+curing.curing_date,
+curing.curing_document,
+tower_erection.id as towererectionid,
+tower_erection.tower_erection_date,
+tower_erection.tower_erection_document,
+m_e_process.id as meprocessid,
+m_e_process.m_e_process_date,
+m_e_process.m_e_process_document,
+fence_yard.id as fenceyardid,
+fence_yard.fence_yard_date,
+fence_yard.fence_yard_document,
+rfi_baut.id as rfibautid,
+rfi_baut.rfi_date,
+rfi_baut.rfi_document,
+rfi_baut.baut_date,
+rfi_baut.baut_document,
+rfi_detail.id as rfidetailid,
+rfi_detail.rfi_detail_start_date,
+rfi_detail.rfi_detail_end_date,
+rfi_detail.rfi_detail_price_month,
+rfi_detail.rfi_detail_price_year,
+baks_bauk.id as baksbaukid,
+baks_bauk.no_baks,
+baks_bauk.date_baks,
+baks_bauk.document_baks,
+baks_bauk.document_wctr,
+baks_bauk.document_boq_project,
+baks_bauk.document_rfi_certificate, 
+invoice.tgl_mulai_sewa,
+invoice.tgl_target_rfi,
+invoice.document_boq_baps, 
+invoice.tgL_akhir_sewa,
+invoice.document_baps,
+invoice.id as invoiceid,
+invoice.no_receive,
+invoice.no_kontrak,
+invoice.no_invoice,
+invoice.tgl_invoice,
+IFNULL(
+ROUND(
+(((datediff(LAST_DAY(project.batch_accrue), rfi_detail.rfi_detail_start_date))/DAY(LAST_DAY(project.batch_accrue)) * rfi_detail.rfi_detail_price_month))
+,0)
+,0) as nilai_revenue,
+
+project.updated_at as created_at
+FROM project 
+left join status on 
+project.status_id=status.id 
+left join status  bqs on 
+project.boq_status=bqs.id 
+left join status  bqh on 
+project.haki_status=bqh.id
+left join document_sis on 
+project.id=document_sis.project_id 
+left join document_drm on 
+project.id=document_drm.project_id 
+left join document_sitac on 
+project.id=document_sitac.project_id 
+left join document_rfc on 
+project.id=document_rfc.project_id 
+left join document_boq on 
+project.id=document_boq.project_id 
+left join site_opening on 
+project.id=site_opening.project_id
+left join excavation on 
+project.id=excavation.project_id
+left join rebaring on 
+project.id=rebaring.project_id
+left join pouring on 
+project.id=pouring.project_id
+left join curing on 
+project.id=curing.project_id
+left join tower_erection on 
+project.id=tower_erection.project_id
+left join m_e_process on 
+project.id=m_e_process.project_id
+left join rfi_baut on 
+project.id=rfi_baut.project_id
+left join fence_yard on 
+project.id=fence_yard.project_id
+left join rfi_detail on 
+project.id=rfi_detail.project_id 
+left join po on 
+project.id=po.project_id  
+left join baks_bauk on 
+project.id=baks_bauk.project_id   
+left join invoice on 
+project.id=invoice.project_id 
+  where project.years = YEAR(CURDATE()) ;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+delete
+
+VIEW vsiteapprovedboqbapsadd  , VIEW vsiteapprovedbapsadd 
 
 
 
@@ -5198,9 +5971,7 @@ where project.status_id=52;
 
 
 
-
-
-CREATE OR REPLACE VIEW vsiteapprovedinvoiceadd 
+CREATE OR REPLACE VIEW vsiteapprovedboqbapsadd 
 AS 
 SELECT 
 project.id,
@@ -5315,14 +6086,6 @@ boq_baps.id as boqbapsid,
 boq_baps.tgl_mulai_sewa,
 boq_baps.tgl_target_rfi,
 boq_baps.document_boq_baps,
-baps.id as bapsid,
-baps.tgL_akhir_sewa,
-baps.document_baps,
-invoice.id as invoiceid,
-invoice.no_receive,
-invoice.no_kontrak,
-invoice.no_invoice,
-invoice.tgl_invoice,
 IFNULL((((LAST_DAY(project.batch_accrue) - rfi_detail.rfi_detail_start_date)/DAY(LAST_DAY(project.batch_accrue)) * rfi_detail.rfi_detail_price_month)),0) as nilai_revenue,
 project.updated_at as created_at
 FROM project 
@@ -5367,729 +6130,5 @@ project.id=po.project_id
 left join baks_bauk on 
 project.id=baks_bauk.project_id  
 left join boq_baps on 
-project.id=boq_baps.project_id  
-left join baps on 
-project.id=baps.project_id 
-left join invoice on 
-project.id=invoice.project_id  
-where project.status_id=53;
-
-
-
-
-
-CREATE OR REPLACE VIEW vsitereportbisnis
-AS 
-SELECT 
-project.id,
-project.projectid,
-project.no_wo,
-project.wo_date,
-CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
-project.batch,
-project.years,
-project.infratype,
-project.area,
-project.regional,
-project.site_id_spk,
-project.site_name_spk,
-project.address_spk,
-project.longitude_spk,
-project.latitude_spk,
-project.status_id,
-project.batch_accrue,
-po.id as poid,
-po.no_po,
-po.po_date,
-project.project_status_id,
-status.detail as statusnya,
-bqs.detail as statusnyaboq,
-bqh.detail as statusnyahaki,
-document_sis.id as documentid,
-document_sis.document_sis,
-document_drm.id as documentdrmid,
-document_drm.site_id_actual ,
-document_drm.site_name_actual ,
-document_drm.province ,
-document_drm.city ,
-document_drm.address_actual ,
-document_drm.longitude_actual ,
-document_drm.latitude_actual ,
-document_drm.kom_date ,
-document_drm.drm_date ,
-document_drm.document_kom ,
-document_drm.document_drm ,
-document_sitac.id as documentsitacid,
-document_sitac.no_ban_bak ,
-document_sitac.date_ban_bak ,
-document_sitac.document_ban_bak ,
-document_sitac.ijin_warga_date ,
-document_sitac.document_ijin_warga ,
-document_sitac.no_pks ,
-document_sitac.pks_date ,
-document_sitac.no_imb ,
-document_sitac.imb_date ,
-document_sitac.document_imb ,
-document_sitac.document_pks ,
-document_rfc.id as documentrfcid,
-document_rfc.no_rfc,
-document_rfc.rfc_date,
-document_rfc.document_rfc,
-document_rfc.id_pln,
-document_rfc.target_rfi,
-document_rfc.power_capacity,
-document_boq.id as documentboqid,
-CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
-document_boq.site_type,
-document_boq.tower_type,
-document_boq.roof_top_high,
-document_boq.tower_high,
-document_boq.rf_in_meters,
-document_boq.mw_in_meters,
-document_boq.harga_bulan,
-document_boq.harga_tahun,
-site_opening.id as siteopeningid,
-site_opening.site_opening_date,
-site_opening.document_site_opening,
-excavation.id as excavationid,
-excavation.excavation_date,
-excavation.excavation_document,
-rebaring.id as rebaringid,
-rebaring.rebaring_date,
-rebaring.rebaring_document,
-pouring.id as pouringid,
-pouring.pouring_date,
-pouring.pouring_document,
-curing.id as curingid,
-curing.curing_date,
-curing.curing_document,
-tower_erection.id as towererectionid,
-tower_erection.tower_erection_date,
-tower_erection.tower_erection_document,
-m_e_process.id as meprocessid,
-m_e_process.m_e_process_date,
-m_e_process.m_e_process_document,
-fence_yard.id as fenceyardid,
-fence_yard.fence_yard_date,
-fence_yard.fence_yard_document,
-rfi_baut.id as rfibautid,
-rfi_baut.rfi_date,
-rfi_baut.rfi_document,
-rfi_baut.baut_date,
-rfi_baut.baut_document,
-rfi_detail.id as rfidetailid,
-rfi_detail.rfi_detail_start_date,
-rfi_detail.rfi_detail_end_date,
-rfi_detail.rfi_detail_price_month,
-rfi_detail.rfi_detail_price_year,
-baks_bauk.id as baksbaukid,
-baks_bauk.no_baks,
-baks_bauk.date_baks,
-baks_bauk.document_baks,
-baks_bauk.document_wctr,
-baks_bauk.document_boq_project,
-baks_bauk.document_rfi_certificate,
-boq_baps.id as boqbapsid,
-boq_baps.tgl_mulai_sewa,
-boq_baps.tgl_target_rfi,
-boq_baps.document_boq_baps,
-baps.id as bapsid,
-baps.tgL_akhir_sewa,
-baps.document_baps,
-invoice.id as invoiceid,
-invoice.no_receive,
-invoice.no_kontrak,
-invoice.no_invoice,
-invoice.tgl_invoice,
-IFNULL((((LAST_DAY(project.batch_accrue) - rfi_detail.rfi_detail_start_date)/DAY(LAST_DAY(project.batch_accrue)) * rfi_detail.rfi_detail_price_month)),0) as nilai_revenue,
-project.updated_at as created_at
-FROM project 
-left join status on 
-project.status_id=status.id 
-left join status  bqs on 
-project.boq_status=bqs.id 
-left join status  bqh on 
-project.haki_status=bqh.id
-left join document_sis on 
-project.id=document_sis.project_id 
-left join document_drm on 
-project.id=document_drm.project_id 
-left join document_sitac on 
-project.id=document_sitac.project_id 
-left join document_rfc on 
-project.id=document_rfc.project_id 
-left join document_boq on 
-project.id=document_boq.project_id 
-left join site_opening on 
-project.id=site_opening.project_id
-left join excavation on 
-project.id=excavation.project_id
-left join rebaring on 
-project.id=rebaring.project_id
-left join pouring on 
-project.id=pouring.project_id
-left join curing on 
-project.id=curing.project_id
-left join tower_erection on 
-project.id=tower_erection.project_id
-left join m_e_process on 
-project.id=m_e_process.project_id
-left join rfi_baut on 
-project.id=rfi_baut.project_id
-left join fence_yard on 
-project.id=fence_yard.project_id
-left join rfi_detail on 
-project.id=rfi_detail.project_id 
-left join po on 
-project.id=po.project_id  
-left join baks_bauk on 
-project.id=baks_bauk.project_id  
-left join boq_baps on 
-project.id=boq_baps.project_id  
-left join baps on 
-project.id=baps.project_id 
-left join invoice on 
-project.id=invoice.project_id  
-where project.status_id=54;
-
-
-
-
-
-CREATE OR REPLACE VIEW vsiteapprovedboqbapsrevisi 
-AS 
-SELECT 
-project.id,
-project.projectid,
-project.no_wo,
-project.wo_date,
-CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
-project.batch,
-project.years,
-project.infratype,
-project.area,
-project.regional,
-project.site_id_spk,
-project.site_name_spk,
-project.address_spk,
-project.longitude_spk,
-project.latitude_spk,
-project.status_id,
-project.batch_accrue,
-po.id as poid,
-po.no_po,
-po.po_date,
-project.project_status_id,
-status.detail as statusnya,
-bqs.detail as statusnyaboq,
-bqh.detail as statusnyahaki,
-document_sis.id as documentid,
-document_sis.document_sis,
-document_drm.id as documentdrmid,
-document_drm.site_id_actual ,
-document_drm.site_name_actual ,
-document_drm.province ,
-document_drm.city ,
-document_drm.address_actual ,
-document_drm.longitude_actual ,
-document_drm.latitude_actual ,
-document_drm.kom_date ,
-document_drm.drm_date ,
-document_drm.document_kom ,
-document_drm.document_drm ,
-document_sitac.id as documentsitacid,
-document_sitac.no_ban_bak ,
-document_sitac.date_ban_bak ,
-document_sitac.document_ban_bak ,
-document_sitac.ijin_warga_date ,
-document_sitac.document_ijin_warga ,
-document_sitac.no_pks ,
-document_sitac.pks_date ,
-document_sitac.no_imb ,
-document_sitac.imb_date ,
-document_sitac.document_imb ,
-document_sitac.document_pks ,
-document_rfc.id as documentrfcid,
-document_rfc.no_rfc,
-document_rfc.rfc_date,
-document_rfc.document_rfc,
-document_rfc.id_pln,
-document_rfc.target_rfi,
-document_rfc.power_capacity,
-document_boq.id as documentboqid,
-CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
-document_boq.site_type,
-document_boq.tower_type,
-document_boq.roof_top_high,
-document_boq.tower_high,
-document_boq.rf_in_meters,
-document_boq.mw_in_meters,
-document_boq.harga_bulan,
-document_boq.harga_tahun,
-site_opening.id as siteopeningid,
-site_opening.site_opening_date,
-site_opening.document_site_opening,
-excavation.id as excavationid,
-excavation.excavation_date,
-excavation.excavation_document,
-rebaring.id as rebaringid,
-rebaring.rebaring_date,
-rebaring.rebaring_document,
-pouring.id as pouringid,
-pouring.pouring_date,
-pouring.pouring_document,
-curing.id as curingid,
-curing.curing_date,
-curing.curing_document,
-tower_erection.id as towererectionid,
-tower_erection.tower_erection_date,
-tower_erection.tower_erection_document,
-m_e_process.id as meprocessid,
-m_e_process.m_e_process_date,
-m_e_process.m_e_process_document,
-fence_yard.id as fenceyardid,
-fence_yard.fence_yard_date,
-fence_yard.fence_yard_document,
-rfi_baut.id as rfibautid,
-rfi_baut.rfi_date,
-rfi_baut.rfi_document,
-rfi_baut.baut_date,
-rfi_baut.baut_document,
-rfi_detail.id as rfidetailid,
-rfi_detail.rfi_detail_start_date,
-rfi_detail.rfi_detail_end_date,
-rfi_detail.rfi_detail_price_month,
-rfi_detail.rfi_detail_price_year,
-baks_bauk.id as baksbaukid,
-baks_bauk.no_baks,
-baks_bauk.date_baks,
-baks_bauk.document_baks,
-baks_bauk.document_wctr,
-baks_bauk.document_boq_project,
-baks_bauk.document_rfi_certificate,
-boq_baps.id as boqbapsid,
-boq_baps.tgl_mulai_sewa,
-boq_baps.tgl_target_rfi,
-boq_baps.document_boq_baps,
-baps.id as bapsid,
-baps.tgL_akhir_sewa,
-baps.document_baps,
-invoice.id as invoiceid,
-invoice.no_receive,
-invoice.no_kontrak,
-invoice.no_invoice,
-invoice.tgl_invoice,
-IFNULL((((LAST_DAY(project.batch_accrue) - rfi_detail.rfi_detail_start_date)/DAY(LAST_DAY(project.batch_accrue)) * rfi_detail.rfi_detail_price_month)),0) as nilai_revenue,
-project.updated_at as created_at
-FROM project 
-left join status on 
-project.status_id=status.id 
-left join status  bqs on 
-project.boq_status=bqs.id 
-left join status  bqh on 
-project.haki_status=bqh.id
-left join document_sis on 
-project.id=document_sis.project_id 
-left join document_drm on 
-project.id=document_drm.project_id 
-left join document_sitac on 
-project.id=document_sitac.project_id 
-left join document_rfc on 
-project.id=document_rfc.project_id 
-left join document_boq on 
-project.id=document_boq.project_id 
-left join site_opening on 
-project.id=site_opening.project_id
-left join excavation on 
-project.id=excavation.project_id
-left join rebaring on 
-project.id=rebaring.project_id
-left join pouring on 
-project.id=pouring.project_id
-left join curing on 
-project.id=curing.project_id
-left join tower_erection on 
-project.id=tower_erection.project_id
-left join m_e_process on 
-project.id=m_e_process.project_id
-left join rfi_baut on 
-project.id=rfi_baut.project_id
-left join fence_yard on 
-project.id=fence_yard.project_id
-left join rfi_detail on 
-project.id=rfi_detail.project_id 
-left join po on 
-project.id=po.project_id  
-left join baks_bauk on 
-project.id=baks_bauk.project_id  
-left join boq_baps on 
-project.id=boq_baps.project_id  
-left join baps on 
-project.id=baps.project_id 
-left join invoice on 
-project.id=invoice.project_id  
-where project.status_id IN (52,53,54,55);
-
-
-
-
-
-CREATE OR REPLACE VIEW vallproject 
-AS 
-SELECT 
-project.id,
-project.projectid,
-project.no_wo,
-project.wo_date,
-CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
-project.batch,
-project.years,
-project.infratype,
-project.area,
-project.regional,
-project.site_id_spk,
-project.site_name_spk,
-project.address_spk,
-project.longitude_spk,
-project.latitude_spk,
-project.status_id,
-project.batch_accrue,
-po.id as poid,
-po.no_po,
-po.po_date,
-project.project_status_id,
-status.detail as statusnya,
-bqs.detail as statusnyaboq,
-bqh.detail as statusnyahaki,
-document_sis.id as documentid,
-document_sis.document_sis,
-document_drm.id as documentdrmid,
-document_drm.site_id_actual ,
-document_drm.site_name_actual ,
-document_drm.province ,
-document_drm.city ,
-document_drm.address_actual ,
-document_drm.longitude_actual ,
-document_drm.latitude_actual ,
-document_drm.kom_date ,
-document_drm.drm_date ,
-document_drm.document_kom ,
-document_drm.document_drm ,
-document_sitac.id as documentsitacid,
-document_sitac.no_ban_bak ,
-document_sitac.date_ban_bak ,
-document_sitac.document_ban_bak ,
-document_sitac.ijin_warga_date ,
-document_sitac.document_ijin_warga ,
-document_sitac.no_pks ,
-document_sitac.pks_date ,
-document_sitac.no_imb ,
-document_sitac.imb_date ,
-document_sitac.document_imb ,
-document_sitac.document_pks ,
-document_rfc.id as documentrfcid,
-document_rfc.no_rfc,
-document_rfc.rfc_date,
-document_rfc.document_rfc,
-document_rfc.id_pln,
-ifnull(document_rfc.target_rfi,0) as target_rfi,
-ifnull(document_rfc.power_capacity,0) as power_capacity,
-document_boq.id as documentboqid,
-CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
-document_boq.site_type,
-document_boq.tower_type,
-ifnull(document_boq.roof_top_high,0) as roof_top_high,
-ifnull(document_boq.tower_high,0) as tower_high,
-ifnull(document_boq.rf_in_meters,0) as rf_in_meters,
-ifnull(document_boq.mw_in_meters,0) as mw_in_meters,
-ifnull(document_boq.harga_bulan,0) as harga_bulan,
-ifnull(document_boq.harga_tahun,0) as harga_tahun,
-site_opening.id as siteopeningid,
-site_opening.site_opening_date,
-site_opening.document_site_opening,
-excavation.id as excavationid,
-excavation.excavation_date,
-excavation.excavation_document,
-rebaring.id as rebaringid,
-rebaring.rebaring_date,
-rebaring.rebaring_document,
-pouring.id as pouringid,
-pouring.pouring_date,
-pouring.pouring_document,
-curing.id as curingid,
-curing.curing_date,
-curing.curing_document,
-tower_erection.id as towererectionid,
-tower_erection.tower_erection_date,
-tower_erection.tower_erection_document,
-m_e_process.id as meprocessid,
-m_e_process.m_e_process_date,
-m_e_process.m_e_process_document,
-fence_yard.id as fenceyardid,
-fence_yard.fence_yard_date,
-fence_yard.fence_yard_document,
-rfi_baut.id as rfibautid,
-rfi_baut.rfi_date,
-rfi_baut.rfi_document,
-rfi_baut.baut_date,
-rfi_baut.baut_document,
-rfi_detail.id as rfidetailid,
-rfi_detail.rfi_detail_start_date,
-rfi_detail.rfi_detail_end_date,
-rfi_detail.rfi_detail_price_month,
-rfi_detail.rfi_detail_price_year,
-baks_bauk.id as baksbaukid,
-baks_bauk.no_baks,
-baks_bauk.date_baks,
-baks_bauk.document_baks,
-baks_bauk.document_wctr,
-baks_bauk.document_boq_project,
-baks_bauk.document_rfi_certificate,
-boq_baps.id as boqbapsid,
-boq_baps.tgl_mulai_sewa,
-boq_baps.tgl_target_rfi,
-boq_baps.document_boq_baps,
-baps.id as bapsid,
-baps.tgL_akhir_sewa,
-baps.document_baps,
-invoice.id as invoiceid,
-invoice.no_receive,
-invoice.no_kontrak,
-invoice.no_invoice,
-invoice.tgl_invoice,
-IFNULL(
-ROUND(
-(((datediff(LAST_DAY(project.batch_accrue), rfi_detail.rfi_detail_start_date))/DAY(LAST_DAY(project.batch_accrue)) * rfi_detail.rfi_detail_price_month))
-,0)
-,0) as nilai_revenue,
-
-project.updated_at as created_at
-FROM project 
-left join status on 
-project.status_id=status.id 
-left join status  bqs on 
-project.boq_status=bqs.id 
-left join status  bqh on 
-project.haki_status=bqh.id
-left join document_sis on 
-project.id=document_sis.project_id 
-left join document_drm on 
-project.id=document_drm.project_id 
-left join document_sitac on 
-project.id=document_sitac.project_id 
-left join document_rfc on 
-project.id=document_rfc.project_id 
-left join document_boq on 
-project.id=document_boq.project_id 
-left join site_opening on 
-project.id=site_opening.project_id
-left join excavation on 
-project.id=excavation.project_id
-left join rebaring on 
-project.id=rebaring.project_id
-left join pouring on 
-project.id=pouring.project_id
-left join curing on 
-project.id=curing.project_id
-left join tower_erection on 
-project.id=tower_erection.project_id
-left join m_e_process on 
-project.id=m_e_process.project_id
-left join rfi_baut on 
-project.id=rfi_baut.project_id
-left join fence_yard on 
-project.id=fence_yard.project_id
-left join rfi_detail on 
-project.id=rfi_detail.project_id 
-left join po on 
-project.id=po.project_id  
-left join baks_bauk on 
-project.id=baks_bauk.project_id  
-left join boq_baps on 
-project.id=boq_baps.project_id  
-left join baps on 
-project.id=baps.project_id 
-left join invoice on 
-project.id=invoice.project_id;
-
-
-
-
-CREATE OR REPLACE VIEW vallprojectbyyears 
-AS 
-SELECT 
-project.id,
-project.projectid,
-project.no_wo,
-project.wo_date,
-CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
-project.batch,
-project.years,
-project.infratype,
-project.area,
-project.regional,
-project.site_id_spk,
-project.site_name_spk,
-project.address_spk,
-project.longitude_spk,
-project.latitude_spk,
-project.status_id,
-project.batch_accrue,
-po.id as poid,
-po.no_po,
-po.po_date,
-project.project_status_id,
-status.detail as statusnya,
-bqs.detail as statusnyaboq,
-bqh.detail as statusnyahaki,
-document_sis.id as documentid,
-document_sis.document_sis,
-document_drm.id as documentdrmid,
-document_drm.site_id_actual ,
-document_drm.site_name_actual ,
-document_drm.province ,
-document_drm.city ,
-document_drm.address_actual ,
-document_drm.longitude_actual ,
-document_drm.latitude_actual ,
-document_drm.kom_date ,
-document_drm.drm_date ,
-document_drm.document_kom ,
-document_drm.document_drm ,
-document_sitac.id as documentsitacid,
-document_sitac.no_ban_bak ,
-document_sitac.date_ban_bak ,
-document_sitac.document_ban_bak ,
-document_sitac.ijin_warga_date ,
-document_sitac.document_ijin_warga ,
-document_sitac.no_pks ,
-document_sitac.pks_date ,
-document_sitac.no_imb ,
-document_sitac.imb_date ,
-document_sitac.document_imb ,
-document_sitac.document_pks ,
-document_rfc.id as documentrfcid,
-document_rfc.no_rfc,
-document_rfc.rfc_date,
-document_rfc.document_rfc,
-document_rfc.id_pln,
-document_rfc.target_rfi,
-document_rfc.power_capacity,
-document_boq.id as documentboqid,
-CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
-document_boq.site_type,
-document_boq.tower_type,
-document_boq.roof_top_high,
-document_boq.tower_high,
-document_boq.rf_in_meters,
-document_boq.mw_in_meters,
-document_boq.harga_bulan,
-document_boq.harga_tahun,
-site_opening.id as siteopeningid,
-site_opening.site_opening_date,
-site_opening.document_site_opening,
-excavation.id as excavationid,
-excavation.excavation_date,
-excavation.excavation_document,
-rebaring.id as rebaringid,
-rebaring.rebaring_date,
-rebaring.rebaring_document,
-pouring.id as pouringid,
-pouring.pouring_date,
-pouring.pouring_document,
-curing.id as curingid,
-curing.curing_date,
-curing.curing_document,
-tower_erection.id as towererectionid,
-tower_erection.tower_erection_date,
-tower_erection.tower_erection_document,
-m_e_process.id as meprocessid,
-m_e_process.m_e_process_date,
-m_e_process.m_e_process_document,
-fence_yard.id as fenceyardid,
-fence_yard.fence_yard_date,
-fence_yard.fence_yard_document,
-rfi_baut.id as rfibautid,
-rfi_baut.rfi_date,
-rfi_baut.rfi_document,
-rfi_baut.baut_date,
-rfi_baut.baut_document,
-rfi_detail.id as rfidetailid,
-rfi_detail.rfi_detail_start_date,
-rfi_detail.rfi_detail_end_date,
-rfi_detail.rfi_detail_price_month,
-rfi_detail.rfi_detail_price_year,
-baks_bauk.id as baksbaukid,
-baks_bauk.no_baks,
-baks_bauk.date_baks,
-baks_bauk.document_baks,
-baks_bauk.document_wctr,
-baks_bauk.document_boq_project,
-baks_bauk.document_rfi_certificate,
-boq_baps.id as boqbapsid,
-boq_baps.tgl_mulai_sewa,
-boq_baps.tgl_target_rfi,
-boq_baps.document_boq_baps,
-baps.id as bapsid,
-baps.tgL_akhir_sewa,
-baps.document_baps,
-invoice.id as invoiceid,
-invoice.no_receive,
-invoice.no_kontrak,
-invoice.no_invoice,
-invoice.tgl_invoice,
-IFNULL(
-ROUND(
-(((datediff(LAST_DAY(project.batch_accrue), rfi_detail.rfi_detail_start_date))/DAY(LAST_DAY(project.batch_accrue)) * rfi_detail.rfi_detail_price_month))
-,0)
-,0) as nilai_revenue,
-
-project.updated_at as created_at
-FROM project 
-left join status on 
-project.status_id=status.id 
-left join status  bqs on 
-project.boq_status=bqs.id 
-left join status  bqh on 
-project.haki_status=bqh.id
-left join document_sis on 
-project.id=document_sis.project_id 
-left join document_drm on 
-project.id=document_drm.project_id 
-left join document_sitac on 
-project.id=document_sitac.project_id 
-left join document_rfc on 
-project.id=document_rfc.project_id 
-left join document_boq on 
-project.id=document_boq.project_id 
-left join site_opening on 
-project.id=site_opening.project_id
-left join excavation on 
-project.id=excavation.project_id
-left join rebaring on 
-project.id=rebaring.project_id
-left join pouring on 
-project.id=pouring.project_id
-left join curing on 
-project.id=curing.project_id
-left join tower_erection on 
-project.id=tower_erection.project_id
-left join m_e_process on 
-project.id=m_e_process.project_id
-left join rfi_baut on 
-project.id=rfi_baut.project_id
-left join fence_yard on 
-project.id=fence_yard.project_id
-left join rfi_detail on 
-project.id=rfi_detail.project_id 
-left join po on 
-project.id=po.project_id  
-left join baks_bauk on 
-project.id=baks_bauk.project_id  
-left join boq_baps on 
-project.id=boq_baps.project_id  
-left join baps on 
-project.id=baps.project_id 
-left join invoice on 
-project.id=invoice.project_id 
-  where project.years = YEAR(CURDATE()) ;
+project.id=boq_baps.project_id 
+where project.status_id=51; 

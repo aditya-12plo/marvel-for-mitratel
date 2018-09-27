@@ -240,7 +240,7 @@ export default {
           dataClass: 'text-center'
         },
         {
-          name: 'area',
+          name: 'areahq',
 		  title: 'Area',
 		  titleClass: 'text-center',
           dataClass: 'text-center'

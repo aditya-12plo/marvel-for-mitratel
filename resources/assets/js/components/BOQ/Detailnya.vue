@@ -1085,7 +1085,7 @@ Latitude : {{this.rowDatanya.latitude_actual}}
     
   
   
-    <li class="timeline-item mt-5" v-if="this.rowDatanya.meprocessid">
+    <li class="timeline-item mt-5" v-if="this.rowDatanya.rfidetailid">
       <div class="timeline-badge">
         <span class="bg-white bg-lighten-1" data-toggle="tooltip" data-placement="left" title="RFI Detail (CME)">
       
@@ -1234,18 +1234,21 @@ Latitude : {{this.rowDatanya.latitude_actual}}
         </div>
       </div>
     </li>
-  
-    
-  <li class="timeline-item mt-5" v-if="this.rowDatanya.boqbapsid">
+   
+ 
+
+
+
+  <li class="timeline-item mt-5" v-if="this.rowDatanya.invoiceid">
       <div class="timeline-badge">
-        <span class="bg-red bg-lighten-1" data-toggle="tooltip" data-placement="left" title="BOQ BAPS">
+        <span class="bg-blue bg-lighten-1" data-toggle="tooltip" data-placement="left" title="INVOICE">
       
     </span>
       </div>
       <div class="timeline-card card border-grey border-lighten-2">
         <div class="card-header">
           <h4 class="card-title mb-0">
-            <a>BOQ BAPS</a> 
+            <a>INVOICE</a> 
           </h4>
            
         </div>
@@ -1254,6 +1257,12 @@ Latitude : {{this.rowDatanya.latitude_actual}}
             <div class="card-block">
       <div class="feather-icons overflow-hidden">
                           <div class="row">
+
+                                 <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="no_receive" style="color:blue;">DETAIL BOQ BAPS</label> 
+                    </fieldset>
+                                </div>
      <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="tgl_mulai_sewa">Tanggal Dimulai Sewa </label>
@@ -1276,35 +1285,13 @@ Latitude : {{this.rowDatanya.latitude_actual}}
                                     </fieldset>
                                 </div>
 
-                                
-                   </div>
-          </div>               
-            </div>
-          </div> 
-        </div>
-      </div>
-    </li>
-  
 
+                                 <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="no_receive" style="color:blue;">DETAIL BAPS</label> 
+                    </fieldset>
+                                </div>
 
-  <li class="timeline-item mt-5" v-if="this.rowDatanya.bapsid">
-      <div class="timeline-badge">
-        <span class="bg-orange bg-lighten-1" data-toggle="tooltip" data-placement="left" title="BAPS">
-      
-    </span>
-      </div>
-      <div class="timeline-card card border-grey border-lighten-2">
-        <div class="card-header">
-          <h4 class="card-title mb-0">
-            <a>BAPS</a> 
-          </h4>
-           
-        </div>
-        <div class="card-body"> 
-          <div class="card-body">
-            <div class="card-block">
-      <div class="feather-icons overflow-hidden">
-                          <div class="row">
      <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="tgL_akhir_sewa">Tanggal Berakhir Sewa </label>
@@ -1321,35 +1308,14 @@ Latitude : {{this.rowDatanya.latitude_actual}}
                                     </fieldset>
                                 </div>
 
-                                
-                   </div>
-          </div>               
-            </div>
-          </div> 
-        </div>
-      </div>
-    </li>
+
+     <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="no_receive" style="color:blue;">DETAIL INIVOICE</label> 
+                    </fieldset>
+                                </div>
 
 
-
-  <li class="timeline-item mt-5" v-if="this.rowDatanya.invoiceid">
-      <div class="timeline-badge">
-        <span class="bg-blue bg-lighten-1" data-toggle="tooltip" data-placement="left" title="INVOICE">
-      
-    </span>
-      </div>
-      <div class="timeline-card card border-grey border-lighten-2">
-        <div class="card-header">
-          <h4 class="card-title mb-0">
-            <a>INVOICE</a> 
-          </h4>
-           
-        </div>
-        <div class="card-body"> 
-          <div class="card-body">
-            <div class="card-block">
-      <div class="feather-icons overflow-hidden">
-                          <div class="row">
      <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="no_receive">NO RECEIVE </label>

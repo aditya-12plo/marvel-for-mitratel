@@ -1109,10 +1109,6 @@ return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,
         $min = $request->min;
         $max = $request->max;
         $query =  DB::table('vjobsapprovaldropsiteHQ')
-        ->where(function ($query) {
-    $query->where('area', Auth::guard('karyawan')->user()->area)
-          ->orWhere('area', Auth::guard('karyawan')->user()->area2);
-})
         ->orderBy('id','DESC');
 
         if ($search && !$min && !$max) {
@@ -1288,7 +1284,10 @@ return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,
         $infratypenya = $request->infratypenya; 
         $towernya = $request->towernya; 
         $query =  DB::table('vjobsubmitboq')
-        ->where('area',Auth::guard('karyawan')->user()->area)
+        ->where(function ($query) {
+            $query->where('area', Auth::guard('karyawan')->user()->area)
+                  ->orWhere('area', Auth::guard('karyawan')->user()->area2);
+        })
         ->orderBy('id','DESC');
 
         if ($search && $infratypenya && $towernya) {
@@ -3112,6 +3111,32 @@ public function GetJobsSubmitCMERevisian(Request $request , $id)
     }
 
 
+    public function GetJobsSubmitBOQRevisian(Request $request , $id)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+
+ $query =  DB::table('vjobsubmitboq')
+        ->where(function ($query) {
+    $query->where('area', Auth::guard('karyawan')->user()->area)
+          ->orWhere('area', Auth::guard('karyawan')->user()->area2);
+})->whereNotIn('id',explode(",",$id))
+        ->orderBy('id','DESC');
+
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like);
+  }
+
+
+        return $query->paginate($perPage);
+    }
+
+
 // cme print
     public function GetJobsApprovedDocumentCME(Request $request)
     {
@@ -3122,7 +3147,7 @@ public function GetJobsSubmitCMERevisian(Request $request , $id)
  $query = DB::table('vsiteapprovedcme')
             ->where(function ($query) {
     $query->where('area', Auth::guard('karyawan')->user()->area)
-          ->orWhere('area', Auth::guard('karyawan')->user()->area2);
+          ->orWhere('area2', Auth::guard('karyawan')->user()->area2);
 })
         ->orderBy('id','DESC');
  
@@ -3149,6 +3174,46 @@ if (!empty($search)) {
         return $query->paginate($perPage);
     }
 
+
+    public function GetJobsApprovedDocumentCMEReport(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+ $query = DB::table('v_extract_accured_data_total')
+            ->where(function ($query) {
+    $query->where('area', Auth::guard('karyawan')->user()->area)
+          ->orWhere('area2', Auth::guard('karyawan')->user()->area2);
+})
+        ->orderBy('id','DESC');
+ 
+
+if (!empty($search)) {
+            $like = "%{$search}%";
+            $query = $query->where('cme_code', 'LIKE', $like);
+}
+        
+ if (!empty($min) && empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$min);
+  }
+ 
+ if (empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','=',$max);
+  }
+ 
+ if (!empty($min) && !empty($max))
+  { 
+   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+  }
+        return $query->paginate($perPage);
+    }
+
+
+
+
 // cme To Accrued
     public function GetJobsApprovedDocumentCMEToAccrued(Request $request)
     {
@@ -3159,7 +3224,7 @@ if (!empty($search)) {
  $query = DB::table('vsiteapprovedcmetoaccrued')
             ->where(function ($query) {
     $query->where('area', Auth::guard('karyawan')->user()->area)
-          ->orWhere('area', Auth::guard('karyawan')->user()->area2);
+          ->orWhere('area2', Auth::guard('karyawan')->user()->area2);
 })
         ->orderBy('id','DESC');
  
@@ -3198,7 +3263,7 @@ if (!empty($search)) {
  $query = DB::table('vsiteapprovedcmeaccrueddata')
             ->where(function ($query) {
     $query->where('area', Auth::guard('karyawan')->user()->area)
-          ->orWhere('area', Auth::guard('karyawan')->user()->area2);
+          ->orWhere('area2', Auth::guard('karyawan')->user()->area2);
 })
         ->orderBy('id','DESC');
  

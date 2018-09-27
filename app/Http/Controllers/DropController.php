@@ -25,6 +25,17 @@ use App\Models\DokumenRFC;
 use App\Models\BOQ;
 use App\Models\ProjectStatus;
 use App\Models\HistoryDrop;
+use App\Models\SiteOpening;
+use App\Models\Excavation;
+use App\Models\Rebaring;
+use App\Models\Pouring;
+use App\Models\Curing;
+use App\Models\TowerErection;
+use App\Models\MEProcess;
+use App\Models\FenceYard;
+use App\Models\RfiBaut;
+use App\Models\RfiDetail;
+use App\Models\PO;
 
 class DropController extends Controller
 {
@@ -35,6 +46,45 @@ class DropController extends Controller
         $this->SendEmailController = app('App\Http\Controllers\SendEmailController');
     $this->data['tahunproject']  = DB::table('vtahun')->get();
     }
+
+
+
+ 
+    public function DeleteProjectData(Request $request)
+    {
+$valid = $this->validate($request, [
+        'project_id' => 'required|numeric|not_in:0',
+        'projectid' => 'required|max:255', 
+    ]);
+if (!$valid)
+    {
+        $destinationPath = 'files/'.Input::get('projectid');
+        File::delete($destinationPath);  
+        DokumenSIS::where('project_id',Input::get('project_id'))->delete();     
+        DokumenDRM::where('project_id',Input::get('project_id'))->delete();    
+        DokumenSITAC::where('project_id',Input::get('project_id'))->delete();     
+        DokumenRFC::where('project_id',Input::get('project_id'))->delete();    
+        BOQ::where('project_id',Input::get('project_id'))->delete();    
+        PO::where('project_id',Input::get('project_id'))->delete();    
+        SiteOpening::where('project_id',Input::get('project_id'))->delete();   
+        Excavation::where('project_id',Input::get('project_id'))->delete();     
+        Rebaring::where('project_id',Input::get('project_id'))->delete();     
+        Pouring::where('project_id',Input::get('project_id'))->delete();    
+        Curing::where('project_id',Input::get('project_id'))->delete();      
+        TowerErection::where('project_id',Input::get('project_id'))->delete();      
+        MEProcess::where('project_id',Input::get('project_id'))->delete();  
+        FenceYard::where('project_id',Input::get('project_id'))->delete();   
+        RfiBaut::where('project_id',Input::get('project_id'))->delete();   
+        RfiDetail::where('project_id',Input::get('project_id'))->delete();   
+        return response()->json(true);              
+    }
+else
+    {
+ return response()->json('error', $valid);
+    } 
+    }
+
+
 
 
     public function drop(Request $request)
@@ -160,10 +210,7 @@ else
 HistoryDrop::where('project_id',Input::get('project_id'))->update(['status_id'=>$cek->status_id]); 
 }  
 $ProjectStatus = ProjectStatus::create(['project_id' => Input::get('project_id'),'users_id' => Auth::guard('karyawan')->user()->id , 'document'=>strtoupper(Input::get('document')),'status'=>strtoupper(Input::get('statusmessage')),'message'=>strtoupper(Input::get('message'))]);
-$showUser = User::where(function ($query) {
-    $query->where([['level', Auth::guard('karyawan')->user()->level],['posisi','MANAGER'],['area',Auth::guard('karyawan')->user()->area]])
-          ->orWhere([['level', Auth::guard('karyawan')->user()->level],['posisi','MANAGER'],['area2',Auth::guard('karyawan')->user()->area]]);
-})->get();
+$showUser = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','MANAGER']])->get();
 if(count($showUser) > 0)
 {
 foreach ($showUser as $p) {
@@ -199,6 +246,7 @@ $valid = $this->validate($request, [
         'infratype' => 'required',
         'message' => 'required',
         'kata' => 'required',
+        'area' => 'required|numeric|not_in:0',
         'status' => 'required|numeric|not_in:0'
     ]);
 if (!$valid)
@@ -214,8 +262,8 @@ $kodestatus = Input::get('status');
 }
 $ProjectStatus = ProjectStatus::create(['project_id' => Input::get('project_id'),'users_id' => Auth::guard('karyawan')->user()->id , 'document'=>strtoupper(Input::get('document')),'status'=>strtoupper(Input::get('statusmessage')),'message'=>strtoupper(Input::get('message'))]);
 $showUser = User::where(function ($query) {
-    $query->where([['level', Auth::guard('karyawan')->user()->level],['posisi','ACCOUNT MANAGER'],['area',Auth::guard('karyawan')->user()->area]])
-          ->orWhere([['level', Auth::guard('karyawan')->user()->level],['posisi','ACCOUNT MANAGER'],['area',Auth::guard('karyawan')->user()->area2]]);
+    $query->where([['level', Auth::guard('karyawan')->user()->level],['posisi','ACCOUNT MANAGER'],['area',Input::get('area')]])
+          ->orWhere([['level', Auth::guard('karyawan')->user()->level],['posisi','ACCOUNT MANAGER'],['area',Input::get('area')]]);
 })->get();
 if(count($showUser) > 0)
 {
@@ -293,7 +341,6 @@ else
     }
 
  
-
 
     
 }

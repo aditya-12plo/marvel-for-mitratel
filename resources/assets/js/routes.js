@@ -639,6 +639,10 @@ let routes=[
 	component:require('./components/CME/Print')
 }, 
 {
+	path:'/laporan-cme-accrued',
+	component:require('./components/CME/Report')
+}, 
+{
 	path:'/cme-revisi',
 	component:require('./components/CME/IndexRevisi')
 }, 
@@ -758,7 +762,7 @@ let routes=[
 /* BAKS BAUK  */
 
 
-/* BOQ BAPS */
+/* BOQ BAPS 
 {
 	path:'/documents-boq-baps',
 	component:require('./components/BoqBaps/')
@@ -779,9 +783,9 @@ let routes=[
 	component:require('./components/BoqBaps/Add'),
 	props: true
 },
-/* BOQ BAPS */
+ BOQ BAPS
 
-/* BAPS */
+ BAPS 
 {
 	path:'/documents-baps',
 	component:require('./components/Baps/')
@@ -802,13 +806,17 @@ let routes=[
 	component:require('./components/Baps/Revisi'),
 	props: true
 },
-/* BAPS */
+ BAPS */
 
 
 /* invoice */
 {
 	path:'/documents-invoice',
 	component:require('./components/Invoice/')
+},
+{
+	path:'/documents-invoice-upload',
+	component:require('./components/Invoice/Upload')
 },
 {
 	path:'/documents-invoice/add/:id',
@@ -943,6 +951,31 @@ let routes=[
 },
 /* list users akses  */
 
+/* list email  busdev  */
+{
+	path:'/busdev-email',
+	component:require('./components/Busdev/')
+},
+{
+	path:'/busdev-email/add',
+	name: 'busdevadd',
+	component:require('./components/Busdev/Add'),
+	props: true
+},
+{
+	path:'/busdev-email/detail/:id',
+	name: 'busdevdetail',
+	component:require('./components/Busdev/Detail'),
+	 props: true
+},
+{
+	path:'/busdev-email/edit/:id',
+	name: 'busdevedit',
+	component:require('./components/Busdev/Edit'),
+	 props: true
+},
+
+/* list email  busdev  */
 
 /* notifications user list  */
 {

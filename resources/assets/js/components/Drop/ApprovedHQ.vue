@@ -425,6 +425,13 @@ export default {
       }
         
       },
+      
+DeleteProject(id,projectid){
+    var masuk = {project_id:id , projectid:projectid};
+                axios.post('/karyawan/DeleteProjectData',masuk).then((response) => {
+                  return true;
+                });
+            },  
                   ApproveItem(){
 this.statusmessage = '';
 this.status = '';
@@ -493,6 +500,10 @@ this.modal.set('approve', true);
 }).then((result) => {
   if (result.value) {
     this.isLoading = true;
+    if(this.status == 105)
+{   
+this.DeleteProject(this.rowDatanya.project.id,this.rowDatanya.project.projectid);      
+}
    let masuk = new FormData();
    masuk.set('project_id', this.rowDatanya.project.id)
    masuk.set('projectid', this.rowDatanya.project.projectid)
@@ -501,6 +512,7 @@ this.modal.set('approve', true);
    masuk.set('message', this.message)
    masuk.set('statusmessage', this.statusmessage)
    masuk.set('document', 'DROP SITE')
+   masuk.set('area',this.rowDatanya.project.area)
    masuk.set('status', this.status)
                 axios.post('/karyawan/ApprovalDropSiteHQ', masuk)
                     .then(response => { 

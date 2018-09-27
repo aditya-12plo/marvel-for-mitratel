@@ -225,6 +225,12 @@ export default {
           dataClass: 'text-center'
         }, 
         {
+          name: 'area',
+      title: 'Area',
+      titleClass: 'text-center',
+          dataClass: 'text-center'
+        },
+        {
           name: 'total',
       title: 'Total Site',
       titleClass: 'text-center',

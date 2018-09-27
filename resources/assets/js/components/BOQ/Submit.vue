@@ -56,7 +56,7 @@
     </tr>
     <tr>
       <td><label>Search for:</label></td>
-      <td colspan="3"><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="Batch"></td>
+      <td colspan="3"><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="Project ID"></td>
     </tr>
      <tr>
       <td colspan="4" style="padding-top: 1%;"></td>
@@ -239,6 +239,12 @@ export default {
           dataClass: 'text-center'
         }, 
         {
+          name: 'batchnya',
+		  title: 'Batch',
+		  titleClass: 'text-center',
+          dataClass: 'text-center'
+        },
+        {
           name: 'infratype',
 		  title: 'Infratype',
 		  titleClass: 'text-center',
@@ -251,23 +257,17 @@ export default {
           dataClass: 'text-center'
         }, 
         {
-          name: 'regional',
-      title: 'Regional',
+          name: 'area',
+      title: 'Area',
       titleClass: 'text-center',
           dataClass: 'text-center'
         },
         {
-          name: 'site_id_actual',
-      title: 'Site ID Aktual',
+          name: 'regional',
+      title: 'Regional',
       titleClass: 'text-center',
           dataClass: 'text-center'
         }, 
-        {
-          name: 'site_name_actual',
-      title: 'Site Name Aktual',
-      titleClass: 'text-center',
-          dataClass: 'text-center'
-        },   
         {
           name: 'harga_bulan',
       title: 'Harga Sewa / Bulan',

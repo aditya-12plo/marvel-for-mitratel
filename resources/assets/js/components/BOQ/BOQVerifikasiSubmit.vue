@@ -247,6 +247,12 @@ export default {
           dataClass: 'text-center'
         }, 
         {
+          name: 'batchnya',
+		  title: 'Batch',
+		  titleClass: 'text-center',
+          dataClass: 'text-center'
+        },
+        {
           name: 'infratype',
 		  title: 'Infratype',
 		  titleClass: 'text-center',
@@ -259,20 +265,14 @@ export default {
           dataClass: 'text-center'
         }, 
         {
-          name: 'regional',
-      title: 'Regional',
+          name: 'area',
+      title: 'Area',
       titleClass: 'text-center',
           dataClass: 'text-center'
         },
         {
-          name: 'site_id_actual',
-      title: 'Site ID Aktual',
-      titleClass: 'text-center',
-          dataClass: 'text-center'
-        }, 
-        {
-          name: 'site_name_actual',
-      title: 'Site Name Aktual',
+          name: 'regional',
+      title: 'Regional',
       titleClass: 'text-center',
           dataClass: 'text-center'
         }, 

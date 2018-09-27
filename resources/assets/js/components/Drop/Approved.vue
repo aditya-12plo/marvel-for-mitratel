@@ -15,6 +15,9 @@
 <button type="button" class="btn btn-raised btn-danger" @click="RepairItem()">
     <i class="fa ft-x-square"></i> Batal
 </button>
+<button type="button" @click="DetailData()" class="btn btn-raised btn-info">
+    <i class="ft-trending-up"></i> Detail
+</button>
 <button type="button" class="btn btn-raised btn-primary" @click="ApproveItem()">
     <i class="fa fa-check-square-o"></i> Setujui
 </button>
@@ -364,6 +367,7 @@ import Vuetable from 'vuetable-2/src/components/Vuetable'
 import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
 import Vue from 'vue'
+import Hashids from 'hashids'
 import loading from '../Loading'
 import VueEvents from 'vue-events'
 Vue.use(VueEvents)
@@ -413,6 +417,21 @@ export default {
  watch: {
         },
         methods: {
+              diacak(id)
+           {
+var hashids = new Hashids('',1000,'abcdefghijklmnopqrstuvwxyz0987654321ABCDEFGHIJKLMNOPQRSTUVWXYZ'); // no padding
+return hashids.encode(id); 
+           },
+dibalik(id)
+           {
+var hashids = new Hashids('',1000,'abcdefghijklmnopqrstuvwxyz0987654321ABCDEFGHIJKLMNOPQRSTUVWXYZ'); // no padding
+return hashids.decode(id); 
+           }, 
+                              DetailData(){
+let routeData = this.$router.resolve({name:'approvalboqdetailprojectnya', params: {id: this.diacak(this.rowDatanya.project.id) }});
+window.open(routeData.href, '_blank');
+               
+            }  ,
                dataAction () {
       if(this.typenya === "approval-drop")
       {
@@ -493,6 +512,12 @@ this.modal.set('approve', true);
 }).then((result) => {
   if (result.value) {
     this.isLoading = true;
+
+if(this.status == 105)
+{   
+this.DeleteProject(this.rowDatanya.project.id,this.rowDatanya.project.projectid);      
+}
+
    let masuk = new FormData();
    masuk.set('project_id', this.rowDatanya.project.id)
    masuk.set('projectid', this.rowDatanya.project.projectid)
@@ -505,7 +530,7 @@ this.modal.set('approve', true);
                 axios.post('/karyawan/ApprovalDropSiteRegional', masuk)
                     .then(response => { 
                       if(response.data.success)
-                      {
+                      {       
                  this.success(response.data.success);
                  this.isLoading = false;
                  this.backLink();
@@ -534,7 +559,12 @@ this.modal.set('approve', true);
   }
 })
             },
-
+DeleteProject(id,projectid){
+    var masuk = {project_id:id , projectid:projectid};
+                axios.post('/karyawan/DeleteProjectData',masuk).then((response) => {
+                  return true;
+                });
+            },   
   GetKomunikasi(id){
                 axios.get('/karyawan/GetKomunikasiProject/'+id).then((response) => {
                     this.komunikasi = response.data;

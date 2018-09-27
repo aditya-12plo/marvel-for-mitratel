@@ -73,6 +73,32 @@
 		                            </div>
 
 
+
+<div class="col-xl-4 col-lg-6 col-md-12 mb-1" v-if="this.forms.level=='REGIONAL' && this.forms.posisi=='MANAGER MARKETING' || this.forms.level=='REGIONAL' && this.forms.posisi=='AM SUPPORT' || this.forms.level=='REGIONAL' && this.forms.posisi=='ACCOUNT MANAGER'">
+<fieldset class="form-group">
+                                        <label for="area">Area</label>
+<select class="form-control border-input" v-model="forms.area" required >
+<option value="" selected>Pilih Area User</option>
+<option v-for="piliharea in pilihanarea" :value="piliharea">{{ piliharea }}</option>
+</select>
+<div class="help-block"><ul role="alert"><li v-for="error of errorNya['area']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+
+
+<div class="col-xl-4 col-lg-6 col-md-12 mb-1" v-if="this.forms.level=='HQ' && this.forms.posisi=='ACCOUNT MANAGER' || this.forms.level=='HQ' && this.forms.posisi=='HAKI - ACCOUNT MANAGER' || this.forms.level=='HQ' && this.forms.posisi=='HAKI - MANAGER'">
+<fieldset class="form-group">
+                                        <label for="area">Area HQ</label>
+<select class="form-control border-input" v-model="forms.areahq" required >
+<option value="" selected>Pilih Area HQ</option>
+<option v-for="pilihareahq in pilihanareahq" :value="pilihareahq">{{ pilihareahq }}</option>
+</select>
+<div class="help-block"><ul role="alert"><li v-for="error of errorNya['areahq']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+
+
+<!--
 <div class="col-xl-4 col-lg-6 col-md-12 mb-1" v-if="this.forms.level=='HQ' && this.forms.posisi=='ACCOUNT MANAGER' || this.forms.level=='HQ' && this.forms.posisi=='ACCOUNT MANAGER' || this.forms.level=='REGIONAL' && this.forms.posisi=='MANAGER MARKETING' || this.forms.level=='REGIONAL' && this.forms.posisi=='AM SUPPORT' || this.forms.level=='REGIONAL' && this.forms.posisi=='ACCOUNT MANAGER' || this.forms.level=='HQ' && this.forms.posisi=='HAKI - ACCOUNT MANAGER' || this.forms.level=='HQ' && this.forms.posisi=='HAKI - MANAGER'">
 <fieldset class="form-group">
                                         <label for="area">Area</label>
@@ -95,7 +121,7 @@
 <div class="help-block"><ul role="alert"><li v-for="error of errorNya['area2']"><span style="color:red;">{{ error }}</span></li></ul></div>
 		                                </fieldset>
 		                            </div>
-
+-->
 
 <div class="col-xl-4 col-lg-6 col-md-12 mb-1" v-if="this.forms.level=='REGIONAL' && this.forms.posisi=='AM SUPPORT' || this.forms.level=='REGIONAL' && this.forms.posisi=='ACCOUNT MANAGER'">
 <fieldset class="form-group">
@@ -226,12 +252,13 @@ export default {
     return {
 	isLoading: false,
     formErrors:{},
-	GetLevel:'', 
-	forms: new CrudForm({id:'' , name:'' , email:'' , level:'',  posisi:'',  area:'',  area2:'',  regional:'',  password:'' , created_at:''}), 
+    GetLevel:'',  
+	forms: new CrudForm({id:'' , name:'' , email:'' , level:'',  posisi:'',  area:'',  area2:'', areahq:'' ,  regional:'',  password:'' , created_at:''}), 
 	pilihan: ['REGIONAL','HQ'],
 	pilihanregional: ['AM SUPPORT','ACCOUNT MANAGER','MANAGER MARKETING'],
 	pilihanhq: ['ACCOUNT MANAGER','MANAGER','HAKI - ACCOUNT MANAGER','HAKI - MANAGER','BISNIS'],
-	pilihanarea: ['1','2','3','4'],
+    pilihanarea: ['1','2','3','4'],
+    pilihanareahq:['WEST','EAST'],
     errors: new Errors() ,
     errorNya: [],
     dataNya: {name : '', level:''},

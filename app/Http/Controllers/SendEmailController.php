@@ -23,6 +23,7 @@ use App\Models\DokumenDRM;
 use App\Models\DokumenSITAC;
 use App\Models\DokumenRFC;
 use App\Models\BOQ;
+use App\Models\Busdev;
 
 class SendEmailController extends Controller
 {
@@ -64,6 +65,29 @@ class SendEmailController extends Controller
   
     }
 
+    
+    public function kirimCMEAccured($file,$nodoc,$from)
+    { 
+$busdev = Busdev::get();
+foreach($busdev as $b)
+{
+  $to = $b->email;
+  $isipesan = array( 
+    'title' => 'File Dokumen Accrued Aplikasi Marvel',
+    'nodoc' => $nodoc,  
+    'file' => $file,  
+    'namabusdev' => $b->name,  
+    'name' => $from); 
+  $content = view('email_content_cme_accrued')->with($isipesan);
+    Mail::send('email', ['contentMessage' => $content], function($messageNya) use ($to,$file) {
+     $messageNya->to($to)->subject('File Dokumen Accrued Aplikasi Marvel');
+     $messageNya->attach($file);
+     $messageNya->from('aplikasi.mitratel@gmail.com','Dr.MarveL (Dokumen Review MARketing Validation ELectronik)');
+  });
+
+}
+
+    }
 
     public function kirimCME($to,$nodoc,$from,$level,$detailnya,$kata)
     { 

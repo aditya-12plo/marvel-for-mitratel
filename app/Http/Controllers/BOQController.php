@@ -118,6 +118,16 @@ else
 
 
 
+    public function UpdateBOQRevisi(Request $request)
+    { 
+        $id = $request->id;
+        $project_id = $request->project_id;
+
+Project::whereIn('id',explode(",",$project_id))->update(['boq_status'=>16]);
+BOQSubmit::where('id',$id)->update(['boq_status'=>$project_id]);  
+return response()->json(['success'=>'Successfully']);      
+    }
+
 
 
         public function store(Request $request)

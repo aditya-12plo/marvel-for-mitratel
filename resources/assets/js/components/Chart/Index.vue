@@ -79,7 +79,7 @@
       <div class="card-body">
 
 
-      <h2 align="center">AVG NASIONAL BIAYA SEWA / TAHUN</h2>
+      <h2 align="center">AVG NASIONAL REVENUE / TAHUN</h2>
 <br>
 <line-chart-nasional-by-years :height="500" :labelnya="this.dataNya.totallineavg.labels" :resultnya="this.dataNya.totallineavg.result"></line-chart-nasional-by-years>
 
@@ -93,7 +93,7 @@
       <div class="card-body">
 
 
-      <h2 align="center">AVG AREA BIAYA SEWA / TAHUN</h2>
+      <h2 align="center">AVG AREA REVENUE / TAHUN</h2>
 <br>
 <line-chart-area-by-years :height="500" :labelnya="this.dataNya.totalareanasionalline.labels" :resultnya="this.dataNya.totalareanasionalline.result"></line-chart-area-by-years>
 
@@ -108,7 +108,7 @@
       <div class="card-body">
 
 
-      <h2 align="center">AVG REGIONAL BIAYA SEWA / TAHUN</h2>
+      <h2 align="center">AVG REGIONAL REVENUE / TAHUN</h2>
 <br>
 <line-chart-regional-by-years :height="500" :labelnya="this.dataNya.totalregionalnasionalline.labels" :resultnya="this.dataNya.totalregionalnasionalline.result"></line-chart-regional-by-years>
 
@@ -167,12 +167,11 @@ Vue.component("line-chart-regional-by-years", {
           labels: this.labelnya,
         datasets: [
           {
-       label: [],
-          borderColor: '#05CBE1',
-          pointBackgroundColor: 'white',
-          pointBorderColor: 'white',
+          label: this.labelnya,
+          borderColor: [this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex()], 
+          pointHighlightStroke:[this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex()],  
           borderWidth: 1,
-          backgroundColor: '#f21e07',
+          backgroundColor:[this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex()], 
           data: this.resultnya
       }
         ]
@@ -184,7 +183,7 @@ Vue.component("line-chart-regional-by-years", {
               ticks: {
                 beginAtZero: true,
         min: 0,           
-        stepSize:100000000,
+        stepSize:10000000,
               },
               gridLines: {
                 display: true
@@ -197,7 +196,7 @@ Vue.component("line-chart-regional-by-years", {
             }]
           },
           legend: {
-            display: true
+            display: false
           },
           responsive: true,
           maintainAspectRatio: false
@@ -205,8 +204,12 @@ Vue.component("line-chart-regional-by-years", {
       }
     },
    methods: { 
-    formatGrafikNumberRupiah (value) {
-      return accounting.formatMoney(value,  "Rp. ", 2, ".", ",")
+
+        getRandomColorHex () {
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    return "rgb(" + r + "," + g + "," + b + ")";
     },
 },
     mounted () {
@@ -228,13 +231,12 @@ Vue.component("line-chart-area-by-years", {
           labels: this.labelnya,
         datasets: [
         {
-                label: [],
-                borderColor: '#05CBE1',
-                pointBackgroundColor: 'white',
-                pointBorderColor: 'white',
-                borderWidth: 1,
-                backgroundColor: '#9B3CB7',
-                data: this.resultnya
+          label: this.labelnya,
+          borderColor: [this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex()], 
+          pointHighlightStroke:[this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex()], 
+          borderWidth: 1,
+          backgroundColor:[this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex()], 
+          data: this.resultnya
       }
       ]
         },
@@ -245,7 +247,7 @@ Vue.component("line-chart-area-by-years", {
               ticks: {
                 beginAtZero: true,
         min: 0,           
-        stepSize:100000000,
+        stepSize:10000000,
               },
               gridLines: {
                 display: true
@@ -258,7 +260,7 @@ Vue.component("line-chart-area-by-years", {
             }]
           },
           legend: {
-            display: true
+            display: false
           },
           responsive: true,
           maintainAspectRatio: false
@@ -266,23 +268,11 @@ Vue.component("line-chart-area-by-years", {
       }
     },
    methods: { 
-    loopnya(label,reslt)
-    { 
-for (i = 0; i <= label.length; i++) {
-      this.datasets.push( {
-             label: [label[i]],
-                borderColor: '#05CBE1',
-                pointBackgroundColor: 'white',
-                pointBorderColor: 'white',
-                borderWidth: 1,
-                backgroundColor: '#9B3CB7',
-                data: [reslt[i]]
-      }
-      )
-    } 
-      },
-    formatGrafikNumberRupiah (value) {
-      return accounting.formatMoney(value,  "Rp. ", 2, ".", ",")
+        getRandomColorHex () {
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    return "rgb(" + r + "," + g + "," + b + ")";
     },
 },
     mounted () {
@@ -298,19 +288,18 @@ Vue.component("line-chart-nasional-by-years", {
   extends: Bar,
   props: ["labelnya","resultnya"],
   data () {
-      return {
+      return { 
         datacollection: {
           //Data to be represented on x-axis
-          labels: [this.labelnya],
+          labels:this.labelnya,
         datasets: [
           {
-       label: [],
-          borderColor: '#05CBE1',
-          pointBackgroundColor: 'white',
-          pointBorderColor: 'white',
+          label: this.labelnya,
+          borderColor: [this.getRandomColorHex(),this.getRandomColorHex()], 
+          pointHighlightStroke:[this.getRandomColorHex(),this.getRandomColorHex()],
           borderWidth: 1,
-          backgroundColor: '#06f11a',
-          data: [this.resultnya]
+          backgroundColor:[this.getRandomColorHex(),this.getRandomColorHex()],
+          data: this.resultnya
       }
         ]
         },
@@ -321,7 +310,7 @@ Vue.component("line-chart-nasional-by-years", {
               ticks: {
                 beginAtZero: true,
         min: 0,           
-        stepSize:100000000,
+        stepSize:10000000,
               },
               gridLines: {
                 display: true
@@ -334,21 +323,25 @@ Vue.component("line-chart-nasional-by-years", {
             }]
           },
           legend: {
-            display: true
+            display: false
           },
           responsive: true,
           maintainAspectRatio: false
         }
       }
     },
-   methods: { 
-    formatGrafikNumberRupiah (value) {
-      return accounting.formatMoney(value,  "Rp. ", 2, ".", ",")
+   methods: {  
+    
+    getRandomColorHex () {
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    return "rgb(" + r + "," + g + "," + b + ")";
     },
 },
     mounted () {
     //renderChart function renders the chart with the datacollection and options object.
-      this.renderChart(this.datacollection, this.options)
+      this.renderChart(this.datacollection, this.options); 
     }
 })
 
@@ -363,12 +356,13 @@ Vue.component("pie-chart-history-by-years-all", {
           //Data to be represented on x-axis
           labels: this.labelnyahistorybyyears,
         datasets: [
-    { 
+    {
+       
           borderColor: '#05CBE1',
           pointBackgroundColor: 'white',
           pointBorderColor: 'white',
           borderWidth: 1,
-          backgroundColor: ['#dd4b39','#1451A1','#9B3CB7', '#FF396F','#EE0979', '#FF6A00','#009DA0','#4aa7c4','#4aa7c4','#f21e07','#f21e07','#06f11a'],
+          backgroundColor:[this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex()],
           data: this.resultnyahistorybyyears,
         },
         ]
@@ -377,13 +371,23 @@ Vue.component("pie-chart-history-by-years-all", {
         options: {
           scales: { },
           legend: {
-            display: true
+            display: true,
+            position: 'left',
           },
           responsive: true,
           maintainAspectRatio: false
         }
       }
     },
+       methods: {  
+    
+    getRandomColorHex () {
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    return "rgb(" + r + "," + g + "," + b + ")";
+    },
+},
     mounted () {
     //renderChart function renders the chart with the datacollection and options object.
       this.renderChart(this.datacollection, this.options) 
@@ -406,7 +410,7 @@ Vue.component("pie-chart-history-by-years-all-project", {
           pointBackgroundColor: 'white',
           pointBorderColor: 'white',
           borderWidth: 1,
-          backgroundColor: ['#9B3CB7', '#FF396F','#EE0979', '#FF6A00','#009DA0','#4aa7c4','#4aa7c4','#f21e07','#f21e07','#06f11a','#dd4b39','#1451A1'],
+          backgroundColor:[this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex()],
           data: this.resultnyahistorybyyears,
         },
         ]
@@ -415,13 +419,23 @@ Vue.component("pie-chart-history-by-years-all-project", {
         options: {
           scales: { },
           legend: {
-            display: true
+            display: true,
+            position: 'left',
           },
           responsive: true,
           maintainAspectRatio: false
         }
       }
     },
+       methods: {  
+    
+    getRandomColorHex () {
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    return "rgb(" + r + "," + g + "," + b + ")";
+    },
+},
     mounted () {
     //renderChart function renders the chart with the datacollection and options object.
       this.renderChart(this.datacollection, this.options) 
@@ -444,7 +458,7 @@ Vue.component("pie-chart-home-area-by-years", {
           pointBackgroundColor: 'white',
           pointBorderColor: 'white',
           borderWidth: 1,
-          backgroundColor: ['#dd4b39','#1451A1','#9B3CB7', '#FF396F','#EE0979', '#FF6A00','#009DA0','#4aa7c4','#4aa7c4','#f21e07','#f21e07','#06f11a'],
+          backgroundColor:[this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex()],
           data: this.resultnya,
         },
         ]
@@ -453,13 +467,23 @@ Vue.component("pie-chart-home-area-by-years", {
         options: {
           scales: { },
           legend: {
-            display: true
+            display: true,
+            position: 'left',
           },
           responsive: true,
           maintainAspectRatio: false
         }
       }
     },
+           methods: {  
+    
+    getRandomColorHex () {
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    return "rgb(" + r + "," + g + "," + b + ")";
+    },
+},
     mounted () {
     //renderChart function renders the chart with the datacollection and options object.
       this.renderChart(this.datacollection, this.options) 
@@ -482,7 +506,7 @@ Vue.component("pie-chart-home-regional-by-years", {
           pointBackgroundColor: 'white',
           pointBorderColor: 'white',
           borderWidth: 1,
-          backgroundColor: ['#dd4b39','#1451A1','#e2d814','#9B3CB7', '#FF396F','#EE0979', '#FF6A00','#009DA0','#4aa7c4','#4aa7c4','#f21e07','#f21e07','#06f11a','#0f1868','#0f5468','#88a817','#74f404','#6d266d','#6d264f','#9e5d6a','#b7a7a5','#443d35','#efa34c','#161201'],
+          backgroundColor:[this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex(),this.getRandomColorHex()],
           data: this.resultnya,
         },
         ]
@@ -491,13 +515,23 @@ Vue.component("pie-chart-home-regional-by-years", {
         options: {
           scales: { },
           legend: {
-            display: true
+            display: true,
+            position: 'left',
           },
           responsive: true,
           maintainAspectRatio: false
         }
       }
     },
+           methods: {  
+    
+    getRandomColorHex () {
+    var r = Math.floor(Math.random() * 255);
+    var g = Math.floor(Math.random() * 255);
+    var b = Math.floor(Math.random() * 255);
+    return "rgb(" + r + "," + g + "," + b + ")";
+    },
+},
     mounted () {
     //renderChart function renders the chart with the datacollection and options object.
       this.renderChart(this.datacollection, this.options) 

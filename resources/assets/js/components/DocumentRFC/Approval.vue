@@ -220,19 +220,19 @@ export default {
         },
         {
           name: 'projectid',
-		  title: 'Project ID',
-		  titleClass: 'text-center',
-          dataClass: 'text-center'
-        },
-        {
-          name: 'batchnya',
-      title: 'Batch',
+      title: 'Project ID',
       titleClass: 'text-center',
           dataClass: 'text-center'
         },
         {
-          name: 'no_wo',
-		  title: 'No WO',
+          name: 'batchnya',
+		  title: 'Batch',
+		  titleClass: 'text-center',
+          dataClass: 'text-center'
+        },
+        {
+          name: 'infratype',
+		  title: 'Infratype',
 		  titleClass: 'text-center',
           dataClass: 'text-center'
         },

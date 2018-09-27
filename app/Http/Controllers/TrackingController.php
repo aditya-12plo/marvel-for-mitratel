@@ -68,7 +68,7 @@ class TrackingController extends Controller
          ->where('area',Auth::guard('karyawan')->user()->area)
         ->orderBy('id','DESC');
 }
-elseif(Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'MANAGER')
+elseif(Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'MANAGER' || Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'BISNIS')
 {
        $query =  DB::table('vallprojectbyyears')
        ->orderBy('id','DESC');
@@ -128,7 +128,7 @@ else
     { 
 // for national       
 $total =  DB::table('vtotalproject')->where('years',$years)->first();     
-$totalline =  DB::table('vbiayasewanational')->where('years',$years)->first();     
+$totalline =  DB::table('vbiayasewanational')->where('years',$years)->get();     
 
 $labeltotal = ['Dokumen RFC '.$total->jumlahrfc , 'Submit BOQ '.$total->jumlahboq , 'BOQ Verifikasi '.$total->jumlahboqverifikasi , 'BOQ Proses PR '.$total->jumlahboqprosespr , 'BOQ PO Release '.$total->jumlahboqrelease, 'DROP Site '.$total->jumlahdrop];
 $resultTotal = [$total->jumlahrfc,$total->jumlahboq,$total->jumlahboqverifikasi,$total->jumlahboqprosespr ,$total->jumlahboqrelease,$total->jumlahdrop];  
@@ -138,10 +138,14 @@ $labeltotalproject = ['Dokumen KOM / SIS '.$total->jumlahsis , 'Dokumen SITAC '.
 $resultTotalproject = [$total->jumlahsis,$total->jumlahsitac,$total->jumlahrfc,$total->cme];  
 $totallabelproject = ['labels'=>$labeltotalproject , 'result'=> $resultTotalproject];
 
-
-$labelslineavg = 'AVG Sewa National Rp. '.number_format($totalline->jumlah, 2 , '.' , ',' );
 $jumlahsemuanya =$total->jumlah;
-$totallineavg = ['labels'=> $labelslineavg, 'result'=> $totalline->jumlah];
+
+foreach($totalline as $arN)
+{
+    $labelslineavg[] = $arN->infratype.' Rp. '.number_format($arN->jumlah, 2 , '.' , ',' );
+    $totaljmlN[] =$arN->jumlah;
+}
+$totallineavg = ['labels'=> $labelslineavg, 'result'=> $totaljmlN];
 
 //for area
 $area =  DB::table('vtotalprojectarea')->where('years',$years)->get();

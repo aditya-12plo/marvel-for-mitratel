@@ -43,7 +43,7 @@
     </tr>
     <tr>
       <td><label>Search for:</label></td>
-      <td colspan="3"><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="Project ID / No WO / Infratype"></td>
+      <td colspan="3"><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="Project ID / Infratype"></td>
     </tr>
      <tr>
       <td colspan="4" style="padding-top: 1%;"></td>
@@ -225,8 +225,8 @@ export default {
           dataClass: 'text-center'
         },
         {
-          name: 'no_wo',
-		  title: 'No WO',
+          name: 'infratype',
+		  title: 'Infratype',
 		  titleClass: 'text-center',
           dataClass: 'text-center'
         },

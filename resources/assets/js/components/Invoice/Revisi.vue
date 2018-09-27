@@ -5,7 +5,7 @@
 <section class="basic-elements">
     <div class="row">
         <div class="col-sm-12">
-            <div class="content-header" align="center">Form Penambahan Dokumen Invoice Project ID {{this.rowDatanya.project.projectid}}</div>
+            <div class="content-header" align="center">Form Perubahan Dokumen Invoice Project ID {{this.rowDatanya.project.projectid}}</div>
         </div>
     </div>
     <div class="row">
@@ -24,6 +24,64 @@
                     <div class="px-3">
               <div class="form-body">
                             <div class="row">  
+
+
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="tgl_mulai_sewa">TANGGAL MULAI SEWA</label>
+                                        <br>
+ <date-picker :date="tgl_mulai_sewa" :option="option"></date-picker>
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['tgl_mulai_sewa']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="tgl_target_rfi">TANGGAL RFI</label>
+                                        <br>
+ <date-picker :date="tgl_target_rfi" :option="option"></date-picker>
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['tgl_target_rfi']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="document_boq_baps">DOKUMEN BOQ BAPS</label>
+                                        <br>
+<input type="file" accept="application/pdf" name="document_boq_baps" id="document_boq_baps" class="dropzone dropzone-area" ref="document_boq_baps" v-on:change="newAvatar()"> 
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_boq_baps']"><span style="color:red;">{{ error }}</span></li></ul></div>
+  <br>
+  <a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.document_boq_baps" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>   
+  <br>
+<p class="center-block">* Type dokumen .pdf And Max 10 MB</p>
+                                    </fieldset>
+                                </div>
+
+
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="tgL_akhir_sewa">TANGGAL AKHIR SEWA</label>
+                                        <br>
+ <date-picker :date="tgL_akhir_sewa" :option="option"></date-picker>
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['tgL_akhir_sewa']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div> 
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="document_baps">DOKUMEN BAPS</label>
+                                        <br>
+<input type="file" accept="application/pdf" name="document_baps" id="document_baps" class="dropzone dropzone-area" ref="document_baps" v-on:change="newAvatarBaps()"> 
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_baps']"><span style="color:red;">{{ error }}</span></li></ul></div>
+  <br>
+  <a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.document_baps" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>   
+  <br>
+<p class="center-block">* Type dokumen .pdf And Max 10 MB</p>
+                                    </fieldset>
+                                </div>
+
 
                                  <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
@@ -317,15 +375,16 @@ export default {
   isLoading: false,
   modal:new CrudModal({komunikasiproject: false,approve: false,mapping: false , drop: false}),
     formErrors:{},
-     file_name:'',
-     document_wctr:'',
-     document_boq_project:'',
-     document_rfi_certificate:'',
-     document_ijin_warga:'',
-     document_pks:'',
-     document_imb:'',
-     message:'',
-    tgl_invoice: {
+     document_boq_baps:'',
+     document_baps:'',
+     message:'',    
+     tgl_invoice: {
+        time: ''
+      }, 
+    tgl_mulai_sewa: {
+        time: ''
+      }, 
+    tgL_akhir_sewa: {
         time: ''
       }, 
     tgl_target_rfi: {
@@ -361,7 +420,7 @@ export default {
       },
     position: 'up right',
     closeBtn: true,
-  forms: new CrudForm({id:'' , project_id:'' , invoiceid:'' , tgl_invoice:'' , no_receive:'', no_kontrak:'', no_invoice:'', created_at:''}), 
+  forms: new CrudForm({id:'' , project_id:'' ,tgl_mulai_sewa:'',tgl_target_rfi:'', document_boq_baps:'',tgL_akhir_sewa:'',document_baps:''   ,invoiceid:'' , tgl_invoice:'' , no_receive:'', no_kontrak:'', no_invoice:'', created_at:''}), 
     errors: new Errors() ,
     errorNya: [], 
     komunikasi:[] ,
@@ -391,8 +450,13 @@ window.open(routeData.href, '_blank');
                dataAction () {
       if(this.typenya === "revisi-document-invoice")
       { 
-      	this.forms = this.rowDatanya.project;
-      	this.tgl_invoice.time=this.rowDatanya.project.tgl_invoice;
+           this.resetforms();
+        	this.forms = this.rowDatanya.project;
+        	this.tgl_invoice.time  =  this.rowDatanya.project.tgl_invoice;
+           this.tgl_mulai_sewa.time = this.rowDatanya.project.tgl_mulai_sewa;
+           this.tgL_akhir_sewa.time = this.rowDatanya.project.tgL_akhir_sewa;
+           this.tgl_target_rfi.time = this.rowDatanya.project.tgl_target_rfi; 
+           console.log(this.rowDatanya.project.tgl_mulai_sewa);
            this.GetKomunikasi(this.rowDatanya.project.id);
       }
       else
@@ -416,26 +480,97 @@ window.open(routeData.href, '_blank');
                 this.modal.set('drop', true); 
                
             }  ,
-     newAvatar(event) {
-               let files = event.target.files || e.dataTransfer.files;
-               if (files.length) this.file_name = files[0];
+     newAvatar() {
+this.isLoading = true;            
+this.document_boq_baps = this.$refs.document_boq_baps.files[0]; 
+ let masuk = new FormData();
+   masuk.set('id', this.rowDatanya.project.invoiceid)
+   masuk.set('project_id', this.rowDatanya.project.id)
+   masuk.set('projectid', this.rowDatanya.project.projectid)
+   masuk.set('namafile', this.rowDatanya.project.document_boq_baps)
+   masuk.set('document_boq_baps', this.document_boq_baps) 
+axios.post('/karyawan/uploaddokumenBoqBaps' , masuk)
+                    .then(response => {
+if(response.data.success)
+{
+this.isLoading = false;
+    this.rowDatanya.project.document_boq_baps = response.data.namafilenya;
+    this.document_boq_baps = '';
+    this.errorNya = '';
+    this.success(response.data.success);
+}
+if(response.data.document_boq_baps)
+{
+    this.file_name = '';
+  this.errorNya = {document_boq_baps:[response.data.document_boq_baps]}; 
+}
+if(response.data.errorfile)
+                      {
+    this.file_name = '';
+                 this.error(response.data.errorfile);
+                 this.isLoading = false; 
+}
+if(response.data.error)
+                      {
+    this.document_boq_baps = '';
+                 this.error(response.data.error);
+                 this.isLoading = false;
+                 this.backLink();
+}
+                    })
+                    .catch(error => {
+                    this.document_boq_baps = '';
+                     this.isLoading = false;
+                        this.errorNya = error.response.data; 
+                    });       
+    this.document_boq_baps = ''; 
                 
            }, 
-     newAvatarWctr(event) {
-               let files = event.target.files || e.dataTransfer.files;
-               if (files.length) this.document_wctr = files[0];
-                
-           }, 
-     newAvatarBOQ(event) {
-               let files = event.target.files || e.dataTransfer.files;
-               if (files.length) this.document_boq_project = files[0];
-                
-           }, 
-     newAvatarRFI(event) {
-               let files = event.target.files || e.dataTransfer.files;
-               if (files.length) this.document_rfi_certificate = files[0];
-                
-           }, 
+     newAvatarBaps() { 
+this.isLoading = true;            
+this.document_baps = this.$refs.document_baps.files[0]; 
+ let masuk = new FormData();
+   masuk.set('id', this.rowDatanya.project.invoiceid)
+   masuk.set('project_id', this.rowDatanya.project.id)
+   masuk.set('projectid', this.rowDatanya.project.projectid)
+   masuk.set('namafile', this.rowDatanya.project.document_baps)
+   masuk.set('document_baps', this.document_baps) 
+axios.post('/karyawan/uploaddokumenBaps' , masuk)
+                    .then(response => {
+if(response.data.success)
+{
+this.isLoading = false;
+    this.rowDatanya.project.document_baps = response.data.namafilenya;
+    this.document_baps = '';
+    this.errorNya = '';
+    this.success(response.data.success);
+}
+if(response.data.document_baps)
+{
+    this.file_name = '';
+  this.errorNya = {document_baps:[response.data.document_baps]}; 
+}
+if(response.data.errorfile)
+                      {
+    this.file_name = '';
+                 this.error(response.data.errorfile);
+                 this.isLoading = false; 
+}
+if(response.data.error)
+                      {
+    this.document_baps = '';
+                 this.error(response.data.error);
+                 this.isLoading = false;
+                 this.backLink();
+}
+                    })
+                    .catch(error => {
+                    this.document_baps = '';
+                     this.isLoading = false;
+                        this.errorNya = error.response.data; 
+                    });       
+    this.document_baps = ''; 
+           },  
               resetforms() {
             this.errorNya='';
             this.forms.reset();
@@ -493,10 +628,14 @@ window.open(routeData.href, '_blank');
   if (result.value) {    
     this.isLoading = true;
    let masuk = new FormData();
+   masuk.set('id', this.rowDatanya.project.invoiceid)
    masuk.set('project_id', this.rowDatanya.project.id)
    masuk.set('projectid', this.rowDatanya.project.projectid)
    masuk.set('kata', 'REVISI INVOICE')
    masuk.set('infratype', this.rowDatanya.project.infratype) 
+   masuk.set('tgl_mulai_sewa', this.tgl_mulai_sewa.time) 
+   masuk.set('tgl_target_rfi', this.tgl_target_rfi.time)
+   masuk.set('tgL_akhir_sewa', this.tgL_akhir_sewa.time) 
    masuk.set('tgl_invoice', this.tgl_invoice.time)  
    masuk.set('no_receive', this.forms.no_receive)
    masuk.set('no_kontrak', this.forms.no_kontrak)
@@ -504,7 +643,7 @@ window.open(routeData.href, '_blank');
    masuk.set('statusmessage', 'REVISI DOKUMEN INVOICE')
    masuk.set('document', 'REVISI INVOICE')
    masuk.set('status', 54)
-                axios.post('/karyawan/AddDocumentRevisiInvoice', masuk)
+  axios.post('/karyawan/AddDocumentRevisiInvoice', masuk)
                     .then(response => { 
                       if(response.data.success)
                       {

@@ -214,8 +214,8 @@ export default {
         },
         {
           name: 'projectid',
-		  title: 'Project ID',
-		  titleClass: 'text-center',
+      title: 'Project ID',
+      titleClass: 'text-center',
           dataClass: 'text-center'
         },
         {
@@ -225,8 +225,8 @@ export default {
           dataClass: 'text-center'
         },
         {
-          name: 'no_wo',
-		  title: 'No WO',
+          name: 'infratype',
+		  title: 'Infratype',
 		  titleClass: 'text-center',
           dataClass: 'text-center'
         },

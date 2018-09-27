@@ -245,9 +245,7 @@ var masuk ={
  email:this.forms.email,
  password:this.forms.password,
  level:'HQ',
- posisi:'HAKI - ACCOUNT MANAGER',
- regional:'',
-area:this.forms.area}; 
+ posisi:'HAKI - ACCOUNT MANAGER'}; 
                 axios.post('/karyawan/adduserhaki', masuk)
                     .then(response => {
                 this.resetforms();

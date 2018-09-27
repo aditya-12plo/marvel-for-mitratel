@@ -38,7 +38,7 @@
 
 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="rfi_date">TANGGAL DOKUMEN RFI</label>
+                                        <label for="rfi_date"><h4>TANGGAL DOKUMEN RFI</h4></label>
  <br>
 {{this.rowDatanya.project.rfi_date}}
                                     </fieldset>
@@ -46,7 +46,7 @@
 
                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="rfi_document">DOKUMEN RFI</label>
+                                        <label for="rfi_document"><h4>DOKUMEN RFI</h4></label>
                                         <br>
 <a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.rfi_document" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>
  
@@ -56,7 +56,7 @@
 
                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="baut_date">TANGGAL DOKUMEN BAUT</label>
+                                        <label for="baut_date"><h4>TANGGAL DOKUMEN BAUT</h4></label>
                                         <br>
 {{this.rowDatanya.project.baut_date}}
                                     </fieldset>
@@ -64,15 +64,141 @@
 
                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="baut_document">DOKUMEN BAUT</label>
+                                        <label for="baut_document"><h4>DOKUMEN BAUT</h4></label>
                                         <br> 
 <a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.baut_document" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>                                        
                                     </fieldset>
                                 </div>
 
+
+
                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="address_spk">Komunikasi Project</label>
+                                        <label for="m_e_process_date"><h4>TANGGAL DOKUMEN M-E Process</h4></label>
+                                        <br>
+ {{this.rowDatanya.project.m_e_process_date}}
+ </fieldset>
+                                </div>
+
+
+                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label for="m_e_process_document"><h4>DOKUMEN M-E PROCESS </h4></label>
+                                        <br>
+ 
+ <a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.m_e_process_document" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>  
+
+ 
+                                        </fieldset>
+                                    </div>
+                                    
+
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+<label for="tower_erection_date"><h4>TANGGAL DOKUMEN Tower Erection</h4></label>
+                                        <br>
+ {{this.rowDatanya.project.tower_erection_date}}
+ </fieldset>
+                                </div>
+
+
+                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label for="tower_erection_document"><h4>DOKUMEN Tower Erection</h4></label>
+                                        <br> 
+ <a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.tower_erection_document" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>  
+ 
+                                        </fieldset>
+                                    </div>
+
+
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+<label for="curing_date"><h4>TANGGAL DOKUMEN CURING</h4></label>
+                                        <br>
+  {{this.rowDatanya.project.curing_date}}
+         </fieldset>
+                                </div>
+
+
+                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label for="curing_document"><h4>DOKUMEN CURING</h4></label>
+                                        <br>
+ <a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.curing_document" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>  
+
+ </fieldset>
+                                    </div>
+                                    
+ 
+
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+<label for="pouring_date"><h4>TANGGAL DOKUMEN POURING</h4></label>
+                                        <br>
+  {{this.rowDatanya.project.pouring_date}}
+</fieldset>
+                                </div>
+
+
+                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label for="pouring_document"><h4>DOKUMEN POURING</h4></label>
+                                        <br>
+ <a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.pouring_document" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>  
+ </fieldset>
+                                    </div>
+                                    
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+<label for="excavation_date">TANGGAL DOKUMEN EXCAVATION</label>
+                                        <br>
+  {{this.rowDatanya.project.excavation_date}}
+   </fieldset>
+                                </div>
+
+
+                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label for="excavation_document"><h4>DOKUMEN EXCAVATION</h4></label>
+                                        <br>
+ 
+ <a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.excavation_document" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>  
+ 
+                                        </fieldset>
+                                    </div>
+                                    
+ 
+
+ 
+       
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+<label for="site_opening_date">TANGGAL DOKUMEN SITE OPENING</label>
+                                        <br>
+  {{this.rowDatanya.project.site_opening_date}}
+ </fieldset>
+                                </div>
+
+
+                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label for="document_site_opening"><h4>DOKUMEN SITE OPENING</h4></label>
+                                        <br>
+ 
+ <a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.document_site_opening" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>  
+ 
+                                        </fieldset>
+                                    </div>
+
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="address_spk"><h4>Komunikasi Project</h4></label>
                                         <br>
                                         
 <div v-if="this.komunikasi.length > 0">

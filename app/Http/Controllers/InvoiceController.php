@@ -55,6 +55,11 @@ else
       $valid = $this->validate($request, [
         'project_id' => 'required|max:255|unique:invoice,project_id', 
         'projectid' => 'required|max:255', 
+        'tgl_mulai_sewa' => 'required|date|date_format:Y-m-d',
+        'tgl_target_rfi' => 'required|date|date_format:Y-m-d', 
+        'document_boq_baps' => 'required|mimes:pdf',
+        'tgL_akhir_sewa' => 'required|date|date_format:Y-m-d', 
+        'document_baps' => 'required|mimes:pdf', 
         'no_kontrak' => 'required|numeric|digits_between:1,255', 
         'no_receive' => 'required|numeric|digits_between:1,255', 
         'no_invoice' => 'required|max:255', 
@@ -62,10 +67,44 @@ else
     ]);
 if (!$valid)
 {
-Invoice::create(['project_id'=>$request->project_id,'no_receive'=>$request->no_receive,'no_kontrak'=>$request->no_kontrak,'no_invoice'=>$request->no_invoice,'tgl_invoice'=>$request->tgl_invoice]);
-$ProjectStatus = ProjectStatus::create(['project_id' => Input::get('project_id'),'users_id' => Auth::guard('karyawan')->user()->id , 'document'=>strtoupper(Input::get('document')),'status'=>strtoupper(Input::get('statusmessage')),'message'=>strtoupper(Input::get('kata'))]);
-  Project::where('id',Input::get('project_id'))->update(['status_id'=>Input::get('status'),'project_status_id'=>$ProjectStatus->id]);
-  return response()->json(['success'=>'Add Successfully']);
+
+    $file = Input::file('document_boq_baps'); 
+    $extension  = Input::file('document_boq_baps')->getClientOriginalExtension(); 
+    $fileBaps = Input::file('document_baps'); 
+    $extensionBaps  = Input::file('document_baps')->getClientOriginalExtension(); 
+    if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf' || $fileBaps->getSize() <= 10000000 && $fileBaps->getClientMimeType() == 'application/pdf')
+    { 
+    $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path   
+    $fileName   = Input::get('projectid').'-document-boq-baps-'.time().'.'.$extension;
+    $fileNameBaps   = Input::get('projectid').'-document-baps-'.time().'.'.$extensionBaps;
+        if(file_exists($destinationPath.$fileName) || file_exists($destinationPath.$fileNameBaps))
+        {
+    File::delete($destinationPath .$fileName);
+    File::delete($destinationPath .$fileNameBaps);
+        }
+    $upload_success     = $file->move($destinationPath, $fileName);
+    $upload_success_baps     = $fileBaps->move($destinationPath, $fileNameBaps);
+    if(!$upload_success || !$upload_success_baps)
+    {
+    File::delete($destinationPath .$fileName);
+    File::delete($destinationPath .$fileNameBaps);
+     return response()->json(['errorfile'=>'File Upload Gagal, Silahkan Ulangi']);
+    }
+    else
+    {
+        Invoice::create(['project_id'=>$request->project_id,'no_receive'=>$request->no_receive,'no_kontrak'=>$request->no_kontrak,'no_invoice'=>$request->no_invoice,'tgl_invoice'=>$request->tgl_invoice,'tgl_mulai_sewa'=>$request->tgl_mulai_sewa,'tgl_target_rfi'=>$request->tgl_target_rfi,'document_boq_baps'=>$fileName,'tgL_akhir_sewa'=>$request->tgL_akhir_sewa,'document_baps'=>$fileNameBaps]);
+        $ProjectStatus = ProjectStatus::create(['project_id' => Input::get('project_id'),'users_id' => Auth::guard('karyawan')->user()->id , 'document'=>strtoupper(Input::get('document')),'status'=>strtoupper(Input::get('statusmessage')),'message'=>strtoupper(Input::get('kata'))]);
+          Project::where('id',Input::get('project_id'))->update(['status_id'=>Input::get('status'),'project_status_id'=>$ProjectStatus->id]);
+          return response()->json(['success'=>'Add Successfully']);
+    }
+    
+    
+    
+    }
+    else
+    {
+    return response()->json(['errorfile'=>'Please, check your file type / size']);  
+    }
  
 }
 else
@@ -78,13 +117,12 @@ else
 
 
   public function AddDocumentRevisiInvoice(Request $request)
-    {
-$cekdata = Invoice::where('id',$request->id)->first();
-if (count($cekdata) > 0) 
-{
+    { 
       $valid = $this->validate($request, [
-        'projectid' => 'required|max:255', 
-         'projectid' => 'required|max:255', 
+        'projectid' => 'required|max:255',  
+         'tgl_mulai_sewa' => 'required|date|date_format:Y-m-d',
+         'tgl_target_rfi' => 'required|date|date_format:Y-m-d', 
+         'tgL_akhir_sewa' => 'required|date|date_format:Y-m-d', 
         'no_kontrak' => 'required|numeric|digits_between:1,255', 
         'no_receive' => 'required|numeric|digits_between:1,255', 
         'no_invoice' => 'required|max:255', 
@@ -92,7 +130,7 @@ if (count($cekdata) > 0)
     ]);
 if (!$valid)
 { 
-Invoice::where('id',$request->id)->update(['no_receive'=>$request->no_receive,'no_kontrak'=>$request->no_kontrak,'no_invoice'=>$request->no_invoice,'tgl_invoice'=>$request->tgl_invoice]);
+Invoice::where('id',$request->id)->update(['tgl_mulai_sewa'=>$request->tgl_mulai_sewa,'tgl_target_rfi'=>$request->tgl_target_rfi,'tgL_akhir_sewa'=>$request->tgL_akhir_sewa,'no_receive'=>$request->no_receive,'no_kontrak'=>$request->no_kontrak,'no_invoice'=>$request->no_invoice,'tgl_invoice'=>$request->tgl_invoice]);
 $ProjectStatus = ProjectStatus::create(['project_id' => Input::get('project_id'),'users_id' => Auth::guard('karyawan')->user()->id , 'document'=>strtoupper(Input::get('document')),'status'=>strtoupper(Input::get('statusmessage')),'message'=>strtoupper(Input::get('kata'))]);
   Project::where('id',Input::get('project_id'))->update(['project_status_id'=>$ProjectStatus->id]);
   return response()->json(['success'=>'Add Successfully']);
@@ -102,17 +140,186 @@ else
     {
  return response()->json('error', $valid);
     }
-
-}
-else
-{
-  return response()->json(['error'=>'Silahkan Isi form Proses Sebelumnya']);
-}
+ 
 
     }
 
 
 
+    public function uploaddokumenBoqBaps(Request $request)
+    {
+      $valid = $this->validate($request, [
+        'projectid' => 'required|max:255',
+        'document_boq_baps' => 'required|mimes:pdf', 
+    ]);
+if (!$valid)
+    { 
+$file = Input::file('document_boq_baps'); 
+$extension  = Input::file('document_boq_baps')->getClientOriginalExtension(); 
+if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf')
+{ 
+$destinationPath = 'files/'.Input::get('projectid').'/'; // upload path   
+$fileName   = Input::get('projectid').'-document-boq-baps-'.time().'.'.$extension;
+    if(file_exists($destinationPath.$fileName))
+    {
+File::delete($destinationPath .$fileName);
+    }
+
+$upload_success     = $file->move($destinationPath, $fileName);
+if(!$upload_success)
+{
+ return response()->json(['errorfile'=>'File Upload Gagal, Silahkan Ulangi']);
+}
+else
+{
+ File::delete($destinationPath .Input::get('namafile'));
+ Invoice::where('id',Input::get('id'))->update(['document_boq_baps'=>$fileName]);
+  return response()->json(['success'=>'Upload Successfully' , 'namafilenya'=>$fileName]);
+}
+}
+else
+{
+return response()->json(['errorfile'=>'Please, check your file type / size']);  
+}
+
+    }
+
+else
+    {
+ return response()->json('error', $valid); 
+    }
+
+    }
+
+
+
+    public function uploaddokumenBaps(Request $request)
+    {
+      $valid = $this->validate($request, [
+        'projectid' => 'required|max:255',
+        'document_baps' => 'required|mimes:pdf', 
+    ]);
+if (!$valid)
+    { 
+$file = Input::file('document_baps'); 
+$extension  = Input::file('document_baps')->getClientOriginalExtension(); 
+if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf')
+{ 
+$destinationPath = 'files/'.Input::get('projectid').'/'; // upload path   
+$fileName   = Input::get('projectid').'-document-baps-'.time().'.'.$extension;
+    if(file_exists($destinationPath.$fileName))
+    {
+File::delete($destinationPath .$fileName);
+    }
+
+$upload_success     = $file->move($destinationPath, $fileName);
+if(!$upload_success)
+{
+ return response()->json(['errorfile'=>'File Upload Gagal, Silahkan Ulangi']);
+}
+else
+{
+ File::delete($destinationPath .Input::get('namafile'));
+ Invoice::where('id',Input::get('id'))->update(['document_baps'=>$fileName]);
+  return response()->json(['success'=>'Upload Successfully' , 'namafilenya'=>$fileName]);
+}
+}
+else
+{
+return response()->json(['errorfile'=>'Please, check your file type / size']);  
+}
+
+    }
+
+else
+    {
+ return response()->json('error', $valid); 
+    }
+
+    }
+
+
+
+
+    public function uploadinvoice(Request $request)
+    {
+         $valid = $this->validate($request, [
+        'file_name' => 'required|mimes:xlsx,xls',
+    ]);
+         if(!$valid)
+         {
+            $extension  = Input::file('file_name')->getClientOriginalExtension(); // getting image extension
+if($extension == 'xlsx' || $extension == 'xls')
+{
+            $x = 0;
+            $path = $request->file('file_name')->getRealPath();
+            $data = Excel::load($path, function($reader) {})->get();
+            if(!empty($data) && $data->count()){
+                foreach ($data->toArray() as $key => $value) {
+                    if(!empty($value)){
+                        
+                        foreach ($value as $key => $v) {    
+    $insert[] = [
+    'projectid' => strtoupper($v['projectid']), 
+    'tgl_mulai_sewa' => strtoupper($v['tgl_mulai_sewa']), 
+    'tgL_akhir_sewa' => strtoupper($v['tgl_akhir_sewa']), 
+    'tgl_target_rfi' => strtoupper($v['tgl_target_rfi']), 
+    'no_receive' => strtoupper($v['no_receive']), 
+    'no_kontrak' => strtoupper($v['no_kontrak']), 
+    'no_invoice' => strtoupper($v['no_invoice']), 
+    'tgl_invoice' => strtoupper($v['tgl_invoice']), 
+    'created_at'=>Carbon::now(),
+    'updated_at'=>Carbon::now()];  
+    $rules[$key.'.projectid'] = 'required|max:200|unique:v_check_invoice_data,projectid';        
+    $rules[$key.'.tgl_mulai_sewa'] = 'date_format:"Y-m-d"|required';           
+    $rules[$key.'.tgL_akhir_sewa'] = 'date_format:"Y-m-d"|required';           
+    $rules[$key.'.tgl_target_rfi'] = 'date_format:"Y-m-d"|required';        
+    $rules[$key.'.no_receive'] =  'required|numeric|digits_between:1,255';        
+    $rules[$key.'.no_kontrak'] =  'required|numeric|digits_between:1,255';  
+    $rules[$key.'.tgl_invoice'] =  'date_format:"Y-m-d"|required';  
+    $rules[$key.'.no_invoice'] =  'required|max:255';    
+     
+
+        }
+                            
+                        }
+                    }
+
+                    if(!empty($insert))
+                    {
+$validator = Validator::make($insert, $rules);
+if($validator->fails()) {
+return response()->json(['file_name'=>'Silahkan perbaiki file yang anda masukan','errornya'=>$validator->errors()]); 
+} else { 
+//DB::table('invoice')->insert($insert);  
+$tempArr = array_unique(array_column($insert, 'projectid'));  
+$out= array_intersect_key($insert, $tempArr);             
+return response()->json(['success'=>'Successfully' , 'invoice'=>$out]);                       
+}                   
+                    }
+                    else
+                    {
+                        return response()->json(['error'=>'Tidak Data yang dimasukan']);
+                    }
+            
+                }
+                else
+                {
+                    return response()->json(['error'=>'Tidak Data yang dimasukan']);
+                }
+     
+                
+            }
+else
+{
+    return response()->json(['file_name'=>'File upload hanya berektensi .xlsx / .xls']);
+}
+         }
+         else
+         {
+            return response()->json('error', $valid);
+         }
+    }
 
 
 

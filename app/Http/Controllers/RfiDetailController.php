@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Crypt;
 use Illuminate\Validation\Rule;
 use PDF;
 use Carbon\Carbon;
+use PHPExcel; 
+use PHPExcel_IOFactory;
 
 
 use App\Models\User;
@@ -52,18 +54,115 @@ class RfiDetailController extends Controller
     public function SubmitCMEToAccrued(Request $request)
     {
         $id = $request->id;        
-        $project_id= $request->project_id;  
+        $project_id= $request->project_id;   
+        $cme_code= $request->cme_code;  
         $status= $request->status;  
         $haki_status= $request->haki_status;  
          $edit = ['project_id'=>$project_id ,'status'=>$status , 'haki_status'=> $haki_status]; 
          CMESubmit::where('id',$id)->update(['status'=>$status , 'status'=> $status]);
         Project::whereIn('id',explode(",",$project_id))->update(['haki_status'=> $haki_status]);
-        
+        $this->saveData($cme_code, $project_id);
         Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'cme_submit' ,'action' => 'update', 'data' => json_encode($edit)]);
         return response()->json(['success'=>'Successfully']);  
   
     }
 
+
+
+    
+    public function saveData($cme_code, $project_id)
+    { 
+
+$fileName = $cme_code;
+$datanya =  DB::table('vallproject')->whereIn('id',explode(",",$project_id))->get();
+$rubahfile = str_replace("/","_",$fileName);
+$destinationPath = 'busdevReport/'.$rubahfile.'.xls'; // save path
+
+
+// Create new PHPExcel object
+$objPHPExcel = new PHPExcel();
+
+ 
+// Set active sheet index to the first sheet, so Excel opens this as the first sheet
+$objPHPExcel->setActiveSheetIndex(0);
+
+// Add column headers
+$objPHPExcel->getActiveSheet()
+            ->setCellValue('A1', 'KODE ACCRUAL : ')
+            ->setCellValue('B1', $fileName)
+            ->setCellValue('A3', 'NO')
+            ->setCellValue('B3', 'PROJECTID')
+            ->setCellValue('C3', 'BATCH')
+            ->setCellValue('D3', 'PO NO')
+            ->setCellValue('E3', 'PO DATE')
+            ->setCellValue('F3', 'SITE NAME SPK')
+            ->setCellValue('G3', 'SITE ID SPK')
+            ->setCellValue('H3', 'SITE NAME AKTUAL')
+            ->setCellValue('I3', 'SITE ID AKTUAL')
+            ->setCellValue('J3', 'AREA')
+            ->setCellValue('K3', 'REGION')
+            ->setCellValue('L3', 'SOW')
+            ->setCellValue('M3', 'RFI DATE')
+            ->setCellValue('N3', 'START MASA SEWA')
+            ->setCellValue('O3', 'AKHIR MASA SEWA')
+            ->setCellValue('P3', 'PRICE / MONTH')
+            ->setCellValue('Q3', 'PRICE / YEARS')
+            ->setCellValue('R3', 'NILAI REVENUE')
+            ->setCellValue('S3', 'BATCH ACCRUE') 
+            ;
+
+$objPHPExcel->getActiveSheet()->getStyle('A1:B1')->getFont()->setBold(true); 
+$objPHPExcel->getActiveSheet()->getStyle('A3:T3')->getFont()->setBold(true); 
+
+$no=1;
+$row=4;
+$jml=0;
+//Put each record in a new cell
+foreach ($datanya as $key=>$a){ 
+    $objPHPExcel->getActiveSheet()->setCellValue('A'.$row, $no);
+    $objPHPExcel->getActiveSheet()->setCellValue('B'.$row,  $a->projectid);
+    $objPHPExcel->getActiveSheet()->setCellValue('C'.$row, $a->batchnya);
+    $objPHPExcel->getActiveSheet()->setCellValue('D'.$row,  $a->no_po);
+    $objPHPExcel->getActiveSheet()->setCellValue('E'.$row, $a->po_date);
+    $objPHPExcel->getActiveSheet()->setCellValue('F'.$row,  $a->site_name_spk);
+    $objPHPExcel->getActiveSheet()->setCellValue('G'.$row,  $a->site_id_spk);
+    $objPHPExcel->getActiveSheet()->setCellValue('H'.$row,  $a->site_name_actual);
+    $objPHPExcel->getActiveSheet()->setCellValue('I'.$row,  $a->site_id_actual);
+    $objPHPExcel->getActiveSheet()->setCellValue('J'.$row, 'AREA '.$a->area);
+    $objPHPExcel->getActiveSheet()->setCellValue('K'.$row, $a->regional);
+    $objPHPExcel->getActiveSheet()->setCellValue('L'.$row, $a->infratype);
+    $objPHPExcel->getActiveSheet()->setCellValue('M'.$row, $a->rfi_date);
+    $objPHPExcel->getActiveSheet()->setCellValue('N'.$row,$a->rfi_detail_start_date);
+    $objPHPExcel->getActiveSheet()->setCellValue('O'.$row, $a->rfi_detail_end_date);
+    $objPHPExcel->getActiveSheet()->setCellValue('P'.$row, $a->rfi_detail_price_month);
+    $objPHPExcel->getActiveSheet()->setCellValue('Q'.$row, $a->rfi_detail_price_year);
+    $objPHPExcel->getActiveSheet()->setCellValue('R'.$row, $a->nilai_revenue);
+    $objPHPExcel->getActiveSheet()->setCellValue('S'.$row, $a->batch_accrue);
+$no++; 
+$row++;  
+$jml = $a->nilai_revenue + $jml; 
+}
+
+$rowLast=count($datanya)+4;
+ $objPHPExcel->getActiveSheet()->setCellValue('Q'.$rowLast, 'TOTAL : ');
+ $objPHPExcel->getActiveSheet()->setCellValue('R'.$rowLast, $jml);
+$objPHPExcel->getActiveSheet()->getStyle('Q'.$rowLast.':R'.$rowLast)->getFont()->setBold(true);
+
+// Set worksheet title
+$objPHPExcel->getActiveSheet()->setTitle('Sheet1');
+
+// Redirect output to a client’s web browser (Excel5)
+header('Content-Type: application/vnd.ms-excel');
+header('Content-Disposition: attachment;filename="' . $fileName . '.xls"');
+header('Cache-Control: max-age=0');
+
+$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+$objWriter->save($destinationPath);
+
+
+$this->SendEmailController->kirimCMEAccured($destinationPath, $fileName,Auth::guard('karyawan')->user()->name);
+
+    }
 /*
         public function SubmitCMEToAccrued(Request $request)
     {
@@ -110,7 +209,7 @@ return response()->json(['success'=>'Successfully']);
         $search = $request->filter; 
         $infratypenya = $request->infratypenya; 
         $towernya = $request->towernya; 
-        $query =  DB::table('vallprojectaccrual') 
+        $query =  DB::table('vallproject') 
         ->whereIn('id',$kodenya)
         ->orderBy('id','DESC');
 

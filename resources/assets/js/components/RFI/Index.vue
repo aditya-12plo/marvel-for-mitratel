@@ -247,8 +247,8 @@ export default {
           dataClass: 'text-center'
         },
         {
-          name: 'no_wo',
-		  title: 'No WO',
+          name: 'infratype',
+		  title: 'Infratype',
 		  titleClass: 'text-center',
           dataClass: 'text-center'
         },
@@ -269,12 +269,6 @@ export default {
       title: 'Tower',
       titleClass: 'text-center',
           dataClass: 'text-center'
-        },
-        {
-          name: 'infratype',
-		  title: 'Infratype',
-          titleClass: 'text-center',
-          dataClass: 'text-center',
         },
         {
           name: 'created_at',

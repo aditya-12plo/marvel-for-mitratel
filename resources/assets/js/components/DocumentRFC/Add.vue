@@ -109,7 +109,7 @@
                                     <fieldset class="form-group">
          <label for="id_pln">ID PLN</label>
                                         <br> 
-<input type="text" @input="allcap($event, forms, 'id_pln')" class="form-control" placeholder="RFC NUMBER" v-model="forms.id_pln" required>
+<input type="text" @input="allcap($event, forms, 'id_pln')" class="form-control" placeholder="ID PLN" v-model="forms.id_pln" required>
  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['id_pln']"><span style="color:red;">{{ error }}</span></li></ul></div>  
                                     </fieldset>
                                 </div>
@@ -654,13 +654,17 @@ window.open(routeData.href, '_blank');
   confirmButtonText: 'Yes!'
 }).then((result) => {
   if (result.value) {
+      /*
 if(this.rfc_date.time < this.rowDatanya.project.drm_date)
 {
         this.modal.set('approve', false);
         this.error('Input RFC Date Wrong');
 }
         else
-{    
+{  
+    
+}
+*/
     this.isLoading = true;
    let masuk = new FormData();
    masuk.set('project_id', this.rowDatanya.project.id)
@@ -716,7 +720,7 @@ if(this.rfc_date.time < this.rowDatanya.project.drm_date)
                     }
                         
                     })
-  }
+  
 }
 })
             },

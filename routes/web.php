@@ -59,6 +59,10 @@ Route::post('password/reset', 'Karyawan\Auth\ResetPasswordController@reset')->na
  /* user akses */
 
 
+/* busdev mail */
+Route::resource('/listbusdev', 'BusdevController');
+Route::delete('listbusdevDeleteAll/{id}', 'BusdevController@deleteAll');
+/* busdev mail */
 
  /* project */
   Route::resource('/listproject', 'ProjectController');
@@ -155,7 +159,9 @@ Route::get('GetDetailProjectCME/{id}', 'JobsController@GetDetailProjectCME');
 Route::get('GetJobsApprovalDocumentCMESubmit', 'JobsController@GetJobsApprovalDocumentCMESubmit');
 Route::get('GetJobsApprovalDocumentCMESubmitRevisi', 'JobsController@GetJobsApprovalDocumentCMESubmitRevisi');
 Route::get('GetJobsApprovedDocumentCME', 'JobsController@GetJobsApprovedDocumentCME');
+Route::get('GetJobsApprovedDocumentCMEReport', 'JobsController@GetJobsApprovedDocumentCMEReport');
 Route::get('GetJobsSubmitCMERevisian/{id}/hasil', 'JobsController@GetJobsSubmitCMERevisian');
+Route::get('GetJobsSubmitBOQRevisian/{id}/hasil', 'JobsController@GetJobsSubmitBOQRevisian');
 Route::get('GetJobsApprovedDocumentCMEToAccrued', 'JobsController@GetJobsApprovedDocumentCMEToAccrued');
 Route::get('GetJobsApprovedDocumentCMEAccruedData', 'JobsController@GetJobsApprovedDocumentCMEAccruedData');
 Route::get('GetJobsDocumentBaksBauk', 'JobsController@GetJobsDocumentBaksBauk');
@@ -251,6 +257,7 @@ Route::get('GetInfratype', 'JobsController@GetInfratype');
 
 
  /* drop project */
+   Route::post('DeleteProjectData', 'DropController@DeleteProjectData');
    Route::post('DropProject', 'DropController@drop');
    Route::post('ApprovalDropSiteRegional', 'DropController@dropRegional');
    Route::post('DropProjectHQ', 'DropController@DropProjectHQ');
@@ -285,6 +292,7 @@ Route::get('GetInfratype', 'JobsController@GetInfratype');
  Route::get('GetBOQVerifikasi/{id}', 'BOQController@GetBOQVerifikasi');
  Route::get('GetBOQProsesPR/{id}', 'BOQController@GetBOQProsesPR');
  Route::get('GetBOQPORelease/{id}', 'BOQController@GetBOQPORelease');
+ Route::post('UpdateBOQRevisi', 'BOQController@UpdateBOQRevisi');
  /* boq */
 
 
@@ -431,13 +439,13 @@ Route::get('GetCMEAccruedDataNya/{id}', 'RfiDetailController@GetCMEAccruedDataNy
  Route::post('RevisiDocumentBaksBauk', 'BaksBaukController@RevisiDocumentBaksBauk');
  /* BAKS BAUK */
 
-/* BOQ BAPS */
+/* BOQ BAPS  
  Route::post('AddDocumentBoqBaps', 'BoqBapsController@AddDocumentBoqBaps');
  Route::post('RevisiDocumentBoqBaps', 'BoqBapsController@RevisiDocumentBoqBaps');
-/* BOQ BAPS */
+/* BOQ BAPS  
 
 
-/* BAPS */
+/* BAPS  
  Route::post('AddDocumentBaps', 'BapsController@AddDocumentBaps'); 
  Route::post('RevisiDocumentBaps', 'BapsController@RevisiDocumentBaps'); 
 /* BAPS */
@@ -446,6 +454,9 @@ Route::get('GetCMEAccruedDataNya/{id}', 'RfiDetailController@GetCMEAccruedDataNy
 /* Invoice */
  Route::post('AddDocumentInvoice', 'InvoiceController@AddDocumentInvoice');  
  Route::post('AddDocumentRevisiInvoice', 'InvoiceController@AddDocumentRevisiInvoice');  
+ Route::post('uploaddokumenBoqBaps', 'InvoiceController@uploaddokumenBoqBaps');    
+ Route::post('uploaddokumenBaps', 'InvoiceController@uploaddokumenBaps');  
+ Route::post('uploadinvoice', 'InvoiceController@uploadinvoice');
 /* Invoice */
 
 

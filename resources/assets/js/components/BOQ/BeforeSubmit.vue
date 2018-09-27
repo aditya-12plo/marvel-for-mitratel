@@ -15,6 +15,7 @@
             <div class="card">
                 <div class="card-header">
 <button type="button" class="btn btn-raised btn-warning" @click="backLink()"> <i class="ft-arrow-left position-left"></i> Kembali</button> 
+<button type="button" class="btn btn-raised btn-danger" @click="NewPID()"> <i class="fa fa-plus-square-o position-left"></i> Add New PID</button>
 <button type="button" class="btn btn-raised btn-primary" @click="modal.set('submit', true)"> <i class="fa fa-check-square-o position-left"></i> Submit</button>
 </div>
 
@@ -175,6 +176,37 @@
 
 
 
+<!-- @GetPID -->
+<modal  v-if="modal.get('GetPID')" @close="modal.set('GetPID', false)">
+        <template slot="header" align="center"><h4 align="center">Submit BOQ</h4></template>
+        <template slot="body" > 
+                <div class="modal-body">
+
+<div class="col-sm-12">
+ 
+  <div class="row">
+	<div class="form-group col-md-12 mb-2">
+
+<view-get-pid-boq-before :kodenya="this.commaEvent()"></view-get-pid-boq-before>
+
+	</div>
+                                 
+</div>
+
+
+</div>
+
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-default" @click="modal.set('GetPID', false)" >Close</button> 
+                </div> 
+        </template>
+        </modal>
+<!-- @GetPID -->
+
+
+
     </div>
 </template>
 
@@ -302,6 +334,7 @@ import loading from '../Loading'
 import VueEvents from 'vue-events'
 import Hashids from 'hashids'
 Vue.use(VueEvents)
+Vue.component('view-get-pid-boq-before', require('./GetSubmitProjectBOQ.vue'))
 Vue.component('view-custom-actions', require('../Button/ViewActions.vue'))
 window.axios = require('axios')
 window.eventBus = new Vue()
@@ -370,7 +403,7 @@ export default {
     submitSelectedItems:[] ,
     komunikasi:[] ,
     dataBoqNya:[] ,
-    modal:new CrudModal({submit: false}),
+    modal:new CrudModal({submit: false,GetPID:false}),
       forms: new CrudForm({id:'' , title:'' , nama_telkomsel:'' , posisi_telkomsel:'' , nama_manager:'' , posisi_manager:'',boq_code:'' , nama_user:this.rowDatanya.datanya.name , posisi_user:'', message:'', created_at:''}), 
     displayItems:[] ,
      dataNya: {area:'' , level:'' , regional:''},
@@ -383,7 +416,25 @@ export default {
         'maxToasts': 'resetOptions',
         'position': 'resetOptions',
         },
-  methods: {
+  methods: {  
+       
+            ShowItemData(item){  
+this.isLoading = true;         	
+this.dataBoqNya = [];         	
+//this.UpdateData(item);
+this.GetDetailData(item);
+this.modal.set('GetPID', false);  
+this.isLoading = false;   
+            }  ,    
+commaEvent() {
+var ttl = this.dataBoqNya;
+ var jointtl = Array.prototype.map.call(ttl, function(item) { return item.id; }).join(",") ;
+ return jointtl;	
+},
+             NewPID() {
+
+this.modal.set('GetPID', true); 
+            } ,
  backLink() {
  this.$router.push('/boq-submit');
             } ,
@@ -585,6 +636,13 @@ var masuk = {'title' : this.forms.title,'nama_telkomsel' : this.forms.nama_telko
   },
   events: { 
   }, 
+    created: function() {
+  let self = this;
+            this.$root.$on('showitemdata', function(data,olddata){  
+            var mm = data+','+olddata;
+           self.ShowItemData(mm);
+            });
+        },
 		          mounted() {  
                this.dataAction();
 

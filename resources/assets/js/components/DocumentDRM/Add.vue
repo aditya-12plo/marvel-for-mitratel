@@ -624,6 +624,8 @@ window.open(routeData.href, '_blank');
   confirmButtonText: 'Yes!'
 }).then((result) => {
   if (result.value) {
+
+      /*
 if(this.drm_date.time < this.kom_date.time)
 {
         this.modal.set('approve', false);
@@ -631,7 +633,8 @@ if(this.drm_date.time < this.kom_date.time)
 }
         else
 {
-
+}
+*/
     this.isLoading = true;
    let masuk = new FormData();
    masuk.set('project_id', this.rowDatanya.project.id)
@@ -692,7 +695,7 @@ if(this.drm_date.time < this.kom_date.time)
                     }
                         
                     })
-  }
+  
 }
 })
             },
@@ -718,7 +721,6 @@ if(this.drm_date.time < this.kom_date.time)
    masuk.set('status', 104)
                 axios.post('/karyawan/DropProject', masuk)
                     .then(response => { 
-                 this.DeleteSIS(this.rowDatanya.project.documentid,this.rowDatanya.project.projectid ,this.rowDatanya.project.document_sis);       
                  this.success(response.data.success);
                  this.isLoading = false;
                  this.backLink();

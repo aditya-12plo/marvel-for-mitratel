@@ -36,7 +36,7 @@
 
                                 <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="rfi_detail_start_date">TANGGAL MULAI RFI</label>
+                                        <label for="rfi_detail_start_date">TANGGAL MULAI RFI <br> Tanggal Dokumen RFI {{this.rowDatanya.project.rfi_date}}</label>
                                         <br>
  <date-picker :date="rfi_detail_start_date" :option="option"></date-picker>
   <div class="help-block"><ul role="alert"><li v-for="error of errorNya['rfi_detail_start_date']"><span style="color:red;">{{ error }}</span></li></ul></div>
@@ -453,6 +453,18 @@ export default {
       if(this.typenya === "RfiDetail-add-data")
       {
            this.resetforms();
+           var newdate = new Date(this.rowDatanya.project.rfi_date); 
+           /*
+                 var dd = newdate.getDate();
+                 var mm = newdate.getMonth() + 1;
+                 var y = newdate.getFullYear();
+                 */
+            var datenya = moment(newdate).add(14, 'days').format('YYYY-MM-DD');
+            var jmlhari = 365*10;
+            var dateBerakhirnya = moment(datenya).add(jmlhari, 'days').format('YYYY-MM-DD');
+
+          this.rfi_detail_start_date.time = datenya;
+          this.rfi_detail_end_date.time = dateBerakhirnya;
            this.GetKomunikasi(this.rowDatanya.project.id);
       }
       else
