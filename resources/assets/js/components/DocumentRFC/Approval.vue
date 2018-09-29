@@ -42,8 +42,15 @@
       <td colspan="4" style="padding-top: 1%;"></td>
     </tr>
     <tr>
+      <td><label>Infratype:</label></td>
+      <td>	<select v-model="infratypenya" class="form-control" @keyup.enter="doFilter"> 
+      		<option v-for="opti in optionsnya">
+      			{{opti}}
+      		</option>
+          </select>
+          </td>
       <td><label>Search for:</label></td>
-      <td colspan="3"><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="Project ID / No WO / Infratype"></td>
+      <td><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="Project ID / Regional"></td>
     </tr>
      <tr>
       <td colspan="4" style="padding-top: 1%;"></td>
@@ -199,6 +206,8 @@ export default {
     formErrors:{},
     errors: new Errors() ,
      errorNya: [],
+	 optionsnya: [],
+    infratypenya: '',
      token: localStorage.getItem('token'),
     submitted: false,
     submitSelectedItems:[] ,
@@ -293,13 +302,18 @@ export default {
   },
           watch: {
             'perPage'(newValue, oldValue) {
-               this.$events.fire('filter-set', this.filterText)
+               this.$events.fire('filter-set', this.filterText,this.infratypenya)
             },
             'delayOfJumps': 'resetOptions',
         'maxToasts': 'resetOptions',
         'position': 'resetOptions',
         },
   methods: {
+selectInfratype() { 
+                axios.get('/karyawan/GetInfratype').then((response) => {
+                    this.optionsnya = response.data;  
+                    });
+            } ,
  sumSelectedItems() {
       this.$swal({
   title: 'Are you sure ?',
@@ -432,15 +446,15 @@ return hashids.decode(id);
         doFilter () {
         		if(!this.startTime.time && !this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText, this.infratypenya, this.startTime.time, this.endtime.time )
 		}
 		else if(this.startTime.time && !this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText, this.infratypenya, this.startTime.time, this.endtime.time )
 		}
 		else if(!this.startTime.time && this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText, this.infratypenya, this.startTime.time, this.endtime.time )
 		}
 		else if(this.startTime.time && this.endtime.time)
 		{ 
@@ -450,17 +464,18 @@ return hashids.decode(id);
 		}
 		else
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText, this.infratypenya, this.startTime.time, this.endtime.time )
 		}
 		}
 		else
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText, this.infratypenya, this.startTime.time, this.endtime.time )
 		}
       },
       resetFilter () {
       	this.komunikasi = '';
         this.filterText = '';
+        this.infratypenya = '';
          this.startTime.time = '';
         this.endtime.time = '';
         this.$events.fire('filter-reset');
@@ -520,9 +535,9 @@ onLoading() {
     },			
   },
   events: {
-    'filter-set' (filterText,startTime,endtime) {
+    'filter-set' (filterText,infratypenya,startTime,endtime) {
       this.moreParams = {
-        filter: filterText,min: startTime, max: endtime
+        filter: filterText,infratypenya:infratypenya ,min: startTime, max: endtime
       }
       Vue.nextTick(() => this.$refs.vuetable.refresh() )
     },
@@ -542,6 +557,7 @@ onLoading() {
             //console.log(this.token);
             this.fetchIt();
              this.resetOptions();
+             this.selectInfratype();
                this.resetFilter();
 
         }

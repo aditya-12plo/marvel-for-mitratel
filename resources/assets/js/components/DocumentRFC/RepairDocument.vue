@@ -704,6 +704,7 @@ if(response.data.error)
   confirmButtonText: 'Yes!'
 }).then((result) => {
   if (result.value) {
+/*
 if(this.rfc_date.time < this.rowDatanya.project.drm_date)
 {
         this.modal.set('approve', false);
@@ -711,7 +712,8 @@ if(this.rfc_date.time < this.rowDatanya.project.drm_date)
 }
         else
 {
-
+}
+*/
     this.isLoading = true;
    let masuk = new FormData();
    masuk.set('project_id', this.rowDatanya.project.id)
@@ -768,7 +770,7 @@ if(this.rfc_date.time < this.rowDatanya.project.drm_date)
                         
                     })
 
-  }
+
 }
 })
             },

@@ -41,7 +41,7 @@
                                     <fieldset class="form-group">
                                         <label for="tower_type">TIPE TOWER</label>
                                         <br>
-<input type="text" @input="allcap($event, forms, 'tower_type')" class="form-control" placeholder="TIPE SITE" v-model="forms.tower_type" required>
+<input type="text" @input="allcap($event, forms, 'tower_type')" class="form-control" placeholder="TIPE TOWER" v-model="forms.tower_type" required>
 <div class="help-block"><ul role="alert"><li v-for="error of errorNya['tower_type']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>

@@ -374,12 +374,6 @@ export default {
 		  title: 'Tanggal Invoice',
           titleClass: 'text-center',
           dataClass: 'text-center',
-        },
-        {
-          name: '__component:add-custom-actions',
-          title: 'Actions',
-          titleClass: 'text-center',
-          dataClass: 'text-center'
         }
       ],
       filterText: '', 

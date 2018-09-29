@@ -105,55 +105,39 @@ return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,
     {
        $perPage = $request->per_page;
         $search = $request->filter;
+        $infratype = $request->infratypenya;
         $min = $request->min;
         $max = $request->max;
         $query =  DB::table('vjobsdocumentsis')
          ->where([['regional',Auth::guard('karyawan')->user()->regional],['area',Auth::guard('karyawan')->user()->area]])
         ->orderBy('id','DESC');
 
-        if ($search && !$min && !$max) {
-            $like = "%{$search}%";
-            $query = $query
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && !$max)
-        {
-            $query = $query->whereDate('created_at','=',$min);
-        }
-        if(!$search && !$min && $max)
-        {
-            $query = $query->whereDate('created_at','=',$max);
-        }
-        if($search && $min && !$max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$min)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if($search && !$min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && $max)
-        {
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
-        }
-        if($search && $min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
+       
+ if (!empty($search))
+ {
+   $like = "%{$search}%";
+   $query = $query->where('projectid', 'LIKE', $like);
+ }
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  }
+  
+ if (!empty($min) && empty($max))
+ { 
+  $query = $query->whereDate('created_at','=',$min);
+ }
+
+if (empty($min) && !empty($max))
+ { 
+  $query = $query->whereDate('created_at','=',$max);
+ }
+
+if (!empty($min) && !empty($max))
+ { 
+  $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+ }
+
         return $query->paginate($perPage);
     }
 
@@ -162,55 +146,39 @@ return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,
     {
        $perPage = $request->per_page;
         $search = $request->filter;
+        $infratype = $request->infratypenya;
         $min = $request->min;
         $max = $request->max;
         $query =  DB::table('vjobsdocumentsisrevisi')
         ->where([['regional',Auth::guard('karyawan')->user()->regional],['area',Auth::guard('karyawan')->user()->area]])
         ->orderBy('id','DESC');
 
-        if ($search && !$min && !$max) {
-            $like = "%{$search}%";
-            $query = $query
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && !$max)
-        {
-            $query = $query->whereDate('created_at','=',$min);
-        }
-        if(!$search && !$min && $max)
-        {
-            $query = $query->whereDate('created_at','=',$max);
-        }
-        if($search && $min && !$max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$min)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if($search && !$min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && $max)
-        {
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
-        }
-        if($search && $min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
+            
+ if (!empty($search))
+ {
+   $like = "%{$search}%";
+   $query = $query->where('projectid', 'LIKE', $like);
+ }
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  }
+  
+ if (!empty($min) && empty($max))
+ { 
+  $query = $query->whereDate('created_at','=',$min);
+ }
+
+if (empty($min) && !empty($max))
+ { 
+  $query = $query->whereDate('created_at','=',$max);
+ }
+
+if (!empty($min) && !empty($max))
+ { 
+  $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+ }
+
         return $query->paginate($perPage);
     }
 
@@ -219,55 +187,39 @@ return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,
     {
        $perPage = $request->per_page;
         $search = $request->filter;
+        $infratype = $request->infratypenya;
         $min = $request->min;
         $max = $request->max;
         $query =  DB::table('vjobsapprovaldocumentsis')
         ->where('area',Auth::guard('karyawan')->user()->area)
         ->orderBy('id','DESC');
 
-        if ($search && !$min && !$max) {
-            $like = "%{$search}%";
-            $query = $query
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && !$max)
-        {
-            $query = $query->whereDate('created_at','=',$min);
-        }
-        if(!$search && !$min && $max)
-        {
-            $query = $query->whereDate('created_at','=',$max);
-        }
-        if($search && $min && !$max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$min)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if($search && !$min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && $max)
-        {
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
-        }
-        if($search && $min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
+                  
+ if (!empty($search))
+ {
+   $like = "%{$search}%";
+   $query = $query->where('projectid', 'LIKE', $like)
+   ->orWhere('regional', 'LIKE', $like);
+ }
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  }
+  
+ if (!empty($min) && empty($max))
+ { 
+  $query = $query->whereDate('created_at','=',$min);
+ }
+
+if (empty($min) && !empty($max))
+ { 
+  $query = $query->whereDate('created_at','=',$max);
+ }
+
+if (!empty($min) && !empty($max))
+ { 
+  $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+ } 
         return $query->paginate($perPage);
     }
 
@@ -280,55 +232,38 @@ return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,
     {
        $perPage = $request->per_page;
         $search = $request->filter;
+        $infratype = $request->infratypenya;
         $min = $request->min;
         $max = $request->max;
         $query =  DB::table('vjobsdocumentdrm')
         ->where([['regional',Auth::guard('karyawan')->user()->regional],['area',Auth::guard('karyawan')->user()->area]])
         ->orderBy('id','DESC');
 
-        if ($search && !$min && !$max) {
-            $like = "%{$search}%";
-            $query = $query
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && !$max)
-        {
-            $query = $query->whereDate('created_at','=',$min);
-        }
-        if(!$search && !$min && $max)
-        {
-            $query = $query->whereDate('created_at','=',$max);
-        }
-        if($search && $min && !$max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$min)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if($search && !$min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && $max)
-        {
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
-        }
-        if($search && $min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
+                
+ if (!empty($search))
+ {
+   $like = "%{$search}%";
+   $query = $query->where('projectid', 'LIKE', $like);
+ }
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  }
+  
+ if (!empty($min) && empty($max))
+ { 
+  $query = $query->whereDate('created_at','=',$min);
+ }
+
+if (empty($min) && !empty($max))
+ { 
+  $query = $query->whereDate('created_at','=',$max);
+ }
+
+if (!empty($min) && !empty($max))
+ { 
+  $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+ } 
         return $query->paginate($perPage);
     }
 
@@ -338,55 +273,41 @@ return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,
     {
        $perPage = $request->per_page;
         $search = $request->filter;
+        $infratype = $request->infratypenya;
         $min = $request->min;
         $max = $request->max;
         $query =  DB::table('vjobsapprovaldocumentdrm')
         ->where('area',Auth::guard('karyawan')->user()->area)
         ->orderBy('id','DESC');
 
-        if ($search && !$min && !$max) {
-            $like = "%{$search}%";
-            $query = $query
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && !$max)
+
+             
+        if (!empty($search))
         {
-            $query = $query->whereDate('created_at','=',$min);
+          $like = "%{$search}%";
+          $query = $query->where('projectid', 'LIKE', $like)
+          ->orWhere('regional', 'LIKE', $like);
         }
-        if(!$search && !$min && $max)
-        {
-            $query = $query->whereDate('created_at','=',$max);
+        if (!empty($infratype))
+         { 
+          $query = $query->where('infratype', $infratype);
+         }
+         
+        if (!empty($min) && empty($max))
+        { 
+         $query = $query->whereDate('created_at','=',$min);
         }
-        if($search && $min && !$max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$min)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
+       
+       if (empty($min) && !empty($max))
+        { 
+         $query = $query->whereDate('created_at','=',$max);
         }
-        if($search && !$min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && $max)
-        {
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
-        }
-        if($search && $min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
+       
+       if (!empty($min) && !empty($max))
+        { 
+         $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+        } 
+ 
         return $query->paginate($perPage);
     }
 
@@ -397,55 +318,39 @@ return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,
     {
        $perPage = $request->per_page;
         $search = $request->filter;
+        $infratype = $request->infratypenya;
         $min = $request->min;
         $max = $request->max;
         $query =  DB::table('vjobsdocumentdrmrevisi')
         ->where([['regional',Auth::guard('karyawan')->user()->regional],['area',Auth::guard('karyawan')->user()->area]])
         ->orderBy('id','DESC');
 
-        if ($search && !$min && !$max) {
-            $like = "%{$search}%";
-            $query = $query
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && !$max)
+             
+        if (!empty($search))
         {
-            $query = $query->whereDate('created_at','=',$min);
+          $like = "%{$search}%";
+          $query = $query->where('projectid', 'LIKE', $like);
         }
-        if(!$search && !$min && $max)
-        {
-            $query = $query->whereDate('created_at','=',$max);
+        if (!empty($infratype))
+         { 
+          $query = $query->where('infratype', $infratype);
+         }
+         
+        if (!empty($min) && empty($max))
+        { 
+         $query = $query->whereDate('created_at','=',$min);
         }
-        if($search && $min && !$max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$min)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
+       
+       if (empty($min) && !empty($max))
+        { 
+         $query = $query->whereDate('created_at','=',$max);
         }
-        if($search && !$min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && $max)
-        {
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
-        }
-        if($search && $min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
+       
+       if (!empty($min) && !empty($max))
+        { 
+         $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+        } 
+ 
         return $query->paginate($perPage);
     }
 
@@ -458,55 +363,39 @@ return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,
     {
        $perPage = $request->per_page;
         $search = $request->filter;
+        $infratype = $request->infratypenya;
         $min = $request->min;
         $max = $request->max;
         $query =  DB::table('vjobsdocumentsitac')
         ->where([['regional',Auth::guard('karyawan')->user()->regional],['area',Auth::guard('karyawan')->user()->area]])
         ->orderBy('id','DESC');
 
-        if ($search && !$min && !$max) {
-            $like = "%{$search}%";
-            $query = $query
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && !$max)
+             
+        if (!empty($search))
         {
-            $query = $query->whereDate('created_at','=',$min);
+          $like = "%{$search}%";
+          $query = $query->where('projectid', 'LIKE', $like);
         }
-        if(!$search && !$min && $max)
-        {
-            $query = $query->whereDate('created_at','=',$max);
+        if (!empty($infratype))
+         { 
+          $query = $query->where('infratype', $infratype);
+         }
+         
+        if (!empty($min) && empty($max))
+        { 
+         $query = $query->whereDate('created_at','=',$min);
         }
-        if($search && $min && !$max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$min)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
+       
+       if (empty($min) && !empty($max))
+        { 
+         $query = $query->whereDate('created_at','=',$max);
         }
-        if($search && !$min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && $max)
-        {
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
-        }
-        if($search && $min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
+       
+       if (!empty($min) && !empty($max))
+        { 
+         $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+        } 
+ 
         return $query->paginate($perPage);
     }
 
@@ -517,55 +406,39 @@ return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,
     {
        $perPage = $request->per_page;
         $search = $request->filter;
+        $infratype = $request->infratypenya;
         $min = $request->min;
         $max = $request->max;
         $query =  DB::table('vjobsapprovaldocumentsitac')
         ->where('area',Auth::guard('karyawan')->user()->area)
         ->orderBy('id','DESC');
 
-        if ($search && !$min && !$max) {
-            $like = "%{$search}%";
-            $query = $query
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && !$max)
+        if (!empty($search))
         {
-            $query = $query->whereDate('created_at','=',$min);
+          $like = "%{$search}%";
+          $query = $query->where('projectid', 'LIKE', $like)
+          ->orWhere('regional', 'LIKE', $like);
         }
-        if(!$search && !$min && $max)
-        {
-            $query = $query->whereDate('created_at','=',$max);
+        if (!empty($infratype))
+         { 
+          $query = $query->where('infratype', $infratype);
+         }
+         
+        if (!empty($min) && empty($max))
+        { 
+         $query = $query->whereDate('created_at','=',$min);
         }
-        if($search && $min && !$max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$min)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
+       
+       if (empty($min) && !empty($max))
+        { 
+         $query = $query->whereDate('created_at','=',$max);
         }
-        if($search && !$min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && $max)
-        {
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
-        }
-        if($search && $min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
+       
+       if (!empty($min) && !empty($max))
+        { 
+         $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+        } 
+ 
         return $query->paginate($perPage);
     }
 
@@ -576,55 +449,37 @@ return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,
     {
        $perPage = $request->per_page;
         $search = $request->filter;
+        $infratype = $request->infratypenya;
         $min = $request->min;
         $max = $request->max;
         $query =  DB::table('vjobsdocumentsitacrevisi')
         ->where([['regional',Auth::guard('karyawan')->user()->regional],['area',Auth::guard('karyawan')->user()->area]])
         ->orderBy('id','DESC');
 
-        if ($search && !$min && !$max) {
-            $like = "%{$search}%";
-            $query = $query
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && !$max)
+        if (!empty($search))
         {
-            $query = $query->whereDate('created_at','=',$min);
+          $like = "%{$search}%";
+          $query = $query->where('projectid', 'LIKE', $like);
         }
-        if(!$search && !$min && $max)
-        {
-            $query = $query->whereDate('created_at','=',$max);
+        if (!empty($infratype))
+         { 
+          $query = $query->where('infratype', $infratype);
+         }
+         
+        if (!empty($min) && empty($max))
+        { 
+         $query = $query->whereDate('created_at','=',$min);
         }
-        if($search && $min && !$max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$min)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
+       
+       if (empty($min) && !empty($max))
+        { 
+         $query = $query->whereDate('created_at','=',$max);
         }
-        if($search && !$min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && $max)
-        {
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
-        }
-        if($search && $min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
+       
+       if (!empty($min) && !empty($max))
+        { 
+         $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+        } 
         return $query->paginate($perPage);
     }
 
@@ -638,55 +493,37 @@ return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,
     {
        $perPage = $request->per_page;
         $search = $request->filter;
+        $infratype = $request->infratypenya;
         $min = $request->min;
         $max = $request->max;
         $query =  DB::table('vjobsdocumentrfc')
         ->where([['regional',Auth::guard('karyawan')->user()->regional],['area',Auth::guard('karyawan')->user()->area]])
         ->orderBy('id','DESC');
 
-        if ($search && !$min && !$max) {
-            $like = "%{$search}%";
-            $query = $query
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && !$max)
+        if (!empty($search))
         {
-            $query = $query->whereDate('created_at','=',$min);
+          $like = "%{$search}%";
+          $query = $query->where('projectid', 'LIKE', $like);
         }
-        if(!$search && !$min && $max)
-        {
-            $query = $query->whereDate('created_at','=',$max);
+        if (!empty($infratype))
+         { 
+          $query = $query->where('infratype', $infratype);
+         }
+         
+        if (!empty($min) && empty($max))
+        { 
+         $query = $query->whereDate('created_at','=',$min);
         }
-        if($search && $min && !$max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$min)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
+       
+       if (empty($min) && !empty($max))
+        { 
+         $query = $query->whereDate('created_at','=',$max);
         }
-        if($search && !$min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && $max)
-        {
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
-        }
-        if($search && $min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
+       
+       if (!empty($min) && !empty($max))
+        { 
+         $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+        } 
         return $query->paginate($perPage);
     }
 
@@ -697,55 +534,39 @@ return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,
     {
        $perPage = $request->per_page;
         $search = $request->filter;
+        $infratype = $request->infratypenya;
         $min = $request->min;
         $max = $request->max;
         $query =  DB::table('vjobsapprovaldocumentrfc')
         ->where('area',Auth::guard('karyawan')->user()->area)
         ->orderBy('id','DESC');
 
-        if ($search && !$min && !$max) {
-            $like = "%{$search}%";
-            $query = $query
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && !$max)
+       
+        if (!empty($search))
         {
-            $query = $query->whereDate('created_at','=',$min);
+          $like = "%{$search}%";
+          $query = $query->where('projectid', 'LIKE', $like)
+          ->orWhere('regional', 'LIKE', $like);
         }
-        if(!$search && !$min && $max)
-        {
-            $query = $query->whereDate('created_at','=',$max);
+        if (!empty($infratype))
+         { 
+          $query = $query->where('infratype', $infratype);
+         }
+         
+        if (!empty($min) && empty($max))
+        { 
+         $query = $query->whereDate('created_at','=',$min);
         }
-        if($search && $min && !$max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$min)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
+       
+       if (empty($min) && !empty($max))
+        { 
+         $query = $query->whereDate('created_at','=',$max);
         }
-        if($search && !$min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && $max)
-        {
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
-        }
-        if($search && $min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
+       
+       if (!empty($min) && !empty($max))
+        { 
+         $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+        } 
         return $query->paginate($perPage);
     }
 
@@ -755,64 +576,49 @@ return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,
     {
        $perPage = $request->per_page;
         $search = $request->filter;
+        $infratype = $request->infratypenya;
         $min = $request->min;
         $max = $request->max;
         $query =  DB::table('vjobsdocumentrfcrevisi')
         ->where([['regional',Auth::guard('karyawan')->user()->regional],['area',Auth::guard('karyawan')->user()->area]])
         ->orderBy('id','DESC');
 
-        if ($search && !$min && !$max) {
-            $like = "%{$search}%";
-            $query = $query
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && !$max)
+        if (!empty($search))
         {
-            $query = $query->whereDate('created_at','=',$min);
+          $like = "%{$search}%";
+          $query = $query->where('projectid', 'LIKE', $like);
         }
-        if(!$search && !$min && $max)
-        {
-            $query = $query->whereDate('created_at','=',$max);
+        if (!empty($infratype))
+         { 
+          $query = $query->where('infratype', $infratype);
+         }
+         
+        if (!empty($min) && empty($max))
+        { 
+         $query = $query->whereDate('created_at','=',$min);
         }
-        if($search && $min && !$max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$min)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
+       
+       if (empty($min) && !empty($max))
+        { 
+         $query = $query->whereDate('created_at','=',$max);
         }
-        if($search && !$min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && $max)
-        {
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
-        }
-        if($search && $min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
+       
+       if (!empty($min) && !empty($max))
+        { 
+         $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+        } 
         return $query->paginate($perPage);
     }
 
 
 
+    // boq documents
+
     public function GetJobsBOQ(Request $request)
     {
        $perPage = $request->per_page;
         $search = $request->filter;
+        $infratype = $request->infratypenya;
         $min = $request->min;
         $max = $request->max;
         $query =  DB::table('vjobboq')
@@ -822,49 +628,31 @@ return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,
         }) 
         ->orderBy('id','DESC');
 
-        if ($search && !$min && !$max) {
-            $like = "%{$search}%";
-            $query = $query
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && !$max)
+        if (!empty($search))
         {
-            $query = $query->whereDate('created_at','=',$min);
+          $like = "%{$search}%";
+          $query = $query->where('projectid', 'LIKE', $like)
+          ->orWhere('regional', 'LIKE', $like);
         }
-        if(!$search && !$min && $max)
-        {
-            $query = $query->whereDate('created_at','=',$max);
+        if (!empty($infratype))
+         { 
+          $query = $query->where('infratype', $infratype);
+         }
+         
+        if (!empty($min) && empty($max))
+        { 
+         $query = $query->whereDate('created_at','=',$min);
         }
-        if($search && $min && !$max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$min)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
+       
+       if (empty($min) && !empty($max))
+        { 
+         $query = $query->whereDate('created_at','=',$max);
         }
-        if($search && !$min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && $max)
-        {
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
-        }
-        if($search && $min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
+       
+       if (!empty($min) && !empty($max))
+        { 
+         $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+        } 
         return $query->paginate($perPage);
     }
 
@@ -872,6 +660,7 @@ return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,
     {
        $perPage = $request->per_page;
         $search = $request->filter;
+        $infratype = $request->infratypenya;
         $min = $request->min;
         $max = $request->max;
         $query =  DB::table('vjobpo')
@@ -881,49 +670,31 @@ return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,
         }) 
         ->orderBy('id','DESC');
 
-        if ($search && !$min && !$max) {
-            $like = "%{$search}%";
-            $query = $query
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && !$max)
+        if (!empty($search))
         {
-            $query = $query->whereDate('created_at','=',$min);
+          $like = "%{$search}%";
+          $query = $query->where('projectid', 'LIKE', $like)
+          ->orWhere('regional', 'LIKE', $like);
         }
-        if(!$search && !$min && $max)
-        {
-            $query = $query->whereDate('created_at','=',$max);
+        if (!empty($infratype))
+         { 
+          $query = $query->where('infratype', $infratype);
+         }
+         
+        if (!empty($min) && empty($max))
+        { 
+         $query = $query->whereDate('created_at','=',$min);
         }
-        if($search && $min && !$max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$min)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
+       
+       if (empty($min) && !empty($max))
+        { 
+         $query = $query->whereDate('created_at','=',$max);
         }
-        if($search && !$min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
-        if(!$search && $min && $max)
-        {
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
-        }
-        if($search && $min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
+       
+       if (!empty($min) && !empty($max))
+        { 
+         $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+        } 
         return $query->paginate($perPage);
     }
 
@@ -1281,7 +1052,7 @@ return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,
     {
        $perPage = $request->per_page;
         $search = $request->filter; 
-        $infratypenya = $request->infratypenya; 
+        $infratype = $request->infratypenya; 
         $towernya = $request->towernya; 
         $query =  DB::table('vjobsubmitboq')
         ->where(function ($query) {
@@ -1290,53 +1061,21 @@ return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,
         })
         ->orderBy('id','DESC');
 
-        if ($search && $infratypenya && $towernya) {
-            $like = "%{$search}%";
-            $query = $query
-            ->where([['projectid', 'LIKE', $like],['infratype',$infratypenya],['tower_high',$towernya]])
-            ->orWhere('regional', 'LIKE', $like);
-        } 
 
-        if (!$search && $infratypenya && $towernya) { 
-            $query = $query
-            ->where([['infratype',$infratypenya],['tower_high',$towernya]]);
-        } 
-
-        if (!$search && !$infratypenya && $towernya) { 
-            $query = $query
-            ->where('tower_high',$towernya);
-        } 
-
-        if (!$search && $infratypenya && !$towernya) { 
-            $like = "%{$search}%";
-            $query = $query
-            ->where([['projectid', 'LIKE', $like],['tower_high',$towernya]])
-            ->orWhere('regional', 'LIKE', $like);
-        } 
-
-        if ($search && $infratypenya && !$towernya) { 
-            $like = "%{$search}%";
-            $query = $query
-            ->where([['projectid', 'LIKE', $like],['infratype',$infratypenya]])
-            ->orWhere('regional', 'LIKE', $like);
-        } 
-
-        if ($search && !$infratypenya && !$towernya) { 
-            $like = "%{$search}%";
-             $query = $query
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('regional', 'LIKE', $like);
-        } 
-
-        if (!$search && $infratypenya && !$towernya) { 
-            $query = $query
-            ->where('infratype',$infratypenya);
-        } 
-
-        if (!$search && !$infratypenya && $towernya) { 
-            $query = $query
-            ->where('tower_high',$towernya);
-        } 
+        if (!empty($search))
+        {
+          $like = "%{$search}%";
+          $query = $query->where('projectid', 'LIKE', $like)
+          ->orWhere('regional', 'LIKE', $like);
+        }
+        if (!empty($infratype))
+         { 
+          $query = $query->where('infratype', $infratype);
+         }
+         if (!empty($towernya))
+          { 
+           $query = $query->where('tower_high', $towernya);
+          }
 
         return $query->paginate($perPage);
     }
@@ -1524,11 +1263,20 @@ $data = DB::table('status_group')->select('name','status_id')->orderBy('id','ASC
         $search = $request->filter;
         $min = $request->min;
         $max = $request->max;
- $query = DB::table('vboqsubmitdataapproval')
- ->where(function ($query) {
-    $query->where('area', Auth::guard('karyawan')->user()->area)
-          ->orWhere('area2', Auth::guard('karyawan')->user()->area2);
-})->orderBy('id','DESC');
+        if(Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'MANAGER')
+        {
+            $query = DB::table('vboqsubmitdataapproval')->orderBy('id','DESC');
+
+        }
+        else
+        {
+            $query = DB::table('vboqsubmitdataapproval')
+            ->where(function ($query) {
+               $query->where('area', Auth::guard('karyawan')->user()->area)
+                     ->orWhere('area2', Auth::guard('karyawan')->user()->area2);
+           })->orderBy('id','DESC');
+
+        }
  
 
         if ($search && !$min && !$max) {

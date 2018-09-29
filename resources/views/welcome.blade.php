@@ -39,7 +39,7 @@
     <body>
         
         <header class="header">
-              <div data-velocity="-.4" id="particles" class="header-bg">
+              <div data-velocity="-.8" id="particles" class="header-bg">
       
 
 
@@ -49,9 +49,7 @@
   <div id="login" class="login">
     <div class="login-icon-field">
 
-    <h3 align="center" style="color:white;">LOGIN</h3>
-    <br>
-    <h1 align="center" style="color:white;">Dr. Marvel</h1>
+    <h3 align="center" style="color:white;">LOGIN</h3> 
 <br>
          @if ($errors->has('password'))
          <span class="help-block">

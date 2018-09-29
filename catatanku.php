@@ -180,9 +180,7 @@ SELECT
         AS 'statusnya',
         project_id,
   area,area2,message,status,created_at,updated_at
-FROM boq_submit
-where status=2
-;
+FROM boq_submit;
 
 
 
@@ -983,6 +981,7 @@ document_rfc.id_pln,
 document_rfc.target_rfi,
 document_rfc.power_capacity,
 document_boq.id as documentboqid,
+CONCAT(document_boq.site_type, " ", document_boq.tower_high ," ", document_boq.tower_type) AS towernya,
 document_boq.site_type,
 document_boq.tower_type,
 document_boq.roof_top_high,

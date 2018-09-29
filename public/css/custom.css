@@ -16,13 +16,14 @@
 }
 .login {
   max-width: 280px;
-  min-height: 500px;
-  margin: 30px auto;
+  min-height: 100px;
+ /* margin: 370px auto; */
   background-color: rgba(10,10,10,.68);
 }
 
 .login-icon-field {
-  height: 250px;
+   /*height: 250px;*/
+   height: 50px;
   width: 100%;
   /*background-color: red;*/
 }
