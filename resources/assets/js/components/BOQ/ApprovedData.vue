@@ -219,8 +219,8 @@ export default {
           dataClass: 'text-center'
         },
         {
-          name: 'title',
-      title: 'Subjek BOQ',
+          name: 'areahq',
+      title: 'Area',
       titleClass: 'text-center',
           dataClass: 'text-center'
         }, 

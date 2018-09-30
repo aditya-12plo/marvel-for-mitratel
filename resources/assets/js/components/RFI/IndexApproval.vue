@@ -29,30 +29,36 @@
              <form class="form-inline">
 <div style="overflow-x:auto;">
   <table>  
-    <tr> 
-      <td>
-      	<label>infratypenya</label>
-      </td>
-      <td> 
-      	<select v-model="infratypenya" class="form-control" @keyup.enter="doFilter"> 
+    <tr>
+      <td><label>Date From :</label></td>
+      <td><date-picker :date="startTime" :option="option" @keyup.enter="doFilter"></date-picker></td>
+      <td><label>&nbsp;&nbsp;Date To :</label></td>
+      <td><date-picker :date="endtime" :option="option" @keyup.enter="doFilter"></date-picker></td>
+    </tr>
+    <tr>
+      <td colspan="4" style="padding-top: 1%;"></td>
+    </tr>
+      <tr>
+      <td><label>Infratype :</label></td>
+      <td>      	<select v-model="infratypenya" class="form-control" @keyup.enter="doFilter"> 
       		<option v-for="opti in optionsnya">
       			{{opti}}
       		</option>
-      	</select>
-      </td> 
-       <td>
-       
-      </td>
-      <td> 
-       
-      </td>
+      	</select></td>
+        <td><label>Tinggi Tower :</label></td>
+      <td>
+        <select v-model="towernya" class="form-control" @keyup.enter="doFilter"> 
+          <option v-for="optit in optionstowernya">
+            {{ optit }}
+          </option>
+        </select></td>
     </tr>
     <tr>
       <td colspan="4" style="padding-top: 1%;"></td>
     </tr>
     <tr>
       <td><label>Search for:</label></td>
-      <td colspan="3"><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="Batch"></td>
+      <td colspan="3"><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="Project ID / Batch / Regional"></td>
     </tr>
      <tr>
       <td colspan="4" style="padding-top: 1%;"></td>
@@ -265,6 +271,12 @@ export default {
       titleClass: 'text-center',
           dataClass: 'text-center',
 		  callback: 'formatNumberRupiah'
+        },
+        {
+          name: 'created_at',
+		  title: 'Tanggal Input',
+          titleClass: 'text-center',
+          dataClass: 'text-center',
         },
         {
           name: '__component:approval-custom-actions',
@@ -485,7 +497,33 @@ this.$router.push({name:'approvaldocumentrfidetail', params: {id: this.diacak(it
   },
         doFilter () {
         	 
-		this.$events.fire('filter-set', this.filterText ,this.infratypenya , this.towernya)
+	      		if(!this.startTime.time && !this.endtime.time)
+		{
+		this.$events.fire('filter-set', this.filterText,this.towernya ,this.infratypenya, this.startTime.time, this.endtime.time )
+		}
+		else if(this.startTime.time && !this.endtime.time)
+		{
+		this.$events.fire('filter-set', this.filterText, this.towernya ,this.infratypenya,this.startTime.time, this.endtime.time )
+		}
+		else if(!this.startTime.time && this.endtime.time)
+		{
+		this.$events.fire('filter-set', this.filterText,this.towernya ,this.infratypenya, this.startTime.time, this.endtime.time )
+		}
+		else if(this.startTime.time && this.endtime.time)
+		{ 
+		if(this.endtime.time < this.startTime.time)
+		{
+		alert('Input Date Wrong');
+		}
+		else
+		{
+		this.$events.fire('filter-set', this.filterText,this.towernya ,this.infratypenya, this.startTime.time, this.endtime.time )
+		}
+		}
+		else
+		{
+		this.$events.fire('filter-set', this.filterText,this.towernya ,this.infratypenya, this.startTime.time, this.endtime.time )
+		}
 		
       },
       resetFilter () {
@@ -493,6 +531,8 @@ this.$router.push({name:'approvaldocumentrfidetail', params: {id: this.diacak(it
         this.filterText = '';  
         this.towernya = '';  
         this.infratypenya = '';  
+        this.endtime.time = '';
+         this.startTime.time = '';
         this.$events.fire('filter-reset');
       },
     allcap (value) {
@@ -550,9 +590,9 @@ onLoading() {
     },			
   },
   events: {
-    'filter-set' (filterText,infratypenya,towernya) {
+    'filter-set' (filterText,infratypenya,towernya,startTime,endtime) {
       this.moreParams = {
-        filter: filterText , infratypenya:infratypenya , towernya:towernya
+        filter: filterText , infratypenya:infratypenya , towernya:towernya , min: startTime, max: endtime
       }
       Vue.nextTick(() => this.$refs.vuetable.refresh() )
     },
@@ -576,6 +616,7 @@ onLoading() {
              this.resetOptions();
              this.resetFilter();
              this.selectInfratype(); 
+             this.selectTowerHigh();
 
         }
 

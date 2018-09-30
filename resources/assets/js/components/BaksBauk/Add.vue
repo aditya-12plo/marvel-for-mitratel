@@ -32,7 +32,7 @@
                                     <fieldset class="form-group">
                                         <label for="no_baks">NO DOKUMEN BAKS</label>
                                         <br>
-<input type="text" @input="allcap($event, forms, 'no_baks')" class="form-control" placeholder="RFC NUMBER" v-model="forms.no_rfc" required>
+<input type="text" @input="allcap($event, forms, 'no_baks')" class="form-control" placeholder="NO DOKUMEN BAKS " v-model="forms.no_rfc" required>
 <div class="help-block"><ul role="alert"><li v-for="error of errorNya['no_baks']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
@@ -74,7 +74,7 @@
 
                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="document_boq_project">DOKUMEN WCTR</label>
+                                        <label for="document_boq_project">DOKUMEN BOQ PROJECT</label>
                                         <br>
 <input type="file" accept="application/pdf" name="document_boq_project" id="document_boq_project" v-on:change="newAvatarBOQ" required="required"> 
   <div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_boq_project']"><span style="color:red;">{{ error }}</span></li></ul></div>
@@ -89,7 +89,7 @@
 
                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="document_rfi_certificate">DOKUMEN WCTR</label>
+                                        <label for="document_rfi_certificate">DOKUMEN RFI CERTIFICATE</label>
                                         <br>
 <input type="file" accept="application/pdf" name="document_rfi_certificate" id="document_rfi_certificate" v-on:change="newAvatarRFI" required="required"> 
   <div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_rfi_certificate']"><span style="color:red;">{{ error }}</span></li></ul></div>

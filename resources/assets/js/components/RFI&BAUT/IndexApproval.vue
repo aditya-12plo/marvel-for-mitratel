@@ -5,7 +5,7 @@
     <section class="content-header">
 
       <h1 align="center">
-      Approval Dokumen RFI & BAUT
+      Approval Dokumen CME
       </h1>
     </section>
 
@@ -41,9 +41,27 @@
     <tr>
       <td colspan="4" style="padding-top: 1%;"></td>
     </tr>
+      <tr>
+      <td><label>Infratype :</label></td>
+      <td>      	<select v-model="infratypenya" class="form-control" @keyup.enter="doFilter"> 
+      		<option v-for="opti in optionsnya">
+      			{{opti}}
+      		</option>
+      	</select></td>
+        <td><label>Tinggi Tower :</label></td>
+      <td>
+        <select v-model="towernya" class="form-control" @keyup.enter="doFilter"> 
+          <option v-for="optit in optionstowernya">
+            {{ optit }}
+          </option>
+        </select></td>
+    </tr>
+    <tr>
+      <td colspan="4" style="padding-top: 1%;"></td>
+    </tr>
     <tr>
       <td><label>Search for:</label></td>
-      <td colspan="3"><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="Project ID / No WO / Infratype"></td>
+      <td colspan="3"><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="Project ID / Batch / Regional"></td>
     </tr>
      <tr>
       <td colspan="4" style="padding-top: 1%;"></td>
@@ -197,6 +215,10 @@ export default {
     position: 'up right',
     closeBtn: true,
     formErrors:{},
+    optionsnya: [],
+    optionstowernya: [],
+    infratypenya: '',
+    towernya: '',
     errors: new Errors() ,
      errorNya: [],
      token: localStorage.getItem('token'),
@@ -299,7 +321,7 @@ export default {
   },
           watch: {
             'perPage'(newValue, oldValue) {
-               this.$events.fire('filter-set', this.filterText)
+               this.$events.fire('filter-set', this.filterText,this.towernya,this.infratypenya)
             },
             'delayOfJumps': 'resetOptions',
         'maxToasts': 'resetOptions',
@@ -307,6 +329,16 @@ export default {
         },
   methods: {
 
+           selectInfratype() { 
+                axios.get('/karyawan/GetInfratype').then((response) => {
+                    this.optionsnya = response.data;  
+                    });
+            } ,
+			            selectTowerHigh() { 
+                axios.get('/karyawan/GetTowerHigh').then((response) => {
+                    this.optionstowernya = response.data;  
+                    });
+            } ,
               sumSelectedItems() {
       this.$swal({
   title: 'Are you sure ?',
@@ -437,15 +469,15 @@ return hashids.decode(id);
         doFilter () {
         		if(!this.startTime.time && !this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText,this.towernya ,this.infratypenya, this.startTime.time, this.endtime.time )
 		}
 		else if(this.startTime.time && !this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText,this.towernya ,this.infratypenya, this.startTime.time, this.endtime.time )
 		}
 		else if(!this.startTime.time && this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText,this.towernya ,this.infratypenya, this.startTime.time, this.endtime.time )
 		}
 		else if(this.startTime.time && this.endtime.time)
 		{ 
@@ -455,16 +487,18 @@ return hashids.decode(id);
 		}
 		else
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText,this.towernya ,this.infratypenya, this.startTime.time, this.endtime.time )
 		}
 		}
 		else
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText,this.towernya ,this.infratypenya, this.startTime.time, this.endtime.time )
 		}
       },
       resetFilter () {
       	this.komunikasi = '';
+        this.towernya = ''; 
+        this.infratypenya = ''; 
         this.filterText = '';
          this.startTime.time = '';
         this.endtime.time = '';
@@ -548,6 +582,8 @@ onLoading() {
             this.fetchIt();
              this.resetOptions();
                this.resetFilter();
+             this.selectInfratype();
+             this.selectTowerHigh();
 
         }
 

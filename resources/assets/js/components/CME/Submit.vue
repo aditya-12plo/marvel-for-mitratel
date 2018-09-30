@@ -56,7 +56,7 @@
     </tr>
     <tr>
       <td><label>Search for:</label></td>
-      <td colspan="3"><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="Batch"></td>
+      <td colspan="3"><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="Project ID / Batch / Regional"></td>
     </tr>
      <tr>
       <td colspan="4" style="padding-top: 1%;"></td>

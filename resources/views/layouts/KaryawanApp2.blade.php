@@ -420,8 +420,7 @@
 <li><a onClick="window.location.replace('/karyawan?#/cme-accrual');window.location.reload();"  class="menu-item">CME Accrual</a></li>  
 <li><a onClick="window.location.replace('/karyawan?#/cme-accrued');window.location.reload();"  class="menu-item">CME Accrued</a></li>  
 <li><a onClick="window.location.replace('/karyawan?#/laporan-cme-accrued');window.location.reload();"  class="menu-item">Laporan CME Accrued</a></li>  
-                  
-                  </li>         
+        
 
                 </ul>
               </li>
@@ -440,7 +439,7 @@
                       </li>
                     </ul>
                   </li>
-<li><a onClick="window.location.replace('/karyawan?#/laporan-cme-accrued');window.location.reload();"  class="menu-item">Laporan CME Accrued</a></li>  
+<li><a onClick="window.location.replace('/karyawan?#/laporan-cme-accrued');window.location.reload();"  class="menu-item"><i class="ft-download"></i><span data-i18n="" class="menu-title">Laporan CME Accrued</span></a></li>  
 <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/user-access-for-haki');window.location.reload();"><i class="icon-user-following"></i><span data-i18n="" class="menu-title">User Akses</span></a></li>                  
 @endif
 

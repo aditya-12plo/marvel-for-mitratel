@@ -5,7 +5,7 @@
     <section class="content-header">
 
       <h1 align="center">
-      CME Accrual
+      CME Accrued {{this.rowDatanya.project.cme_code}}
       </h1>
     </section>
 

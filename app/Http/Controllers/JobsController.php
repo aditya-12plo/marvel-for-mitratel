@@ -1486,6 +1486,8 @@ public function GetJobsSubmitBOQPORelease(Request $request)
     }
 
 
+    // document site opening
+
 public function GetJobsSiteOpening(Request $request)
     {
        $perPage = $request->per_page;
@@ -1514,8 +1516,7 @@ public function GetJobsSiteOpening(Request $request)
   {
     $like = "%{$search}%";
     $query = $query->where('projectid', 'LIKE', $like)
-            ->orWhere('batchnya', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like);
+            ->orWhere('batchnya', 'LIKE', $like);
   }
 
  if (!empty($min) && empty($max))
@@ -1565,8 +1566,7 @@ public function GetJobsSiteOpeningRevisi(Request $request)
   {
     $like = "%{$search}%";
     $query = $query->where('projectid', 'LIKE', $like)
-            ->orWhere('batchnya', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like);
+            ->orWhere('batchnya', 'LIKE', $like);
   }
 
  if (!empty($min) && empty($max))
@@ -1588,6 +1588,8 @@ public function GetJobsSiteOpeningRevisi(Request $request)
     }
 
 
+
+// document excavation
 
 
 public function GetJobsExcavation(Request $request)
@@ -1618,8 +1620,7 @@ public function GetJobsExcavation(Request $request)
   {
     $like = "%{$search}%";
     $query = $query->where('projectid', 'LIKE', $like)
-            ->orWhere('batchnya', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like);
+            ->orWhere('batchnya', 'LIKE', $like);
   }
 
  if (!empty($min) && empty($max))
@@ -1670,8 +1671,7 @@ public function GetJobsExcavationRevisi(Request $request)
   {
     $like = "%{$search}%";
     $query = $query->where('projectid', 'LIKE', $like)
-            ->orWhere('batchnya', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like);
+            ->orWhere('batchnya', 'LIKE', $like);
   }
 
  if (!empty($min) && empty($max))
@@ -1694,7 +1694,7 @@ public function GetJobsExcavationRevisi(Request $request)
 
 
 
-
+// dokument rebaring
 
 public function GetJobsRebaring(Request $request)
     {
@@ -1724,8 +1724,7 @@ public function GetJobsRebaring(Request $request)
   {
     $like = "%{$search}%";
     $query = $query->where('projectid', 'LIKE', $like)
-            ->orWhere('batchnya', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like);
+            ->orWhere('batchnya', 'LIKE', $like);
   }
 
  if (!empty($min) && empty($max))
@@ -1776,8 +1775,7 @@ public function GetJobsRebaringRevisi(Request $request)
   {
     $like = "%{$search}%";
     $query = $query->where('projectid', 'LIKE', $like)
-            ->orWhere('batchnya', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like);
+            ->orWhere('batchnya', 'LIKE', $like);
   }
 
  if (!empty($min) && empty($max))
@@ -1800,7 +1798,7 @@ public function GetJobsRebaringRevisi(Request $request)
 
 
 
-
+// document pouring
 
 public function GetJobsPouring(Request $request)
     {
@@ -1830,8 +1828,7 @@ public function GetJobsPouring(Request $request)
   {
     $like = "%{$search}%";
     $query = $query->where('projectid', 'LIKE', $like)
-            ->orWhere('batchnya', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like);
+            ->orWhere('batchnya', 'LIKE', $like);
   }
 
  if (!empty($min) && empty($max))
@@ -1883,8 +1880,7 @@ public function GetJobsPouringRevisi(Request $request)
   {
     $like = "%{$search}%";
     $query = $query->where('projectid', 'LIKE', $like)
-            ->orWhere('batchnya', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like);
+            ->orWhere('batchnya', 'LIKE', $like);
   }
 
  if (!empty($min) && empty($max))
@@ -1906,6 +1902,7 @@ public function GetJobsPouringRevisi(Request $request)
     }
 
 
+// dokumen pouring
 
 public function GetJobsCuring(Request $request)
     {
@@ -1935,8 +1932,7 @@ public function GetJobsCuring(Request $request)
   {
     $like = "%{$search}%";
     $query = $query->where('projectid', 'LIKE', $like)
-            ->orWhere('batchnya', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like);
+            ->orWhere('batchnya', 'LIKE', $like);
   }
 
  if (!empty($min) && empty($max))
@@ -1987,8 +1983,7 @@ public function GetJobsCuringRevisi(Request $request)
   {
     $like = "%{$search}%";
     $query = $query->where('projectid', 'LIKE', $like)
-            ->orWhere('batchnya', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like);
+            ->orWhere('batchnya', 'LIKE', $like);
   }
 
  if (!empty($min) && empty($max))
@@ -2010,6 +2005,8 @@ public function GetJobsCuringRevisi(Request $request)
     }
 
 
+
+    // dokument tower eraction
 
 public function GetJobsTowerErection(Request $request)
     {
@@ -2039,8 +2036,7 @@ public function GetJobsTowerErection(Request $request)
   {
     $like = "%{$search}%";
     $query = $query->where('projectid', 'LIKE', $like)
-            ->orWhere('batchnya', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like);
+            ->orWhere('batchnya', 'LIKE', $like);
   }
 
  if (!empty($min) && empty($max))
@@ -2091,8 +2087,7 @@ public function GetJobsTowerErectionRevisi(Request $request)
   {
     $like = "%{$search}%";
     $query = $query->where('projectid', 'LIKE', $like)
-            ->orWhere('batchnya', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like);
+            ->orWhere('batchnya', 'LIKE', $like);
   }
 
  if (!empty($min) && empty($max))
@@ -2115,6 +2110,7 @@ public function GetJobsTowerErectionRevisi(Request $request)
 
 
 
+// document me process
 
 public function GetJobsMEProcess(Request $request)
     {
@@ -2144,8 +2140,7 @@ public function GetJobsMEProcess(Request $request)
   {
     $like = "%{$search}%";
     $query = $query->where('projectid', 'LIKE', $like)
-            ->orWhere('batchnya', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like);
+            ->orWhere('batchnya', 'LIKE', $like);
   }
 
  if (!empty($min) && empty($max))
@@ -2197,8 +2192,7 @@ public function GetJobsMEProcessRevisi(Request $request)
   {
     $like = "%{$search}%";
     $query = $query->where('projectid', 'LIKE', $like)
-            ->orWhere('batchnya', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like);
+            ->orWhere('batchnya', 'LIKE', $like);
   }
 
  if (!empty($min) && empty($max))
@@ -2221,7 +2215,7 @@ public function GetJobsMEProcessRevisi(Request $request)
 
 
 
-
+// document Fence Yard
 
 public function GetJobsFenceYard(Request $request)
     {
@@ -2251,8 +2245,7 @@ public function GetJobsFenceYard(Request $request)
   {
     $like = "%{$search}%";
     $query = $query->where('projectid', 'LIKE', $like)
-            ->orWhere('batchnya', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like);
+            ->orWhere('batchnya', 'LIKE', $like);
   }
 
  if (!empty($min) && empty($max))
@@ -2304,8 +2297,7 @@ public function GetJobsFenceYardRevisi(Request $request)
   {
     $like = "%{$search}%";
     $query = $query->where('projectid', 'LIKE', $like)
-            ->orWhere('batchnya', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like);
+            ->orWhere('batchnya', 'LIKE', $like);
   }
 
  if (!empty($min) && empty($max))
@@ -2327,6 +2319,7 @@ public function GetJobsFenceYardRevisi(Request $request)
     }
 
 
+    // document rfi baut
 
 public function GetJobsRfiBaut(Request $request)
     {
@@ -2431,6 +2424,7 @@ $query = DB::table('vsiterfibautrevisi')
 
 
 
+// approval document cme
 
 public function GetJobsApprovalDocumentCME(Request $request)
     {
@@ -2461,7 +2455,7 @@ $query = DB::table('vsitecmeapproval')
     $like = "%{$search}%";
     $query = $query->where('projectid', 'LIKE', $like)
             ->orWhere('batchnya', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like);
+            ->orWhere('regional', 'LIKE', $like);
   }
 
  if (!empty($min) && empty($max))
@@ -2499,12 +2493,21 @@ $query = DB::table('vallprojectapprovalbaksbaukarea')
             ->where('area', Auth::guard('karyawan')->user()->area)->orderBy('id','DESC');
  
 
+            if (!empty($towernya))
+            { 
+             $query = $query->where('tower_high', $towernya);
+            }
+          
+           if (!empty($infratype))
+            { 
+             $query = $query->where('infratype', $infratype);
+            } 
  if (!empty($search))
   {
     $like = "%{$search}%";
     $query = $query->where('projectid', 'LIKE', $like)
             ->orWhere('batchnya', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like);
+            ->orWhere('regional', 'LIKE', $like);
   }
 
  if (!empty($min) && empty($max))
@@ -2617,7 +2620,7 @@ public function GetJobsSubmitCMEApproval(Request $request)
     $like = "%{$search}%";
     $query = $query->where('projectid', 'LIKE', $like)
             ->orWhere('batchnya', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like);
+            ->orWhere('regional', 'LIKE', $like);
   }
 
  if (!empty($min) && empty($max))
@@ -2674,7 +2677,7 @@ public function GetJobsRfiDetailRevisi(Request $request)
     $like = "%{$search}%";
     $query = $query->where('projectid', 'LIKE', $like)
             ->orWhere('batchnya', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like);
+            ->orWhere('regional', 'LIKE', $like);
   }
 
  if (!empty($min) && empty($max))
@@ -2698,6 +2701,7 @@ public function GetJobsRfiDetailRevisi(Request $request)
 
 
 
+// submit accrual
 
 public function GetJobsSubmitCME(Request $request)
     {
@@ -2730,7 +2734,7 @@ public function GetJobsSubmitCME(Request $request)
     $like = "%{$search}%";
     $query = $query->where('projectid', 'LIKE', $like)
             ->orWhere('batchnya', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like);
+            ->orWhere('regional', 'LIKE', $like);
   }
 
  if (!empty($min) && empty($max))
@@ -3039,60 +3043,53 @@ if (!empty($search)) {
     }
 
 
+
+    // document baks bauk
     
     public function GetJobsDocumentBaksBauk(Request $request)
     {
        $perPage = $request->per_page;
         $search = $request->filter;
+        $infratype = $request->infratypenya; 
+        $towernya = $request->towernya;
         $min = $request->min;
         $max = $request->max;
         $query =  DB::table('vjobsdocumentbaksbauk')
         ->where([['regional',Auth::guard('karyawan')->user()->regional],['area',Auth::guard('karyawan')->user()->area],['regional',Auth::guard('karyawan')->user()->regional]])
         ->orderBy('id','DESC');
 
-        if ($search && !$min && !$max) {
-            $like = "%{$search}%";
-            $query = $query
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
+        if (!empty($towernya))
+        { 
+         $query = $query->where('tower_high', $towernya);
         }
-        if(!$search && $min && !$max)
+      
+       if (!empty($infratype))
+        { 
+         $query = $query->where('infratype', $infratype);
+        } 
+      
+       if (!empty($search))
         {
-            $query = $query->whereDate('created_at','=',$min);
+          $like = "%{$search}%";
+          $query = $query->where('projectid', 'LIKE', $like)
+                  ->orWhere('batchnya', 'LIKE', $like);
         }
-        if(!$search && !$min && $max)
-        {
-            $query = $query->whereDate('created_at','=',$max);
+      
+       if (!empty($min) && empty($max))
+        { 
+         $query = $query->whereDate('created_at','=',$min);
         }
-        if($search && $min && !$max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$min)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
+       
+       if (empty($min) && !empty($max))
+        { 
+         $query = $query->whereDate('created_at','=',$max);
         }
-        if($search && !$min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
+       
+       if (!empty($min) && !empty($max))
+        { 
+         $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
         }
-        if(!$search && $min && $max)
-        {
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
-        }
-        if($search && $min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
+
         return $query->paginate($perPage);
     }
 
@@ -3102,55 +3099,47 @@ if (!empty($search)) {
     {
        $perPage = $request->per_page;
         $search = $request->filter;
+        $infratype = $request->infratypenya; 
+        $towernya = $request->towernya;
         $min = $request->min;
         $max = $request->max;
         $query =  DB::table('vallprojectbaksbaukrevisi')
         ->where([['regional',Auth::guard('karyawan')->user()->regional],['area',Auth::guard('karyawan')->user()->area],['regional',Auth::guard('karyawan')->user()->regional]])
         ->orderBy('id','DESC');
 
-        if ($search && !$min && !$max) {
-            $like = "%{$search}%";
-            $query = $query
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
+        if (!empty($towernya))
+        { 
+         $query = $query->where('tower_high', $towernya);
         }
-        if(!$search && $min && !$max)
+      
+       if (!empty($infratype))
+        { 
+         $query = $query->where('infratype', $infratype);
+        } 
+      
+       if (!empty($search))
         {
-            $query = $query->whereDate('created_at','=',$min);
+          $like = "%{$search}%";
+          $query = $query->where('projectid', 'LIKE', $like)
+                  ->orWhere('batchnya', 'LIKE', $like);
         }
-        if(!$search && !$min && $max)
-        {
-            $query = $query->whereDate('created_at','=',$max);
+      
+       if (!empty($min) && empty($max))
+        { 
+         $query = $query->whereDate('created_at','=',$min);
         }
-        if($search && $min && !$max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$min)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
+       
+       if (empty($min) && !empty($max))
+        { 
+         $query = $query->whereDate('created_at','=',$max);
         }
-        if($search && !$min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
+       
+       if (!empty($min) && !empty($max))
+        { 
+         $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
         }
-        if(!$search && $min && $max)
-        {
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
-        }
-        if($search && $min && $max)
-        {
-            $like = "%{$search}%";
-            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max)
-            ->where('projectid', 'LIKE', $like)
-            ->orWhere('no_wo', 'LIKE', $like)
-            ->orWhere('infratype', 'LIKE', $like);
-        }
+
+        
         return $query->paginate($perPage);
     }
 

@@ -41,9 +41,34 @@
     <tr>
       <td colspan="4" style="padding-top: 1%;"></td>
     </tr>
+    <tr> 
+      <td>
+      	<label>infratypenya</label>
+      </td>
+      <td> 
+      	<select v-model="infratypenya" class="form-control" @keyup.enter="doFilter"> 
+      		<option v-for="opti in optionsnya">
+      			{{opti}}
+      		</option>
+      	</select>
+      </td> 
+       <td>
+      	<label>Tinggi Tower</label>
+      </td>
+      <td> 
+      	<select v-model="towernya" class="form-control" @keyup.enter="doFilter"> 
+      		<option v-for="optit in optionstowernya">
+      			{{optit}}
+      		</option>
+      	</select>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="4" style="padding-top: 1%;"></td>
+    </tr>
     <tr>
       <td><label>Search for:</label></td>
-      <td colspan="3"><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="Project ID"></td>
+      <td colspan="3"><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="Project ID / Batch"></td>
     </tr>
      <tr>
       <td colspan="4" style="padding-top: 1%;"></td>
@@ -198,6 +223,10 @@ export default {
     formErrors:{},
     errors: new Errors() ,
      errorNya: [],
+	 towernya: '',
+	 infratypenya: '',
+	 optionsnya: [],
+	 optionstowernya: [],
      token: localStorage.getItem('token'),
     submitted: false,
     submitSelectedItems:[] ,
@@ -225,11 +254,11 @@ export default {
           dataClass: 'text-center'
         },
         {
-          name: 'no_wo',
-		  title: 'No WO',
+          name: 'infratype',
+		  title: 'Infratype',
 		  titleClass: 'text-center',
           dataClass: 'text-center'
-        },
+        }, 
         {
           name: 'area',
       title: 'Area',
@@ -239,6 +268,12 @@ export default {
         {
           name: 'regional',
       title: 'Regional',
+      titleClass: 'text-center',
+          dataClass: 'text-center'
+        },
+        {
+          name: 'towernya',
+      title: 'Tower',
       titleClass: 'text-center',
           dataClass: 'text-center'
         },
@@ -287,7 +322,7 @@ export default {
   },
           watch: {
             'perPage'(newValue, oldValue) {
-               this.$events.fire('filter-set', this.filterText)
+               this.$events.fire('filter-set', this.filterText, this.infratypenya , this.towernya)
             },
             'delayOfJumps': 'resetOptions',
         'maxToasts': 'resetOptions',
@@ -295,6 +330,16 @@ export default {
         },
   methods: {
 
+			            selectInfratype() { 
+                axios.get('/karyawan/GetInfratype').then((response) => {
+                    this.optionsnya = response.data;  
+                    });
+            } ,
+			            selectTowerHigh() { 
+                axios.get('/karyawan/GetTowerHigh').then((response) => {
+                    this.optionstowernya = response.data;  
+                    });
+            } ,
  success(kata) {
       this.$swal({
   position: 'top-end',
@@ -377,15 +422,15 @@ return hashids.decode(id);
         doFilter () {
         		if(!this.startTime.time && !this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText ,this.infratypenya , this.towernya, this.startTime.time, this.endtime.time )
 		}
 		else if(this.startTime.time && !this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText ,this.infratypenya , this.towernya, this.startTime.time, this.endtime.time )
 		}
 		else if(!this.startTime.time && this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText ,this.infratypenya , this.towernya, this.startTime.time, this.endtime.time )
 		}
 		else if(this.startTime.time && this.endtime.time)
 		{ 
@@ -395,12 +440,12 @@ return hashids.decode(id);
 		}
 		else
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText ,this.infratypenya , this.towernya, this.startTime.time, this.endtime.time )
 		}
 		}
 		else
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText ,this.infratypenya , this.towernya, this.startTime.time, this.endtime.time )
 		}
       },
       resetFilter () {
@@ -408,6 +453,8 @@ return hashids.decode(id);
         this.filterText = '';
          this.startTime.time = '';
         this.endtime.time = '';
+        this.towernya = '';  
+        this.infratypenya = '';  
         this.$events.fire('filter-reset');
       },
     allcap (value) {
@@ -465,9 +512,9 @@ onLoading() {
     },			
   },
   events: {
-    'filter-set' (filterText,startTime,endtime) {
+    'filter-set' (filterText,infratypenya,towernya,startTime,endtime) {
       this.moreParams = {
-        filter: filterText,min: startTime, max: endtime
+        filter: filterText , infratypenya:infratypenya , towernya:towernya,min: startTime, max: endtime
       }
       Vue.nextTick(() => this.$refs.vuetable.refresh() )
     },
@@ -486,6 +533,8 @@ onLoading() {
             this.fetchIt();
              this.resetOptions();
                this.resetFilter();
+             this.selectInfratype();
+             this.selectTowerHigh();
 
         }
 

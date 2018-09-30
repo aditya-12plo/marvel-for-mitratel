@@ -32,14 +32,11 @@
 
 
 <!-- Ducument SITAC --> 
-<div class="col-xl-12 col-lg-12 col-md-12 mb-1">
-<fieldset class="form-group">
-<label for="documentsis"><h4>DOKUMEN SITAC</h4></label>
-</fieldset>
+<div class="col-xl-12 col-lg-12 col-md-12 mb-1"> 
 </div>                              
                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="no_baks">NO BAKS</label>
+                                         <label for="no_baks">NO DOKUMEN BAKS</label>
                                         <br>
 <input type="text" @input="allcap($event, forms, 'no_baks')" class="form-control" placeholder="AKTUAL SITE ID" v-model="forms.no_baks" required>
 <div class="help-block"><ul role="alert"><li v-for="error of errorNya['no_baks']"><span style="color:red;">{{ error }}</span></li></ul></div>
@@ -70,7 +67,7 @@
 
                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="document_wctr">DOKUMEN IJIN WARGA</label>
+                                        <label for="document_wctr">DOKUMEN WCTR</label>
                                         <br> 
 <label id="projectinput8" class="file center-block">
 <input type="file" accept="application/pdf" class="dropzone dropzone-area" name="document_wctr" id="document_wctr" ref="document_wctr" v-on:change="newAvatarDRM()">  
@@ -87,7 +84,7 @@
 
                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="document_boq_project">DOKUMEN PKS</label>
+                                        <label for="document_boq_project">DOKUMEN BOQ PROJECT</label>
                                         
                                         <br>
 <input type="file" accept="application/pdf" class="dropzone dropzone-area" name="document_boq_project" id="document_boq_project" ref="document_boq_project" v-on:change="newAvatarPKS()">       
@@ -103,7 +100,7 @@
 
     <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="document_rfi_certificate">DOKUMEN IMB</label>
+                                        <label for="document_rfi_certificate">DOKUMEN RFI CERTIFICATE</label>
                                         <br>
 <input type="file" accept="application/pdf" class="dropzone dropzone-area" name="document_rfi_certificate" id="document_rfi_certificate" ref="document_rfi_certificate" v-on:change="newAvatarIMB()">
  <br>

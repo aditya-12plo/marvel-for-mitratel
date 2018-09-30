@@ -179,7 +179,13 @@ SELECT
         ELSE 'CANCEL' END
         AS 'statusnya',
         project_id,
-  area,area2,message,status,created_at,updated_at
+  area,area2,message,status,
+  (case
+  when area = 1 AND area2 = 2 then "WEST"
+  when area = 3 AND area2 = 4 then "EAST"
+  else "-"
+  end) as areahq,
+  created_at,updated_at
 FROM boq_submit;
 
 
