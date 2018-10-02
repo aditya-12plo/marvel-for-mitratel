@@ -155,7 +155,8 @@
 
                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-<label for="excavation_date">TANGGAL DOKUMEN EXCAVATION</label>
+ <label for="excavation_date"><h4>TANGGAL DOKUMEN EXCAVATION</h4></label>
+ 
                                         <br>
   {{this.rowDatanya.project.excavation_date}}
    </fieldset>
@@ -177,8 +178,9 @@
  
        
                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-<label for="site_opening_date">TANGGAL DOKUMEN SITE OPENING</label>
+                                    <fieldset class="form-group"> 
+ <label for="site_opening_date"><h4>TANGGAL DOKUMEN SITE OPENING</h4></label>
+ 
                                         <br>
   {{this.rowDatanya.project.site_opening_date}}
  </fieldset>

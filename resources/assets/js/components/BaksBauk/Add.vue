@@ -48,7 +48,7 @@
 
                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="document_baks">DOKUMEN RFC</label>
+                                        <label for="document_baks">DOKUMEN BAKS</label>
                                         <br>
 <input type="file" accept="application/pdf" name="file_name" id="file_name" v-on:change="newAvatar" required="required"> 
   <div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_baks']"><span style="color:red;">{{ error }}</span></li></ul></div>

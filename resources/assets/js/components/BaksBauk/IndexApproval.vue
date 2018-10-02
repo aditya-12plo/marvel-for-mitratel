@@ -472,15 +472,15 @@ return hashids.decode(id);
         doFilter () {
         		if(!this.startTime.time && !this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText, this.filterText ,this.infratypenya , this.towernya,  this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText, this.infratypenya , this.towernya,  this.startTime.time, this.endtime.time )
 		}
 		else if(this.startTime.time && !this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText, this.filterText ,this.infratypenya , this.towernya,  this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText, this.infratypenya , this.towernya,  this.startTime.time, this.endtime.time )
 		}
 		else if(!this.startTime.time && this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText, this.filterText ,this.infratypenya , this.towernya,  this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText,this.infratypenya , this.towernya,  this.startTime.time, this.endtime.time )
 		}
 		else if(this.startTime.time && this.endtime.time)
 		{ 
@@ -490,12 +490,12 @@ return hashids.decode(id);
 		}
 		else
 		{
-		this.$events.fire('filter-set', this.filterText, this.filterText ,this.infratypenya , this.towernya,  this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText,this.infratypenya , this.towernya,  this.startTime.time, this.endtime.time )
 		}
 		}
 		else
 		{
-		this.$events.fire('filter-set', this.filterText, this.filterText ,this.infratypenya , this.towernya,  this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText,this.infratypenya , this.towernya,  this.startTime.time, this.endtime.time )
 		}
       },
       resetFilter () {

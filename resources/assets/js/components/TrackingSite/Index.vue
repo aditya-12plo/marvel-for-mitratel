@@ -292,9 +292,9 @@ export default {
           dataClass: 'text-center'
         },
         {
-          name: 'no_wo',
-		  title: 'No WO',
-		  titleClass: 'text-center',
+          name: 'towernya',
+      title: 'Tower',
+      titleClass: 'text-center',
           dataClass: 'text-center'
         },
         {

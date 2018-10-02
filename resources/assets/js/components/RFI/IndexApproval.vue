@@ -235,6 +235,12 @@ export default {
           dataClass: 'text-center',
         },
         {
+          name: 'batchnya',
+		  title: 'Batch',
+		  titleClass: 'text-center',
+          dataClass: 'text-center'
+        }, 
+        {
           name: 'projectid',
 		  title: 'PID',
 		  titleClass: 'text-center',
@@ -246,6 +252,24 @@ export default {
 		  titleClass: 'text-center',
           dataClass: 'text-center'
         },    
+        {
+          name: 'area',
+      title: 'Area',
+      titleClass: 'text-center',
+          dataClass: 'text-center'
+        },
+        {
+          name: 'regional',
+      title: 'Regional',
+      titleClass: 'text-center',
+          dataClass: 'text-center'
+        },
+        {
+          name: 'towernya',
+      title: 'Tower',
+      titleClass: 'text-center',
+          dataClass: 'text-center'
+        },
         {
           name: 'rfi_detail_start_date',
       title: 'Tanggal Dimulai Sewa',
@@ -499,15 +523,15 @@ this.$router.push({name:'approvaldocumentrfidetail', params: {id: this.diacak(it
         	 
 	      		if(!this.startTime.time && !this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText,this.towernya ,this.infratypenya, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText ,this.infratypenya,this.towernya, this.startTime.time, this.endtime.time )
 		}
 		else if(this.startTime.time && !this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText, this.towernya ,this.infratypenya,this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText,this.infratypenya,this.towernya,this.startTime.time, this.endtime.time )
 		}
 		else if(!this.startTime.time && this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText,this.towernya ,this.infratypenya, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText,this.infratypenya,this.towernya, this.startTime.time, this.endtime.time )
 		}
 		else if(this.startTime.time && this.endtime.time)
 		{ 
@@ -517,12 +541,12 @@ this.$router.push({name:'approvaldocumentrfidetail', params: {id: this.diacak(it
 		}
 		else
 		{
-		this.$events.fire('filter-set', this.filterText,this.towernya ,this.infratypenya, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText,this.infratypenya,this.towernya , this.startTime.time, this.endtime.time )
 		}
 		}
 		else
 		{
-		this.$events.fire('filter-set', this.filterText,this.towernya ,this.infratypenya, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText,this.infratypenya,this.towernya ,this.startTime.time, this.endtime.time )
 		}
 		
       },

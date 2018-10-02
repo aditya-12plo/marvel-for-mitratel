@@ -50,35 +50,8 @@ class TrackingController extends Controller
         $min = $request->min;
         $max = $request->max;
 
- if(Auth::guard('karyawan')->user()->level == 'ADMINISTRATOR')
-{
         $query =  DB::table('vallprojectbyyears')->orderBy('id','DESC');
-}
- elseif(Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'ACCOUNT MANAGER' || Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'HAKI - MANAGER' || Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'HAKI - ACCOUNT MANAGER')
-{
-        $query =  DB::table('vallprojectbyyears')
-         ->where(function ($query) {
-    $query->where('area', Auth::guard('karyawan')->user()->area)
-          ->orWhere('area', Auth::guard('karyawan')->user()->area2);
-})->orderBy('id','DESC');
-}
- elseif(Auth::guard('karyawan')->user()->level == 'REGIONAL' && Auth::guard('karyawan')->user()->posisi == 'MANAGER MARKETING')
-{
-        $query =  DB::table('vallprojectbyyears')
-         ->where('area',Auth::guard('karyawan')->user()->area)
-        ->orderBy('id','DESC');
-}
-elseif(Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'MANAGER' || Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'BISNIS')
-{
-       $query =  DB::table('vallprojectbyyears')
-       ->orderBy('id','DESC');
-}
-else     
-{
-    $query =  DB::table('vallprojectbyyears')
-        ->where([['area',Auth::guard('karyawan')->user()->area],['regional',Auth::guard('karyawan')->user()->regional]])
-        ->orderBy('id','DESC');
-}
+
 
  if (!empty($towernya))
   { 

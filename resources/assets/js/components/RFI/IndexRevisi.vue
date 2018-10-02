@@ -245,12 +245,12 @@ export default {
 		  title: 'Batch',
 		  titleClass: 'text-center',
           dataClass: 'text-center'
-        },
+        }, 
         {
-          name: 'no_wo',
-		  title: 'No WO',
-		  titleClass: 'text-center',
-          dataClass: 'text-center'
+          name: 'infratype',
+		  title: 'Infratype',
+          titleClass: 'text-center',
+          dataClass: 'text-center',
         },
         {
           name: 'area',
@@ -271,10 +271,30 @@ export default {
           dataClass: 'text-center'
         },
         {
-          name: 'infratype',
-		  title: 'Infratype',
-          titleClass: 'text-center',
+          name: 'rfi_detail_start_date',
+      title: 'Tanggal Dimulai Sewa',
+      titleClass: 'text-center',
+          dataClass: 'text-center'
+        }, 
+        {
+          name: 'rfi_detail_end_date',
+      title: 'Tanggal Berakhir Sewa',
+      titleClass: 'text-center',
+          dataClass: 'text-center'
+        }, 
+        {
+          name: 'rfi_detail_price_month',
+      title: 'Harga Sewa / Bulan',
+      titleClass: 'text-center',
           dataClass: 'text-center',
+		  callback: 'formatNumberRupiah'
+        }, 
+        {
+          name: 'rfi_detail_price_year',
+      title: 'Harga Sewa / Tahun',
+      titleClass: 'text-center',
+          dataClass: 'text-center',
+		  callback: 'formatNumberRupiah'
         },
         {
           name: 'created_at',

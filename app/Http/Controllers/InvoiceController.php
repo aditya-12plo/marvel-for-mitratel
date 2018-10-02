@@ -258,27 +258,46 @@ if($extension == 'xlsx' || $extension == 'xls')
                 foreach ($data->toArray() as $key => $value) {
                     if(!empty($value)){
                         
-                        foreach ($value as $key => $v) {    
-    $insert[] = [
-    'projectid' => strtoupper($v['projectid']), 
-    'tgl_mulai_sewa' => strtoupper($v['tgl_mulai_sewa']), 
-    'tgL_akhir_sewa' => strtoupper($v['tgl_akhir_sewa']), 
-    'tgl_target_rfi' => strtoupper($v['tgl_target_rfi']), 
-    'no_receive' => strtoupper($v['no_receive']), 
-    'no_kontrak' => strtoupper($v['no_kontrak']), 
-    'no_invoice' => strtoupper($v['no_invoice']), 
-    'tgl_invoice' => strtoupper($v['tgl_invoice']), 
-    'created_at'=>Carbon::now(),
-    'updated_at'=>Carbon::now()];  
-    $rules[$key.'.projectid'] = 'required|max:200|unique:v_check_invoice_data,projectid';        
-    $rules[$key.'.tgl_mulai_sewa'] = 'date_format:"Y-m-d"|required';           
-    $rules[$key.'.tgL_akhir_sewa'] = 'date_format:"Y-m-d"|required';           
-    $rules[$key.'.tgl_target_rfi'] = 'date_format:"Y-m-d"|required';        
-    $rules[$key.'.no_receive'] =  'required|numeric|digits_between:1,255';        
-    $rules[$key.'.no_kontrak'] =  'required|numeric|digits_between:1,255';  
-    $rules[$key.'.tgl_invoice'] =  'date_format:"Y-m-d"|required';  
-    $rules[$key.'.no_invoice'] =  'required|max:255';    
-     
+                        foreach ($value as $key => $v) {
+    $cek = Project::where('projectid',strtoupper($v['projectid']))->first();
+    if($cek)
+    {
+        $insert[] = [
+            'project_id' => $cek->id, 
+            'projectid' => strtoupper($v['projectid']), 
+            'tgl_mulai_sewa' => strtoupper($v['tgl_mulai_sewa']), 
+            'tgL_akhir_sewa' => strtoupper($v['tgl_akhir_sewa']), 
+            'tgl_target_rfi' => strtoupper($v['tgl_target_rfi']), 
+            'no_receive' => strtoupper($v['no_receive']), 
+            'no_kontrak' => strtoupper($v['no_kontrak']), 
+            'no_invoice' => strtoupper($v['no_invoice']), 
+            'tgl_invoice' => strtoupper($v['tgl_invoice']), 
+            'created_at'=>Carbon::now(),
+            'updated_at'=>Carbon::now()];  
+            $masuk[] = [
+                'project_id' => $cek->id,  
+                'tgl_mulai_sewa' => strtoupper($v['tgl_mulai_sewa']), 
+                'tgL_akhir_sewa' => strtoupper($v['tgl_akhir_sewa']), 
+                'tgl_target_rfi' => strtoupper($v['tgl_target_rfi']), 
+                'no_receive' => strtoupper($v['no_receive']), 
+                'no_kontrak' => strtoupper($v['no_kontrak']), 
+                'no_invoice' => strtoupper($v['no_invoice']), 
+                'tgl_invoice' => strtoupper($v['tgl_invoice']), 
+                'created_at'=>Carbon::now(),
+                'updated_at'=>Carbon::now()]; 
+                 
+                $project_id[] =$cek->id;  
+
+            $rules[$key.'.projectid'] = 'required|max:200|unique:v_check_invoice_data,projectid';        
+            $rules[$key.'.tgl_mulai_sewa'] = 'date_format:"Y-m-d"|required';           
+            $rules[$key.'.tgL_akhir_sewa'] = 'date_format:"Y-m-d"|required';           
+            $rules[$key.'.tgl_target_rfi'] = 'date_format:"Y-m-d"|required';        
+            $rules[$key.'.no_receive'] =  'required|numeric|digits_between:1,255|unique:v_check_invoice_data,no_receive';        
+            $rules[$key.'.no_kontrak'] =  'required|numeric|digits_between:1,255|unique:v_check_invoice_data,no_kontrak';  
+            $rules[$key.'.tgl_invoice'] =  'date_format:"Y-m-d"|required';  
+            $rules[$key.'.no_invoice'] =  'required|max:255|unique:v_check_invoice_data,no_invoice';            
+    }                            
+  
 
         }
                             
@@ -291,10 +310,12 @@ $validator = Validator::make($insert, $rules);
 if($validator->fails()) {
 return response()->json(['file_name'=>'Silahkan perbaiki file yang anda masukan','errornya'=>$validator->errors()]); 
 } else { 
-//DB::table('invoice')->insert($insert);  
-$tempArr = array_unique(array_column($insert, 'projectid'));  
-$out= array_intersect_key($insert, $tempArr);             
-return response()->json(['success'=>'Successfully' , 'invoice'=>$out]);                       
+$tempArr = array_unique(array_column($masuk, 'project_id'));  
+$out= array_intersect_key($masuk, $tempArr);  
+$comma_separated = $project_id;  
+DB::table('invoice')->insert($out); 
+DB::table('project')->whereIn('id', $comma_separated)->update(array('status_id' => 54));          
+return response()->json(['success'=>'Successfully' , 'invoice'=>$insert]);                       
 }                   
                     }
                     else
