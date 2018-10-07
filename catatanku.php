@@ -5981,8 +5981,25 @@ project.id=invoice.project_id
 
 
 
-
-
+CREATE OR REPLACE VIEW v_coordinates_project 
+AS 
+SELECT 
+id,
+projectid,
+batchnya,
+infratype,
+area,
+regional,
+statusnya,
+towernya,
+longitude_actual,
+latitude_actual
+FROM
+vallproject
+WHERE
+longitude_actual is NOT NULL OR latitude_actual is NOT NULL 
+order by
+id desc
 
 
 

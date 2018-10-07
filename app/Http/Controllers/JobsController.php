@@ -101,6 +101,50 @@ return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,
     }
      
     
+    public function getCoordinates(Request $request)
+    {
+        $search = $request->filter;
+        $infratype = $request->infratypenya;
+        $area = $request->area;
+		
+		
+        $query =  DB::table('v_coordinates_project');
+  
+ if (!empty($search))
+ {
+   $like = "%{$search}%";
+   $query = $query->where('projectid', 'LIKE', $like)->orWhere('regional', 'LIKE', $like);
+ }
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  }
+  
+ if (!empty($area))
+  { 
+   $query = $query->where('area', $area);
+  }
+  $query = $query->get();
+ 
+$show =[]; 
+if(count($query) > 0)
+{
+	
+foreach($query as $q)
+{ 
+	$show[] = ['id'=>$q->id,'projectid' => $q->projectid ,'statusnya' => $q->statusnya ,'infratype' => $q->infratype ,'area' => $q->area ,'regional' => $q->regional ,'towernya' => $q->towernya , 'lat' => $q->latitude_actual , 'lng' => $q->longitude_actual];
+}
+}
+else
+{
+$show = ['id'=>'','projectid' => '' ,'infratype' =>'' , 'area' => '' ,'regional' => '' ,'towernya' =>'' , 'lat' => '' , 'lng' => ''];
+}
+
+ return response()->json($show);  
+  
+    }
+	
+	
     public function GetJobsDocumentSIS(Request $request)
     {
        $perPage = $request->per_page;

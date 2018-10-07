@@ -10,19 +10,19 @@
     <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900|Montserrat:300,400,500,600,700,800,900" rel="stylesheet">
     <!-- BEGIN VENDOR CSS-->
     <!-- font icons-->
-    <link rel="stylesheet" type="text/css" href="{{asset('app-assets/fonts/feather/style.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('app-assets/fonts/simple-line-icons/style.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('app-assets/fonts/font-awesome/css/font-awesome.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('app-assets/vendors/css/perfect-scrollbar.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('app-assets/vendors/css/prism.min.css')}}"> 
+    <link rel="stylesheet" type="text/css" href="{{asset('public/app-assets/fonts/feather/style.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('public/app-assets/fonts/simple-line-icons/style.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('public/app-assets/fonts/font-awesome/css/font-awesome.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('public/app-assets/vendors/css/perfect-scrollbar.min.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{asset('public/app-assets/vendors/css/prism.min.css')}}"> 
     <!-- END VENDOR CSS-->
     <!-- BEGIN APEX CSS-->
-<link rel="stylesheet" type="text/css" href="{{asset('app-assets/css/app.css')}}"> 
-      <link rel="stylesheet" type="text/css" href="{{asset('app-assets/css/custom.css')}}">  
+<link rel="stylesheet" type="text/css" href="{{asset('public/app-assets/css/app.css')}}"> 
+      <link rel="stylesheet" type="text/css" href="{{asset('public/app-assets/css/custom.css')}}">  
       
-    <link href="{{ asset('app-assets/css/vue2-autocomplete.css') }}" rel="stylesheet">
+    <link href="{{ asset('public/app-assets/css/vue2-autocomplete.css') }}" rel="stylesheet">
     
-    <!-- <link rel="stylesheet" href="{{asset('css/app.css')}}">--> 
+    <!-- <link rel="stylesheet" href="{{asset('public/css/app.css')}}">--> 
   </head>
   <body data-col="2-columns" class=" 2-columns ">
     <!-- ////////////////////////////////////////////////////////////////////////////-->
@@ -31,7 +31,7 @@
 
       <!-- main menu-->
       <!--.main-menu(class="#{menuColor} #{menuOpenType}", class=(menuShadow == true ? 'menu-shadow' : ''))-->
-      <div data-active-color="white" data-background-color="black" data-image="{{asset('app-assets/img/sidebar-bg/04.jpg')}}" class="app-sidebar">
+      <div data-active-color="white" data-background-color="black" data-image="{{asset('public/app-assets/img/sidebar-bg/04.jpg')}}" class="app-sidebar">
         <!-- main menu header-->
         <!-- Sidebar Header starts-->
         <div class="sidebar-header">
@@ -532,7 +532,7 @@
                 </ul>
               </li>
               
-<!-- <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/project-locations');window.location.reload();"><i class="ft-navigation font-medium-3"></i><span data-i18n="" class="menu-title">Maps</span> </a></li> -->
+ <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/project-locations');window.location.reload();"><i class="ft-navigation font-medium-3"></i><span data-i18n="" class="menu-title">Maps</span> </a></li> 
  <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/list-dokumen-template');window.location.reload();"><i class="ft-folder font-medium-3"></i><span data-i18n="" class="menu-title">Dokumen Template</span> </a></li> 
  <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/list-notifications');window.location.reload();"><i class="ft-bell font-medium-3"></i><span data-i18n="" class="menu-title">Notifikasi</span> </a></li> 
  <li class="nav-item"><a id="navbar-fullscreen" href="javascript:;" class="nav-link apptogglefullscreen"><i class="ft-maximize font-medium-3"></i><span data-i18n="" class="menu-title">Fullscreen</span> </a></li>
@@ -642,12 +642,12 @@
         <!-- Sidebar BG Image Starts-->
         <h6 class="text-center text-bold-500 mb-3 text-uppercase">Sidebar Bg Image</h6>
         <div class="cz-bg-image row">
-          <div class="col mb-3"><img src="{{asset('app-assets/img/sidebar-bg/01.jpg')}}" width="90" class="rounded"></div>
-          <div class="col mb-3"><img src="{{asset('app-assets/img/sidebar-bg/02.jpg')}}" width="90" class="rounded"></div>
-          <div class="col mb-3"><img src="{{asset('app-assets/img/sidebar-bg/03.jpg')}}" width="90" class="rounded"></div>
-          <div class="col mb-3"><img src="{{asset('app-assets/img/sidebar-bg/04.jpg')}}" width="90" class="rounded"></div>
-          <div class="col mb-3"><img src="{{asset('app-assets/img/sidebar-bg/05.jpg')}}" width="90" class="rounded"></div>
-          <div class="col mb-3"><img src="{{asset('app-assets/img/sidebar-bg/06.jpg')}}" width="90" class="rounded"></div>
+          <div class="col mb-3"><img src="{{asset('public/app-assets/img/sidebar-bg/01.jpg')}}" width="90" class="rounded"></div>
+          <div class="col mb-3"><img src="{{asset('public/app-assets/img/sidebar-bg/02.jpg')}}" width="90" class="rounded"></div>
+          <div class="col mb-3"><img src="{{asset('public/app-assets/img/sidebar-bg/03.jpg')}}" width="90" class="rounded"></div>
+          <div class="col mb-3"><img src="{{asset('public/app-assets/img/sidebar-bg/04.jpg')}}" width="90" class="rounded"></div>
+          <div class="col mb-3"><img src="{{asset('public/app-assets/img/sidebar-bg/05.jpg')}}" width="90" class="rounded"></div>
+          <div class="col mb-3"><img src="{{asset('public/app-assets/img/sidebar-bg/06.jpg')}}" width="90" class="rounded"></div>
         </div>
         <!-- Sidebar BG Image Ends-->
         <hr>
@@ -701,25 +701,25 @@
             'csrfToken' => csrf_token(),
         ]); ?>
 </script>
-<script src="{{asset('js/app.js')}}"></script>
-    <script src="{{asset('app-assets/vendors/js/core/jquery-3.2.1.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('app-assets/vendors/js/core/popper.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('app-assets/vendors/js/core/bootstrap.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('app-assets/vendors/js/perfect-scrollbar.jquery.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('app-assets/vendors/js/prism.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('app-assets/vendors/js/jquery.matchHeight-min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('app-assets/vendors/js/screenfull.min.js')}}" type="text/javascript"></script>
-    <script src="{{asset('app-assets/vendors/js/pace/pace.min.js')}}" type="text/javascript"></script> 
+<script src="{{asset('public/js/app.js')}}"></script>
+    <script src="{{asset('public/app-assets/vendors/js/core/jquery-3.2.1.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('public/app-assets/vendors/js/core/popper.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('public/app-assets/vendors/js/core/bootstrap.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('public/app-assets/vendors/js/perfect-scrollbar.jquery.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('public/app-assets/vendors/js/prism.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('public/app-assets/vendors/js/jquery.matchHeight-min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('public/app-assets/vendors/js/screenfull.min.js')}}" type="text/javascript"></script>
+    <script src="{{asset('public/app-assets/vendors/js/pace/pace.min.js')}}" type="text/javascript"></script> 
     
     <!-- BEGIN VENDOR JS-->
     <!-- BEGIN PAGE VENDOR JS-->
     <!-- END PAGE VENDOR JS-->
     <!-- BEGIN APEX JS-->
-    <script src="{{asset('app-assets/js/app-sidebar.js')}}" type="text/javascript"></script>
-    <script src="{{asset('app-assets/js/notification-sidebar.js')}}" type="text/javascript"></script>
-    <script src="{{asset('app-assets/js/customizer.js')}}" type="text/javascript"></script>
+    <script src="{{asset('public/app-assets/js/app-sidebar.js')}}" type="text/javascript"></script>
+    <script src="{{asset('public/app-assets/js/notification-sidebar.js')}}" type="text/javascript"></script>
+    <script src="{{asset('public/app-assets/js/customizer.js')}}" type="text/javascript"></script>
     <!-- END APEX JS-->
-  <script src="{{asset('app-assets/js/components-modal.min.js')}}" type="text/javascript"></script>
+  <script src="{{asset('public/app-assets/js/components-modal.min.js')}}" type="text/javascript"></script>
   
   </body>
 </html>

@@ -7,7 +7,7 @@
                 <div class="col-md-12 col-lg-3 ml-auto d-flex align-items-center">
                     <div class="row text-center mb-3">
                         <div class="col-12">
-                            <img :src="'/img/avatar-03.png'" width="300">
+                            <img :src="'/public/img/avatar-03.png'" width="300">
                         </div>
                         <div class="col-12">
                             <h4 class="grey darken-2 font-large-5">Opps...</h4>

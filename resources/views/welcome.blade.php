@@ -25,9 +25,9 @@
         <link rel="stylesheet" href="/css/ripples.min.css">
         
         <!-- ThemeCSS & Responsive CSS -->
-        <link rel="stylesheet" href="/style.css">
-        <link rel="stylesheet" href="/css/responsive.css">
-        <link rel="stylesheet" href="/css/custom.css">
+        <link rel="stylesheet" href="/public/style.css">
+        <link rel="stylesheet" href="/public/css/responsive.css">
+        <link rel="stylesheet" href="/public/css/custom.css">
 
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <script>
@@ -117,17 +117,17 @@
 
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="/js/vendor/jquery-1.11.2.min.js"></script>
+        <script src="/public/js/vendor/jquery-1.11.2.min.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
-        <script src="/js/bootstrap.min.js"></script>
-        <script src="/js/material.min.js"></script>
-        <script src="/js/ripples.min.js"></script>
-        <script src="/js/jquery.scrolly.js"></script>
-        <script src="/js/jquery.particleground.min.js"></script>
-        <script src="/js/main.js"></script>
-         <script src="/js/TweenMax.min.js"></script>
-         <script src="/js/velocity.min.js"></script>
-         <script src="/js/velocity.ui.min.js"></script>
+        <script src="/public/js/bootstrap.min.js"></script>
+        <script src="/public/js/material.min.js"></script>
+        <script src="/public/js/ripples.min.js"></script>
+        <script src="/public/js/jquery.scrolly.js"></script>
+        <script src="/public/js/jquery.particleground.min.js"></script>
+        <script src="/public/js/main.js"></script>
+         <script src="/public/js/TweenMax.min.js"></script>
+         <script src="/public/js/velocity.min.js"></script>
+         <script src="/public/js/velocity.ui.min.js"></script>
    <script>
 function slideUpIn() {
   $("#login").velocity("transition.slideUpIn", 1250)
