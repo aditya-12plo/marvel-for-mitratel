@@ -156,6 +156,36 @@ where status=1
 ;
 
 
+
+
+CREATE OR REPLACE VIEW vboqsubmitdataall
+AS
+SELECT 
+  id, 
+  boq_code, 
+  title,
+  nama_telkomsel,
+  posisi_telkomsel,
+  nama_manager,
+  posisi_manager,
+  nama_user,
+  posisi_user,
+ IF(project_id='', 0 ,IFNULL((CHAR_LENGTH(project_id) - CHAR_LENGTH(REPLACE(project_id, ',', '')) + 1),0)) as total, 
+  CASE status
+        WHEN 0 THEN 'MENUNGGU APPROVAL'
+        WHEN 1 THEN 'REPAIR BOQ'
+        WHEN 2 THEN 'APPROVED'
+        WHEN 3 THEN 'BOQ VERFIFIKASI'
+        WHEN 4 THEN 'BOQ PROSES PR'
+        WHEN 5 THEN 'BOQ PO RELEASE' 
+        ELSE 'CANCEL' END
+        AS 'statusnya',
+        project_id,
+  area,area2,message,status,created_at,updated_at
+FROM boq_submit 
+;
+
+
 CREATE OR REPLACE VIEW vboqsubmitdataapproval
 AS
 SELECT 
@@ -4158,6 +4188,31 @@ where status=0;
 
 
 
+CREATE OR REPLACE VIEW vcmesubmitdataadmin
+AS
+SELECT 
+  id, 
+  cme_code, 
+  project_id, 
+  area,
+  area2,
+  status,
+  message,
+  created_at,
+  updated_at, 
+   IFNULL((CHAR_LENGTH(project_id) - CHAR_LENGTH(REPLACE(project_id, ',', '')) + 1),0) as total,
+   CASE status
+        WHEN 0 THEN 'MENUNGGU APPROVAL'
+        WHEN 1 THEN 'REPAIR CME'
+        WHEN 2 THEN 'ACCRUAL'
+        WHEN 3 THEN 'ACCRUED' 
+        ELSE 'CANCEL' END
+        AS 'statusnya'
+ 
+FROM cme_submit;
+
+
+
 
 
 
@@ -5339,8 +5394,8 @@ invoice.document_boq_baps,
 invoice.tgL_akhir_sewa,
 invoice.document_baps,
 invoice.id as invoiceid,
-invoice.no_receive,
-invoice.no_kontrak,
+IFNULL(invoice.no_receive,0) as no_receive,
+IFNULL(invoice.no_kontrak,0) as no_kontrak,
 invoice.no_invoice,
 invoice.tgl_invoice,
 IFNULL((((LAST_DAY(project.batch_accrue) - rfi_detail.rfi_detail_start_date)/DAY(LAST_DAY(project.batch_accrue)) * rfi_detail.rfi_detail_price_month)),0) as nilai_revenue,
@@ -5672,8 +5727,8 @@ rfi_baut.baut_document,
 rfi_detail.id as rfidetailid,
 rfi_detail.rfi_detail_start_date,
 rfi_detail.rfi_detail_end_date,
-rfi_detail.rfi_detail_price_month,
-rfi_detail.rfi_detail_price_year,
+IFNULL(rfi_detail.rfi_detail_price_month,0) as rfi_detail_price_month,
+IFNULL(rfi_detail.rfi_detail_price_year,0) as rfi_detail_price_year,
 baks_bauk.id as baksbaukid,
 baks_bauk.no_baks,
 baks_bauk.date_baks,
@@ -5849,8 +5904,8 @@ rfi_baut.baut_document,
 rfi_detail.id as rfidetailid,
 rfi_detail.rfi_detail_start_date,
 rfi_detail.rfi_detail_end_date,
-rfi_detail.rfi_detail_price_month,
-rfi_detail.rfi_detail_price_year,
+IFNULL(rfi_detail.rfi_detail_price_month,0) as rfi_detail_price_month,
+IFNULL(rfi_detail.rfi_detail_price_year,0) as rfi_detail_price_year,
 baks_bauk.id as baksbaukid,
 baks_bauk.no_baks,
 baks_bauk.date_baks,
@@ -5858,14 +5913,14 @@ baks_bauk.document_baks,
 baks_bauk.document_wctr,
 baks_bauk.document_boq_project,
 baks_bauk.document_rfi_certificate, 
+invoice.id as invoiceid,
 invoice.tgl_mulai_sewa,
 invoice.tgl_target_rfi,
 invoice.document_boq_baps, 
 invoice.tgL_akhir_sewa,
 invoice.document_baps,
-invoice.id as invoiceid,
-invoice.no_receive,
-invoice.no_kontrak,
+IFNULL(invoice.no_receive,0) as no_receive,
+IFNULL(invoice.no_kontrak,0) as no_kontrak,
 invoice.no_invoice,
 invoice.tgl_invoice,
 IFNULL(
@@ -6051,8 +6106,8 @@ rfi_baut.baut_document,
 rfi_detail.id as rfidetailid,
 rfi_detail.rfi_detail_start_date,
 rfi_detail.rfi_detail_end_date,
-rfi_detail.rfi_detail_price_month,
-rfi_detail.rfi_detail_price_year,
+IFNULL(rfi_detail.rfi_detail_price_month,0) as rfi_detail_price_month,
+IFNULL(rfi_detail.rfi_detail_price_year,0) as rfi_detail_price_year,
 baks_bauk.id as baksbaukid,
 baks_bauk.no_baks,
 baks_bauk.date_baks,
@@ -6222,8 +6277,8 @@ rfi_baut.baut_document,
 rfi_detail.id as rfidetailid,
 rfi_detail.rfi_detail_start_date,
 rfi_detail.rfi_detail_end_date,
-rfi_detail.rfi_detail_price_month,
-rfi_detail.rfi_detail_price_year,
+IFNULL(rfi_detail.rfi_detail_price_month,0) as rfi_detail_price_month,
+IFNULL(rfi_detail.rfi_detail_price_year,0) as rfi_detail_price_year,
 baks_bauk.id as baksbaukid,
 baks_bauk.no_baks,
 baks_bauk.date_baks,

@@ -491,7 +491,12 @@
                   </li>
 <li><a onClick="window.location.replace('/karyawan?#/list-project');window.location.reload();"  class="menu-item">Project</a>
                   </li>           
-
+<li><a onClick="window.location.replace('/karyawan?#/list-boq-administrator');window.location.reload();"  class="menu-item">BOQ Submit</a>
+                  </li>             
+<li><a onClick="window.location.replace('/karyawan?#/list-cme-administrator');window.location.reload();"  class="menu-item">CME Submit</a>
+                  </li>            
+<li><a onClick="window.location.replace('/karyawan?#/list-dokumen-upload');window.location.reload();"  class="menu-item">Dokumen Upload</a>
+                  </li>  
                 </ul>
               </li>
 @endif
@@ -528,6 +533,7 @@
               </li>
               
 <!-- <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/project-locations');window.location.reload();"><i class="ft-navigation font-medium-3"></i><span data-i18n="" class="menu-title">Maps</span> </a></li> -->
+ <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/list-dokumen-template');window.location.reload();"><i class="ft-folder font-medium-3"></i><span data-i18n="" class="menu-title">Dokumen Template</span> </a></li> 
  <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/list-notifications');window.location.reload();"><i class="ft-bell font-medium-3"></i><span data-i18n="" class="menu-title">Notifikasi</span> </a></li> 
  <li class="nav-item"><a id="navbar-fullscreen" href="javascript:;" class="nav-link apptogglefullscreen"><i class="ft-maximize font-medium-3"></i><span data-i18n="" class="menu-title">Fullscreen</span> </a></li>
 <li class="has-sub nav-item"><a href="#"><i class="ft-user"></i><span data-i18n="" class="menu-title">User</span></a>

@@ -343,6 +343,99 @@ else
     }
 
 
+    public function RevisiDocumentInvoiceByAdmin(Request $request)
+    { 
+        if(Input::get('id') == 0)
+        {
+            
+      $valid = $this->validate($request, [
+        'project_id' => 'required|max:255|unique:invoice,project_id', 
+        'projectid' => 'required|max:255', 
+        'tgl_mulai_sewa' => 'required|date|date_format:Y-m-d',
+        'tgl_target_rfi' => 'required|date|date_format:Y-m-d', 
+        'document_boq_baps' => 'required|mimes:pdf',
+        'tgL_akhir_sewa' => 'required|date|date_format:Y-m-d', 
+        'document_baps' => 'required|mimes:pdf', 
+        'no_kontrak' => 'required|numeric|digits_between:1,255', 
+        'no_receive' => 'required|numeric|digits_between:1,255', 
+        'no_invoice' => 'required|max:255', 
+        'tgl_invoice' => 'required|date|date_format:Y-m-d',  
+    ]);
+if (!$valid)
+{
+
+    $file = Input::file('document_boq_baps'); 
+    $extension  = Input::file('document_boq_baps')->getClientOriginalExtension(); 
+    $fileBaps = Input::file('document_baps'); 
+    $extensionBaps  = Input::file('document_baps')->getClientOriginalExtension(); 
+    if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf' || $fileBaps->getSize() <= 10000000 && $fileBaps->getClientMimeType() == 'application/pdf')
+    { 
+    $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path   
+    $fileName   = Input::get('projectid').'-document-boq-baps-'.time().'.'.$extension;
+    $fileNameBaps   = Input::get('projectid').'-document-baps-'.time().'.'.$extensionBaps;
+        if(file_exists($destinationPath.$fileName) || file_exists($destinationPath.$fileNameBaps))
+        {
+    File::delete($destinationPath .$fileName);
+    File::delete($destinationPath .$fileNameBaps);
+        }
+    $upload_success     = $file->move($destinationPath, $fileName);
+    $upload_success_baps     = $fileBaps->move($destinationPath, $fileNameBaps);
+    if(!$upload_success || !$upload_success_baps)
+    {
+    File::delete($destinationPath .$fileName);
+    File::delete($destinationPath .$fileNameBaps);
+     return response()->json(['errorfile'=>'File Upload Gagal, Silahkan Ulangi']);
+    }
+    else
+    {
+    $masuk = array('project_id'=>$request->project_id,'no_receive'=>$request->no_receive,'no_kontrak'=>$request->no_kontrak,'no_invoice'=>$request->no_invoice,'tgl_invoice'=>$request->tgl_invoice,'tgl_mulai_sewa'=>$request->tgl_mulai_sewa,'tgl_target_rfi'=>$request->tgl_target_rfi,'document_boq_baps'=>$fileName,'tgL_akhir_sewa'=>$request->tgL_akhir_sewa,'document_baps'=>$fileNameBaps); 
+    Invoice::create($masuk);
+    Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'invoice' ,'action' => 'insert', 'data' => json_encode($masuk)]);
+    $project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+    return response()->json(['success'=>'Successfully','project'=>$project]); 
+    }
+    }
+    else
+    {
+    return response()->json(['errorfile'=>'Please, check your file type / size']);  
+    }
+ 
+    }
+        else
+    {
+        return response()->json('error', $valid);
+    }
+        }
+        else
+        {
+            
+            $valid = $this->validate($request, [
+              'project_id' => 'required|max:255|unique:invoice,project_id,'.Input::get('id'),
+              'projectid' => 'required|max:255', 
+              'tgl_mulai_sewa' => 'required|date|date_format:Y-m-d',
+              'tgl_target_rfi' => 'required|date|date_format:Y-m-d',  
+              'tgL_akhir_sewa' => 'required|date|date_format:Y-m-d',  
+              'no_kontrak' => 'required|numeric|digits_between:1,255', 
+              'no_receive' => 'required|numeric|digits_between:1,255', 
+              'no_invoice' => 'required|max:255', 
+              'tgl_invoice' => 'required|date|date_format:Y-m-d',  
+          ]);
+      if (!$valid)
+      { 
+          $edit = array('no_receive'=>$request->no_receive,'no_kontrak'=>$request->no_kontrak,'no_invoice'=>$request->no_invoice,'tgl_invoice'=>$request->tgl_invoice,'tgl_mulai_sewa'=>$request->tgl_mulai_sewa,'tgl_target_rfi'=>$request->tgl_target_rfi,'tgL_akhir_sewa'=>$request->tgL_akhir_sewa); 
+          Invoice::where('id',Input::get('id'))->update($edit);
+          Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'invoice' ,'action' => 'update', 'data' => json_encode($edit)]);
+          $project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+          return response()->json(['success'=>'Successfully','project'=>$project]); 
+          }
+              else
+          {
+              return response()->json('error', $valid);
+          }
+
+        }
+    }
+
 
 
 }

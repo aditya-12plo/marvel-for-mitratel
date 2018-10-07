@@ -120,6 +120,7 @@ Route::get('GetJobsSubmitBOQ', 'JobsController@GetJobsSubmitBOQ');
 Route::get('GetJobsSubmitBOQData', 'JobsController@GetJobsSubmitBOQData');
 Route::get('GetJobsSubmitBOQRepair', 'JobsController@GetJobsSubmitBOQRepair');
 
+Route::get('GetJobsSubmitAllBOQ', 'JobsController@GetJobsSubmitAllBOQ');
 
 Route::get('GetJobsSubmitBOQApproved', 'JobsController@GetJobsSubmitBOQApproved');
 Route::get('GetJobsApprovalDropHQ', 'JobsController@GetJobsApprovalDropHQ');
@@ -158,10 +159,13 @@ Route::get('GetJobsSubmitCMEApproval', 'JobsController@GetJobsSubmitCMEApproval'
 Route::get('GetDetailProjectCME/{id}', 'JobsController@GetDetailProjectCME');
 Route::get('GetJobsApprovalDocumentCMESubmit', 'JobsController@GetJobsApprovalDocumentCMESubmit');
 Route::get('GetJobsApprovalDocumentCMESubmitRevisi', 'JobsController@GetJobsApprovalDocumentCMESubmitRevisi');
+Route::get('GetJobsApprovalDocumentCMESubmitRevisiAdmin', 'JobsController@GetJobsApprovalDocumentCMESubmitRevisiAdmin');
 Route::get('GetJobsApprovedDocumentCME', 'JobsController@GetJobsApprovedDocumentCME');
 Route::get('GetJobsApprovedDocumentCMEReport', 'JobsController@GetJobsApprovedDocumentCMEReport');
+Route::get('GetJobsSubmitCMERevisianByadmin/{id}/hasil', 'JobsController@GetJobsSubmitCMERevisianByadmin');
 Route::get('GetJobsSubmitCMERevisian/{id}/hasil', 'JobsController@GetJobsSubmitCMERevisian');
 Route::get('GetJobsSubmitBOQRevisian/{id}/hasil', 'JobsController@GetJobsSubmitBOQRevisian');
+Route::get('GetJobsSubmitBOQRevisianByAdmin/{id}/hasil', 'JobsController@GetJobsSubmitBOQRevisianByAdmin');
 Route::get('GetJobsApprovedDocumentCMEToAccrued', 'JobsController@GetJobsApprovedDocumentCMEToAccrued');
 Route::get('GetJobsApprovedDocumentCMEAccruedData', 'JobsController@GetJobsApprovedDocumentCMEAccruedData');
 Route::get('GetJobsDocumentBaksBauk', 'JobsController@GetJobsDocumentBaksBauk');
@@ -281,12 +285,14 @@ Route::get('GetInfratype', 'JobsController@GetInfratype');
  Route::post('RevisiDocumentBOQByAdmin', 'BOQController@RevisiDocumentBOQByAdmin');
  Route::post('SubmitBOQCancel', 'BOQController@SubmitBOQCancel');
  Route::post('SubmitBOQApproval', 'BOQController@SubmitBOQApproval');
+ Route::post('SubmitBOQApprovalRevisiByAdmin', 'BOQController@SubmitBOQApprovalRevisiByAdmin');
  Route::post('SubmitBOQApprovalRevisi', 'BOQController@SubmitBOQApprovalRevisi');
  Route::match(['put', 'patch'], 'EditBOQ/{id}','BOQController@update'); 
  Route::get('GetDetailProject/{id}', 'BOQController@GetDetailProject');
  Route::get('GetDetailProjectBOQ/{id}', 'BOQController@GetDetailProjectBOQ');
  Route::post('downloadPDFBOQ', 'BOQController@downloadPDFBOQ');
  Route::post('SubmitBOQApprovalVerifikasi', 'BOQController@SubmitBOQApprovalVerifikasi');
+ Route::post('SubmitBOQApprovalVerifikasiByAdmin', 'BOQController@SubmitBOQApprovalVerifikasiByAdmin');
  Route::post('SubmitBOQApprovalProsesPR', 'BOQController@SubmitBOQApprovalProsesPR');
  Route::post('SubmitBOQApprovalPORelease', 'BOQController@SubmitBOQApprovalPORelease');
  Route::get('GetBOQVerifikasi/{id}', 'BOQController@GetBOQVerifikasi');
@@ -410,6 +416,7 @@ Route::post('ApprovedCMEMassal', 'RfiBautController@ApprovedCMEMassal');
 
 
  /* RFI Detail */ 
+Route::post('RevisiDocumentRFIDetailByAdmin', 'RfiDetailController@RevisiDocumentRFIDetailByAdmin');
 Route::post('AddDocumentRfiDetail', 'RfiDetailController@AddDocumentRfiDetail');
 Route::post('RevisiDocumentCMEDetail', 'RfiDetailController@RevisiDocumentCMEDetail');
 Route::post('SubmitCME', 'RfiDetailController@SubmitCME');
@@ -420,10 +427,14 @@ Route::post('ApprovalRfiDetail', 'RfiDetailController@ApprovalRfiDetail');
 
  /* CME */
 Route::post('SubmitCMEAccrual', 'RfiDetailController@SubmitCMEAccrual');
+Route::post('CancelCMEAccrualMassal', 'RfiDetailController@CancelCMEAccrualMassal');
 Route::post('CancelCMEAccrual', 'RfiDetailController@CancelCMEAccrual');
 Route::post('UpdateCMEAccrualRevisi', 'RfiDetailController@UpdateCMEAccrualRevisi');
 Route::post('UpdateCMEAccrual', 'RfiDetailController@UpdateCMEAccrual');
+Route::post('UpdateCMEAccrualByAdmin', 'RfiDetailController@UpdateCMEAccrualByAdmin');
+Route::post('UpdateCMEBtachAccrueDateByAdmin', 'RfiDetailController@UpdateCMEBtachAccrueDateByAdmin');
 Route::post('ApprovalDocumentCMEManagerHaki', 'RfiDetailController@ApprovalDocumentCMEManagerHaki');
+Route::post('SubmitCMEToAccruedByAdmin', 'RfiDetailController@SubmitCMEToAccruedByAdmin');
 Route::post('SubmitCMEToAccrued', 'RfiDetailController@SubmitCMEToAccrued');
 Route::get('GetCMEAccruedData/{id}', 'RfiDetailController@GetCMEAccruedData');
 Route::get('GetCMEAccruedDataNya/{id}', 'RfiDetailController@GetCMEAccruedDataNya');
@@ -431,6 +442,11 @@ Route::get('GetCMEAccruedDataNya/{id}', 'RfiDetailController@GetCMEAccruedDataNy
 
 
  /* BAKS BAUK */
+ Route::post('RevisiDocumentBAKSBAUKByAdmin', 'BaksBaukController@RevisiDocumentBAKSBAUKByAdmin');
+ Route::post('uploaddokumenRFICaerByAdmin', 'BaksBaukController@uploaddokumenRfiCertificate');
+ Route::post('uploaddokumenBOQProjectByAdmin', 'BaksBaukController@uploaddokumenBoqProject');
+ Route::post('uploaddokumenWCTRByAdmin', 'BaksBaukController@uploaddokumenWctr');
+ Route::post('uploaddokumenBAKSByAdmin', 'BaksBaukController@uploaddokumenBaks');
  Route::post('AddDocumentBaksBauk', 'BaksBaukController@AddDocumentBaksBauk');
  Route::post('uploaddokumenBaks', 'BaksBaukController@uploaddokumenBaks');
  Route::post('uploaddokumenWctr', 'BaksBaukController@uploaddokumenWctr');
@@ -452,6 +468,9 @@ Route::get('GetCMEAccruedDataNya/{id}', 'RfiDetailController@GetCMEAccruedDataNy
 
 
 /* Invoice */
+ Route::post('RevisiDocumentInvoiceByAdmin', 'InvoiceController@RevisiDocumentInvoiceByAdmin'); 
+ Route::post('uploaddokumenBAPSInvoiceByAdmin', 'InvoiceController@uploaddokumenBaps'); 
+ Route::post('uploaddokumenBOQBAPSInvoiceByAdmin', 'InvoiceController@uploaddokumenBoqBaps');  
  Route::post('AddDocumentInvoice', 'InvoiceController@AddDocumentInvoice');  
  Route::post('AddDocumentRevisiInvoice', 'InvoiceController@AddDocumentRevisiInvoice');  
  Route::post('uploaddokumenBoqBaps', 'InvoiceController@uploaddokumenBoqBaps');    
@@ -459,7 +478,10 @@ Route::get('GetCMEAccruedDataNya/{id}', 'RfiDetailController@GetCMEAccruedDataNy
  Route::post('uploadinvoice', 'InvoiceController@uploadinvoice');
 /* Invoice */
 
-
+/* document */
+ Route::resource('/listdokumen', 'DocumentsController');
+ Route::post('/updatelistdokumen', 'DocumentsController@updateData');
+/* document */
 
  /* tracking site */
   Route::get('TrackingSite', 'TrackingController@index');

@@ -291,6 +291,12 @@ export default {
 		  callback: 'formatNumberRupiah'
         },
         {
+          name: 'batch_accrue',
+      title: 'Batch Accrue',
+      titleClass: 'text-center',
+          dataClass: 'text-center', 
+        },
+        {
           name: 'nilai_revenue',
       title: 'Nilai Revenue',
       titleClass: 'text-center',
@@ -449,7 +455,7 @@ var masuk =
 	'status' : 4,
 	'haki_status' : 44,
 }
-axios.post('/karyawan/SubmitCMEToAccrued', masuk)
+axios.post('/karyawan/CancelCMEAccrualMassal', masuk)
                     .then(response => { 
                       if(response.data.success)
                       {

@@ -309,7 +309,7 @@
                         </div>
                     </div>
                     
- <span><button type="button" @click="editRFIDetail()" class="btn btn-raised btn-warning round btn-min-width mr-1 mb-1">Edit</button></span>
+ <span><button type="button" @click="modal.set('editRFIDetail', true)" class="btn btn-raised btn-warning round btn-min-width mr-1 mb-1">Edit</button></span>
                 </div>
             </div>
         </div>
@@ -327,7 +327,7 @@
                         </div>
                     </div>
                     
- <span><button type="button" @click="editBAKSBAUK()" class="btn btn-raised btn-warning round btn-min-width mr-1 mb-1">Edit</button></span>
+ <span><button type="button" @click="modal.set('editBAKSBAUK', true)" class="btn btn-raised btn-warning round btn-min-width mr-1 mb-1">Edit</button></span>
                 </div>
             </div>
         </div>
@@ -341,43 +341,7 @@
                 <div class="card-block pt-2 pb-0">
                     <div class="media">
                         <div class="media-body white text-left">
-                            <h5 class="font-large-1 mb-0">Dokumen BOQ BAPS</h5>
-                        </div>
-                    </div>
-                    
- <span><button type="button" @click="editBOQBAPS()" class="btn btn-raised btn-warning round btn-min-width mr-1 mb-1">Edit</button></span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-<div class="col-xl-3 col-lg-6 col-md-6 col-12">
-        <div class="card bg-danger">
-            <div class="card-body">
-                <div class="card-block pt-2 pb-0">
-                    <div class="media">
-                        <div class="media-body white text-left">
-                            <h5 class="font-large-1 mb-0">Dokumen BAPS</h5>
-                        </div>
-                    </div>
-                    
- <span><button type="button" @click="editBAPS()" class="btn btn-raised btn-warning round btn-min-width mr-1 mb-1">Edit</button></span>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-   
-<div class="col-xl-3 col-lg-6 col-md-6 col-12">
-        <div class="card bg-green">
-            <div class="card-body">
-                <div class="card-block pt-2 pb-0">
-                    <div class="media">
-                        <div class="media-body white text-left">
-                            <h5 class="font-large-1 mb-0">Invoice</h5>
+                            <h5 class="font-large-1 mb-0">Dokumen INVOICE</h5>
                         </div>
                     </div>
                     
@@ -386,6 +350,8 @@
             </div>
         </div>
     </div>
+
+  
 
 
 
@@ -2682,6 +2648,576 @@
         </modal>
 
 
+<!-- @edit RFI Detail -->
+<modal  v-if="modal.get('editRFIDetail')" @close="modal.set('editRFIDetail', false)">
+        <template slot="header" align="center"><h4 align="center">Dokumen RFI Detail</h4></template>
+        <template slot="body" >
+          <form method="POST" action="" @submit.prevent="rubahDokumenRFIDetailsubmitData()">
+                <div class="modal-body">
+
+
+
+
+<div class="col-sm-12" v-if="this.forms.rfidetailid">   
+    <h4 align="center">Edit RFI Detail</h4>     
+<div class="form-body">
+<div class="row">
+
+ 
+       <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                                     <fieldset class="form-group">
+                                        <label for="rfi_detail_start_date"><h4>TANGGAL MULAI RFI </h4></label>
+                                        <br>
+ <date-picker :date="rfi_detail_start_date" :option="option"></date-picker>
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['rfi_detail_start_date']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+   
+   
+       <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                                     <fieldset class="form-group">
+                                        <label for="rfi_detail_end_date"><h4>TANGGAL BERAKHIR RFI</h4></label>
+                                        <br>
+ <date-picker :date="rfi_detail_end_date" :option="option"></date-picker>
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['rfi_detail_end_date']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+   
+
+                                <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="rfi_detail_price_month">Harga Sewa / Bulan</label>
+                                        <br>
+<money v-model="forms.rfi_detail_price_month" class="form-control border-input" placeholder="Harga Sewa / Bulan" v-bind="duit"></money> 
+<div class="help-block"><ul role="alert"><li v-for="error of errorNya['rfi_detail_price_month']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+
+
+                                <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="rfi_detail_price_year">Harga Sewa / Tahun</label>
+                                        <br>
+{{this.perkalianTahunRFIDetail(this.forms.rfi_detail_price_month)}}
+<div class="help-block"><ul role="alert"><li v-for="error of errorNya['rfi_detail_price_year']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+  
+  
+                              
+
+</div>
+</div>
+</div>
+
+
+<div class="col-sm-12" v-else>  
+    <h4 align="center">Add RFI Detail</h4>      
+<div class="form-body">
+<div class="row">
+
+  
+          
+       <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                                     <fieldset class="form-group">
+                                        <label for="rfi_detail_start_date"><h4>TANGGAL MULAI RFI </h4></label>
+                                        <br>
+ <date-picker :date="rfi_detail_start_date" :option="option"></date-picker>
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['rfi_detail_start_date']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+   
+   
+       <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                                     <fieldset class="form-group">
+                                        <label for="rfi_detail_end_date"><h4>TANGGAL BERAKHIR RFI</h4></label>
+                                        <br>
+ <date-picker :date="rfi_detail_end_date" :option="option"></date-picker>
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['rfi_detail_end_date']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+   
+
+                                <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="rfi_detail_price_month">Harga Sewa / Bulan</label>
+                                        <br>
+<money v-model="forms.rfi_detail_price_month" class="form-control border-input" placeholder="Harga Sewa / Bulan" v-bind="duit"></money> 
+<div class="help-block"><ul role="alert"><li v-for="error of errorNya['rfi_detail_price_month']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+
+
+                                <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="rfi_detail_price_year">Harga Sewa / Tahun</label>
+                                        <br>
+{{this.perkalianTahunRFIDetail(this.forms.rfi_detail_price_month)}}
+<div class="help-block"><ul role="alert"><li v-for="error of errorNya['rfi_detail_price_year']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+
+
+</div>
+</div>
+</div>
+
+
+
+
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-default" @click="modal.set('editRFIDetail', false)" >Close</button>
+                    <button type="submit" class="btn btn-primary">Edit</button>
+                </div>
+                </form>
+        </template>
+        </modal>
+
+
+
+
+
+
+
+<!-- @edit RFI Detail -->
+<modal  v-if="modal.get('editBAKSBAUK')" @close="modal.set('editBAKSBAUK', false)">
+        <template slot="header" align="center"><h4 align="center">Dokumen BAKS-BAUK</h4></template>
+        <template slot="body" >
+          <form method="POST" action="" @submit.prevent="rubahDokumenBAKSBAUKsubmitData()">
+                <div class="modal-body">
+
+
+
+
+<div class="col-sm-12" v-if="this.forms.baksbaukid">   
+    <h4 align="center">Edit Dokumen BAKS-BAUK</h4>     
+<div class="form-body">
+<div class="row">
+
+ 
+         <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                         <label for="no_baks">NO DOKUMEN BAKS</label>
+                                        <br>
+<input type="text" @input="allcap($event, forms, 'no_baks')" class="form-control" placeholder="NO DOKUMEN BAKS" v-model="forms.no_baks" required>
+<div class="help-block"><ul role="alert"><li v-for="error of errorNya['no_baks']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="date_baks">TANGGAL DOKUMEN BAKS</label>
+                                        <br>
+ <date-picker :date="date_baks" :option="option"></date-picker>
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['date_baks']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="document_baks">DOKUMEN BAKS</label>                              
+                                        <br>
+<input type="file" accept="application/pdf" class="dropzone dropzone-area" name="document_baks" id="document_baks" ref="document_baks" v-on:change="newAvatarBAKS()"> 
+                                        <br>
+<a v-bind:href="'/files/'+this.forms.projectid+'/'+this.forms.document_baks" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>          
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_baks']"><span style="color:red;">{{ error }}</span></li></ul></div>
+  <br>
+<p class="center-block">* Type dokumen .pdf And Max 10 MB</p>
+                                    </fieldset>
+                                </div> 
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="document_wctr">DOKUMEN WCTR</label>
+                                        <br> 
+<label id="projectinput8" class="file center-block">
+<input type="file" accept="application/pdf" class="dropzone dropzone-area" name="document_wctr" id="document_wctr" ref="document_wctr" v-on:change="newAvatarWctr()">  
+            <span class="file-custom"></span>
+                    </label>        
+                                        <br>
+<a v-bind:href="'/files/'+this.forms.projectid+'/'+this.forms.document_wctr" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>  <br>  
+<div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_wctr']"><span style="color:red;">{{ error }}</span></li></ul></div>
+<br>
+<p class="center-block">* Type dokumen .pdf And Max 10 MB</p>
+                                    </fieldset>
+                                </div>
+    
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="document_boq_project">DOKUMEN BOQ PROJECT</label>
+                                        
+                                        <br>
+<input type="file" accept="application/pdf" class="dropzone dropzone-area" name="document_boq_project" id="document_boq_project" ref="document_boq_project" v-on:change="newAvatarBOQ()">       
+<br>
+<a v-bind:href="'/files/'+this.forms.projectid+'/'+this.forms.document_boq_project" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a> <br>
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_boq_project']"><span style="color:red;">{{ error }}</span></li></ul></div>
+  <br>
+<p class="center-block">* Type dokumen .pdf And Max 10 MB</p>
+                                    </fieldset>
+                                </div>
+
+  
+
+    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="document_rfi_certificate">DOKUMEN RFI CERTIFICATE</label>
+                                        <br>
+<input type="file" accept="application/pdf" class="dropzone dropzone-area" name="document_rfi_certificate" id="document_rfi_certificate" ref="document_rfi_certificate" v-on:change="newAvatarRFICer()">
+ <br>
+<a v-bind:href="'/files/'+this.forms.projectid+'/'+this.forms.document_rfi_certificate" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a> <br>
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_rfi_certificate']"><span style="color:red;">{{ error }}</span></li></ul></div>
+  <br>
+<p class="center-block">* Type dokumen .pdf And Max 10 MB</p>
+                                    </fieldset>
+                                </div>
+  
+  
+                              
+
+</div>
+</div>
+</div>
+
+
+<div class="col-sm-12" v-else>  
+    <h4 align="center">Add Dokumen BAKS-BAUK</h4>      
+<div class="form-body">
+<div class="row">
+
+  
+          
+       <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="no_baks">NO DOKUMEN BAKS</label>
+                                        <br>
+<input type="text" @input="allcap($event, forms, 'no_baks')" class="form-control" placeholder="NO DOKUMEN BAKS " v-model="forms.no_baks" required>
+<div class="help-block"><ul role="alert"><li v-for="error of errorNya['no_baks']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="date_baks">TANGGAL DOKUMEN BAKS</label>
+                                        <br>
+ <date-picker :date="date_baks" :option="option"></date-picker>
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['date_baks']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="document_baks">DOKUMEN BAKS</label>
+                                        <br>
+<input type="file" accept="application/pdf" name="file_name" id="file_name" v-on:change="newAvatarBAKSAdd" required="required"> 
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_baks']"><span style="color:red;">{{ error }}</span></li></ul></div>
+  <br>
+<p class="center-block">* Type dokumen .pdf And Max 10 MB</p>
+                                    </fieldset>
+                                </div>
+
+                             
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="document_wctr">DOKUMEN WCTR</label>
+                                        <br>
+<input type="file" accept="application/pdf" name="document_wctr" id="document_wctr" v-on:change="newAvatarWctrAdd" required="required"> 
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_wctr']"><span style="color:red;">{{ error }}</span></li></ul></div>
+  <br>
+<p class="center-block">* Type dokumen .pdf And Max 10 MB</p>
+                                    </fieldset>
+                                </div>
+
+                             
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="document_boq_project">DOKUMEN BOQ PROJECT</label>
+                                        <br>
+<input type="file" accept="application/pdf" name="document_boq_project" id="document_boq_project" v-on:change="newAvatarBOQAdd" required="required"> 
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_boq_project']"><span style="color:red;">{{ error }}</span></li></ul></div>
+  <br>
+<p class="center-block">* Type dokumen .pdf And Max 10 MB</p>
+                                    </fieldset>
+                                </div>
+
+                             
+
+
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="document_rfi_certificate">DOKUMEN RFI CERTIFICATE</label>
+                                        <br>
+<input type="file" accept="application/pdf" name="document_rfi_certificate" id="document_rfi_certificate" v-on:change="newAvatarRFICerAdd" required="required"> 
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_rfi_certificate']"><span style="color:red;">{{ error }}</span></li></ul></div>
+  <br>
+<p class="center-block">* Type dokumen .pdf And Max 10 MB</p>
+                                    </fieldset>
+                                </div>
+
+
+</div>
+</div>
+</div>
+
+
+
+
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-default" @click="modal.set('editBAKSBAUK', false)" >Close</button>
+                    <button type="submit" class="btn btn-primary">Edit</button>
+                </div>
+                </form>
+        </template>
+        </modal>
+
+
+
+
+
+
+
+<!-- @edit Invoice -->
+<modal  v-if="modal.get('editInvoice')" @close="modal.set('editInvoice', false)">
+        <template slot="header" align="center"><h4 align="center">Dokumen Invoice</h4></template>
+        <template slot="body" >
+          <form method="POST" action="" @submit.prevent="rubahDokumenInvoicesubmitData()">
+                <div class="modal-body">
+
+
+
+
+<div class="col-sm-12" v-if="this.forms.invoiceid">   
+    <h4 align="center">Edit Dokumen Invoice</h4>     
+<div class="form-body">
+<div class="row">
+
+ 
+  <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="tgl_mulai_sewa">TANGGAL MULAI SEWA</label>
+                                        <br>
+ <date-picker :date="tgl_mulai_sewa" :option="option"></date-picker>
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['tgl_mulai_sewa']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="tgl_target_rfi">TANGGAL RFI</label>
+                                        <br>
+ <date-picker :date="tgl_target_rfi" :option="option"></date-picker>
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['tgl_target_rfi']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="document_boq_baps">DOKUMEN BOQ BAPS</label>
+                                        <br>
+<input type="file" accept="application/pdf" name="document_boq_baps" id="document_boq_baps" class="dropzone dropzone-area" ref="document_boq_baps" v-on:change="newAvatarBOQBAPSInvoice()"> 
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_boq_baps']"><span style="color:red;">{{ error }}</span></li></ul></div>
+  <br>
+  <div class="col-sm-12" v-if="this.forms.document_boq_baps"> 
+  <a v-bind:href="'/files/'+this.forms.projectid+'/'+this.forms.document_boq_baps" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>   
+  <br>
+  </div>
+<p class="center-block">* Type dokumen .pdf And Max 10 MB</p>
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="tgL_akhir_sewa">TANGGAL AKHIR SEWA</label>
+                                        <br>
+ <date-picker :date="tgL_akhir_sewa" :option="option"></date-picker>
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['tgL_akhir_sewa']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div> 
+    
+
+                              <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="document_baps">DOKUMEN BAPS</label>
+                                        <br>
+<input type="file" accept="application/pdf" name="document_baps" id="document_baps" class="dropzone dropzone-area" ref="document_baps" v-on:change="newAvatarBaps()"> 
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_baps']"><span style="color:red;">{{ error }}</span></li></ul></div>
+  <br>
+  <div class="col-sm-12" v-if="this.forms.document_baps">
+  <a v-bind:href="'/files/'+this.forms.projectid+'/'+this.forms.document_baps" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>   
+  <br>
+  </div>
+<p class="center-block">* Type dokumen .pdf And Max 10 MB</p>
+                                    </fieldset>
+                                </div>
+
+  
+
+ <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="no_receive">NO RECEIVE</label>
+                                        <br>
+<money v-model="forms.no_receive" class="form-control border-input" placeholder="NO RECEIVE" v-bind="nomorinvoice"></money> 
+<div class="help-block"><ul role="alert"><li v-for="error of errorNya['no_receive']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="no_kontrak">NO KONTRAK</label>
+                                        <br>
+<money v-model="forms.no_kontrak" class="form-control border-input" placeholder="NO KONTRAK" v-bind="nomorinvoice"></money> 
+<div class="help-block"><ul role="alert"><li v-for="error of errorNya['no_kontrak']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+  
+
+                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="no_invoice">NO INVOICE</label>
+                                        <br>
+<input type="text" @input="allcap($event, forms, 'no_invoice')" class="form-control" placeholder="NO INVOICE" v-model="forms.no_invoice" required>
+<div class="help-block"><ul role="alert"><li v-for="error of errorNya['no_invoice']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+  
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="tgl_invoice">TANGGAL INVOICE</label>
+                                        <br>
+ <date-picker :date="tgl_invoice" :option="option"></date-picker>
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['tgl_invoice']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div> 
+  
+  
+                              
+
+</div>
+</div>
+</div>
+
+
+<div class="col-sm-12" v-else>  
+    <h4 align="center">Add Dokumen Invoice</h4>      
+<div class="form-body">
+<div class="row">
+
+  
+         <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="tgl_mulai_sewa">TANGGAL MULAI SEWA</label>
+                                        <br>
+ <date-picker :date="tgl_mulai_sewa" :option="option"></date-picker>
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['tgl_mulai_sewa']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div> 
+ 
+   <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="tgl_target_rfi">TANGGAL TARGET RFI</label>
+                                        <br>
+ <date-picker :date="tgl_target_rfi" :option="option"></date-picker>
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['tgl_target_rfi']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div> 
+
+   <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="document_boq_baps">DOKUMEN BOQ BAPS</label>
+                                        <br>
+<input type="file" accept="application/pdf" name="document_boq_baps" id="document_boq_baps" v-on:change="newAvatarBOQBAPSInvoiceAdd" required="required"> 
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_boq_baps']"><span style="color:red;">{{ error }}</span></li></ul></div>
+  <br>
+<p class="center-block">* Type dokumen .pdf And Max 10 MB</p>
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="tgL_akhir_sewa">TANGGAL AKHIR SEWA</label>
+                                        <br>
+ <date-picker :date="tgL_akhir_sewa" :option="option"></date-picker>
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['tgL_akhir_sewa']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div> 
+
+                                                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="document_baps">DOKUMEN BAPS</label>
+                                        <br>
+<input type="file" accept="application/pdf" name="document_baps" id="document_baps" v-on:change="newAvatarBapsAdd" required="required"> 
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_baps']"><span style="color:red;">{{ error }}</span></li></ul></div>
+  <br>
+<p class="center-block">* Type dokumen .pdf And Max 10 MB</p>
+                                    </fieldset>
+                                </div>
+
+								
+                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="no_receive">NO RECEIVE</label>
+                                        <br>
+<money v-model="forms.no_receive" class="form-control border-input" placeholder="NO RECEIVE" v-bind="nomorinvoice"></money> 
+<div class="help-block"><ul role="alert"><li v-for="error of errorNya['no_receive']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                        </fieldset>
+                                </div>
+
+            <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="no_kontrak">NO KONTRAK</label>
+                                        <br>
+<money v-model="forms.no_kontrak" class="form-control border-input" placeholder="NO KONTRAK" v-bind="nomorinvoice"></money> 
+<div class="help-block"><ul role="alert"><li v-for="error of errorNya['no_kontrak']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                 </fieldset>
+                                </div>
+
+                                  <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="no_invoice">NO INVOICE</label>
+                                        <br>
+<input type="text" @input="allcap($event, forms, 'no_invoice')" class="form-control" placeholder="NO INVOICE" v-model="forms.no_invoice" required>
+<div class="help-block"><ul role="alert"><li v-for="error of errorNya['no_invoice']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+  
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="tgl_invoice">TANGGAL INVOICE</label>
+                                        <br>
+ <date-picker :date="tgl_invoice" :option="option"></date-picker>
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['tgl_invoice']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div> 
+
+
+
+
+</div>
+</div>
+</div>
+
+
+
+
+                </div>
+                <div class="modal-footer">
+
+                    <button type="button" class="btn btn-default" @click="modal.set('editInvoice', false)" >Close</button>
+                    <button type="submit" class="btn btn-primary">Edit</button>
+                </div>
+                </form>
+        </template>
+        </modal>
+
 
 
 
@@ -2838,7 +3374,15 @@ export default {
   },
  data () {
     return {
-                power_capacity: {
+    	nomorinvoice: {
+        decimal: '',
+        thousands: '',
+        prefix: '',
+        suffix: '',
+        precision: 0,
+        masked: false
+        },
+        power_capacity: {
           decimal: ',',
           thousands: '.',
           prefix: '',
@@ -2890,7 +3434,30 @@ export default {
      m_e_process_document:'',
      fence_yard_document:'',
      rfi_document:'',
+     rfi_detail_price_month:0,
      baut_document:'',
+     document_baks:'',
+     document_wctr:'',
+     document_boq_project:'',
+     document_rfi_certificate:'',
+     document_boq_baps:'',
+     document_baps:'',
+     no_receive:11,
+  tgl_invoice: {
+        time: ''
+      },
+  tgL_akhir_sewa: {
+        time: ''
+      },
+  tgl_target_rfi: {
+        time: ''
+      },
+  tgl_mulai_sewa: {
+        time: ''
+      },
+  date_baks: {
+        time: ''
+      },
   fence_yard_date: {
         time: ''
       },
@@ -2948,6 +3515,12 @@ export default {
 	m_e_process_date: {
         time: ''
       },
+	rfi_detail_start_date: {
+        time: ''
+      },
+	rfi_detail_end_date: {
+        time: ''
+      },
 	option: {
         type: 'day',
         week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
@@ -2977,8 +3550,8 @@ export default {
       },
   modal:new CrudModal({editProject: false , editSIS: false ,  editDRM: false ,   editSITAC: false , editRFC:false ,editBOQ:false,
   editPO: false,editSiteOpening:false,editExcavation:false,editRebaring:false,editPouring:false,editCuring:false,editTowerErection:false,
-  editMEProcess:false,editFenceYard:false,editRFIBAUT:false,editRFIDetail:false,editRFIBAKSBAUK:false,editBOQBAPS:false,
-  editBAPS:false,editInvoice:false,
+  editMEProcess:false,editFenceYard:false,editRFIBAUT:false,editRFIDetail:false,editRFIBAKSBAUK:false,editBAKSBAUK:false,
+  editInvoice:false,
   }),
 
 
@@ -3023,12 +3596,8 @@ export default {
            rfidetailid:'', rfi_detail_start_date:'', rfi_detail_end_date:'', rfi_detail_price_month:'', rfi_detail_price_year:'',
         
            baksbaukid:'', no_baks:'', date_baks:'', document_baks:'', document_wctr:'', document_boq_project:'',document_rfi_certificate:'',
-
-           boqbapsid:'', tgl_mulai_sewa:'', tgl_target_rfi:'', document_boq_baps:'', 
            
-           bapsid:'', tgL_akhir_sewa:'',  document_baps:'',  
-           
-           invoiceid:'',  no_receive:'',   no_kontrak:'',   no_invoice:'',   tgl_invoice:''
+           invoiceid:'',  no_receive:'', tgL_akhir_sewa:'',  document_baps:'',     no_kontrak:'',   no_invoice:'',   tgl_invoice:'' ,tgl_mulai_sewa:'', tgl_target_rfi:'', document_boq_baps:'', 
 
       }), 
  
@@ -3047,6 +3616,524 @@ export default {
  watch: {
         },
         methods: {
+
+//edit Invoice
+ rubahDokumenInvoicesubmitData() {
+      this.$swal({
+  title: 'Are you sure ?',
+  type: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes!'
+}).then((result) => {
+  if (result.value) {
+    this.isLoading = true;
+ 
+   let masuk = new FormData(); 
+       if(this.forms.invoiceid)
+ {
+   masuk.set('id', this.forms.invoiceid)
+   masuk.set('project_id', this.forms.id)
+   masuk.set('projectid', this.forms.projectid)  
+   masuk.set('tgl_mulai_sewa', this.tgl_mulai_sewa.time)
+   masuk.set('tgl_target_rfi', this.tgl_target_rfi.time)
+   masuk.set('tgL_akhir_sewa', this.tgL_akhir_sewa.time)
+   masuk.set('tgl_invoice', this.tgl_invoice.time)
+   masuk.set('no_receive', this.forms.no_receive)
+   masuk.set('no_kontrak', this.forms.no_kontrak)
+   masuk.set('no_invoice', this.forms.no_invoice); 
+}
+else
+{
+   masuk.set('id', 0)
+   masuk.set('project_id', this.forms.id)
+   masuk.set('projectid', this.forms.projectid)
+   masuk.set('tgl_mulai_sewa', this.tgl_mulai_sewa.time)
+   masuk.set('tgl_target_rfi', this.tgl_target_rfi.time)
+   masuk.set('tgL_akhir_sewa', this.tgL_akhir_sewa.time)
+   masuk.set('tgl_invoice', this.tgl_invoice.time)
+   masuk.set('no_receive', this.forms.no_receive)
+   masuk.set('no_kontrak', this.forms.no_kontrak)
+   masuk.set('no_invoice', this.forms.no_invoice)
+   masuk.set('document_boq_baps', this.document_boq_baps)
+   masuk.set('document_baps', this.document_baps); 
+} 
+                axios.post('/karyawan/RevisiDocumentInvoiceByAdmin', masuk)
+                    .then(response => { 
+                      if(response.data.success)
+                      {
+                 this.success(response.data.success); 
+                 this.isLoading = false;  
+                 this.tgl_mulai_sewa.time = response.data.project.tgl_mulai_sewa; 
+                 this.tgl_target_rfi.time = response.data.project.tgl_target_rfi; 
+                 this.tgL_akhir_sewa.time = response.data.project.tgL_akhir_sewa; 
+                   this.forms = response.data.project;
+                      } 
+                      else
+                      {
+                 this.error(response.data.error);
+                 this.isLoading = false; 
+                      }
+                    })
+                    .catch(error => {
+                    if (! _.isEmpty(error.response)) {
+                    if (error.response.status = 422) {
+                         this.isLoading = false;
+                       this.errorNya = error.response.data;
+                    }
+                   else if (error.response.status = 500) {
+                        this.isLoading = false;
+                        this.$router.push('/server-error');
+                    }
+                    else
+                    {
+                         this.isLoading = false;
+                         this.$router.push('/page-not-found');
+                    }
+                    }
+                        
+                    })
+
+  }
+})
+       },
+
+ newAvatarBapsAdd(event) {
+               let files = event.target.files || e.dataTransfer.files;
+               if (files.length) this.document_baps = files[0];
+                
+           },
+
+     newAvatarBaps(event) {
+this.isLoading = true;            
+this.document_baps = this.$refs.document_baps.files[0]; 
+ let masuk = new FormData();
+   masuk.set('id', this.forms.invoiceid)
+   masuk.set('project_id', this.forms.id)
+   masuk.set('projectid', this.forms.projectid) 
+   masuk.set('namafile', this.forms.document_baps) 
+   masuk.set('document_baps', this.document_baps) 
+axios.post('/karyawan/uploaddokumenBAPSInvoiceByAdmin' , masuk)
+                    .then(response => {
+if(response.data.success)
+{
+this.isLoading = false;
+    this.forms.document_baps = response.data.namafilenya;
+    this.forms.id = response.data.id;
+    this.document_baps = '';
+    this.errorNya = '';
+    this.success(response.data.success);
+}
+if(response.data.document_baps)
+{
+    this.document_baps = '';
+  this.errorNya = {document_baps:[response.data.document_baps]}; 
+}
+if(response.data.error)
+                      {
+    this.document_baps = '';
+                 this.error(response.data.error);
+                 this.isLoading = false; 
+}
+                    })
+                    .catch(error => {
+                    this.document_baps = '';
+                     this.isLoading = false;
+                        this.errorNya = error.response.data; 
+                    });       
+    this.document_baps = '';                
+           },
+
+
+ newAvatarBOQBAPSInvoiceAdd(event) {
+               let files = event.target.files || e.dataTransfer.files;
+               if (files.length) this.document_boq_baps = files[0];
+                
+           },
+
+     newAvatarBOQBAPSInvoice(event) {
+this.isLoading = true;            
+this.document_boq_baps = this.$refs.document_boq_baps.files[0]; 
+ let masuk = new FormData();
+   masuk.set('id', this.forms.invoiceid)
+   masuk.set('project_id', this.forms.id)
+   masuk.set('projectid', this.forms.projectid) 
+   masuk.set('namafile', this.forms.document_boq_baps) 
+   masuk.set('document_boq_baps', this.document_boq_baps) 
+axios.post('/karyawan/uploaddokumenBOQBAPSInvoiceByAdmin' , masuk)
+                    .then(response => {
+if(response.data.success)
+{
+this.isLoading = false;
+    this.forms.document_boq_baps = response.data.namafilenya;
+    this.forms.id = response.data.id;
+    this.document_boq_baps = '';
+    this.errorNya = '';
+    this.success(response.data.success);
+}
+if(response.data.document_boq_baps)
+{
+    this.document_boq_baps = '';
+  this.errorNya = {document_boq_baps:[response.data.document_boq_baps]}; 
+}
+if(response.data.error)
+                      {
+    this.document_boq_baps = '';
+                 this.error(response.data.error);
+                 this.isLoading = false; 
+}
+                    })
+                    .catch(error => {
+                    this.document_boq_baps = '';
+                     this.isLoading = false;
+                        this.errorNya = error.response.data; 
+                    });       
+    this.document_boq_baps = '';                
+           },
+
+
+//edit Dokumen BAKS-BAUK
+ rubahDokumenBAKSBAUKsubmitData() {
+
+      this.$swal({
+  title: 'Are you sure ?',
+  type: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes!'
+}).then((result) => {
+  if (result.value) {
+    this.isLoading = true;
+ 
+   let masuk = new FormData(); 
+       if(this.forms.baksbaukid)
+ {
+   masuk.set('id', this.forms.baksbaukid)
+   masuk.set('project_id', this.forms.id)
+   masuk.set('projectid', this.forms.projectid) 
+   masuk.set('no_baks', this.forms.no_baks)
+   masuk.set('date_baks', this.date_baks.time); 
+}
+else
+{
+   masuk.set('id', 0)
+   masuk.set('project_id', this.forms.id)
+   masuk.set('projectid', this.forms.projectid)
+   masuk.set('no_baks', this.forms.no_baks)
+   masuk.set('date_baks', this.date_baks.time)
+   masuk.set('document_baks', this.document_baks)
+   masuk.set('document_wctr', this.document_wctr)
+   masuk.set('document_boq_project', this.document_boq_project)
+   masuk.set('document_rfi_certificate', this.document_rfi_certificate); 
+} 
+                axios.post('/karyawan/RevisiDocumentBAKSBAUKByAdmin', masuk)
+                    .then(response => { 
+                      if(response.data.success)
+                      {
+                 this.success(response.data.success); 
+                 this.isLoading = false;  
+                 this.date_baks.time = response.data.project.date_baks; 
+                   this.forms = response.data.project;
+                      } 
+                      else
+                      {
+                 this.error(response.data.error);
+                 this.isLoading = false; 
+                      }
+                    })
+                    .catch(error => {
+                    if (! _.isEmpty(error.response)) {
+                    if (error.response.status = 422) {
+                         this.isLoading = false;
+                       this.errorNya = error.response.data;
+                    }
+                   else if (error.response.status = 500) {
+                        this.isLoading = false;
+                        this.$router.push('/server-error');
+                    }
+                    else
+                    {
+                         this.isLoading = false;
+                         this.$router.push('/page-not-found');
+                    }
+                    }
+                        
+                    })
+
+  }
+})
+       },
+ newAvatarRFICerAdd(event) {
+               let files = event.target.files || e.dataTransfer.files;
+               if (files.length) this.document_rfi_certificate = files[0];
+                
+           },
+
+     newAvatarRFICer(event) {
+this.isLoading = true;            
+this.document_rfi_certificate = this.$refs.document_rfi_certificate.files[0]; 
+ let masuk = new FormData();
+   masuk.set('id', this.forms.baksbaukid)
+   masuk.set('project_id', this.forms.id)
+   masuk.set('projectid', this.forms.projectid) 
+   masuk.set('namafile', this.forms.document_rfi_certificate) 
+   masuk.set('document_rfi_certificate', this.document_rfi_certificate) 
+axios.post('/karyawan/uploaddokumenRFICaerByAdmin' , masuk)
+                    .then(response => {
+if(response.data.success)
+{
+this.isLoading = false;
+    this.forms.document_rfi_certificate = response.data.namafilenya;
+    this.forms.id = response.data.id;
+    this.document_rfi_certificate = '';
+    this.errorNya = '';
+    this.success(response.data.success);
+}
+if(response.data.document_rfi_certificate)
+{
+    this.document_rfi_certificate = '';
+  this.errorNya = {document_rfi_certificate:[response.data.document_rfi_certificate]}; 
+}
+if(response.data.error)
+                      {
+    this.document_rfi_certificate = '';
+                 this.error(response.data.error);
+                 this.isLoading = false; 
+}
+                    })
+                    .catch(error => {
+                    this.document_rfi_certificate = '';
+                     this.isLoading = false;
+                        this.errorNya = error.response.data; 
+                    });       
+    this.document_rfi_certificate = '';                
+           },
+
+ newAvatarBOQAdd(event) {
+               let files = event.target.files || e.dataTransfer.files;
+               if (files.length) this.document_boq_project = files[0];
+                
+           },
+
+     newAvatarBOQ(event) {
+this.isLoading = true;            
+this.document_boq_project = this.$refs.document_boq_project.files[0]; 
+ let masuk = new FormData();
+   masuk.set('id', this.forms.baksbaukid)
+   masuk.set('project_id', this.forms.id)
+   masuk.set('projectid', this.forms.projectid) 
+   masuk.set('namafile', this.forms.document_boq_project) 
+   masuk.set('document_boq_project', this.document_boq_project) 
+axios.post('/karyawan/uploaddokumenBOQProjectByAdmin' , masuk)
+                    .then(response => {
+if(response.data.success)
+{
+this.isLoading = false;
+    this.forms.document_boq_project = response.data.namafilenya;
+    this.forms.id = response.data.id;
+    this.document_boq_project = '';
+    this.errorNya = '';
+    this.success(response.data.success);
+}
+if(response.data.document_boq_project)
+{
+    this.document_boq_project = '';
+  this.errorNya = {document_boq_project:[response.data.document_boq_project]}; 
+}
+if(response.data.error)
+                      {
+    this.document_boq_project = '';
+                 this.error(response.data.error);
+                 this.isLoading = false; 
+}
+                    })
+                    .catch(error => {
+                    this.document_boq_project = '';
+                     this.isLoading = false;
+                        this.errorNya = error.response.data; 
+                    });       
+    this.document_boq_project = '';                
+           },
+
+ newAvatarWctrAdd(event) {
+               let files = event.target.files || e.dataTransfer.files;
+               if (files.length) this.document_wctr = files[0];
+                
+           },
+
+     newAvatarWctr(event) {
+
+this.isLoading = true;            
+this.document_wctr = this.$refs.document_wctr.files[0]; 
+ let masuk = new FormData();
+   masuk.set('id', this.forms.baksbaukid)
+   masuk.set('project_id', this.forms.id)
+   masuk.set('projectid', this.forms.projectid) 
+   masuk.set('namafile', this.forms.document_wctr) 
+   masuk.set('document_wctr', this.document_wctr) 
+axios.post('/karyawan/uploaddokumenWCTRByAdmin' , masuk)
+                    .then(response => {
+if(response.data.success)
+{
+this.isLoading = false;
+    this.forms.document_wctr = response.data.namafilenya;
+    this.forms.id = response.data.id;
+    this.document_wctr = '';
+    this.errorNya = '';
+    this.success(response.data.success);
+}
+if(response.data.document_wctr)
+{
+    this.document_wctr = '';
+  this.errorNya = {document_wctr:[response.data.document_wctr]}; 
+}
+if(response.data.error)
+                      {
+    this.document_wctr = '';
+                 this.error(response.data.error);
+                 this.isLoading = false; 
+}
+                    })
+                    .catch(error => {
+                    this.document_wctr = '';
+                     this.isLoading = false;
+                        this.errorNya = error.response.data; 
+                    });       
+    this.document_wctr = '';                
+           },
+
+ newAvatarBAKSAdd(event) {
+               let files = event.target.files || e.dataTransfer.files;
+               if (files.length) this.document_baks = files[0];
+                
+           },
+
+     newAvatarBAKS(event) {
+
+this.isLoading = true;            
+this.document_baks = this.$refs.document_baks.files[0]; 
+ let masuk = new FormData();
+   masuk.set('id', this.forms.baksbaukid)
+   masuk.set('project_id', this.forms.id)
+   masuk.set('projectid', this.forms.projectid) 
+   masuk.set('namafile', this.forms.document_baks) 
+   masuk.set('document_baks', this.document_baks) 
+axios.post('/karyawan/uploaddokumenBAKSByAdmin' , masuk)
+                    .then(response => {
+if(response.data.success)
+{
+this.isLoading = false;
+    this.forms.document_baks = response.data.namafilenya;
+    this.forms.id = response.data.id;
+    this.document_baks = '';
+    this.errorNya = '';
+    this.success(response.data.success);
+}
+if(response.data.document_baks)
+{
+    this.document_baks = '';
+  this.errorNya = {document_baks:[response.data.document_baks]}; 
+}
+if(response.data.error)
+                      {
+    this.document_baks = '';
+                 this.error(response.data.error);
+                 this.isLoading = false; 
+}
+                    })
+                    .catch(error => {
+                    this.document_baks = '';
+                     this.isLoading = false;
+                        this.errorNya = error.response.data; 
+                    });       
+    this.document_baks = '';                
+           },
+
+
+
+
+//edit RFI Detail
+   perkalianTahunRFIDetail (value) {
+       this.forms.rfi_detail_price_year = value*12;
+      var tahunan = value*12;
+      return accounting.formatMoney(tahunan,  "Rp. ", 0, ".", ","); 
+    }, 
+
+  rubahDokumenRFIDetailsubmitData() {
+
+      this.$swal({
+  title: 'Are you sure ?',
+  type: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes!'
+}).then((result) => {
+  if (result.value) {
+    this.isLoading = true;
+ 
+   let masuk = new FormData(); 
+       if(this.forms.rfidetailid)
+ {
+   masuk.set('id', this.forms.rfidetailid)
+   masuk.set('project_id', this.forms.id)
+   masuk.set('projectid', this.forms.projectid) 
+   masuk.set('rfi_detail_start_date', this.rfi_detail_start_date.time)
+   masuk.set('rfi_detail_end_date', this.rfi_detail_end_date.time)
+   masuk.set('rfi_detail_price_month', this.forms.rfi_detail_price_month)
+   masuk.set('rfi_detail_price_year', this.forms.rfi_detail_price_year); 
+}
+else
+{
+   masuk.set('id', 0)
+   masuk.set('project_id', this.forms.id)
+   masuk.set('projectid', this.forms.projectid)
+   masuk.set('rfi_detail_start_date', this.rfi_detail_start_date.time)
+   masuk.set('rfi_detail_end_date', this.rfi_detail_end_date.time)
+   masuk.set('rfi_detail_price_month', this.forms.rfi_detail_price_month)
+   masuk.set('rfi_detail_price_year', this.forms.rfi_detail_price_year); 
+} 
+                axios.post('/karyawan/RevisiDocumentRFIDetailByAdmin', masuk)
+                    .then(response => { 
+                      if(response.data.success)
+                      {
+                 this.success(response.data.success); 
+                 this.isLoading = false;  
+                 this.rfi_detail_start_date.time = response.data.project.rfi_detail_start_date;
+                 this.rfi_detail_end_date.time = response.data.project.rfi_detail_end_date;
+                   this.forms = response.data.project;
+                      } 
+                      else
+                      {
+                 this.error(response.data.error);
+                 this.isLoading = false; 
+                      }
+                    })
+                    .catch(error => {
+                    if (! _.isEmpty(error.response)) {
+                    if (error.response.status = 422) {
+                         this.isLoading = false;
+                       this.errorNya = error.response.data;
+                    }
+                   else if (error.response.status = 500) {
+                        this.isLoading = false;
+                        this.$router.push('/server-error');
+                    }
+                    else
+                    {
+                         this.isLoading = false;
+                         this.$router.push('/page-not-found');
+                    }
+                    }
+                        
+                    })
+
+  }
+})
+       },
+
 
 
 //edit RFI & BAUT
@@ -4780,6 +5867,25 @@ area:this.forms.area,
                dataAction () {
       if(this.typenya === "edit-project")
       {
+                 if(this.rowDatanya.project.invoiceid)
+                {
+                 this.tgl_mulai_sewa.time = this.rowDatanya.project.tgl_mulai_sewa; 
+                 this.tgl_target_rfi.time = this.rowDatanya.project.tgl_target_rfi; 
+                 this.tgL_akhir_sewa.time = this.rowDatanya.project.tgL_akhir_sewa; 
+                 this.tgl_invoice.time = this.rowDatanya.project.tgl_invoice; 
+
+                }
+                 if(this.rowDatanya.project.baksbaukid)
+                {
+                 this.date_baks.time = this.rowDatanya.project.date_baks; 
+
+                }
+                 if(this.rowDatanya.project.rfidetailid)
+                {
+                 this.rfi_detail_start_date.time = this.rowDatanya.project.rfi_detail_start_date;
+                 this.rfi_detail_end_date.time = this.rowDatanya.project.rfi_detail_end_date;
+
+                }
                  if(this.rowDatanya.project.documentdrmid)
                 {
                     this.kom_date.time = this.rowDatanya.project.kom_date;

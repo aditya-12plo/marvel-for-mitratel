@@ -110,7 +110,7 @@ if (!$valid)
     {
     $masuk = array('project_id' => $request->project_id,'no_ban_bak' => $request->no_ban_bak,'date_ban_bak' => $request->date_ban_bak,'document_ban_bak' =>$fileName ,'ijin_warga_date' => $request->ijin_warga_date, 'document_ijin_warga' =>$fileNamedocument_ijin_warga, 'no_pks' => $request->no_pks, 'pks_date' => $request->pks_date, 'document_pks' => $fileNamedocument_pks, 'no_imb' => $request->no_imb, 'imb_date' => $request->imb_date, 'document_imb' => $fileNamedocument_imb); 
     DokumenSITAC::create($masuk);
-    Project::where('id',Input::get('project_id'))->update(['status_id'=>10]);
+   // Project::where('id',Input::get('project_id'))->update(['status_id'=>10]);
     Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'document_sitac' ,'action' => 'insert', 'data' => json_encode($masuk)]);
     $project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
     return response()->json(['success'=>'Successfully','project'=>$project]); 

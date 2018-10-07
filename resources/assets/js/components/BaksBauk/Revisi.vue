@@ -30,15 +30,12 @@
                             <div class="row">  
 
 
-
-<!-- Ducument SITAC --> 
-<div class="col-xl-12 col-lg-12 col-md-12 mb-1"> 
-</div>                              
+                            
                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                          <label for="no_baks">NO DOKUMEN BAKS</label>
                                         <br>
-<input type="text" @input="allcap($event, forms, 'no_baks')" class="form-control" placeholder="AKTUAL SITE ID" v-model="forms.no_baks" required>
+<input type="text" @input="allcap($event, forms, 'no_baks')" class="form-control" placeholder="NO DOKUMEN BAKS" v-model="forms.no_baks" required>
 <div class="help-block"><ul role="alert"><li v-for="error of errorNya['no_baks']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>

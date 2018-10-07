@@ -32,7 +32,7 @@
                                     <fieldset class="form-group">
                                         <label for="no_baks">NO DOKUMEN BAKS</label>
                                         <br>
-<input type="text" @input="allcap($event, forms, 'no_baks')" class="form-control" placeholder="NO DOKUMEN BAKS " v-model="forms.no_rfc" required>
+<input type="text" @input="allcap($event, forms, 'no_baks')" class="form-control" placeholder="NO DOKUMEN BAKS " v-model="forms.no_baks" required>
 <div class="help-block"><ul role="alert"><li v-for="error of errorNya['no_baks']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>

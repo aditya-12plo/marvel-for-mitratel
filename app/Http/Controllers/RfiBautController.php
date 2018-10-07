@@ -97,7 +97,7 @@ else
 $masuk = array('project_id' => $request->project_id, 'rfi_date' => $request->rfi_date, 'rfi_document' => $fileName, 'baut_date' => $request->baut_date, 'baut_document' => $fileName2); 
 RfiBaut::create($masuk);
  
-Project::where('id',Input::get('project_id'))->update(['status_id'=>41]);
+//Project::where('id',Input::get('project_id'))->update(['status_id'=>41]);
 Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'rfi_baut' ,'action' => 'insert', 'data' => json_encode($masuk)]);
 $project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
 return response()->json(['success'=>'Edit Successfully','project'=>$project]);   
@@ -132,7 +132,7 @@ RfiBaut::where('id',Input::get('id'))->update($edit);
 
 Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'rfi_baut' ,'action' => 'update', 'data' => json_encode($edit)]);
 $project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
-return response()->json(['success'=>'Edit Successfully','project'=>$project]);   
+return response()->json(['success'=>'Add Successfully','project'=>$project]);   
  
 }
 else

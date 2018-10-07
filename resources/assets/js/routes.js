@@ -278,6 +278,16 @@ let routes=[
 
 /* BOQ  */
 {
+	path:'/list-boq-administrator',
+	component:require('./components/BOQ/AdministratorIndex')
+},
+{
+	path:'/list-boq-administrator/detail/:id',
+	name: 'approvaleditadmindata',
+	component:require('./components/BOQ/RepairAdmin'),
+	props: true
+},
+{
 	path:'/boq-po-release',
 	component:require('./components/BOQ/BOQPORelease')
 },
@@ -627,6 +637,10 @@ let routes=[
 
 /* CME  */
 {
+	path:'/list-cme-administrator',
+	component:require('./components/CME/IndexAdmin')
+},
+{
 	path:'/cme-submit',
 	component:require('./components/CME/Submit')
 },
@@ -682,6 +696,12 @@ let routes=[
 	path:'/cme-revisi/edit/:id',
 	name: 'revisidocumentcme',
 	component:require('./components/CME/Revisi'),
+	props: true
+},
+{
+	path:'/list-cme-administrator/edit/:id',
+	name: 'admindocumentcme',
+	component:require('./components/CME/AdminRevisi'),
 	props: true
 },
 {
@@ -846,6 +866,16 @@ let routes=[
 
 
 
+/* document upload  */
+{
+	path:'/list-dokumen-upload',
+	component:require('./components/Uploads/')
+},
+{
+	path:'/list-dokumen-template',
+	component:require('./components/Uploads/List')
+},
+/* document upload  */
 
 /* list users akses regional  */
 {

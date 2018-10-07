@@ -1256,6 +1256,37 @@ $data = DB::table('status_group')->select('name','status_id')->orderBy('id','ASC
         return $query->paginate($perPage);
     }
 
+
+    // boq all data
+    public function GetJobsSubmitAllBOQ(Request $request)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+ $query = DB::table('vboqsubmitdataall')->orderBy('id','DESC');
+ 
+
+        if ($search) {
+            $like = "%{$search}%";
+            $query = $query->where('boq_code', 'LIKE', $like)
+            ->orWhere('title', 'LIKE', $like);
+        }
+        if($min && !$max)
+        {
+            $query = $query->whereDate('created_at','=',$min);
+        }
+        if(!$min && $max)
+        {
+            $query = $query->whereDate('created_at','=',$max);
+        }
+        if($min && $max)
+        {
+            $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+        }
+        return $query->paginate($perPage);
+    }
+
     // boq approved
     public function GetJobsSubmitBOQApproved(Request $request)
     {
@@ -2795,6 +2826,40 @@ public function GetJobsSubmitCME(Request $request)
     }
 
 
+// cme admin
+public function GetJobsApprovalDocumentCMESubmitRevisiAdmin(Request $request)
+{
+   $perPage = $request->per_page;
+    $search = $request->filter;
+    $min = $request->min;
+    $max = $request->max;
+$query = DB::table('vcmesubmitdataadmin')->orderBy('id','DESC');
+
+
+    if (!empty($search)) {
+        $like = "%{$search}%";
+        $query = $query->where('cme_code', 'LIKE', $like);
+    }
+    
+if (!empty($min) && empty($max))
+{ 
+$query = $query->whereDate('created_at','=',$min);
+}
+
+if (empty($min) && !empty($max))
+{ 
+$query = $query->whereDate('created_at','=',$max);
+}
+
+if (!empty($min) && !empty($max))
+{ 
+$query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+}
+    return $query->paginate($perPage);
+}
+
+
+
 
 
 // cme revisi
@@ -2836,6 +2901,27 @@ public function GetJobsSubmitCME(Request $request)
 
 
 
+
+    public function GetJobsSubmitCMERevisianByadmin(Request $request , $id)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+
+ $query =  DB::table('vsitesubmitcme')->whereNotIn('id',explode(",",$id))
+        ->orderBy('id','DESC');
+
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like);
+  }
+
+
+        return $query->paginate($perPage);
+    }
 
 public function GetJobsSubmitCMERevisian(Request $request , $id)
     {
@@ -2888,6 +2974,26 @@ public function GetJobsSubmitCMERevisian(Request $request , $id)
         return $query->paginate($perPage);
     }
 
+
+    public function GetJobsSubmitBOQRevisianByAdmin(Request $request , $id)
+    {
+       $perPage = $request->per_page;
+        $search = $request->filter;
+        $min = $request->min;
+        $max = $request->max;
+
+ $query =  DB::table('vjobsubmitboq')->orderBy('id','DESC');
+
+
+ if (!empty($search))
+  {
+    $like = "%{$search}%";
+    $query = $query->where('projectid', 'LIKE', $like);
+  }
+
+
+        return $query->paginate($perPage);
+    }
 
 // cme print
     public function GetJobsApprovedDocumentCME(Request $request)

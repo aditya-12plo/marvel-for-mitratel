@@ -290,6 +290,12 @@ export default {
 		  callback: 'formatNumberRupiah'
         },
         {
+          name: 'batch_accrue',
+      title: 'Batch Accrue',
+      titleClass: 'text-center',
+          dataClass: 'text-center', 
+        },
+        {
           name: 'nilai_revenue',
       title: 'Nilai Revenue',
       titleClass: 'text-center',

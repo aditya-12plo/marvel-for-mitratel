@@ -50,6 +50,51 @@ class RfiDetailController extends Controller
     $this->data['tahunproject']  = DB::table('vtahun')->get();
     }
 
+    
+    public function UpdateCMEBtachAccrueDateByAdmin(Request $request)
+    {
+        $id = $request->id;        
+        $project_id= $request->project_id;   
+        $cme_code= $request->cme_code;   
+        $batch_accrue= $request->batch_accrue;  
+         $edit = ['project_id'=>$project_id ,'batch_accrue'=>$batch_accrue];  
+        Project::whereIn('id',explode(",",$project_id))->update(['batch_accrue'=> $batch_accrue]); 
+        Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'cme_submit' ,'action' => 'update', 'data' => json_encode($edit)]);
+        return response()->json(['success'=>'Successfully']);  
+  
+    }
+
+
+    public function SubmitCMEToAccruedByAdmin(Request $request)
+    {
+        $id = $request->id;        
+        $project_id= $request->project_id;   
+        $cme_code= $request->cme_code;  
+        $status= $request->status;  
+        $haki_status= $request->haki_status;  
+         $edit = ['project_id'=>$project_id ,'status'=>$status , 'haki_status'=> $haki_status]; 
+         CMESubmit::where('id',$id)->update(['project_id'=>$project_id  , 'status'=> $status]);
+        Project::whereIn('id',explode(",",$project_id))->update(['haki_status'=> $haki_status]); 
+        Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'cme_submit' ,'action' => 'update', 'data' => json_encode($edit)]);
+        return response()->json(['success'=>'Successfully']);  
+  
+    }
+
+
+    public function CancelCMEAccrualMassal(Request $request)
+    {
+        $id = $request->id;        
+        $project_id= $request->project_id;   
+        $cme_code= $request->cme_code;  
+        $status= $request->status;  
+        $haki_status= $request->haki_status;  
+         $edit = ['project_id'=>$project_id ,'status'=>$status , 'haki_status'=> $haki_status]; 
+         CMESubmit::where('id',$id)->update(['project_id'=>null,'status'=>$status , 'status'=> $status]);
+        Project::whereIn('id',explode(",",$project_id))->update(['haki_status'=> $haki_status]); 
+        Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'cme_submit' ,'action' => 'update', 'data' => json_encode($edit)]);
+        return response()->json(['success'=>'Successfully']);  
+  
+    }
 
     public function SubmitCMEToAccrued(Request $request)
     {
@@ -59,7 +104,7 @@ class RfiDetailController extends Controller
         $status= $request->status;  
         $haki_status= $request->haki_status;  
          $edit = ['project_id'=>$project_id ,'status'=>$status , 'haki_status'=> $haki_status]; 
-         CMESubmit::where('id',$id)->update(['status'=>$status , 'status'=> $status]);
+         CMESubmit::where('id',$id)->update(['project_id'=>$project_id  , 'status'=> $status]);
         Project::whereIn('id',explode(",",$project_id))->update(['haki_status'=> $haki_status]);
         $this->saveData($cme_code, $project_id);
         Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'cme_submit' ,'action' => 'update', 'data' => json_encode($edit)]);
@@ -327,6 +372,50 @@ return response()->json(['success'=>'Successfully']);
         return $query->paginate($perPage);
     }
 
+    
+    public function UpdateCMEAccrualByAdmin(Request $request)
+    { 
+     $valid = $this->validate($request, [
+        'project_id' => 'required|numeric|not_in:0',   
+        'statusmessage' => 'required',   
+        'document' => 'required',   
+        'kata' => 'required',   
+        'detailproject' => 'required',   
+        'message' => 'required',   
+        'kodeproject' => 'required',   
+        'status' => 'required|numeric|not_in:0',
+        'statuscme' => 'required|numeric',
+    ]);
+    
+if (!$valid)
+    {
+$detailnya = $request->detailproject;
+for($x=0;$x < count($detailnya);$x++) {
+$ProjectStatus = ProjectStatus::create(['project_id' =>$detailnya[$x]['id'],'users_id' => Auth::guard('karyawan')->user()->id , 'document'=>strtoupper(Input::get('document')),'status'=>strtoupper(Input::get('statusmessage')),'message'=>strtoupper(Input::get('message'))]);  
+$showUser = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','HAKI - MANAGER'],['area',Auth::guard('karyawan')->user()->area]])->orWhere([['level', Auth::guard('karyawan')->user()->level],['posisi','HAKI - MANAGER'],['area2',Auth::guard('karyawan')->user()->area2]])->get();
+if(count($showUser) > 0)
+{
+foreach ($showUser as $p) {
+Pesan::create(['project_id' => $detailnya[$x]['id'], 'sender_id'=>Auth::guard('karyawan')->user()->id ,'users_id' => $p['id'], 'status' => strtoupper(Input::get('statusmessage')), 'message'=>strtoupper(Input::get('message'))]);
+}
+}
+Project::where('id',$detailnya[$x]['id'])->update(['haki_status'=>Input::get('status'),'batch_accrue'=>Input::get('batch_accrue')]);
+
+
+}
+
+CMESubmit::where('id',Input::get('project_id'))->update(['status'=>Input::get('statuscme'),'project_id'=>Input::get('kodeproject'),'message'=>Input::get('message')]);
+  
+
+return response()->json(['success'=>'Successfully']);
+
+
+
+    }
+else{
+    return response()->json('error', $valid);
+}
+    }
 
         public function UpdateCMEAccrual(Request $request)
     { 
@@ -714,6 +803,59 @@ else
     }    
 
 
+    public function RevisiDocumentRFIDetailByAdmin(Request $request)
+    {
+        if(Input::get('id') == 0)
+        {
+            $valid = $this->validate($request, [
+                'project_id' => 'required|max:255|unique:rfi_detail,project_id', 
+                'projectid' => 'required|max:255',
+                'rfi_detail_start_date' => 'required|date|date_format:Y-m-d',
+                'rfi_detail_end_date' => 'required|date|date_format:Y-m-d',
+                'rfi_detail_price_month' => 'required|numeric|not_in:0', 
+                'rfi_detail_price_year' => 'required|numeric|not_in:0',   
+            ]);
+            if (!$valid)
+            {
+ $masuk = array('project_id' => $request->project_id, 'rfi_detail_start_date' => $request->rfi_detail_start_date, 'rfi_detail_end_date' => $request->rfi_detail_end_date, 'rfi_detail_price_month' => $request->rfi_detail_price_month, 'rfi_detail_price_year' => $request->rfi_detail_price_year); 
+RfiDetail::create($masuk);
+//Project::where('id',Input::get('project_id'))->update(['status_id'=>44]);
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'rfi_detail' ,'action' => 'insert', 'data' => json_encode($masuk)]);
+$project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+return response()->json(['success'=>'Add Successfully','project'=>$project]);
+            }
+            else
+            {
+                return response()->json('error', $valid);
+            }
+        }
+        else
+        {
+            $valid = $this->validate($request, [
+                'project_id' => 'required|max:255|unique:rfi_detail,project_id,'.$request->id, 
+                'projectid' => 'required|max:255',
+                'rfi_detail_start_date' => 'required|date|date_format:Y-m-d',
+                'rfi_detail_end_date' => 'required|date|date_format:Y-m-d',
+                'rfi_detail_price_month' => 'required|numeric|not_in:0', 
+                'rfi_detail_price_year' => 'required|numeric|not_in:0',   
+            ]);
+            if (!$valid)
+            {
+ $edit = array('rfi_detail_start_date' => $request->rfi_detail_start_date, 'rfi_detail_end_date' => $request->rfi_detail_end_date, 'rfi_detail_price_month' => $request->rfi_detail_price_month, 'rfi_detail_price_year' => $request->rfi_detail_price_year); 
+
+ RfiDetail::where('id',Input::get('id'))->update($edit);
+//Project::where('id',Input::get('project_id'))->update(['status_id'=>44]);
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'rfi_detail' ,'action' => 'update', 'data' => json_encode($edit)]);
+$project = DB::table('vallproject')->where('id',Input::get('project_id'))->first();
+return response()->json(['success'=>'Edit Successfully','project'=>$project]);
+            }
+            else
+            {
+                return response()->json('error', $valid);
+            }
+        }
+
+    }
 
 
 

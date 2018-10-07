@@ -155,8 +155,7 @@
       <td colspan="8">
 <div class="text-left">
 <button class="btn btn-primary" @click.prevent="doFilter">Cari <i class="fa fa-thumbs-o-up position-right"></i></button>
-<button class="btn btn-warning" @click.prevent="resetFilter">Reset Form <i class="fa fa-refresh position-right"></i></button>   
-<button class="btn btn-info" @click="sumSelectedItemsExcel()">Download Excel <i class="ft-download position-right"></i></button> 
+<button class="btn btn-warning" @click.prevent="resetFilter">Reset Form <i class="fa fa-refresh position-right"></i></button>    
                                     </div>
 </td>
        </tr>

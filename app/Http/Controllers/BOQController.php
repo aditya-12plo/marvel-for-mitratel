@@ -370,6 +370,8 @@ else
     
     
     }
+
+
         public function SubmitBOQApprovalRevisi(Request $request)
     {
 $valid = $this->validate($request, [ 
@@ -393,7 +395,7 @@ $detailnya = $request->detailproject;
 $emailusernya = array();
 for($x=0;$x < count($detailnya);$x++) {
 $ProjectStatus = ProjectStatus::create(['project_id' =>$detailnya[$x]['id'],'users_id' => Auth::guard('karyawan')->user()->id , 'document'=>strtoupper(Input::get('document')),'status'=>strtoupper(Input::get('statusmessage')),'message'=>strtoupper(Input::get('message'))]);  
-$showUser = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','ACCOUNT MANAGER'],['area',Auth::guard('karyawan')->user()->area]])->get();
+$showUser = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','ACCOUNT MANAGER'],['area',Auth::guard('karyawan')->user()->area]])->orWhere([['level', Auth::guard('karyawan')->user()->level],['posisi','ACCOUNT MANAGER'],['area2',Auth::guard('karyawan')->user()->area2]])->get();
 if(count($showUser) > 0)
 {
 foreach ($showUser as $p) {
@@ -409,14 +411,14 @@ $cancel_array = explode(",", $request->project_id_cancel);
 $resultcancel = count($cancel_array);
 if($resultcancel > 0)
 {
-Project::whereIn('id',[$request->project_id_cancel])->update(['boq_status'=>14]);
+Project::whereIn('id',explode(",", $request->project_id_cancel))->update(['boq_status'=>14]);
 }
 
 
 
 BOQSubmit::where('id',Input::get('id'))->update($edit);
 Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'boq_submit' ,'action' => 'update', 'data' => json_encode($edit)]);
-$showUser2 = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','MANAGER'],['area',Auth::guard('karyawan')->user()->area]])->get();
+$showUser2 = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','MANAGER']])->get();
 if(count($showUser2) > 0)
 {
 foreach ($showUser2 as $p2) {  
@@ -674,6 +676,91 @@ return response()->json(['success'=>'Successfully']);
   
 
     }
+
+
+    public function SubmitBOQApprovalVerifikasiByAdmin(Request $request)
+    {
+        $id = $request->id;        
+        $project_id= $request->project_id;  
+        $status= $request->status;  
+        $boq_status= $request->statusproject;  
+        $project_id_cancel= $request->project_id_cancel; 
+
+        $cancel_array = explode(",", $request->project_id_cancel);
+        $resultcancel = count($cancel_array);
+        if($resultcancel > 0)
+        {
+        Project::whereIn('id',explode(",",$project_id_cancel))->update(['boq_status'=>14]);
+        }
+
+        $edit = ['project_id'=>$project_id ,'status'=>$status , 'boq_status'=> $boq_status]; 
+        BOQSubmit::where('id',$id)->update(['project_id'=>$project_id,'status'=>$status]);
+        Project::whereIn('id',explode(",",$project_id))->update(['boq_status'=> $boq_status]);
+        
+        Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'boq_submit' ,'action' => 'update', 'data' => json_encode($edit)]);
+        return response()->json(['success'=>'Successfully']);  
+
+    }
+
+
+    public function SubmitBOQApprovalRevisiByAdmin(Request $request)
+    {
+$valid = $this->validate($request, [ 
+        'id' => 'required|numeric|not_in:0',
+        'statusboq' => 'required|numeric',
+        'title' => 'required|max:255',
+        'boq_code' => 'required|max:255', 
+        'project_id' => 'required', 
+        'kata' => 'required', 
+        'detailproject' => 'required',
+        'message' => 'required',
+        'document' => 'required',
+        'statusmessage' => 'required',
+        'status' => 'required|numeric'
+    ]);
+if (!$valid)
+    {
+
+$edit = array('title'=>Input::get('title'),'nama_telkomsel'=>Input::get('nama_telkomsel'),'posisi_telkomsel'=>Input::get('posisi_telkomsel'),'nama_manager'=>Input::get('nama_manager'),'posisi_manager'=>Input::get('posisi_manager'),'nama_user'=>Input::get('nama_user'),'posisi_user'=>Input::get('posisi_user'),'project_id'=>$request->project_id,'message'=>$request->message,'status'=>$request->statusboq); 
+$detailnya = $request->detailproject;
+$emailusernya = array();
+for($x=0;$x < count($detailnya);$x++) {
+$ProjectStatus = ProjectStatus::create(['project_id' =>$detailnya[$x]['id'],'users_id' => Auth::guard('karyawan')->user()->id , 'document'=>strtoupper(Input::get('document')),'status'=>strtoupper(Input::get('statusmessage')),'message'=>strtoupper(Input::get('message'))]);  
+$showUser = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','ACCOUNT MANAGER'],['area',Auth::guard('karyawan')->user()->area]])->orWhere([['level', Auth::guard('karyawan')->user()->level],['posisi','ACCOUNT MANAGER'],['area2',Auth::guard('karyawan')->user()->area2]])->get();
+if(count($showUser) > 0)
+{
+foreach ($showUser as $p) {
+Pesan::create(['project_id' => $detailnya[$x]['id'], 'sender_id'=>Auth::guard('karyawan')->user()->id ,'users_id' => $p['id'], 'status' => strtoupper(Input::get('statusmessage')), 'message'=>strtoupper(Input::get('message'))]);
+}
+}
+Project::where('id',$detailnya[$x]['id'])->update(['boq_status'=>Input::get('status'),'project_status_id'=>$ProjectStatus->id]);
+
+
+}
+
+$cancel_array = explode(",", $request->project_id_cancel);
+$resultcancel = count($cancel_array);
+if($resultcancel > 0)
+{
+Project::whereIn('id',explode(",", $request->project_id_cancel))->update(['boq_status'=>14]);
+}
+
+
+
+BOQSubmit::where('id',Input::get('id'))->update($edit);
+Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'boq_submit' ,'action' => 'update', 'data' => json_encode($edit)]);
+  
+return response()->json(['success'=>'Successfully']);      
+    }
+else
+    {
+ return response()->json('error', $valid);
+    }
+    
+    
+    }    
+
+
 
     /*
 
