@@ -1,9 +1,12 @@
 <template>
  <div> 
+     <div class="card-header-banner"> </div> 
 <section class="basic-elements">
     <div class="row">
         <div class="col-sm-12">
-            <div class="content-header" align="center">Edit Busdev Email</div>
+            <h1 align="center">
+      Edit Busdev Email
+      </h1> 
         </div>
     </div>
     <div class="row">
@@ -17,14 +20,14 @@
 <form method="POST" class="form" action="" @submit.prevent="submitData()">  
               <div class="form-body">
                             <div class="row">                           
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="nama">NAMA</label>
 <input type="text" @input="allcap($event, forms, 'name')" class="form-control" placeholder="Nama" v-model="forms.name" required>
 <div class="help-block"><ul role="alert"><li v-for="error of errorNya['name']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="email">Email</label>
 <input type="email" class="form-control" placeholder="Email" v-model="forms.email"  required>

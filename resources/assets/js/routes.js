@@ -31,12 +31,12 @@ let routes=[
 
 
 
-/* maps  *
+/* maps  */
 {
 	path:'/project-locations',
 	component:require('./components/Maps/')
 },
- maps  */
+ 
 
 
 

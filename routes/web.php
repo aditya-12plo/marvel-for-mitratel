@@ -179,6 +179,8 @@ Route::get('GetJobsDocumentInvoice', 'JobsController@GetJobsDocumentInvoice');
 Route::get('GetJobsDocumentInvoiceRevisi', 'JobsController@GetJobsDocumentInvoiceRevisi');
 Route::get('GetJobsReportBisnis', 'JobsController@GetJobsReportBisnis');
 
+Route::get('getCoordinates', 'JobsController@getCoordinates');
+
  /* get jobs */
 
 

@@ -111,6 +111,10 @@ $labeltotalproject = ['Dokumen KOM / SIS '.$total->jumlahsis , 'Dokumen SITAC '.
 $resultTotalproject = [$total->jumlahsis,$total->jumlahsitac,$total->jumlahrfc,$total->cme];  
 $totallabelproject = ['labels'=>$labeltotalproject , 'result'=> $resultTotalproject];
 
+$labeltotalprojectinvoice = ['Dokumen BAKS-BAUK '.$total->jumlahbaksbauk , 'Invoice '.$total->jumlahinvoice];
+$resultTotalprojectinvoice = [$total->jumlahbaksbauk,$total->jumlahinvoice];  
+$totallabelprojectinvoice= ['labels'=>$labeltotalprojectinvoice , 'result'=> $resultTotalprojectinvoice];
+
 $jumlahsemuanya =$total->jumlah;
 
 foreach($totalline as $arN)
@@ -157,7 +161,7 @@ $totalregionalnasionalline = ['labels'=>$regionaltitleline , 'result'=> $regiona
 
  
 
-return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'totallabelsbyyears'=>$totallabel,'totalareabyyears'=>$totalareanasional,'totalregionalbyyears'=>$totalregionalnasional, 'totallineavg'=>$totallineavg , 'totalareanasionalline'=>$totalareanasionalline, 'totalregionalnasionalline'=>$totalregionalnasionalline,'totallabelproject'=>$totallabelproject ]);
+return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'totallabelsbyyears'=>$totallabel,'totalareabyyears'=>$totalareanasional,'totalregionalbyyears'=>$totalregionalnasional, 'totalchartmbadian'=>$totallabelprojectinvoice, 'totallineavg'=>$totallineavg , 'totalareanasionalline'=>$totalareanasionalline, 'totalregionalnasionalline'=>$totalregionalnasionalline,'totallabelproject'=>$totallabelproject ]);
 
     }
 

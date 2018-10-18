@@ -1,9 +1,12 @@
 <template>
  <div> 
+<div class="card-header-banner"> </div> 
+
+
 <section class="basic-elements">
     <div class="row">
         <div class="col-sm-12">
-             <div class="content-header" align="center">Detail User Akses</div>
+             <h1 align="center">Detail User Akses</h1>
         </div>
     </div>
     <div class="row">

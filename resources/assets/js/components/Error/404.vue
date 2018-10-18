@@ -1,5 +1,8 @@
 <template>
-    
+    <div>
+
+<div class="card-header-banner"> </div> 
+
 <section id="error">
     <div class="container-fluid bg-grey bg-lighten-3">
         <div class="container">
@@ -26,4 +29,7 @@
                     </div>
                 </div>
             </section>
+
+
+    </div>
 </template>

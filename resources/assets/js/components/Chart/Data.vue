@@ -4,6 +4,9 @@
  	 <vue-toast ref='toast'></vue-toast>
 
 
+
+<div class="card-header-banner"> </div> 
+
    <div class="card-header">
        <h1 style="padding-top: 1%;font-size: 40px;font-family:'arial';" align="center"><strong>PROJECT TAHUN {{this.$route.params.years}}</strong></h1> 
 

@@ -1,5 +1,10 @@
 <template>
-    
+    <div>
+
+      
+
+<div class="card-header-banner"> </div> 
+
     <!-- Conten -->
     <section class="content-header">
       <h1 style="padding-top: 10%;font-size: 50px;" align="center">
@@ -8,4 +13,6 @@
     </section>
     <!-- /Conten -->
 
+
+</div>
 </template>

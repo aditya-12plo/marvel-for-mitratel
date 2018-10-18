@@ -1,5 +1,8 @@
 <template>
  <div> 
+<div class="card-header-banner"> </div> 
+
+
     <section class="content-header">
  <vue-toast ref='toast'></vue-toast>
       <h1 align="center">

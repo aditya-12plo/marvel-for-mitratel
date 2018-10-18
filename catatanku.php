@@ -1472,6 +1472,8 @@ SELECT years,
 (select count(*) from project where boq_status in(19) and years=p.years) as jumlahboqprosespr,
 (select count(*) from project where boq_status in(20) and years=p.years) as jumlahboqrelease,
 (select count(*) from project where status_id in(21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45) and years=p.years) as cme,
+(select count(*) from project where status_id in(49,50,51) and years=p.years) as baksbauk,
+(select count(*) from project where status_id in(52,53,54,55) and years=p.years) as invoice,
 (select count(*) from project where status_id in(105) and years=p.years) as jumlahdrop,
 COUNT(*) as jumlah from project as p GROUP BY years;
 
@@ -5981,8 +5983,25 @@ project.id=invoice.project_id
 
 
 
-
-
+CREATE OR REPLACE VIEW v_coordinates_project 
+AS 
+SELECT 
+id,
+projectid,
+batchnya,
+infratype,
+area,
+regional,
+statusnya,
+towernya,
+longitude_actual,
+latitude_actual
+FROM
+vallproject
+WHERE
+longitude_actual is NOT NULL OR latitude_actual is NOT NULL 
+order by
+id desc
 
 
 

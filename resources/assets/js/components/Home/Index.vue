@@ -6,16 +6,12 @@
 
 
 
-      <div class="card-header">
-       <h1 style="padding-top: 1%;font-size: 40px;font-family:'arial';" align="center"><strong><font color="red">D</font><font color="green">R</font>.<font color="orange">MAR</font><font color="blue">V</font><font color="yellow">EL</font></strong></h1>
-
-      <h3 style="padding-top: 1%;font-size: 30px;font-family:'arial';" align="center"><strong><font color="red">Dokumen </font> <font color="green">Review </font> <font color="orange">MARketing </font> <font color="blue">Validation </font> <font color="yellow">ELectronik</font></strong></h3>
-
-<h1 align="center">{{this.dataNya.jumlahsemuanya}} SITE TAHUN {{this.dataNya.years}}</h1>
-      </div> 
+      <div class="card-header-banner"> </div> 
    
       <div class="row">
-
+<div class="col-xl-12 col-lg-6 col-md-6 col-12">
+<h1 align="center">{{this.dataNya.jumlahsemuanya}} SITE TAHUN {{this.dataNya.years}}</h1>
+</div>
   <div class="col-xl-3 col-lg-6 col-md-6 col-12">
     <div class="card gradient-white">
       <div class="card-body">
@@ -46,6 +42,21 @@
     </div>
   </div>
 
+ 
+  <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+    <div class="card gradient-white">
+      <div class="card-body">
+
+
+      <h2 align="center">STATUS INVOICE </h2>
+<br>
+<pie-chart-home-regional-nasional :height="500" :labelnya="this.dataNya.totalchartmbadian.labels" :resultnya="this.dataNya.totalchartmbadian.result"></pie-chart-home-regional-nasional>
+
+        
+      </div>
+    </div>
+  </div>
+
 
   <div class="col-xl-3 col-lg-6 col-md-6 col-12">
     <div class="card gradient-white">
@@ -59,20 +70,7 @@
       </div>
     </div>
   </div>
-  
-  <div class="col-xl-3 col-lg-6 col-md-6 col-12">
-    <div class="card gradient-white">
-      <div class="card-body">
-
-
-      <h2 align="center">Total Site / REGIONAL </h2>
-<br>
-<pie-chart-home-regional-nasional :height="500" :labelnya="this.dataNya.totalregionalnasional.labels" :resultnya="this.dataNya.totalregionalnasional.result"></pie-chart-home-regional-nasional>
-
-        
-      </div>
-    </div>
-  </div>
+ 
 
 <!--
   <div class="col-xl-3 col-lg-6 col-md-6 col-12">

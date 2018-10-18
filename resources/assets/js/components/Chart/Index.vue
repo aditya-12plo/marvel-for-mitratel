@@ -4,7 +4,7 @@
    <vue-toast ref='toast'></vue-toast>
 
 
-
+<div class="card-header-banner"> </div> 
 
       <div class="card-header">
        <h1 style="padding-top: 1%;font-size: 40px;font-family:'arial';" align="center"><strong>PROJECT TAHUN {{this.$route.params.years}}
@@ -46,6 +46,22 @@
     </div>
   </div>
 
+
+  <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+    <div class="card">
+      <div class="card-body">
+
+
+      <h2 align="center">STATUS INVOICE </h2>
+<br>
+<pie-chart-home-regional-by-years :height="500" :labelnya="this.dataNya.totalchartmbadian.labels" :resultnya="this.dataNya.totalchartmbadian.result"></pie-chart-home-regional-by-years>
+
+        
+      </div>
+    </div>
+  </div> 
+
+
   <div class="col-xl-3 col-lg-6 col-md-6 col-12">
     <div class="card">
       <div class="card-body">
@@ -59,19 +75,6 @@
     </div>
   </div>
   
-  <div class="col-xl-3 col-lg-6 col-md-6 col-12">
-    <div class="card">
-      <div class="card-body">
-
-
-      <h2 align="center">Total Site / REGIONAL</h2>
-<br>
-<pie-chart-home-regional-by-years :height="500" :labelnya="this.dataNya.totalregionalbyyears.labels" :resultnya="this.dataNya.totalregionalbyyears.result"></pie-chart-home-regional-by-years>
-
-        
-      </div>
-    </div>
-  </div> 
 
 
   <div class="col-xl-4 col-lg-6 col-md-6 col-12">

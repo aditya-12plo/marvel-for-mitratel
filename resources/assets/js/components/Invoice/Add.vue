@@ -1,11 +1,14 @@
 <template>
  <div> 
   <loading :show="isLoading"></loading>
+
+<div class="card-header-banner"> </div> 
+
 <form method="POST" class="form" enctype="multipart/form-data" action="" @submit.prevent="submitData()"> 
 <section class="basic-elements">
     <div class="row">
         <div class="col-sm-12">
-            <div class="content-header" align="center">Form Penambahan Dokumen Invoice Project ID {{this.rowDatanya.project.projectid}}</div>
+            <h1 align="center">Form Penambahan Dokumen Invoice Project ID {{this.rowDatanya.project.projectid}}</h1>
         </div>
     </div>
     <div class="row">

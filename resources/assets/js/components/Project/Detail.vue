@@ -1,9 +1,12 @@
 <template>
  <div> 
+
+<div class="card-header-banner"> </div> 
+
 <section class="basic-elements">
     <div class="row">
         <div class="col-sm-12">
-            <div class="content-header" align="center">Detail Data Project ID {{this.formsProject.projectid}}</div>
+            <h1 align="center">Detail Data Project ID {{this.formsProject.projectid}}</h1>
         </div>
     </div>
     <div class="row">

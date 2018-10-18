@@ -1,9 +1,10 @@
 <template>
  <div> 
+     <div class="card-header-banner"> </div>  
 <section class="basic-elements">
     <div class="row">
         <div class="col-sm-12">
-             <div class="content-header" align="center">Detail User EMail Busdev</div>
+            <h1 align="center">  Detail User EMail Busdev  </h1>   
         </div>
     </div>
     <div class="row">

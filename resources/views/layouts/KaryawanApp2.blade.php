@@ -532,7 +532,7 @@
                 </ul>
               </li>
               
-<!-- <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/project-locations');window.location.reload();"><i class="ft-navigation font-medium-3"></i><span data-i18n="" class="menu-title">Maps</span> </a></li> -->
+ <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/project-locations');window.location.reload();"><i class="ft-navigation font-medium-3"></i><span data-i18n="" class="menu-title">Maps</span> </a></li> 
  <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/list-dokumen-template');window.location.reload();"><i class="ft-folder font-medium-3"></i><span data-i18n="" class="menu-title">Dokumen Template</span> </a></li> 
  <li class="nav-item"><a onClick="window.location.replace('/karyawan?#/list-notifications');window.location.reload();"><i class="ft-bell font-medium-3"></i><span data-i18n="" class="menu-title">Notifikasi</span> </a></li> 
  <li class="nav-item"><a id="navbar-fullscreen" href="javascript:;" class="nav-link apptogglefullscreen"><i class="ft-maximize font-medium-3"></i><span data-i18n="" class="menu-title">Fullscreen</span> </a></li>

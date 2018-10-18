@@ -1,5 +1,8 @@
 <template>
  <div> 
+
+<div class="card-header-banner"> </div> 
+
 <section class="basic-elements">
     <div class="row">
         <div class="col-sm-12">

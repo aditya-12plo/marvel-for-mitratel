@@ -1,9 +1,12 @@
 <template>
  <div> 
+
+<div class="card-header-banner"> </div> 
+
 <section class="basic-elements">
     <div class="row">
         <div class="col-sm-12">
-            <div class="content-header" align="center">Form Penambahan Data Akses User Akses AREA {{this.rowDatanya.area}}</div>
+            <h1 align="center">Form Penambahan Data Akses User Akses AREA {{this.rowDatanya.area}}</h1>
         </div>
     </div>
     <div class="row">

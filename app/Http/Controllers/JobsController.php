@@ -74,6 +74,10 @@ $labeltotalproject = ['Dokumen KOM / SIS '.$total->jumlahsis , 'Dokumen SITAC '.
 $resultTotalproject = [$total->jumlahsis,$total->jumlahsitac,$total->jumlahrfc,$total->cme];  
 $totallabelproject = ['labels'=>$labeltotalproject , 'result'=> $resultTotalproject];
 
+$labeltotalprojectinvoice = ['Dokumen BAKS-BAUK '.$total->jumlahbaksbauk , 'Invoice '.$total->jumlahinvoice];
+$resultTotalprojectinvoice = [$total->jumlahbaksbauk,$total->jumlahinvoice];  
+$totallabelprojectinvoice= ['labels'=>$labeltotalprojectinvoice , 'result'=> $resultTotalprojectinvoice];
+
 //for area
 $area =  DB::table('vtotalprojectarea')->where('years',$date->year)->get();
 
@@ -95,11 +99,55 @@ $totalregionalnasional = ['labels'=>$regionaltitle , 'result'=> $regionaljml];
 
  
 
-return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,'totallabels'=>$totallabel,'totalareanasional'=>$totalareanasional,'totalregionalnasional'=>$totalregionalnasional,'totallabelproject'=>$totallabelproject ]);
+return response()->json(['jumlahsemuanya'=>$jumlahsemuanya,'years'=>$date->year,'totallabels'=>$totallabel,'totalareanasional'=>$totalareanasional,'totalregionalnasional'=>$totalregionalnasional,'totallabelproject'=>$totallabelproject , 'totalchartmbadian'=>$totallabelprojectinvoice]);
     
 
     }
      
+    public function getCoordinates(Request $request)
+    {
+        $search = $request->filter;
+        $infratype = $request->infratypenya;
+        $area = $request->area;
+		
+		
+        $query =  DB::table('v_coordinates_project');
+  
+ if (!empty($search))
+ {
+   $like = "%{$search}%";
+   $query = $query->where('projectid', 'LIKE', $like)->orWhere('regional', 'LIKE', $like);
+ }
+ if (!empty($infratype))
+  { 
+   $query = $query->where('infratype', $infratype);
+  }
+  
+ if (!empty($area))
+  { 
+   $query = $query->where('area', $area);
+  }
+  $query = $query->get();
+ 
+$show =[]; 
+if(count($query) > 0)
+{
+	
+foreach($query as $q)
+{ 
+	$show[] = ['id'=>$q->id,'projectid' => $q->projectid ,'statusnya' => $q->statusnya ,'infratype' => $q->infratype ,'area' => $q->area ,'regional' => $q->regional ,'towernya' => $q->towernya , 'lat' => $q->latitude_actual , 'lng' => $q->longitude_actual];
+}
+}
+else
+{
+$show = ['id'=>'','projectid' => '' ,'infratype' =>'' , 'area' => '' ,'regional' => '' ,'towernya' =>'' , 'lat' => '' , 'lng' => ''];
+}
+
+ return response()->json($show);  
+  
+    }
+
+
     
     public function GetJobsDocumentSIS(Request $request)
     {
