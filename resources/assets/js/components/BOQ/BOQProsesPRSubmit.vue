@@ -480,8 +480,8 @@ axios.post('/karyawan/SubmitBOQCancel', masuk)
 var masuk = 
 {
 	'id' : this.rowDatanya.project.id,
-	'status' : 4, 
-	'statusproject' : 19, 
+	'status' : 3, 
+	'statusproject' : 18, 
 	'project_id' : this.rowDatanya.project.project_id, 
 }
 axios.post('/karyawan/SubmitBOQApprovalVerifikasi', masuk)

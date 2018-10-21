@@ -29,7 +29,7 @@
                   </div>
 
                    <div class="form-group col-12 mb-2">
-                     <label for="name">Download Template Project : <a href="/template/uploadprojecttemplate.xlsx" target="_blank">Download</a></label>
+                     <label for="name">Download Template Project : <a href="/templates/uploadprojecttemplate.xlsx" target="_blank">Download</a></label>
                   </div>
 
                    <div class="form-group col-12 mb-2">

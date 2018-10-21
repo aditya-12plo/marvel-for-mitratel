@@ -115,16 +115,15 @@ SELECT
         WHEN 0 THEN 'MENUNGGU APPROVAL'
         WHEN 1 THEN 'REPAIR BOQ'
         WHEN 2 THEN 'APPROVED'
-        WHEN 3 THEN 'BOQ VERFIFIKASI'
-        WHEN 4 THEN 'BOQ PROSES PR'
+        WHEN 3 THEN 'BOQ PROSES PR'
+        WHEN 4 THEN 'BOQ VERFIFIKASI'
         WHEN 5 THEN 'BOQ PO RELEASE' 
         ELSE 'CANCEL' END
         AS 'statusnya',
         project_id,
   area,area2,message,status,created_at,updated_at
 FROM boq_submit
-where status=0
-;
+where status=0;
 
 
 CREATE OR REPLACE VIEW vboqsubmitdatarepair
@@ -144,16 +143,15 @@ SELECT
         WHEN 0 THEN 'MENUNGGU APPROVAL'
         WHEN 1 THEN 'REPAIR BOQ'
         WHEN 2 THEN 'APPROVED'
-        WHEN 3 THEN 'BOQ VERFIFIKASI'
-        WHEN 4 THEN 'BOQ PROSES PR'
+        WHEN 3 THEN 'BOQ PROSES PR'
+        WHEN 4 THEN 'BOQ VERFIFIKASI'
         WHEN 5 THEN 'BOQ PO RELEASE' 
         ELSE 'CANCEL' END
         AS 'statusnya',
         project_id,
   area,area2,message,status,created_at,updated_at
 FROM boq_submit
-where status=1
-;
+where status=1;
 
 
 
@@ -175,15 +173,14 @@ SELECT
         WHEN 0 THEN 'MENUNGGU APPROVAL'
         WHEN 1 THEN 'REPAIR BOQ'
         WHEN 2 THEN 'APPROVED'
-        WHEN 3 THEN 'BOQ VERFIFIKASI'
-        WHEN 4 THEN 'BOQ PROSES PR'
+        WHEN 3 THEN 'BOQ PROSES PR'
+        WHEN 4 THEN 'BOQ VERFIFIKASI'
         WHEN 5 THEN 'BOQ PO RELEASE' 
         ELSE 'CANCEL' END
         AS 'statusnya',
         project_id,
   area,area2,message,status,created_at,updated_at
-FROM boq_submit 
-;
+FROM boq_submit ;
 
 
 CREATE OR REPLACE VIEW vboqsubmitdataapproval
@@ -203,8 +200,8 @@ SELECT
         WHEN 0 THEN 'MENUNGGU APPROVAL'
         WHEN 1 THEN 'REPAIR BOQ'
         WHEN 2 THEN 'APPROVED'
-        WHEN 3 THEN 'BOQ VERFIFIKASI'
-        WHEN 4 THEN 'BOQ PROSES PR'
+        WHEN 3 THEN 'BOQ PROSES PR'
+        WHEN 4 THEN 'BOQ VERFIFIKASI'
         WHEN 5 THEN 'BOQ PO RELEASE' 
         ELSE 'CANCEL' END
         AS 'statusnya',
@@ -238,8 +235,8 @@ SELECT
         WHEN 0 THEN 'MENUNGGU APPROVAL'
         WHEN 1 THEN 'REPAIR BOQ'
         WHEN 2 THEN 'APPROVED'
-        WHEN 3 THEN 'BOQ VERFIFIKASI'
-        WHEN 4 THEN 'BOQ PROSES PR'
+        WHEN 3 THEN 'BOQ PROSES PR'
+        WHEN 4 THEN 'BOQ VERFIFIKASI'
         WHEN 5 THEN 'BOQ PO RELEASE' 
         ELSE 'CANCEL' END
         AS 'statusnya',
@@ -247,7 +244,7 @@ SELECT
   area,area2,message,status,created_at,updated_at
 FROM boq_submit
 where
-status=2;
+status=3;
 
 
 CREATE OR REPLACE VIEW vboqsubmitdataprosespr
@@ -267,8 +264,8 @@ SELECT
         WHEN 0 THEN 'MENUNGGU APPROVAL'
         WHEN 1 THEN 'REPAIR BOQ'
         WHEN 2 THEN 'APPROVED'
-        WHEN 3 THEN 'BOQ VERFIFIKASI'
-        WHEN 4 THEN 'BOQ PROSES PR'
+        WHEN 3 THEN 'BOQ PROSES PR'
+        WHEN 4 THEN 'BOQ VERFIFIKASI'
         WHEN 5 THEN 'BOQ PO RELEASE' 
         ELSE 'CANCEL' END
         AS 'statusnya',
@@ -276,7 +273,7 @@ SELECT
   area,area2,message,status,created_at,updated_at
 FROM boq_submit
 where
-status=3;
+status=2;
 
 
 
@@ -297,8 +294,8 @@ SELECT
         WHEN 0 THEN 'MENUNGGU APPROVAL'
         WHEN 1 THEN 'REPAIR BOQ'
         WHEN 2 THEN 'APPROVED'
-        WHEN 3 THEN 'BOQ VERFIFIKASI'
-        WHEN 4 THEN 'BOQ PROSES PR'
+        WHEN 3 THEN 'BOQ PROSES PR'
+        WHEN 4 THEN 'BOQ VERFIFIKASI'
         WHEN 5 THEN 'BOQ PO RELEASE' 
         ELSE 'CANCEL' END
         AS 'statusnya',
@@ -5989,7 +5986,6 @@ SELECT
 id,
 projectid,
 batchnya,
-infratype,
 area,
 regional,
 statusnya,
@@ -5999,9 +5995,11 @@ latitude_actual
 FROM
 vallproject
 WHERE
-longitude_actual is NOT NULL OR latitude_actual is NOT NULL 
+status_id not in (104,105,106,107)
+AND
+longitude_actual is NOT NULL AND latitude_actual is NOT NULL
 order by
-id desc
+id desc 
 
 
 

@@ -239,12 +239,6 @@ export default {
       title: 'Total Site',
       titleClass: 'text-center',
           dataClass: 'text-center'
-        },
-        {
-          name: 'statusnya',
-      title: 'Status BOQ',
-      titleClass: 'text-center',
-          dataClass: 'text-center',
         },    
         {
           name: 'created_at',

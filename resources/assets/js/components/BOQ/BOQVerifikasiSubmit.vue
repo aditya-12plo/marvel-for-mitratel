@@ -445,8 +445,8 @@ window.open(routeData.href, '_blank');
 var masuk = 
 {
 	'id' : this.rowDatanya.project.id,
-	'status' : 3, 
-	'statusproject' : 18, 
+	'status' : 4, 
+	'statusproject' : 19, 
 	'project_id' : this.rowDatanya.project.project_id, 
 }
 

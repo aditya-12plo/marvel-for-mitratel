@@ -383,9 +383,9 @@
 <li><a onClick="window.location.replace('/karyawan?#/boq-input');window.location.reload();" class="menu-item">Add</a></li>
 <li><a onClick="window.location.replace('/karyawan?#/boq-submit');window.location.reload();" class="menu-item">Submit</a></li>           
 <li><a onClick="window.location.replace('/karyawan?#/boq-repair');window.location.reload();" class="menu-item">Repair</a></li>           
-<li><a onClick="window.location.replace('/karyawan?#/boq-approved');window.location.reload();" class="menu-item">Cetak BOQ</a></li>           
-<li><a onClick="window.location.replace('/karyawan?#/boq-verifikasi');window.location.reload();" class="menu-item">BOQ Verifikasi</a></li>           
-<li><a onClick="window.location.replace('/karyawan?#/boq-proses-pr');window.location.reload();" class="menu-item">BOQ Proses PR</a></li>           
+<li><a onClick="window.location.replace('/karyawan?#/boq-approved');window.location.reload();" class="menu-item">Cetak BOQ</a></li>             
+<li><a onClick="window.location.replace('/karyawan?#/boq-proses-pr');window.location.reload();" class="menu-item">BOQ Proses PR</a></li>            
+<li><a onClick="window.location.replace('/karyawan?#/boq-verifikasi');window.location.reload();" class="menu-item">BOQ Verifikasi</a></li>        
 <li><a onClick="window.location.replace('/karyawan?#/boq-po-release');window.location.reload();" class="menu-item">BOQ PO Release</a></li>           
 
                 </ul>
