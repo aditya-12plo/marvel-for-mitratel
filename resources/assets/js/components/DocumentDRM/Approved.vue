@@ -24,6 +24,10 @@
 <button type="button" class="btn btn-raised btn-primary" @click="ApproveItem()">
     <i class="fa fa-check-square-o"></i> Setujui
 </button>
+<button type="button" class="btn btn-raised btn-success" @click="modal.set('komunikasiproject', true)" v-if="this.komunikasi.length > 0">
+    <i class="ft-message-square"></i> Lihat Komunikasi
+</button>
+
                 </div>
                 <div class="card-body">
                     <div class="px-3">
@@ -97,7 +101,7 @@ Latitude : {{this.rowDatanya.project.latitude_actual}}
 
 
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="kom_date">TANGGAL KOM</label>
                                         <br>
@@ -106,7 +110,7 @@ Latitude : {{this.rowDatanya.project.latitude_actual}}
                                 </div>
 
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="document_kom">DOKUMEN KOM</label>
                                         <br>
@@ -116,7 +120,7 @@ Latitude : {{this.rowDatanya.project.latitude_actual}}
                                 </div>
 
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="drm_date">TANGGAL DRM</label>
                                         <br>
@@ -124,7 +128,7 @@ Latitude : {{this.rowDatanya.project.latitude_actual}}
                                     </fieldset>
                                 </div>
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="document_drm">DOKUMEN DRM</label>
                                         <br> 
@@ -132,19 +136,6 @@ Latitude : {{this.rowDatanya.project.latitude_actual}}
                                     </fieldset>
                                 </div>
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="address_spk">Komunikasi Project</label>
-                                        <br>
-                                        
-<div v-if="this.komunikasi.length > 0">
-<button type="button" class="btn btn-raised btn-success" @click="modal.set('komunikasiproject', true)">
-  <i class="ft-message-square"></i> Lihat Komunikasi
-</button>
-</div>
- 
-                                    </fieldset>
-                                </div>
   
 
 		                            

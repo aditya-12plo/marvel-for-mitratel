@@ -25,13 +25,16 @@
 <button type="button" @click="drop()" class="btn btn-raised btn-danger">
     <i class="ft-trash-2"></i> Drop
 </button>
+<button type="button"@click="modal.set('komunikasiproject', true)" class="btn btn-raised btn-success" v-if="this.komunikasi.length > 0">
+    <i class="ft-message-square"></i> Lihat Komunikasi
+</button>
                 </div>
                 <div class="card-body">
                     <div class="px-3">
               <div class="form-body">
                             <div class="row">  
 
-
+ 
 
 <!-- Ducument DRM --> 
 <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
@@ -102,7 +105,7 @@
                                 </div> 
 
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="kom_date">TANGGAL KOM</label>
                                         <br>
@@ -111,7 +114,7 @@
                                     </fieldset>
                                 </div>
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="document_kom">DOKUMEN KOM</label>
                                         <br>
@@ -128,7 +131,7 @@
 
 
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="drm_date">TANGGAL DRM</label>
                                         <br>
@@ -138,7 +141,7 @@
                                 </div>
 
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="document_drm">DOKUMEN DRM</label>
                                         <br>
@@ -153,21 +156,7 @@
                                     </fieldset>
                                 </div>
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="address_spk">KOMUNIKASI PROJECT</label>
-                                        <br>
-                                        
-<div v-if="this.komunikasi.length > 0">
-<button type="button" class="btn btn-raised btn-success" @click="modal.set('komunikasiproject', true)">
-  <i class="ft-message-square"></i> Lihat Komunikasi
-</button>
-</div>
 
-  
-
-                                    </fieldset>
-                                </div>
 <!-- Ducument DRM -->
 
    

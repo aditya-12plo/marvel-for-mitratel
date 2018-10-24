@@ -12,20 +12,22 @@
 <div class="col-xl-12 col-lg-6 col-md-6 col-12">
 <h1 align="center">{{this.dataNya.jumlahsemuanya}} SITE TAHUN {{this.dataNya.years}}</h1>
 </div>
+
+
+
   <div class="col-xl-3 col-lg-6 col-md-6 col-12">
     <div class="card gradient-white">
       <div class="card-body">
-
-
-<h2 align="center">DOKUMEN PO</h2>
+      
+      <h2 align="center">Total Site / AREA</h2>
 <br>
-<pie-chart-home :height="500" :labelnya="this.dataNya.totallabels.labels" :resultnya="this.dataNya.totallabels.result"></pie-chart-home>
-
+<pie-chart-home-area-nasional :height="500" :labelnya="this.dataNya.totalareanasional.labels" :resultnya="this.dataNya.totalareanasional.result"></pie-chart-home-area-nasional>
 
 
       </div>
     </div>
   </div>
+
 
   <div class="col-xl-3 col-lg-6 col-md-6 col-12">
     <div class="card gradient-white">
@@ -35,6 +37,22 @@
 <h2 align="center">STATUS PROJECT</h2>
 <br>
 <pie-chart-home-project :height="500" :labelnya="this.dataNya.totallabelproject.labels" :resultnya="this.dataNya.totallabelproject.result"></pie-chart-home-project>
+
+
+
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+    <div class="card gradient-white">
+      <div class="card-body">
+
+
+<h2 align="center">DOKUMEN PO</h2>
+<br>
+<pie-chart-home :height="500" :labelnya="this.dataNya.totallabels.labels" :resultnya="this.dataNya.totallabels.result"></pie-chart-home>
 
 
 
@@ -58,18 +76,6 @@
   </div>
 
 
-  <div class="col-xl-3 col-lg-6 col-md-6 col-12">
-    <div class="card gradient-white">
-      <div class="card-body">
-      
-      <h2 align="center">Total Site / AREA</h2>
-<br>
-<pie-chart-home-area-nasional :height="500" :labelnya="this.dataNya.totalareanasional.labels" :resultnya="this.dataNya.totalareanasional.result"></pie-chart-home-area-nasional>
-
-
-      </div>
-    </div>
-  </div>
  
 
 <!--

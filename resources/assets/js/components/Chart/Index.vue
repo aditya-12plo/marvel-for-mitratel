@@ -16,21 +16,20 @@
 
       <div class="row">
 
+
   <div class="col-xl-3 col-lg-6 col-md-6 col-12">
     <div class="card">
       <div class="card-body">
-
-
-<h2 align="center">DOKUMEN PO</h2>
+      
+      <h2 align="center">Total Site / AREA</h2>
 <br>
-<pie-chart-history-by-years-all :height="500" :labelnyahistorybyyears="this.dataNya.totallabelsbyyears.labels" :resultnyahistorybyyears="this.dataNya.totallabelsbyyears.result"></pie-chart-history-by-years-all>
-
+<pie-chart-home-area-by-years :height="500" :labelnya="this.dataNya.totalareabyyears.labels" :resultnya="this.dataNya.totalareabyyears.result"></pie-chart-home-area-by-years>
 
 
       </div>
     </div>
   </div>
-
+  
   <div class="col-xl-3 col-lg-6 col-md-6 col-12">
     <div class="card">
       <div class="card-body">
@@ -52,6 +51,23 @@
       <div class="card-body">
 
 
+<h2 align="center">DOKUMEN PO</h2>
+<br>
+<pie-chart-history-by-years-all :height="500" :labelnyahistorybyyears="this.dataNya.totallabelsbyyears.labels" :resultnyahistorybyyears="this.dataNya.totallabelsbyyears.result"></pie-chart-history-by-years-all>
+
+
+
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+    <div class="card">
+      <div class="card-body">
+
+
       <h2 align="center">STATUS INVOICE </h2>
 <br>
 <pie-chart-home-regional-by-years :height="500" :labelnya="this.dataNya.totalchartmbadian.labels" :resultnya="this.dataNya.totalchartmbadian.result"></pie-chart-home-regional-by-years>
@@ -61,20 +77,6 @@
     </div>
   </div> 
 
-
-  <div class="col-xl-3 col-lg-6 col-md-6 col-12">
-    <div class="card">
-      <div class="card-body">
-      
-      <h2 align="center">Total Site / AREA</h2>
-<br>
-<pie-chart-home-area-by-years :height="500" :labelnya="this.dataNya.totalareabyyears.labels" :resultnya="this.dataNya.totalareabyyears.result"></pie-chart-home-area-by-years>
-
-
-      </div>
-    </div>
-  </div>
-  
 
 
   <div class="col-xl-4 col-lg-6 col-md-6 col-12">

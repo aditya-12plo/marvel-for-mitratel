@@ -24,6 +24,9 @@
 <button type="button" class="btn btn-raised btn-primary" @click="ApproveItem()">
     <i class="fa fa-check-square-o"></i> Setujui
 </button>
+<button type="button"@click="modal.set('komunikasiproject', true)" class="btn btn-raised btn-success" v-if="this.komunikasi.length > 0">
+    <i class="ft-message-square"></i> Lihat Komunikasi
+</button>
                 </div>
                 <div class="card-body">
                     <div class="px-3">
@@ -65,7 +68,7 @@
                                 </div>
 
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="ijin_warga_date">TANGGAL DOKUMEN IJIN WARGA</label>
                                         <br>
@@ -74,7 +77,7 @@
                                 </div>
 
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="document_ijin_warga">DOKUMEN IJIN WARGA</label>
                                         <br>
@@ -131,22 +134,7 @@
                                         <br>
 <a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.document_imb" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>
                                     </fieldset>
-                                </div>
- <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="address_spk">KOMUNIKASI PROJECT</label>
-                                        <br>
-                                        
-<div v-if="this.komunikasi.length > 0">
-<button type="button" class="btn btn-raised btn-success" @click="modal.set('komunikasiproject', true)">
-  <i class="ft-message-square"></i> Lihat Komunikasi
-</button>
-</div>
-
-  
-
-                                    </fieldset>
-                                </div>
+                                </div> 
 <!-- Ducument SITAC --> 
  
 		                            
