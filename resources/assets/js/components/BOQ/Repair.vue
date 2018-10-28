@@ -19,9 +19,10 @@
             <div class="card">
                 <div class="card-header">
 <button type="button" class="btn btn-raised btn-warning" @click="backLink()"> <i class="ft-arrow-left position-left"></i> Kembali</button>  
-<button type="button" class="btn btn-raised btn-danger" @click="NewPID()"> <i class="fa fa-plus-square-o position-left"></i> Add New PID</button>
+<button type="button" class="btn btn-raised btn-default" @click="NewPID()"> <i class="fa fa-plus-square-o position-left"></i> Add New PID</button>
+<button class="btn btn-danger" @click="CancelBOQ()"><i class="ft-trash-2 position-left"></i> Cancel BOQ </button>
 <button type="button" class="btn btn-raised btn-primary" @click="ApproveItem()">
-    <i class="fa fa-check-square-o"></i> Submit
+    <i class="fa fa-check-square-o position-left"></i> Submit
 </button>
 </div>
 
@@ -529,6 +530,45 @@ dataAction () {
         
       },
  
+             	CancelBOQ() {
+      this.$swal({
+  title: 'Are you sure ?',
+  type: 'warning',
+  showCancelButton: true,
+  confirmButtonColor: '#3085d6',
+  cancelButtonColor: '#d33',
+  confirmButtonText: 'Yes!'
+}).then((result) => {
+  if (result.value) {     
+ 
+var masuk = 
+{
+	'id' : this.rowDatanya.project.id,
+	'status' : 6, 
+	'project_id' : this.rowDatanya.project.project_id, 
+}
+
+axios.post('/karyawan/SubmitBOQCancel', masuk)
+                    .then(response => { 
+                      if(response.data.success)
+                      {
+                 this.success(response.data.success);
+                 this.isLoading = false;
+                 this.backLink();
+                      } 
+                      else 
+                      {
+                 this.error(response.data.error);
+                 this.isLoading = false;
+                 this.backLink();
+                      } 
+                    })
+   
+}
+})
+   
+   
+  },
             ShowItemData(item){  
 this.isLoading = true;         	
 this.dataBoqNya = [];         	

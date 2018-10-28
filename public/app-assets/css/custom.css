@@ -1,6 +1,423 @@
+ #slider4 {
+  background: #000;
+  border: 5px solid #eaeaea;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.7);
+  height: 320px;
+  width: 100%;
+  margin: 0 auto 0;
+  overflow: visible;
+  position: relative;
+}
+
+#mask {
+  overflow: hidden;
+  height: 320px;
+}
+
+#slider4 ul {
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+#slider4 li {
+  width: 100%;
+  height: 320px;
+  position: absolute;
+  top: 0;
+  list-style: none;
+}
+
+#slider4 li.animation1 {
+  animation: cycle 25s linear infinite;
+}
+
+#slider4 li.animation2 {
+  animation: cycle2 25s linear infinite;
+}
+
+#slider4 li.animation3 {
+  animation: cycle3 25s linear infinite;
+}
+
+#slider4 li.animation4 {
+  animation: cycle4 25s linear infinite;
+}
+
+#slider4 li.animation5 {
+  animation: cycle5 25s linear infinite;
+}
+/* Анимация */
+
+@keyframes cycle {
+  0% {
+    top: 0px;
+  }
+  /* При запуске слайдера, первое изображение уже видимо */
+  
+  4% {
+    top: 0px;
+  }
+  /* Стартовая позиция */
+  
+  16% {
+    top: 0px;
+    opacity: 1;
+    z-index: 0;
+  }
+  /* С 4% до 16 % (3 секунды) изображение видимо */
+  
+  20% {
+    top: 325px;
+    opacity: 0;
+    z-index: 0;
+  }
+  /* с 16% до 20% (1 секунды)выход изображения*/
+  
+  21% {
+    top: -325px;
+    opacity: 0;
+    z-index: -1;
+  }
+  /* Возвращение на исходную позицию за пределами маски */
+  
+  92% {
+    top: -325px;
+    opacity: 0;
+    z-index: 0;
+  }
+  96% {
+    top: -325px;
+    opacity: 0;
+  }
+  /* С 96% до 100% (1 секунда) – вход */
+  
+  100% {
+    top: 0px;
+    opacity: 1;
+  }
+}
+
+@keyframes cycle2 {
+  0% {
+    top: -325px;
+    opacity: 0;
+  }
+  /* Исходная позиция за пределами маски */
+  
+  16% {
+    top: -325px;
+    opacity: 0;
+  }
+  /* Начало движения с 16% */
+  
+  20% {
+    top: 0px;
+    opacity: 1;
+  }
+  24% {
+    top: 0px;
+    opacity: 1;
+  }
+  /* С 20% до 24% (в течении 1 секунды) — вход*/
+  
+  36% {
+    top: 0px;
+    opacity: 1;
+    z-index: 0;
+  }
+  /* С 24% до 36 % (3 секунды) изображение видимо */
+  
+  40% {
+    top: 325px;
+    opacity: 0;
+    z-index: 0;
+  }
+  /* С 36% до 40% (1 секунда)— выход */
+  
+  41% {
+    top: -325px;
+    opacity: 0;
+    z-index: -1;
+  }
+  /* Возврат на исходную позицию */
+  
+  100% {
+    top: -325px;
+    opacity: 0;
+    z-index: -1;
+  }
+}
+
+@keyframes cycle3 {
+  0% {
+    top: -325px;
+    opacity: 0;
+  }
+  36% {
+    top: -325px;
+    opacity: 0;
+  }
+  40% {
+    top: 0px;
+    opacity: 1;
+  }
+  44% {
+    top: 0px;
+    opacity: 1;
+  }
+  56% {
+    top: 0px;
+    opacity: 1;
+  }
+  60% {
+    top: 325px;
+    opacity: 0;
+    z-index: 0;
+  }
+  61% {
+    top: -325px;
+    opacity: 0;
+    z-index: -1;
+  }
+  100% {
+    top: -325px;
+    opacity: 0;
+    z-index: -1;
+  }
+}
+
+@keyframes cycle4 {
+  0% {
+    top: -325px;
+    opacity: 0;
+  }
+  56% {
+    top: -325px;
+    opacity: 0;
+  }
+  60% {
+    top: 0px;
+    opacity: 1;
+  }
+  64% {
+    top: 0px;
+    opacity: 1;
+  }
+  76% {
+    top: 0px;
+    opacity: 1;
+    z-index: 0;
+  }
+  80% {
+    top: 325px;
+    opacity: 0;
+    z-index: 0;
+  }
+  81% {
+    top: -325px;
+    opacity: 0;
+    z-index: -1;
+  }
+  100% {
+    top: -325px;
+    opacity: 0;
+    z-index: -1;
+  }
+}
+
+@keyframes cycle5 {
+  0% {
+    top: -325px;
+    opacity: 0;
+  }
+  76% {
+    top: -325px;
+    opacity: 0;
+  }
+  80% {
+    top: 0px;
+    opacity: 1;
+  }
+  84% {
+    top: 0px;
+    opacity: 1;
+  }
+  96% {
+    top: 0px;
+    opacity: 1;
+    z-index: 0;
+  }
+  100% {
+    top: 325px;
+    opacity: 0;
+    z-index: 0;
+  }
+}
+
+.progress-bar {
+  position: relative;
+  top: -5px;
+  width: 100%;
+  height: 5px;
+  background: #000;
+  animation: fullexpand 25s ease-out infinite;
+}
+/* Строка состояния анимации */
+
+@keyframes fullexpand {
+  /* В этих ключевых кадрах анимация стационарна */
+  
+  0%, 20%, 40%, 60%, 80%, 100% {
+    width: 0%;
+    opacity: 0;
+  }
+  /* В этих — оживает */
+  
+  4%,
+  24%,
+  44%,
+  64%,
+  84% {
+    width: 0%;
+    opacity: 0.3;
+  }
+  /* В этих — плавно заполняется */
+  
+  16%,
+  36%,
+  56%,
+  76%,
+  96% {
+    width: 100%;
+    opacity: 0.7;
+  }
+  /* В этих ключевых кадрах индикатор выполнения завершил свой путь */
+  
+  17%,
+  37%,
+  57%,
+  77%,
+  97% {
+    width: 100%;
+    opacity: 0.3;
+  }
+  /* В этих ключевых кадрах индикатор выполнения исчезнет, а затем возобновит цикл */
+  
+  18%,
+  38%,
+  58%,
+  78%,
+  98% {
+    width: 100%;
+    opacity: 0;
+  }
+}
+
+#slider4 .tooltip {
+  background: rgba(0, 0, 0, 0.7);
+  width: 100%;
+  height: 60px;
+  position: relative;
+  bottom: 75px;
+  left: -320px;
+  transition: all 0.3s ease-in-out;
+}
+
+#slider4 .tooltip h1 {
+  color: #fff;
+  font-size: 24px;
+  font-weight: 300;
+  line-height: 60px;
+  padding: 0 0 0 10px;
+}
+
+#slider4 li#list1:hover .tooltip,
+#slider4 li#list2:hover .tooltip,
+#slider4 li#list3:hover .tooltip,
+#slider4 li#list4:hover .tooltip,
+#slider4 li#list5:hover .tooltip {
+  left: 0px;
+}
+
+#slider4:hover li,
+#slider4:hover .progress-bar {
+  animation-play-state: paused;
+}
+.md-modal {
+  margin: auto;
+	position: fixed;
+	top: 100px;
+	left: 0;
+  right: 0;
+	width: 50%;
+	max-width: 630px;
+	min-width: 320px;
+	height: auto;
+	z-index: 2000;
+	visibility: hidden;
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility: hidden;
+	backface-visibility: hidden;
+}
+
+.md-show {
+	visibility: visible;
+}
+
+.md-overlay {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	visibility: hidden;
+	top: 0;
+	left: 0;
+	z-index: 1000;
+	opacity: 0;
+	background: rgba(#e4f0e3, 0.8);
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.md-show ~ .md-overlay {
+	opacity: 1;
+	visibility: visible;
+}
+
+.md-effect-12 .md-content {
+	-webkit-transform: scale(0.8);
+	-moz-transform: scale(0.8);
+	-ms-transform: scale(0.8);
+	transform: scale(0.8);
+	opacity: 0;
+	-webkit-transition: all 0.3s;
+	-moz-transition: all 0.3s;
+	transition: all 0.3s;
+}
+
+.md-show.md-effect-12 ~ .md-overlay {
+	background-color: #e4f0e3;
+} 
+
+.md-effect-12 .md-content h3,
+.md-effect-12 .md-content {
+	background: transparent;
+}
+
+.md-show.md-effect-12 .md-content {
+	-webkit-transform: scale(1);
+	-moz-transform: scale(1);
+	-ms-transform: scale(1);
+	transform: scale(1);
+	opacity: 1;
+}
+
+
 .modal {
     display: none;
     height: 100%;
+    margin: 0%;
     left: 0;
     position: fixed;
     top: 0;
@@ -13,7 +430,7 @@
 z-index: -1;
 }
 .modal-mask {
-  position: fixed;
+  position: fixed !important;
   z-index: 9998;
   top: 0;
   left: 0;
@@ -24,6 +441,8 @@ z-index: -1;
   transition: opacity .3s ease;
 }
 .modal-wrapper {
+  height: auto;
+  width: 100%;
   display: table-cell;
   vertical-align: middle;
 }

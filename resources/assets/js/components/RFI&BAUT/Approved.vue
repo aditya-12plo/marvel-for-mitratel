@@ -1,13 +1,13 @@
 <template>
  <div> 
   <loading :show="isLoading"></loading>
-<div class="card-header-banner"> </div> 
+
 
 
 <section class="basic-elements">
     <div class="row">
         <div class="col-sm-12">
-            <h1 align="center">Form Approval Dokumen DRM Project ID {{this.rowDatanya.project.projectid}}</h1>
+            <h1 align="center">Form Approval Dokumen CME Project ID {{this.rowDatanya.project.projectid}}</h1>
         </div>
     </div>
     <div class="row">
@@ -24,22 +24,17 @@
 <button type="button" class="btn btn-raised btn-primary" @click="ApproveItem()">
     <i class="fa fa-check-square-o"></i> Setujui
 </button>
+<button type="button" @click="modal.set('komunikasiproject', true)" class="btn btn-raised btn-success" v-if="this.komunikasi.length > 0">
+    <i class="ft-message-square"></i> Lihat Komunikasi
+</button> 
                 </div>
                 <div class="card-body">
                     <div class="px-3">
 							<div class="form-body">
-		                        <div class="row">	 
-
-
-                                    <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
-                                        <fieldset class="form-group">
-                                            <label for="documentsis"><h4>Dokumen RFI & BAUT</h4></label> 
-
-                                        </fieldset>
-                                    </div>
+ <div class="row">    
                                     
 
-<div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+<div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="rfi_date"><h4>TANGGAL DOKUMEN RFI</h4></label>
  <br>
@@ -47,7 +42,7 @@
                                     </fieldset>
                                 </div> 
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="rfi_document"><h4>DOKUMEN RFI</h4></label>
                                         <br>
@@ -57,7 +52,7 @@
                                 </div>
 
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="baut_date"><h4>TANGGAL DOKUMEN BAUT</h4></label>
                                         <br>
@@ -65,7 +60,7 @@
                                     </fieldset>
                                 </div>
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="baut_document"><h4>DOKUMEN BAUT</h4></label>
                                         <br> 
@@ -75,7 +70,7 @@
 
 
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="m_e_process_date"><h4>TANGGAL DOKUMEN M-E Process</h4></label>
                                         <br>
@@ -84,7 +79,7 @@
                                 </div>
 
 
-                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                         <fieldset class="form-group">
                                             <label for="m_e_process_document"><h4>DOKUMEN M-E PROCESS </h4></label>
                                         <br>
@@ -97,7 +92,7 @@
                                     
 
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
 <label for="tower_erection_date"><h4>TANGGAL DOKUMEN Tower Erection</h4></label>
                                         <br>
@@ -106,7 +101,7 @@
                                 </div>
 
 
-                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                         <fieldset class="form-group">
                                             <label for="tower_erection_document"><h4>DOKUMEN Tower Erection</h4></label>
                                         <br> 
@@ -117,7 +112,7 @@
 
 
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
 <label for="curing_date"><h4>TANGGAL DOKUMEN CURING</h4></label>
                                         <br>
@@ -126,7 +121,7 @@
                                 </div>
 
 
-                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                         <fieldset class="form-group">
                                             <label for="curing_document"><h4>DOKUMEN CURING</h4></label>
                                         <br>
@@ -138,7 +133,7 @@
  
 
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
 <label for="pouring_date"><h4>TANGGAL DOKUMEN POURING</h4></label>
                                         <br>
@@ -147,7 +142,7 @@
                                 </div>
 
 
-                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                         <fieldset class="form-group">
                                             <label for="pouring_document"><h4>DOKUMEN POURING</h4></label>
                                         <br>
@@ -156,7 +151,7 @@
                                     </div>
                                     
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
  <label for="excavation_date"><h4>TANGGAL DOKUMEN EXCAVATION</h4></label>
  
@@ -166,7 +161,7 @@
                                 </div>
 
 
-                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                         <fieldset class="form-group">
                                             <label for="excavation_document"><h4>DOKUMEN EXCAVATION</h4></label>
                                         <br>
@@ -180,7 +175,7 @@
 
  
        
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group"> 
  <label for="site_opening_date"><h4>TANGGAL DOKUMEN SITE OPENING</h4></label>
  
@@ -190,7 +185,7 @@
                                 </div>
 
 
-                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                         <fieldset class="form-group">
                                             <label for="document_site_opening"><h4>DOKUMEN SITE OPENING</h4></label>
                                         <br>
@@ -200,22 +195,7 @@
                                         </fieldset>
                                     </div>
 
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="address_spk"><h4>Komunikasi Project</h4></label>
-                                        <br>
-                                        
-<div v-if="this.komunikasi.length > 0">
-<button type="button" class="btn btn-raised btn-success" @click="modal.set('komunikasiproject', true)">
-  <i class="ft-message-square"></i> Lihat Komunikasi
-</button>
-</div>
  
-                                    </fieldset>
-                                </div>
-  
-
 		                            
 		                        </div>
 		                    </div>
@@ -426,6 +406,7 @@ import moment from 'moment'
 import '!!vue-style-loader!css-loader!vue-toast/dist/vue-toast.min.css'
 import VueToast from 'vue-toast'
 import myDatepicker from 'vue-datepicker'
+import Datepicker from 'vuejs-datepicker'
 import Vuetable from 'vuetable-2/src/components/Vuetable'
 import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
@@ -450,6 +431,7 @@ export default {
       }
     },
   components: {
+    Datepicker,
     Vuetable,
     VuetablePagination,
     VuetablePaginationInfo,
@@ -480,6 +462,9 @@ export default {
  watch: {
         },
         methods: {
+      customFormatter(date) {
+      return moment(date).format('YYYY-MM-DD');
+    },
              diacak(id)
            {
 var hashids = new Hashids('',1000,'abcdefghijklmnopqrstuvwxyz0987654321ABCDEFGHIJKLMNOPQRSTUVWXYZ'); // no padding

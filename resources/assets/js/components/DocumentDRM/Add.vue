@@ -2,7 +2,7 @@
  <div> 
   <loading :show="isLoading"></loading>
 
-<div class="card-header-banner"> </div> 
+
 
 <form method="POST" class="form" enctype="multipart/form-data" action="" @submit.prevent="ApproveItem()"> 
 <section class="basic-elements">
@@ -25,16 +25,15 @@
 <button type="button" @click="drop()" class="btn btn-raised btn-danger">
     <i class="ft-trash-2"></i> Drop
 </button>
-<button type="button"@click="modal.set('komunikasiproject', true)" class="btn btn-raised btn-success" v-if="this.komunikasi.length > 0">
+<button type="button" @click="modal.set('komunikasiproject', true)" class="btn btn-raised btn-success" v-if="this.komunikasi.length > 0">
     <i class="ft-message-square"></i> Lihat Komunikasi
-</button>
+</button> 
                 </div>
                 <div class="card-body">
                     <div class="px-3">
               <div class="form-body">
-                            <div class="row">  
+                            <div class="row" style="padding-bottom:10%;">  
 
- 
 
 <!-- Ducument DRM --> 
 <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
@@ -109,7 +108,7 @@
                                     <fieldset class="form-group">
                                         <label for="kom_date">TANGGAL KOM</label>
                                         <br>
-<date-picker :date="kom_date" :option="option"></date-picker>
+ <datepicker v-model="kom_date" class="form-control" :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD"></datepicker>          
 <div class="help-block"><ul role="alert"><li v-for="error of errorNya['kom_date']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
@@ -120,7 +119,7 @@
                                         <br>
                                        <br>
 <label id="projectinput8" class="file center-block">
-<input type="file" accept="application/pdf" name="file_name" id="file_name" v-on:change="newAvatar" required="required"> 
+<input type="file" accept="application/pdf" class="form-control" name="file_name" id="file_name" v-on:change="newAvatar" required="required"> 
             <span class="file-custom"></span>
                     </label>        
 <div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_kom']"><span style="color:red;">{{ error }}</span></li></ul></div>
@@ -135,7 +134,7 @@
                                     <fieldset class="form-group">
                                         <label for="drm_date">TANGGAL DRM</label>
                                         <br>
-<date-picker :date="drm_date" :option="option"></date-picker>
+ <datepicker v-model="drm_date" class="form-control" :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD"></datepicker>      
 <div class="help-block"><ul role="alert"><li v-for="error of errorNya['drm_date']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
@@ -147,7 +146,7 @@
                                         <br>
                                        <br>
 <label id="projectinput8" class="file center-block">
-<input type="file" accept="application/pdf" name="file_drm" id="file_drm" v-on:change="newAvatarDRM" required="required"> 
+<input type="file" accept="application/pdf" class="form-control" name="file_drm" id="file_drm" v-on:change="newAvatarDRM" required="required"> 
             <span class="file-custom"></span>
                     </label>        
 <div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_drm']"><span style="color:red;">{{ error }}</span></li></ul></div>
@@ -223,8 +222,7 @@
 
 
 <!-- @approve -->
-        <modal  v-if="modal.get('approve')" @close="modal.set('approve', false)">
-        <template slot="header" align="center"><h4 align="center">Kirim Komunikasi Project</h4></template>
+        <modal  v-if="modal.get('approve')" @close="modal.set('approve', false)"> 
         <template slot="body" >
 
             <form method="POST" action="" @submit.prevent="submitData()">
@@ -269,6 +267,7 @@
 
 <!-- @komunikasiproject -->
 <modal  v-if="modal.get('komunikasiproject')" @close="modal.set('komunikasiproject', false)">
+    
         <template slot="header" align="center"><h4 align="center">Komunikasi Project</h4></template>
         <template slot="body" >
                 <div class="modal-body">
@@ -297,12 +296,15 @@
 
                     <button type="button" class="btn btn-default" @click="modal.set('komunikasiproject', false)" >Close</button>
                     
-                </div>
-                </form>
+                </div> 
         </template>
         </modal>
         
 <!-- komunikasiproject -->
+
+
+
+
  </div> 
 </template>
 
@@ -388,7 +390,7 @@
 
         //   COMPONENT MODAL
         const Modal = {
-            template: `   <transition name="modal">
+            template: `<transition name="modal">
                                 <div class="modal">
                                 <div class="modal-mask">
                                   <div class="modal-wrapper">
@@ -423,6 +425,7 @@ import moment from 'moment'
 import '!!vue-style-loader!css-loader!vue-toast/dist/vue-toast.min.css'
 import VueToast from 'vue-toast'
 import myDatepicker from 'vue-datepicker'
+import Datepicker from 'vuejs-datepicker'
 import Vuetable from 'vuetable-2/src/components/Vuetable'
 import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
@@ -451,6 +454,7 @@ export default {
     VuetablePagination,
     VuetablePaginationInfo,
     'vue-toast': VueToast,
+    Datepicker,
     'date-picker': myDatepicker,
   loading,
   },
@@ -462,12 +466,8 @@ export default {
      file_name:'',
      file_drm:'',
      message:'',
-    kom_date: {
-        time: ''
-      },
-      drm_date: {
-        time: ''
-      },
+    kom_date: '',
+      drm_date: '',
   GetLevel:'', 
     option: {
         type: 'day',
@@ -510,6 +510,9 @@ export default {
  watch: {
         },
         methods: {
+      customFormatter(date) {
+      return moment(date).format('YYYY-MM-DD');
+    },
               diacak(id)
            {
 var hashids = new Hashids('',1000,'abcdefghijklmnopqrstuvwxyz0987654321ABCDEFGHIJKLMNOPQRSTUVWXYZ'); // no padding
@@ -616,17 +619,18 @@ window.open(routeData.href, '_blank');
   confirmButtonText: 'Yes!'
 }).then((result) => {
   if (result.value) {
+var kom_date = this.customFormatter(this.kom_date)
+var drm_date = this.customFormatter(this.drm_date)
+var dateNow = new Date().toISOString().slice(0,10)
 
-      /*
-if(this.drm_date.time < this.kom_date.time)
+if(drm_date > dateNow || kom_date > dateNow)
 {
+                this.isLoading = false;
         this.modal.set('approve', false);
-        this.error('Input DRM Date Wrong');
+        this.error('Input DRM Date Wrong / Input KOM Date Wrong');
 }
         else
 {
-}
-*/
     this.isLoading = true;
    let masuk = new FormData();
    masuk.set('project_id', this.rowDatanya.project.id)
@@ -639,8 +643,8 @@ if(this.drm_date.time < this.kom_date.time)
    masuk.set('address_actual', this.forms.address_actual)
    masuk.set('longitude_actual', this.forms.longitude_actual)
    masuk.set('latitude_actual', this.forms.latitude_actual)
-   masuk.set('kom_date', this.kom_date.time)
-   masuk.set('drm_date', this.drm_date.time)
+   masuk.set('kom_date', kom_date)
+   masuk.set('drm_date', drm_date)
    masuk.set('province', this.forms.province)
    masuk.set('message', this.message)
    masuk.set('statusmessage', 'APPROVAL DOKUMEN DRM')
@@ -687,6 +691,8 @@ if(this.drm_date.time < this.kom_date.time)
                     }
                         
                     })
+}
+
   
 }
 })
@@ -770,83 +776,4 @@ if(this.drm_date.time < this.kom_date.time)
 
 
 <style>
-.modal {
-    display: none;
-    height: 100%;
-    left: 0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-}
-.modal.open {
-   display: block;
-}
-.modal-backdrop {
-z-index: -1;
-}
-.modal-mask {
-  position: fixed;
-  z-index: 9998;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, .5);
-  display: table;
-  transition: opacity .3s ease;
-}
-.modal-wrapper {
-  display: table-cell;
-  vertical-align: middle;
-}
-.modal-content {
-  -webkit-transform: scale(1);
-  -moz-transform: scale(1);
-  -ms-transform: scale(1);
-  transform: scale(1);
-  opacity: 1;
-  height: auto;
-  min-height: 100%;
-  border-radius: 0;
-}
-.modal-dialog {
-  width: 100%;
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-.modal-container {
-  width: 90%;
-  margin: 0px auto;
-  padding: 20px 30px;
-  background-color: #fff;
-  border-radius: 2px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, .33);
-  transition: all .3s ease;
-  font-family: Helvetica, Arial, sans-serif;
-}
-.modal-header h3 {
-  margin-top: 0;
-  color: #42b983;
-}
-.modal-body {
-  margin: 20px 0;
-   max-height: calc(100vh - 210px);
-    overflow-y: auto;
-}
-.modal-default-button {
-  float: right;
-}
-
-.modal-enter {
-  opacity: 0;
-}
-.modal-leave-active {
-  opacity: 0;
-}
-.modal-enter .modal-container,
-.modal-leave-active .modal-container {
-  -webkit-transform: scale(1.1);
-  transform: scale(1.1);
-}
 </style>

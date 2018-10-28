@@ -3,7 +3,7 @@
  	<loading :show="isLoading"></loading>
  	 <vue-toast ref='toast'></vue-toast>
 
-<div class="card-header-banner"> </div> 
+
 
     <section class="content-header">
 
@@ -96,9 +96,9 @@
   <table>
   <tr>
       <td colspan="2"><label>Date From :</label></td>
-      <td colspan="2"><date-picker :date="startTime" :option="option" @keyup.enter="doFilter"></date-picker></td>
+      <td colspan="2"><datepicker v-model="startTime.time" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD" @keyup.enter="doFilter"></datepicker></td>
       <td colspan="2"><label>&nbsp;&nbsp;Date To :</label></td>
-      <td colspan="2"><date-picker :date="endtime" :option="option" @keyup.enter="doFilter"></date-picker></td>
+      <td colspan="2"><datepicker v-model="endtime.time" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD" @keyup.enter="doFilter"></datepicker></td>
     </tr>
     <tr>
       <td colspan="8" style="padding-top: 1%;"></td>
@@ -323,6 +323,7 @@ import moment from 'moment'
 import '!!vue-style-loader!css-loader!vue-toast/dist/vue-toast.min.css'
 import VueToast from 'vue-toast'
 import myDatepicker from 'vue-datepicker'
+import Datepicker from 'vuejs-datepicker'
 import Vuetable from 'vuetable-2/src/components/Vuetable'
 import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
@@ -337,6 +338,7 @@ window.eventBus = new Vue()
 export default {
   components: {
     Vuetable,
+    Datepicker,
     VuetablePagination,
     VuetablePaginationInfo,
     'vue-toast': VueToast,
@@ -520,6 +522,9 @@ export default {
         'position': 'resetOptions',
         },
   methods: {
+      customFormatter(date) {
+      return moment(date).format('YYYY-MM-DD');
+    },
     selectInfratype() { 
                 axios.get('/karyawan/GetInfratype').then((response) => {
                     this.optionsnya = response.data;  
@@ -755,11 +760,13 @@ window.open(routeData.href, '_blank');
 		}
 		else if(this.startTime.time && !this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText,this.towernya , this.infratypenya,this.statusnya, this.batchnya, this.startTime.time, this.endtime.time )
+      var startTime = this.customFormatter(this.startTime.time)
+		this.$events.fire('filter-set', this.filterText,this.towernya , this.infratypenya,this.statusnya, this.batchnya, startTime, this.endtime.time )
 		}
 		else if(!this.startTime.time && this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText, this.towernya ,this.infratypenya,this.statusnya, this.batchnya, this.startTime.time, this.endtime.time )
+      var endtime = this.customFormatter(this.endtime.time)
+		this.$events.fire('filter-set', this.filterText, this.towernya ,this.infratypenya,this.statusnya, this.batchnya, this.startTime.time, endtime )
 		}
 		else if(this.startTime.time && this.endtime.time)
 		{ 
@@ -769,7 +776,9 @@ window.open(routeData.href, '_blank');
 		}
 		else
 		{
-		this.$events.fire('filter-set', this.filterText, this.towernya,this.infratypenya ,this.statusnya , this.batchnya , this.startTime.time, this.endtime.time )
+      var startTime = this.customFormatter(this.startTime.time)
+      var endtime = this.customFormatter(this.endtime.time)
+		this.$events.fire('filter-set', this.filterText, this.towernya,this.infratypenya ,this.statusnya , this.batchnya , startTime, endtime )
 		}
 		}
 		else

@@ -1,7 +1,7 @@
 <template>
  <div> 
   <loading :show="isLoading"></loading>
-<div class="card-header-banner"> </div> 
+
 
 
 <section class="basic-elements">
@@ -26,6 +26,9 @@
 <button type="button" class="btn btn-raised btn-primary" @click="ApproveItem()">
     <i class="fa fa-check-square-o"></i> Setujui
 </button>
+<button type="button"@click="modal.set('komunikasiproject', true)" class="btn btn-raised btn-default" v-if="this.komunikasi.length > 0">
+    <i class="ft-message-square"></i> Lihat Komunikasi
+</button>
                 </div>
                 <div class="card-body">
                     <div class="px-3">
@@ -36,9 +39,9 @@
 	 <div class="help-block"><ul role="alert"><li v-for="error of errorNya"><span style="color:red;">{{ error }}</span></li></ul></div>
 </div>
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="rfi_detail_start_date">TANGGAL MULAI RFI</label>
+                                        <label for="rfi_detail_start_date"><h4>TANGGAL MULAI RFI</h4></label>
                                         <br>
 {{this.rowDatanya.project.rfi_detail_start_date}}
  </fieldset>
@@ -46,18 +49,18 @@
 
  
  
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="rfi_detail_end_date">TANGGAL BERAKHIR RFI</label>
+                                        <label for="rfi_detail_end_date"><h4>TANGGAL BERAKHIR RFI</h4></label>
                                         <br>
 {{this.rowDatanya.project.rfi_detail_end_date}}
  </fieldset>
                                 </div>
 
  
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="rfi_detail_price_month">Harga Sewa / Bulan</label>
+                                        <label for="rfi_detail_price_month"><h4>HARGA SEWA / BULAN</h4></label>
                                         <br>
   {{formatNumberRupiah(this.rowDatanya.project.rfi_detail_price_month)}}                                      
 
@@ -65,29 +68,13 @@
                                 </div>
 
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="rfi_detail_price_year">Harga Sewa / Tahun</label>
+                                        <label for="rfi_detail_price_year"><h4>HARGA SEWA / TAHUN </h4></label>
                                         <br>  {{formatNumberRupiah(this.rowDatanya.project.rfi_detail_price_year)}}   
  </fieldset>
                                 </div>
-  
-
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="address_spk">Komunikasi Project</label>
-                                        <br>
-                                        
-<div v-if="this.komunikasi.length > 0">
-<button type="button" class="btn btn-raised btn-success" @click="modal.set('komunikasiproject', true)">
-  <i class="ft-message-square"></i> Lihat Komunikasi
-</button>
-</div>
- 
-                                    </fieldset>
-                                </div>
-
+    
 
 
 
@@ -349,6 +336,7 @@ import moment from 'moment'
 import '!!vue-style-loader!css-loader!vue-toast/dist/vue-toast.min.css'
 import VueToast from 'vue-toast'
 import myDatepicker from 'vue-datepicker'
+import Datepicker from 'vuejs-datepicker'
 import Vuetable from 'vuetable-2/src/components/Vuetable'
 import Hashids from 'hashids'
 import {Money} from 'v-money'
@@ -374,6 +362,7 @@ export default {
       }
     },
   components: {
+    Datepicker,
     Vuetable,
     VuetablePagination,
     VuetablePaginationInfo,
@@ -446,7 +435,10 @@ export default {
  watch: {
         },
         methods: {
-                    
+                   
+      customFormatter(date) {
+      return moment(date).format('YYYY-MM-DD');
+    }, 
                dataAction () {
       if(this.typenya === "approval-document-rfi-detail")
       { 

@@ -984,8 +984,7 @@ if (!empty($min) && !empty($max))
         $search = $request->filter;
         $min = $request->min;
         $max = $request->max;
-        $query =  DB::table('vhistorydropsite')
-        ->where('area',Auth::guard('karyawan')->user()->area)
+        $query =  DB::table('vhistorydropsite') 
         ->orderBy('id','DESC');
 
         if ($search && !$min && !$max) {
@@ -1042,8 +1041,7 @@ if (!empty($min) && !empty($max))
         $search = $request->filter;
         $min = $request->min;
         $max = $request->max;
-        $query =  DB::table('vhistorymappingsite')
-        ->where('area',Auth::guard('karyawan')->user()->area)
+        $query =  DB::table('vhistorymappingsite') 
         ->orderBy('id','DESC');
 
         if ($search && !$min && !$max) {
@@ -2964,7 +2962,7 @@ $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',
  if (!empty($search))
   {
     $like = "%{$search}%";
-    $query = $query->where('projectid', 'LIKE', $like);
+    $query = $query->where('projectid', 'LIKE', $like)->orWhere('regional', 'LIKE', $like);
   }
 
 
@@ -2989,7 +2987,7 @@ public function GetJobsSubmitCMERevisian(Request $request , $id)
  if (!empty($search))
   {
     $like = "%{$search}%";
-    $query = $query->where('projectid', 'LIKE', $like);
+    $query = $query->where('projectid', 'LIKE', $like)->orWhere('regional', 'LIKE', $like);
   }
 
 
@@ -3015,7 +3013,7 @@ public function GetJobsSubmitCMERevisian(Request $request , $id)
  if (!empty($search))
   {
     $like = "%{$search}%";
-    $query = $query->where('projectid', 'LIKE', $like);
+    $query = $query->where('projectid', 'LIKE', $like)->orWhere('regional', 'LIKE', $like);
   }
 
 
@@ -3036,7 +3034,7 @@ public function GetJobsSubmitCMERevisian(Request $request , $id)
  if (!empty($search))
   {
     $like = "%{$search}%";
-    $query = $query->where('projectid', 'LIKE', $like);
+    $query = $query->where('projectid', 'LIKE', $like)->orWhere('regional', 'LIKE', $like);
   }
 
 
@@ -3275,7 +3273,8 @@ if (!empty($search)) {
         {
           $like = "%{$search}%";
           $query = $query->where('projectid', 'LIKE', $like)
-                  ->orWhere('batchnya', 'LIKE', $like);
+                  ->orWhere('batchnya', 'LIKE', $like)
+                  ->orWhere('regional', 'LIKE', $like);
         }
       
        if (!empty($min) && empty($max))
@@ -3439,32 +3438,50 @@ if (!empty($search)) {
 // invoice
     public function GetJobsDocumentInvoice(Request $request)
     {
-       $perPage = $request->per_page;
+        $perPage = $request->per_page;
         $search = $request->filter;
+        $infratype = $request->infratypenya;
+        $statusnya = $request->statusnya;
+        $towernya = $request->towernya;
         $min = $request->min;
         $max = $request->max;
  $query = DB::table('vsiteapprovedinvoiceadd')->orderBy('id','DESC');
  
 
-if (!empty($search)) {
-            $like = "%{$search}%";
-            $query = $query->where('projectid', 'LIKE', $like);
-}
-        
+ if (!empty($towernya))
+ { 
+  $query = $query->where('tower_high', $towernya);
+ }
+ 
+ if (!empty($infratype))
+ { 
+  $query = $query->where('infratype', $infratype);
+ } 
+ 
+ if (!empty($search))
+ {
+   $like = "%{$search}%";
+   $query = $query->where('projectid', 'LIKE', $like)
+           ->orWhere('batchnya', 'LIKE', $like)
+           ->orWhere('regional', 'LIKE', $like);
+ }
+ 
  if (!empty($min) && empty($max))
-  { 
-   $query = $query->whereDate('created_at','=',$min);
-  }
+ { 
+  $query = $query->whereDate('created_at','=',$min);
+ }
  
  if (empty($min) && !empty($max))
-  { 
-   $query = $query->whereDate('created_at','=',$max);
-  }
+ { 
+  $query = $query->whereDate('created_at','=',$max);
+ }
  
  if (!empty($min) && !empty($max))
-  { 
-   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
-  }
+ { 
+  $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+ }
+
+ 
         return $query->paginate($perPage);
     }
 
@@ -3472,32 +3489,48 @@ if (!empty($search)) {
 
     public function GetJobsDocumentInvoiceRevisi(Request $request)
     {
-       $perPage = $request->per_page;
+        $perPage = $request->per_page;
         $search = $request->filter;
+        $infratype = $request->infratypenya;
+        $statusnya = $request->statusnya;
+        $towernya = $request->towernya;
         $min = $request->min;
         $max = $request->max;
+
  $query = DB::table('vsiteapprovedboqbapsrevisi')->orderBy('id','DESC');
  
-
-if (!empty($search)) {
-            $like = "%{$search}%";
-            $query = $query->where('projectid', 'LIKE', $like);
-}
-        
+ if (!empty($towernya))
+ { 
+  $query = $query->where('tower_high', $towernya);
+ }
+ 
+ if (!empty($infratype))
+ { 
+  $query = $query->where('infratype', $infratype);
+ } 
+ 
+ if (!empty($search))
+ {
+   $like = "%{$search}%";
+   $query = $query->where('projectid', 'LIKE', $like)
+           ->orWhere('batchnya', 'LIKE', $like)
+           ->orWhere('regional', 'LIKE', $like);
+ }
+ 
  if (!empty($min) && empty($max))
-  { 
-   $query = $query->whereDate('created_at','=',$min);
-  }
+ { 
+  $query = $query->whereDate('created_at','=',$min);
+ }
  
  if (empty($min) && !empty($max))
-  { 
-   $query = $query->whereDate('created_at','=',$max);
-  }
+ { 
+  $query = $query->whereDate('created_at','=',$max);
+ }
  
  if (!empty($min) && !empty($max))
-  { 
-   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
-  }
+ { 
+  $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+ }
         return $query->paginate($perPage);
     }
 
@@ -3515,27 +3548,38 @@ if (!empty($search)) {
 
 $query =  DB::table('vsitereportbisnis')->orderBy('id','DESC');
 
- 
- if (!empty($search))
-  {
-    $like = "%{$search}%";
-    $query = $query->where('projectid', 'LIKE', $like);
-  }
+if (!empty($towernya))
+{ 
+ $query = $query->where('tower_high', $towernya);
+}
 
- if (!empty($min) && empty($max))
-  { 
-   $query = $query->whereDate('created_at','=',$min);
-  }
- 
- if (empty($min) && !empty($max))
-  { 
-   $query = $query->whereDate('created_at','=',$max);
-  }
- 
- if (!empty($min) && !empty($max))
-  { 
-   $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
-  }
+if (!empty($infratype))
+{ 
+ $query = $query->where('infratype', $infratype);
+} 
+
+if (!empty($search))
+{
+  $like = "%{$search}%";
+  $query = $query->where('projectid', 'LIKE', $like)
+          ->orWhere('batchnya', 'LIKE', $like)
+          ->orWhere('regional', 'LIKE', $like);
+}
+
+if (!empty($min) && empty($max))
+{ 
+ $query = $query->whereDate('created_at','=',$min);
+}
+
+if (empty($min) && !empty($max))
+{ 
+ $query = $query->whereDate('created_at','=',$max);
+}
+
+if (!empty($min) && !empty($max))
+{ 
+ $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',$max);
+}
  
         return $query->paginate($perPage);
     }

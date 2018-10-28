@@ -20,7 +20,7 @@
     "cross-env": "^5.0.1",
     "hchs-vue-charts": "^1.2.8",
     "jquery": "^3.1.1",
-    "laravel-mix": "^2.1.11",
+    "laravel-mix": "^2.1.14",
     "lodash": "^4.17.10",
     "moment": "^2.22.2",
     "simple-vue-datepicker": "0.0.14",
@@ -44,13 +44,14 @@
     "hashids": "^1.1.4",
     "install": "^0.11.0",
     "load-google-maps-api": "^1.3.2",
-    "npm": "^6.1.0",
+    "npm": "^6.4.1",
     "react-file-download": "^0.3.5",
     "simple-vue-validator": "^0.14.2",
     "v-money": "^0.8.1",
     "v-select-box": "^2.3.2",
     "v-suggestions": "^1.0.6",
     "vee-validate": "^2.0.1",
+    "vue-carousel": "^0.16.0-rc1",
     "vue-chartjs": "^3.2.1",
     "vue-dynamic-forms": "^1.1.0",
     "vue-full-loading": "^1.2.0",
@@ -71,6 +72,7 @@
     "vue2-autocomplete-js": "^0.2.2",
     "vue2-google-maps": "^0.8.9",
     "vuejs-auto-complete": "^0.6.4",
+    "vuejs-datepicker": "^1.5.3",
     "vuelidate": "^0.6.1"
   }
 }

@@ -2,7 +2,7 @@
  <div> 
   <loading :show="isLoading"></loading>
 
-<div class="card-header-banner"> </div> 
+
 
 <form method="POST" class="form" enctype="multipart/form-data" action="" @submit.prevent="ApproveItem()"> 
 <section class="basic-elements">
@@ -32,7 +32,7 @@
                 <div class="card-body">
                     <div class="px-3">
               <div class="form-body">
-                            <div class="row">  
+                            <div class="row" style="padding-bottom:10%;">  
 
 
 
@@ -55,7 +55,7 @@
                                     <fieldset class="form-group">
                                         <label for="date_ban_bak">TANGGAL DOKUMEN BAN / BAK</label>
                                         <br>
- <date-picker :date="date_ban_bak" :option="option"></date-picker>
+ <datepicker v-model="date_ban_bak" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD"></datepicker> 
   <div class="help-block"><ul role="alert"><li v-for="error of errorNya['date_ban_bak']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
@@ -75,7 +75,7 @@
                                     <fieldset class="form-group">
                                         <label for="ijin_warga_date">TANGGAL DOKUMEN IJIN WARGA</label>
                                         <br>
- <date-picker :date="ijin_warga_date" :option="option"></date-picker>
+ <datepicker v-model="ijin_warga_date" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD"></datepicker> 
   <div class="help-block"><ul role="alert"><li v-for="error of errorNya['ijin_warga_date']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
@@ -110,7 +110,7 @@
                                     <fieldset class="form-group">
                                         <label for="pks_date">TANGGAL DOKUMEN PKS</label>
                                         <br>
- <date-picker :date="pks_date" :option="option"></date-picker>
+ <datepicker v-model="pks_date" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD"></datepicker> 
   <div class="help-block"><ul role="alert"><li v-for="error of errorNya['pks_date']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
@@ -143,7 +143,7 @@
 <label for="imb_date">TANGGAL IMB (Selamanya ? <input type="checkbox" id="checkbox" v-model="forms.imb_date">)</label>
                                         <br>
  <div v-if="this.forms.imb_date === false || this.forms.imb_date === ''">                                       
- <date-picker :date="imb_date" :option="option"></date-picker>
+ <datepicker v-model="imb_date" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD"></datepicker> 
 </div>
 <div v-else>
 Selamanya
@@ -429,6 +429,7 @@ import '!!vue-style-loader!css-loader!vue-toast/dist/vue-toast.min.css'
 import VueToast from 'vue-toast'
 import myDatepicker from 'vue-datepicker'
 import Vuetable from 'vuetable-2/src/components/Vuetable'
+import Datepicker from 'vuejs-datepicker'
 import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
 import Vue from 'vue'
@@ -456,6 +457,7 @@ export default {
     VuetablePagination,
     VuetablePaginationInfo,
     'vue-toast': VueToast,
+    Datepicker,
     'date-picker': myDatepicker,
   loading,
   },
@@ -469,18 +471,10 @@ export default {
      document_pks:'',
      document_imb:'',
      message:'',
-    ijin_warga_date: {
-        time: ''
-      },
-      date_ban_bak: {
-        time: ''
-      },
-      pks_date: {
-        time: ''
-      },
-      imb_date: {
-        time: ''
-      },
+    ijin_warga_date: '',
+      date_ban_bak: '',
+      pks_date: '',
+      imb_date: '',
   GetLevel:'', 
     option: {
         type: 'day',
@@ -522,7 +516,10 @@ export default {
   },
  watch: {
         },
-        methods: {
+        methods: {    
+      customFormatter(date) {
+      return moment(date).format('YYYY-MM-DD');
+    },
           diacak(id)
            {
 var hashids = new Hashids('',1000,'abcdefghijklmnopqrstuvwxyz0987654321ABCDEFGHIJKLMNOPQRSTUVWXYZ'); // no padding
@@ -640,27 +637,51 @@ window.open(routeData.href, '_blank');
 }).then((result) => {
   if (result.value) {
     this.isLoading = true;
+var date_ban_bak = this.customFormatter(this.date_ban_bak)
+var ijin_warga_date = this.customFormatter(this.ijin_warga_date)
+var pks_date = this.customFormatter(this.pks_date)
+var dateNow = new Date().toISOString().slice(0,10)
+
+if(date_ban_bak > dateNow || ijin_warga_date > dateNow || pks_date > dateNow)
+{
+        this.isLoading = false;
+        this.modal.set('approve', false);
+        this.error('Input Date Wrong');
+}
+        else
+{
+
     if(this.forms.imb_date === false || this.forms.imb_date === '')
     {
-var datenya = this.imb_date.time;
+var datenya = this.customFormatter(this.imb_date);
+            if(datenya > dateNow)
+            {
+                 var okNya = 'no'   
+            } 
+            else
+            {
+                var okNya = 'ok'  
+            }
     }
     else
     {
+var okNya = 'ok'   
 var datenya = 'SELAMANYA';
     } 
-    
+    if(okNya === 'ok')
+            {
    let masuk = new FormData();
    masuk.set('project_id', this.rowDatanya.project.id)
    masuk.set('projectid', this.rowDatanya.project.projectid)
    masuk.set('kata', 'Project '+this.rowDatanya.project.projectid+' Menunggu Approval Anda')
    masuk.set('infratype', this.rowDatanya.project.infratype)
    masuk.set('no_ban_bak', this.forms.no_ban_bak)
-   masuk.set('date_ban_bak', this.date_ban_bak.time)
+   masuk.set('date_ban_bak', date_ban_bak)
    masuk.set('document_ban_bak', this.file_name)
-   masuk.set('ijin_warga_date', this.ijin_warga_date.time)
+   masuk.set('ijin_warga_date', ijin_warga_date)
    masuk.set('document_ijin_warga', this.document_ijin_warga)
    masuk.set('no_pks', this.forms.no_pks)
-   masuk.set('pks_date', this.pks_date.time)
+   masuk.set('pks_date', pks_date)
    masuk.set('document_pks', this.document_pks)
    masuk.set('no_imb', this.forms.no_imb)
    masuk.set('imb_date', datenya)
@@ -708,6 +729,14 @@ var datenya = 'SELAMANYA';
                     }
                         
                     })
+            }
+            else
+            {
+                this.isLoading = false;
+                this.modal.set('approve', false);
+                this.error('Input Date Wrong');
+            }
+  }
   }
 })
             },

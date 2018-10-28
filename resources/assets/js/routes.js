@@ -1073,6 +1073,16 @@ let routes=[
 	component:require('./components/UserLog')
 },
 
+/* slide show */
+{
+	path:'/slide-show-image',
+	component:require('./components/Image/IndexSlide')
+},
+{
+	path:'/background-image',
+	component:require('./components/Image/IndexBackground')
+},
+/* slide show */
 
 
 ];

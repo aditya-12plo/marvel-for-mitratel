@@ -2,7 +2,7 @@
  <div> 
   <loading :show="isLoading"></loading>
 
-<div class="card-header-banner"> </div> 
+
 
 <section class="basic-elements">
     <div class="row">
@@ -27,27 +27,30 @@
 <button type="button" @click="drop()" class="btn btn-raised btn-danger">
     <i class="ft-trash-2"></i> Drop
 </button>
+<button type="button" @click="modal.set('komunikasiproject', true)" class="btn btn-raised btn-success" v-if="this.komunikasi.length > 0">
+    <i class="ft-message-square"></i> Lihat Komunikasi
+</button> 
                 </div>
                 <div class="card-body">
                     <div class="px-3">
 	
 							<div class="form-body">
-		                        <div class="row">	
+ <div class="row" style="padding-bottom:15%;">
 
 <div class="col-xl-12 col-lg-6 col-md-12 mb-1">
    <div class="help-block"><ul role="alert"><li v-for="error of errorNya"><span style="color:red;">{{ error }}</span></li></ul></div>
 </div>                             
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="rebaring_date">TANGGAL DOKUMEN</label>
+                                         <label for="rebaring_date"><h4>TANGGAL DOKUMEN</h4></label>
                                         <br>
- <date-picker :date="rebaring_date" :option="option"></date-picker>
+<datepicker v-model="forms.rebaring_date" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD"></datepicker> 
   <div class="help-block"><ul role="alert"><li v-for="error of errorNya['rebaring_date']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
 
 
-                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                         <fieldset class="form-group">
                                             <label for="rebaring_document"><h4>DOKUMEN</h4></label>
                                         <br>
@@ -64,21 +67,6 @@
                                         </fieldset>
                                     </div>
                                     
- 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="address_spk">Komunikasi Project</label>
-                                        <br>
-                                        
-<div v-if="this.komunikasi.length > 0">
-<button type="button" class="btn btn-raised btn-success" @click="modal.set('komunikasiproject', true)">
-  <i class="ft-message-square"></i> Lihat Komunikasi
-</button>
-</div>
- 
-                                    </fieldset>
-                                </div>
-
 
 
 
@@ -296,6 +284,7 @@ import moment from 'moment'
 import '!!vue-style-loader!css-loader!vue-toast/dist/vue-toast.min.css'
 import VueToast from 'vue-toast'
 import myDatepicker from 'vue-datepicker'
+import Datepicker from 'vuejs-datepicker'
 import Vuetable from 'vuetable-2/src/components/Vuetable'
 import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
@@ -320,6 +309,7 @@ export default {
       }
     },
   components: {
+    Datepicker,
     Vuetable,
     VuetablePagination,
     VuetablePaginationInfo,
@@ -379,11 +369,14 @@ export default {
  watch: {
         },
         methods: {
+      customFormatter(date) {
+      return moment(date).format('YYYY-MM-DD');
+    },
                dataAction () {
       if(this.typenya === "rebaring-edit-data")
       {
            this.resetforms();
-           this.rebaring_date.time = this.rowDatanya.project.rebaring_date;
+           this.forms = this.rowDatanya.project;
            this.GetKomunikasi(this.rowDatanya.project.id);
       }
       else
@@ -476,12 +469,23 @@ return hashids.decode(id);
   confirmButtonText: 'Yes!'
 }).then((result) => {
   if (result.value) {
+var rebaring_date = this.customFormatter(this.forms.rebaring_date) 
+var dateNow = new Date().toISOString().slice(0,10)
+
+if(rebaring_date > dateNow)
+{
+                this.isLoading = false;
+        this.modal.set('approve', false);
+        this.error('Input Date Wrong');
+}
+        else
+{
     this.isLoading = true;
    let masuk = new FormData();
    masuk.set('id', this.rowDatanya.project.rebaringid) 
    masuk.set('project_id', this.rowDatanya.project.id) 
    masuk.set('projectid', this.rowDatanya.project.projectid)
-   masuk.set('rebaring_date', this.rebaring_date.time)
+   masuk.set('rebaring_date', rebaring_date)
    masuk.set('rebaring_document', this.file_name)
    masuk.set('rebaring_document_lama', this.rowDatanya.project.rebaring_document)
    masuk.set('document', 'DOKUMEN REBARING')
@@ -525,6 +529,7 @@ return hashids.decode(id);
                     }
                         
                     })
+}
   }
 })
             },

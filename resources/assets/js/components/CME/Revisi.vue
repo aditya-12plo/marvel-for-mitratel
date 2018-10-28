@@ -3,7 +3,7 @@
  	<loading :show="isLoading"></loading>
  	 <vue-toast ref='toast'></vue-toast>
 
-<div class="card-header-banner"> </div> 
+
 
     <section class="content-header">
 
@@ -115,7 +115,7 @@
 
 <!-- @submit -->
 <modal  v-if="modal.get('submit')" @close="modal.set('submit', false)">
-        <template slot="header" align="center"><h4 align="center">Submit BOQ</h4></template>
+        <template slot="header" align="center"><h4 align="center">Submit CME</h4></template>
         <template slot="body" >
         	<form method="POST" action="" @submit.prevent="submitData()">
                 <div class="modal-body">

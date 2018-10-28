@@ -17,6 +17,9 @@ use App\Models\Project;
 use App\Models\Pesan;
 use App\Models\Log;
 
+use App\Models\BackgroundImage;
+use App\Models\Slide;
+
 class KaryawanController extends Controller
 {
     /**
@@ -28,6 +31,8 @@ class KaryawanController extends Controller
     {
         $this->middleware('karyawan.auth');
 		$this->data['title']  = 'Selamat Datang';
+        $this->data['banner']  = Slide::orderBy('sequence','ASC')->get();
+        $this->data['background']  = BackgroundImage::orderBy('sequence','ASC')->get();
     $this->data['tahunproject']  = DB::table('vtahun')->get();
 
     }

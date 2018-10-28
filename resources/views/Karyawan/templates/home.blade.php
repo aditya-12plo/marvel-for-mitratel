@@ -2,7 +2,6 @@
 
 @section('content-karyawan')
 
-
                       <router-view></router-view>
 
 

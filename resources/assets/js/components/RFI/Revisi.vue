@@ -1,7 +1,7 @@
 <template>
  <div> 
   <loading :show="isLoading"></loading>
-<div class="card-header-banner"> </div> 
+
 
 
 <section class="basic-elements">
@@ -27,58 +27,50 @@
 <button type="button" @click="drop()" class="btn btn-raised btn-danger">
     <i class="ft-trash-2"></i> Drop
 </button>
+<button type="button"@click="modal.set('komunikasiproject', true)" class="btn btn-raised btn-default" v-if="this.komunikasi.length > 0">
+    <i class="ft-message-square"></i> Lihat Komunikasi
+</button>
                 </div>
                 <div class="card-body">
                     <div class="px-3">
 	
 							<div class="form-body">
-		                        <div class="row">	
+ <div class="row" style="padding-bottom:15%;"> 
 
 <div class="col-xl-12 col-lg-6 col-md-12 mb-1">
    <div class="help-block"><ul role="alert"><li v-for="error of errorNya"><span style="color:red;">{{ error }}</span></li></ul></div>
 </div>            
-
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="address_spk">Komunikasi Project</label>
-                                        <br>
-                                        
-<div v-if="this.komunikasi.length > 0">
-<button type="button" class="btn btn-raised btn-success" @click="modal.set('komunikasiproject', true)">
-  <i class="ft-message-square"></i> Lihat Komunikasi
-</button>
-</div>
  
-                                    </fieldset>
-                                </div>
 
 
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+ <label for="rfi_detail_start_date"><h4><b>Tanggal Dokumen RFI {{this.rowDatanya.project.rfi_date}}</b></h4></label>
+                                    </div>
+                                <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="rfi_detail_start_date">TANGGAL MULAI RFI</label>
+                                        <label for="rfi_detail_start_date"><h4>TANGGAL START SEWA </h4></label>
                                         <br>
- <date-picker :date="rfi_detail_start_date" :option="option"></date-picker>
+<datepicker v-model="forms.rfi_detail_start_date" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD"></datepicker> 
   <div class="help-block"><ul role="alert"><li v-for="error of errorNya['rfi_detail_start_date']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
 
  
  
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="rfi_detail_end_date">TANGGAL BERAKHIR RFI</label>
+                                        <label for="rfi_detail_end_date"><h4>TANGGAL BERAKHIR SEWA</h4></label>
                                         <br>
- <date-picker :date="rfi_detail_end_date" :option="option"></date-picker>
+<datepicker v-model="forms.rfi_detail_end_date" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD"></datepicker> 
   <div class="help-block"><ul role="alert"><li v-for="error of errorNya['rfi_detail_end_date']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
 
  
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="rfi_detail_price_month">Harga Sewa / Bulan</label>
+                                        <label for="rfi_detail_price_month"><h4>HARGA SEWA / BULAN</h4></label>
                                         <br>
 <money v-model="forms.rfi_detail_price_month" class="form-control border-input" placeholder="Harga Sewa / Bulan" v-bind="duit"></money> 
 <div class="help-block"><ul role="alert"><li v-for="error of errorNya['rfi_detail_price_month']"><span style="color:red;">{{ error }}</span></li></ul></div>
@@ -86,11 +78,11 @@
                                 </div>
 
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="rfi_detail_price_year">Harga Sewa / Tahun</label>
+                                        <label for="rfi_detail_price_year"><h4>HARGA SEWA / TAHUN</h4></label>
                                         <br>
-{{this.perkalianTahun(this.forms.rfi_detail_price_month)}} 
+{{this.perkalianTahun(this.forms.rfi_detail_price_month)}}
 <div class="help-block"><ul role="alert"><li v-for="error of errorNya['rfi_detail_price_year']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
@@ -355,6 +347,7 @@ import moment from 'moment'
 import '!!vue-style-loader!css-loader!vue-toast/dist/vue-toast.min.css'
 import VueToast from 'vue-toast'
 import myDatepicker from 'vue-datepicker'
+import Datepicker from 'vuejs-datepicker'
 import Vuetable from 'vuetable-2/src/components/Vuetable'
 import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
@@ -380,6 +373,7 @@ export default {
       }
     },
   components: {
+    Datepicker,
     Vuetable,
     VuetablePagination,
     VuetablePaginationInfo,
@@ -459,6 +453,9 @@ export default {
         },
         methods: {
             
+      customFormatter(date) {
+      return moment(date).format('YYYY-MM-DD');
+    },
    perkalianTahun (value) {
        this.forms.rfi_detail_price_year = value*12;
       var tahunan = value*12;
@@ -467,9 +464,7 @@ export default {
                dataAction () {
       if(this.typenya === "RfiDetail-revisi-data")
       {
-           this.forms = this.rowDatanya.project
-           this.rfi_detail_start_date.time = this.rowDatanya.project.rfi_detail_start_date;
-           this.rfi_detail_end_date.time = this.rowDatanya.project.rfi_detail_end_date; 
+           this.forms = this.rowDatanya.project 
            this.GetKomunikasi(this.rowDatanya.project.id);
       }
       else
@@ -559,6 +554,17 @@ return hashids.decode(id);
   confirmButtonText: 'Yes!'
 }).then((result) => {
   if (result.value) {
+      
+var rfi_detail_start_date = this.customFormatter(this.forms.rfi_detail_start_date)
+var rfi_detail_end_date = this.customFormatter(this.forms.rfi_detail_end_date)
+var dateNow = new Date().toISOString().slice(0,10)
+if(rfi_detail_start_date > rfi_detail_end_date)
+{
+        this.modal.set('approve', false);
+        this.error('Input Date Wrong');
+}
+        else
+{ 
     this.isLoading = true;
    let masuk = new FormData();
    masuk.set('id', this.rowDatanya.project.rfidetailid) 
@@ -568,8 +574,8 @@ return hashids.decode(id);
    masuk.set('infratype', this.rowDatanya.project.infratype)
    masuk.set('message', this.message)
    masuk.set('statusmessage', 'SUBMIT RFI DETAIL')
-   masuk.set('rfi_detail_start_date', this.rfi_detail_start_date.time)
-   masuk.set('rfi_detail_end_date', this.rfi_detail_end_date.time)
+   masuk.set('rfi_detail_start_date', rfi_detail_start_date)
+   masuk.set('rfi_detail_end_date', rfi_detail_end_date)
    masuk.set('rfi_detail_price_month', this.forms.rfi_detail_price_month)  
    masuk.set('rfi_detail_price_year', this.forms.rfi_detail_price_year)  
    masuk.set('document', 'REVISI RFI DETAIL')
@@ -607,6 +613,7 @@ return hashids.decode(id);
                     }
                         
                     })
+}
   }
 })
             },

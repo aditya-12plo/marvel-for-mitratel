@@ -2,7 +2,7 @@
  <div> 
   <loading :show="isLoading"></loading>
 
-<div class="card-header-banner"> </div> 
+
 
 <section class="basic-elements">
     <div class="row">
@@ -36,7 +36,7 @@
                     <div class="px-3">
 
               <div class="form-body">
-                            <div class="row">  
+                            <div class="row" style="padding-bottom:10%;">  
 
 
 
@@ -61,7 +61,7 @@
                                     <fieldset class="form-group">
                                         <label for="rfc_date">TANGGAL DOKUMEN RFC</label>
                                         <br>
- <date-picker :date="rfc_date" :option="option"></date-picker>
+<datepicker v-model="forms.rfc_date" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD"></datepicker>
   <div class="help-block"><ul role="alert"><li v-for="error of errorNya['rfc_date']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
@@ -440,6 +440,7 @@ import moment from 'moment'
 import '!!vue-style-loader!css-loader!vue-toast/dist/vue-toast.min.css'
 import VueToast from 'vue-toast'
 import myDatepicker from 'vue-datepicker'
+import Datepicker from 'vuejs-datepicker'
 import Vuetable from 'vuetable-2/src/components/Vuetable'
 import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
@@ -469,6 +470,7 @@ export default {
     VuetablePagination,
     VuetablePaginationInfo,
     'vue-toast': VueToast,
+    Datepicker,
     'date-picker': myDatepicker,
 	loading, 
   Money,
@@ -544,6 +546,9 @@ export default {
  watch: {
         },
         methods: {
+      customFormatter(date) {
+      return moment(date).format('YYYY-MM-DD');
+    },
           diacak(id)
            {
 var hashids = new Hashids('',1000,'abcdefghijklmnopqrstuvwxyz0987654321ABCDEFGHIJKLMNOPQRSTUVWXYZ'); // no padding
@@ -562,8 +567,7 @@ window.open(routeData.href, '_blank');
                dataAction () {
       if(this.typenya === "revisi-document-rfc")
       {
-           this.forms= this.rowDatanya.project;
-           this.rfc_date.time = this.rowDatanya.project.rfc_date; 
+           this.forms= this.rowDatanya.project; 
            this.GetKomunikasi(this.rowDatanya.project.id);
       }
       else
@@ -705,6 +709,15 @@ if(this.rfc_date.time < this.rowDatanya.project.drm_date)
 {
 }
 */
+var rfc_date = this.customFormatter(this.forms.rfc_date)
+var dateNow = new Date().toISOString().slice(0,10)
+if(rfc_date > dateNow)
+{
+        this.modal.set('approve', false);
+        this.error('Input RFC Date Wrong');
+}
+        else
+{  
     this.isLoading = true;
    let masuk = new FormData();
    masuk.set('project_id', this.rowDatanya.project.id)
@@ -713,7 +726,7 @@ if(this.rfc_date.time < this.rowDatanya.project.drm_date)
    masuk.set('infratype', this.rowDatanya.project.infratype)
    masuk.set('documentrfcid', this.rowDatanya.project.documentrfcid)
    masuk.set('no_rfc', this.forms.no_rfc) 
-   masuk.set('rfc_date', this.rfc_date.time)  
+   masuk.set('rfc_date', rfc_date)  
    masuk.set('id_pln', this.forms.id_pln) 
    masuk.set('target_rfi', this.forms.target_rfi) 
    masuk.set('power_capacity', this.forms.power_capacity) 
@@ -760,6 +773,7 @@ if(this.rfc_date.time < this.rowDatanya.project.drm_date)
                     }
                         
                     })
+}
 
 
 }

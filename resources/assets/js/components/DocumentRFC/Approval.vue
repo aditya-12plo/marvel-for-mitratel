@@ -3,7 +3,7 @@
  	<loading :show="isLoading"></loading>
  	 <vue-toast ref='toast'></vue-toast>
 
-<div class="card-header-banner"> </div> 
+
 
     <section class="content-header">
 
@@ -35,11 +35,11 @@
              <form class="form-inline">
 <div style="overflow-x:auto;">
   <table>
-  <tr>
+ <tr>
       <td><label>Date From :</label></td>
-      <td><date-picker :date="startTime" :option="option" @keyup.enter="doFilter"></date-picker></td>
+      <td><datepicker v-model="startTime.time" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD" @keyup.enter="doFilter"></datepicker> </td>
       <td><label>&nbsp;&nbsp;Date To :</label></td>
-      <td><date-picker :date="endtime" :option="option" @keyup.enter="doFilter"></date-picker></td>
+      <td><datepicker v-model="endtime.time" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD" @keyup.enter="doFilter"></datepicker></td>
     </tr>
     <tr>
       <td colspan="4" style="padding-top: 1%;"></td>
@@ -153,6 +153,7 @@ import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
 import Vue from 'vue'
 import loading from '../Loading'
+import Datepicker from 'vuejs-datepicker'
 import VueEvents from 'vue-events'
 import Hashids from 'hashids'
 Vue.use(VueEvents)
@@ -166,6 +167,7 @@ export default {
     VuetablePaginationInfo,
     'vue-toast': VueToast,
     'date-picker': myDatepicker,
+    Datepicker,
 	loading,
   },
   data () {
@@ -312,6 +314,9 @@ export default {
         'position': 'resetOptions',
         },
   methods: {
+      customFormatter(date) {
+      return moment(date).format('YYYY-MM-DD');
+    },
 selectInfratype() { 
                 axios.get('/karyawan/GetInfratype').then((response) => {
                     this.optionsnya = response.data;  
@@ -449,15 +454,17 @@ return hashids.decode(id);
         doFilter () {
         		if(!this.startTime.time && !this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText, this.infratypenya, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText,this.infratypenya, this.startTime.time, this.endtime.time )
 		}
 		else if(this.startTime.time && !this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText, this.infratypenya, this.startTime.time, this.endtime.time )
+       var startTime = this.customFormatter(this.startTime.time)
+		this.$events.fire('filter-set', this.filterText, this.infratypenya, startTime, this.endtime.time )
 		}
 		else if(!this.startTime.time && this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText, this.infratypenya, this.startTime.time, this.endtime.time )
+      var endtime = this.customFormatter(this.endtime.time)
+		this.$events.fire('filter-set', this.filterText, this.infratypenya,this.startTime.time, endtime )
 		}
 		else if(this.startTime.time && this.endtime.time)
 		{ 
@@ -467,12 +474,14 @@ return hashids.decode(id);
 		}
 		else
 		{
-		this.$events.fire('filter-set', this.filterText, this.infratypenya, this.startTime.time, this.endtime.time )
+       var startTime = this.customFormatter(this.startTime.time)
+      var endtime = this.customFormatter(this.endtime.time)
+		this.$events.fire('filter-set', this.filterText,this.infratypenya , startTime, endtime )
 		}
 		}
 		else
 		{
-		this.$events.fire('filter-set', this.filterText, this.infratypenya, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText,this.infratypenya, this.startTime.time, this.endtime.time )
 		}
       },
       resetFilter () {

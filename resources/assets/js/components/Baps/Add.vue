@@ -3,7 +3,7 @@
   <loading :show="isLoading"></loading>
 
   
-  <div class="card-header-banner"> </div> 
+  
 
 
 <form method="POST" class="form" enctype="multipart/form-data" action="" @submit.prevent="submitData()"> 

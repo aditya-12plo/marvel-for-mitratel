@@ -18,7 +18,7 @@
     <!-- END VENDOR CSS-->
     <!-- BEGIN APEX CSS-->
 <link rel="stylesheet" type="text/css" href="{{asset('app-assets/css/app.css')}}"> 
-      <link rel="stylesheet" type="text/css" href="{{asset('app-assets/css/custom.css')}}">  
+    <link rel="stylesheet" type="text/css" href="{{asset('app-assets/css/custom.css')}}">   
       
     <link href="{{ asset('app-assets/css/vue2-autocomplete.css') }}" rel="stylesheet">
     
@@ -31,7 +31,7 @@
 
       <!-- main menu-->
       <!--.main-menu(class="#{menuColor} #{menuOpenType}", class=(menuShadow == true ? 'menu-shadow' : ''))-->
-      <div data-active-color="white" data-background-color="black" data-image="{{asset('app-assets/img/sidebar-bg/04.jpg')}}" class="app-sidebar">
+      <div data-active-color="white" data-background-color="black" data-image="{{asset('img/banner-01.jpg')}}" class="app-sidebar">
         <!-- main menu header-->
         <!-- Sidebar Header starts-->
         <div class="sidebar-header">
@@ -496,6 +496,10 @@
 <li><a onClick="window.location.replace('/karyawan?#/list-cme-administrator');window.location.reload();"  class="menu-item">CME Submit</a>
                   </li>            
 <li><a onClick="window.location.replace('/karyawan?#/list-dokumen-upload');window.location.reload();"  class="menu-item">Dokumen Upload</a>
+                  </li>          
+<li><a onClick="window.location.replace('/karyawan?#/slide-show-image');window.location.reload();"  class="menu-item">Slide Show</a>
+                  </li>        
+<li><a onClick="window.location.replace('/karyawan?#/background-image');window.location.reload();"  class="menu-item">Background Image</a>
                   </li>  
                 </ul>
               </li>
@@ -586,6 +590,25 @@
           <div class="content-wrapper"> 
  
 
+  
+  <div id="content-slider">
+    <div id="slider4">
+      <div id="mask">
+        <ul>
+        @php $no = 1; @endphp @foreach($banner as $m)
+
+          <li id="list{{$no}}" class="animation{{$no}}">
+          <img src="/img/{{$m->image}}" class="img-fluid" alt="{{$m->name}}" style="width:100% !important;height:100% !important;"> 
+          </li>
+           
+          
+          @php $no++; @endphp @endforeach
+        </ul>
+      </div>
+      <div class="progress-bar"></div>
+    </div>
+  </div> 
+<br>
 
  <div id="appmarvel">
 @yield('content-karyawan')
@@ -642,12 +665,12 @@
         <!-- Sidebar BG Image Starts-->
         <h6 class="text-center text-bold-500 mb-3 text-uppercase">Sidebar Bg Image</h6>
         <div class="cz-bg-image row">
-          <div class="col mb-3"><img src="{{asset('app-assets/img/sidebar-bg/01.jpg')}}" width="90" class="rounded"></div>
-          <div class="col mb-3"><img src="{{asset('app-assets/img/sidebar-bg/02.jpg')}}" width="90" class="rounded"></div>
-          <div class="col mb-3"><img src="{{asset('app-assets/img/sidebar-bg/03.jpg')}}" width="90" class="rounded"></div>
-          <div class="col mb-3"><img src="{{asset('app-assets/img/sidebar-bg/04.jpg')}}" width="90" class="rounded"></div>
-          <div class="col mb-3"><img src="{{asset('app-assets/img/sidebar-bg/05.jpg')}}" width="90" class="rounded"></div>
-          <div class="col mb-3"><img src="{{asset('app-assets/img/sidebar-bg/06.jpg')}}" width="90" class="rounded"></div>
+     @endphp @foreach($background as $m)
+
+
+          <div class="col mb-3"><img src="/img/{{$m->image}}" width="90" class="rounded" alt="{{$m->name}}"></div>
+ 
+ @endforeach 
         </div>
         <!-- Sidebar BG Image Ends-->
         <hr>
@@ -720,6 +743,6 @@
     <script src="{{asset('app-assets/js/customizer.js')}}" type="text/javascript"></script>
     <!-- END APEX JS-->
   <script src="{{asset('app-assets/js/components-modal.min.js')}}" type="text/javascript"></script>
-  
+   
   </body>
 </html>

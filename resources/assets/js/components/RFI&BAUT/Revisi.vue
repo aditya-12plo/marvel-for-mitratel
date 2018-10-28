@@ -1,7 +1,7 @@
 <template>
  <div> 
   <loading :show="isLoading"></loading>
-<div class="card-header-banner"> </div> 
+
 
 
 <section class="basic-elements">
@@ -27,45 +27,33 @@
 <button type="button" @click="drop()" class="btn btn-raised btn-danger">
     <i class="ft-trash-2"></i> Drop
 </button>
+<button type="button" @click="modal.set('komunikasiproject', true)" class="btn btn-raised btn-success" v-if="this.komunikasi.length > 0">
+    <i class="ft-message-square"></i> Lihat Komunikasi
+</button> 
                 </div>
                 <div class="card-body">
                     <div class="px-3">
 	
 							<div class="form-body">
-		                        <div class="row">	
+ <div class="row" style="padding-bottom:15%;">   	
 
 <div class="col-xl-12 col-lg-6 col-md-12 mb-1">
    <div class="help-block"><ul role="alert"><li v-for="error of errorNya"><span style="color:red;">{{ error }}</span></li></ul></div>
 </div>            
-
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="address_spk">Komunikasi Project</label>
-                                        <br>
-                                        
-<div v-if="this.komunikasi.length > 0">
-<button type="button" class="btn btn-raised btn-success" @click="modal.set('komunikasiproject', true)">
-  <i class="ft-message-square"></i> Lihat Komunikasi
-</button>
-</div>
  
-                                    </fieldset>
-                                </div>
 
 
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="rfi_date">TANGGAL DOKUMEN RFI</label>
+                                        <label for="rfi_date"><h4>TANGGAL DOKUMEN RFI</h4></label>
                                         <br>
- <date-picker :date="rfi_date" :option="option"></date-picker>
+<datepicker v-model="forms.rfi_date" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD"></datepicker>
   <div class="help-block"><ul role="alert"><li v-for="error of errorNya['rfi_date']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
 
 
-                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                                    <div class="col-xl-6 col-lg-4 col-md-12 mb-1">
                                         <fieldset class="form-group">
                                             <label for="rfi_document"><h4>DOKUMEN RFI</h4></label>
                                         <br>
@@ -82,17 +70,17 @@
                                         </fieldset>
                                     </div>
        
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="baut_date">TANGGAL DOKUMEN BAUT</label>
+                                        <label for="baut_date"><h4>TANGGAL DOKUMEN BAUT</h4></label>
                                         <br>
- <date-picker :date="baut_date" :option="option"></date-picker>
+<datepicker v-model="forms.baut_date" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD"></datepicker>
   <div class="help-block"><ul role="alert"><li v-for="error of errorNya['baut_date']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
 
 
-                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                                    <div class="col-xl-6 col-lg-4 col-md-12 mb-1">
                                         <fieldset class="form-group">
                                             <label for="baut_document"><h4>DOKUMEN BAUT</h4></label>
                                         <br>
@@ -111,17 +99,17 @@
                                     
  
        
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="m_e_process_date">TANGGAL DOKUMEN M-E Process</label>
+                                        <label for="m_e_process_date"><h4>TANGGAL DOKUMEN M-E Process</h4></label>
                                         <br>
- <date-picker :date="m_e_process_date" :option="option"></date-picker>
+<datepicker v-model="forms.m_e_process_date" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD"></datepicker>
   <div class="help-block"><ul role="alert"><li v-for="error of errorNya['m_e_process_date']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
 
 
-                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                                    <div class="col-xl-6 col-lg-4 col-md-12 mb-1">
                                         <fieldset class="form-group">
                                             <label for="m_e_process_document"><h4>DOKUMEN M-E PROCESS </h4></label>
                                         <br>
@@ -141,17 +129,17 @@
     
  
        
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-<label for="tower_erection_date">TANGGAL DOKUMEN Tower Erection</label>
+<label for="tower_erection_date"><h4>TANGGAL DOKUMEN Tower Erection</h4></label>
                                         <br>
- <date-picker :date="tower_erection_date" :option="option"></date-picker>
+<datepicker v-model="forms.tower_erection_date" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD"></datepicker>
   <div class="help-block"><ul role="alert"><li v-for="error of errorNya['tower_erection_date']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
 
 
-                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                         <fieldset class="form-group">
                                             <label for="tower_erection_document"><h4>DOKUMEN Tower Erection</h4></label>
                                         <br>
@@ -170,17 +158,17 @@
                                     
  
        
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-<label for="curing_date">TANGGAL DOKUMEN CURING</label>
+<label for="curing_date"><h4>TANGGAL DOKUMEN CURING</h4></label>
                                         <br>
- <date-picker :date="curing_date" :option="option"></date-picker>
+<datepicker v-model="forms.curing_date" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD"></datepicker>
   <div class="help-block"><ul role="alert"><li v-for="error of errorNya['curing_date']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
 
 
-                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                         <fieldset class="form-group">
                                             <label for="curing_document"><h4>DOKUMEN CURING</h4></label>
                                         <br>
@@ -202,17 +190,17 @@
 
  
        
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-<label for="pouring_date">TANGGAL DOKUMEN POURING</label>
+<label for="pouring_date"><h4>TANGGAL DOKUMEN POURING</h4></label>
                                         <br>
- <date-picker :date="pouring_date" :option="option"></date-picker>
+<datepicker v-model="forms.pouring_date" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD"></datepicker>
   <div class="help-block"><ul role="alert"><li v-for="error of errorNya['pouring_date']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
 
 
-                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                         <fieldset class="form-group">
                                             <label for="pouring_document"><h4>DOKUMEN POURING</h4></label>
                                         <br>
@@ -233,17 +221,17 @@
 
  
        
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-<label for="excavation_date">TANGGAL DOKUMEN EXCAVATION</label>
+<label for="excavation_date"><h4>TANGGAL DOKUMEN EXCAVATION</h4></label>
                                         <br>
- <date-picker :date="excavation_date" :option="option"></date-picker>
+<datepicker v-model="forms.excavation_date" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD"></datepicker>
   <div class="help-block"><ul role="alert"><li v-for="error of errorNya['excavation_date']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
 
 
-                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                         <fieldset class="form-group">
                                             <label for="excavation_document"><h4>DOKUMEN EXCAVATION</h4></label>
                                         <br>
@@ -264,17 +252,17 @@
 
  
        
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-<label for="site_opening_date">TANGGAL DOKUMEN SITE OPENING</label>
+<label for="site_opening_date"><h4>TANGGAL DOKUMEN SITE OPENING</h4></label>
                                         <br>
- <date-picker :date="site_opening_date" :option="option"></date-picker>
+<datepicker v-model="forms.site_opening_date" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD"></datepicker>
   <div class="help-block"><ul role="alert"><li v-for="error of errorNya['site_opening_date']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
 
 
-                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                         <fieldset class="form-group">
                                             <label for="document_site_opening"><h4>DOKUMEN SITE OPENING</h4></label>
                                         <br>
@@ -552,6 +540,7 @@ import moment from 'moment'
 import '!!vue-style-loader!css-loader!vue-toast/dist/vue-toast.min.css'
 import VueToast from 'vue-toast'
 import myDatepicker from 'vue-datepicker'
+import Datepicker from 'vuejs-datepicker'
 import Vuetable from 'vuetable-2/src/components/Vuetable'
 import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
@@ -576,6 +565,7 @@ export default {
       }
     },
   components: {
+    Datepicker,
     Vuetable,
     VuetablePagination,
     VuetablePaginationInfo,
@@ -663,18 +653,14 @@ export default {
  watch: {
         },
         methods: {
+      customFormatter(date) {
+      return moment(date).format('YYYY-MM-DD');
+    },
                dataAction () {
       if(this.typenya === "RfiBaut-edit-data")
       {
            this.resetforms();
-           this.rfi_date.time = this.rowDatanya.project.rfi_date;
-           this.baut_date.time = this.rowDatanya.project.baut_date;
-           this.m_e_process_date.time = this.rowDatanya.project.m_e_process_date;
-           this.tower_erection_date.time = this.rowDatanya.project.tower_erection_date;
-           this.curing_date.time = this.rowDatanya.project.curing_date;
-           this.pouring_date.time = this.rowDatanya.project.pouring_date;
-           this.excavation_date.time = this.rowDatanya.project.excavation_date;
-           this.site_opening_date.time = this.rowDatanya.project.site_opening_date;
+           this.forms = this.rowDatanya.project;
            this.GetKomunikasi(this.rowDatanya.project.id);
       }
       else
@@ -1168,25 +1154,44 @@ if(response.data.error)
   confirmButtonText: 'Yes!'
 }).then((result) => {
   if (result.value) {
+      
+var rfi_date = this.customFormatter(this.forms.rfi_date) 
+var baut_date = this.customFormatter(this.forms.baut_date) 
+var site_opening_date = this.customFormatter(this.forms.site_opening_date) 
+var excavation_date = this.customFormatter(this.forms.excavation_date) 
+var pouring_date = this.customFormatter(this.forms.pouring_date) 
+var curing_date = this.customFormatter(this.forms.curing_date) 
+var tower_erection_date = this.customFormatter(this.forms.tower_erection_date) 
+var m_e_process_date = this.customFormatter(this.forms.m_e_process_date) 
+var dateNow = new Date().toISOString().slice(0,10)
+
+if(rfi_date > dateNow || baut_date > dateNow || site_opening_date > dateNow || excavation_date > dateNow || pouring_date > dateNow || curing_date > dateNow || tower_erection_date > dateNow || m_e_process_date > dateNow)
+{
+                this.isLoading = false;
+        this.modal.set('approve', false);
+        this.error('Input Date Wrong');
+}
+        else
+{
     this.isLoading = true;
    let masuk = new FormData();
    masuk.set('project_id', this.rowDatanya.project.id) 
    masuk.set('projectid', this.rowDatanya.project.projectid)
    masuk.set('siteopeningid', this.rowDatanya.project.siteopeningid)
-   masuk.set('site_opening_date', this.site_opening_date.time)
+   masuk.set('site_opening_date', site_opening_date)
    masuk.set('excavationid', this.rowDatanya.project.excavationid)
-   masuk.set('excavation_date', this.excavation_date.time)
+   masuk.set('excavation_date', excavation_date)
    masuk.set('pouringid', this.rowDatanya.project.pouringid)
-   masuk.set('pouring_date', this.pouring_date.time)
+   masuk.set('pouring_date', pouring_date)
    masuk.set('curingid', this.rowDatanya.project.curingid)
-   masuk.set('curing_date', this.curing_date.time)
+   masuk.set('curing_date', curing_date)
    masuk.set('towererectionid', this.rowDatanya.project.towererectionid)
-   masuk.set('tower_erection_date', this.tower_erection_date.time)
+   masuk.set('tower_erection_date', tower_erection_date)
    masuk.set('meprocessid', this.rowDatanya.project.meprocessid)
-   masuk.set('m_e_process_date', this.m_e_process_date.time)
+   masuk.set('m_e_process_date', m_e_process_date)
    masuk.set('rfibautid', this.rowDatanya.project.rfibautid)
-   masuk.set('rfi_date', this.rfi_date.time)
-   masuk.set('baut_date', this.baut_date.time)
+   masuk.set('rfi_date', rfi_date)
+   masuk.set('baut_date',baut_date)
    masuk.set('document', 'APPROVAL DOKUMEN CME')
    masuk.set('statusmessage', 'APPROVAL DOKUMEN CME')
    masuk.set('kata', 'Project '+this.rowDatanya.project.projectid+' Menunggu Approval Anda')
@@ -1226,6 +1231,7 @@ if(response.data.error)
                     }
                         
                     })
+}
   }
 })
             },

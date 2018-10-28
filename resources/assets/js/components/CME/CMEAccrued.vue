@@ -3,7 +3,7 @@
  	<loading :show="isLoading"></loading>
  	 <vue-toast ref='toast'></vue-toast>
 
-<div class="card-header-banner"> </div> 
+
 
     <section class="content-header">
 
@@ -439,7 +439,7 @@ let routeData = this.$router.resolve({name:'approvalboqdetailprojectnya', params
 window.open(routeData.href, '_blank');
             }  , 
                               print(){
-var masuk = {cme_code:this.rowDatanya.project.cme_code,projectid:this.rowDatanya.project.project_id_accrued};		
+var masuk = {cme_code:this.rowDatanya.project.cme_code,projectid:this.rowDatanya.project.project_id};		
 				axios({
   url: '/karyawan/printHakiAccrued',
   method: 'POST',

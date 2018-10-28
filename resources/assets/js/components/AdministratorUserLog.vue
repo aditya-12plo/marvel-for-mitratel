@@ -1,6 +1,6 @@
 <template>
  <div> 
-<div class="card-header-banner"> </div> 
+
 
 
     <section class="content-header">

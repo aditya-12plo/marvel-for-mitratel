@@ -356,175 +356,7 @@ $valid = $this->validate($request, [
         'documentdrmid' => 'required|numeric|not_in:0'
     ]);
 if (!$valid)
-    {
-$file = Input::file('document_kom');
-$filedrm = Input::file('document_drm');
-
-if($file && $filedrm)
-{
-$extension  = Input::file('document_kom')->getClientOriginalExtension(); 
-$extensiondrm  = Input::file('document_drm')->getClientOriginalExtension();
-
- $file = Input::file('document_kom');
-        $filedrm = Input::file('document_drm');
-         $extension  = Input::file('document_kom')->getClientOriginalExtension(); 
-         $extensiondrm  = Input::file('document_drm')->getClientOriginalExtension(); 
-if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf' || $filedrm->getSize() <= 10000000 && $filedrm->getClientMimeType() == 'application/pdf')
-{
-     $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path
-     $fileName   = Input::get('projectid').'-document-kom-'.time().'.'.$extension; 
-     $fileNameDRM   = Input::get('projectid').'-document-drm-'.time().'.'.$extensiondrm; 
-
-
-File::delete($destinationPath .$cekdata->document_kom);
-File::delete($destinationPath .$cekdata->document_drm);
-       if(file_exists($destinationPath.$fileName))
-    {
-File::delete($destinationPath .$fileName);
-File::delete($destinationPath .$fileNameDRM);
-    }   
-    else
-    {
-$upload_success     = $file->move($destinationPath, $fileName);
-$upload_success_drm     = $filedrm->move($destinationPath, $fileNameDRM);
-if(!$upload_success || !$upload_success_drm)
-{
- return response()->json(['error'=>'File Upload Gagal, Silahkan Ulangi']);
-}
-else
-{
-$edit = array('project_id' => $request->project_id,'site_id_actual' => $request->site_id_actual,'site_name_actual' => $request->site_name_actual,'province' => $request->province,'city' => $request->city, 'address_actual' => $request->address_actual, 'longitude_actual' => $request->longitude_actual, 'latitude_actual' => $request->latitude_actual, 'kom_date' => $request->kom_date, 'drm_date' => $request->drm_date, 'document_kom' => $fileName, 'document_drm' => $fileNameDRM); 
-DokumenDRM::where('id',Input::get('documentdrmid'))->update($edit);
-$ProjectStatus = ProjectStatus::create(['project_id' => Input::get('project_id'),'users_id' => Auth::guard('karyawan')->user()->id , 'document'=>strtoupper(Input::get('document')),'status'=>strtoupper(Input::get('statusmessage')),'message'=>strtoupper(Input::get('message'))]);
-$showUser = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','MANAGER MARKETING'],['area',Auth::guard('karyawan')->user()->area]])->get();
-if(count($showUser) > 0)
-{
-foreach ($showUser as $p) {
-Pesan::create(['project_id' => Input::get('project_id'), 'sender_id'=>Auth::guard('karyawan')->user()->id ,'users_id' => $p['id'], 'status' => strtoupper(Input::get('statusmessage')), 'message'=>strtoupper(Input::get('message'))]);
-
-// send email is off
-//$this->SendEmailController->kirim($p['email'],Input::get('project_id'),Input::get('projectid'),Input::get('infratype'),strtoupper(Input::get('statusmessage')),strtoupper(Input::get('document')),Auth::guard('karyawan')->user()->name,Auth::guard('karyawan')->user()->posisi,strtoupper(Input::get('message')),strtoupper(Input::get('kata')));
-}
-}
-Project::where('id',Input::get('project_id'))->update(['status_id'=>Input::get('status'),'project_status_id'=>$ProjectStatus->id]);
-Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'document_drm' ,'action' => 'update', 'data' => json_encode($edit)]);
-return response()->json(['success'=>'Successfully']); 
-}
-
-    }
-}
-else
-{
-    return response()->json(['error'=>'Please, check your file type / size']); 
-}
-        
-}
-elseif($file && !$filedrm)
-{
-$extension  = Input::file('document_kom')->getClientOriginalExtension(); 
-
-$file = Input::file('document_kom'); 
-$extension  = Input::file('document_kom')->getClientOriginalExtension();  
-if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf')
-{
-     $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path
-     $fileName   = Input::get('projectid').'-document-kom-'.time().'.'.$extension; 
- 
-
-File::delete($destinationPath .$cekdata->document_kom); 
-       if(file_exists($destinationPath.$fileName))
-    {
-File::delete($destinationPath .$fileName); 
-    }   
-    else
-    {
-$upload_success     = $file->move($destinationPath, $fileName); 
-if(!$upload_success)
-{
- return response()->json(['error'=>'File Upload Gagal, Silahkan Ulangi']);
-}
-else
-{
-$edit = array('project_id' => $request->project_id,'site_id_actual' => $request->site_id_actual,'site_name_actual' => $request->site_name_actual,'province' => $request->province,'city' => $request->city, 'address_actual' => $request->address_actual, 'longitude_actual' => $request->longitude_actual, 'latitude_actual' => $request->latitude_actual, 'kom_date' => $request->kom_date, 'drm_date' => $request->drm_date, 'document_kom' => $fileName); 
-DokumenDRM::where('id',Input::get('documentdrmid'))->update($edit);
-$ProjectStatus = ProjectStatus::create(['project_id' => Input::get('project_id'),'users_id' => Auth::guard('karyawan')->user()->id , 'document'=>strtoupper(Input::get('document')),'status'=>strtoupper(Input::get('statusmessage')),'message'=>strtoupper(Input::get('message'))]);
-$showUser = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','MANAGER MARKETING'],['area',Auth::guard('karyawan')->user()->area]])->get();
-if(count($showUser) > 0)
-{
-foreach ($showUser as $p) {
-Pesan::create(['project_id' => Input::get('project_id'), 'sender_id'=>Auth::guard('karyawan')->user()->id ,'users_id' => $p['id'], 'status' => strtoupper(Input::get('statusmessage')), 'message'=>strtoupper(Input::get('message'))]);
-
-// send email is off
-//$this->SendEmailController->kirim($p['email'],Input::get('project_id'),Input::get('projectid'),Input::get('infratype'),strtoupper(Input::get('statusmessage')),strtoupper(Input::get('document')),Auth::guard('karyawan')->user()->name,Auth::guard('karyawan')->user()->posisi,strtoupper(Input::get('message')),strtoupper(Input::get('kata')));
-}
-}
-Project::where('id',Input::get('project_id'))->update(['status_id'=>Input::get('status'),'project_status_id'=>$ProjectStatus->id]);
-Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'document_drm' ,'action' => 'update', 'data' => json_encode($edit)]);
-return response()->json(['success'=>'Successfully']); 
-}
-
-    }
-}
-else
-{
-    return response()->json(['error'=>'Please, check your file type / size']); 
-}
-  
-}
-elseif(!$file && $filedrm)
-{ 
-$extensiondrm  = Input::file('document_drm')->getClientOriginalExtension();
-
-$filedrm = Input::file('document_drm');  
-$extensiondrm  = Input::file('document_drm')->getClientOriginalExtension(); 
-if ($filedrm->getSize() <= 10000000 && $filedrm->getClientMimeType() == 'application/pdf')
-{
-     $destinationPath = 'files/'.Input::get('projectid').'/'; // upload path
-      $fileNameDRM   = Input::get('projectid').'-document-drm-'.time().'.'.$extensiondrm; 
-
-
- File::delete($destinationPath .$cekdata->document_drm);
-       if(file_exists($destinationPath.$fileNameDRM))
-    {
- File::delete($destinationPath .$fileNameDRM);
-    }   
-    else
-    {
- $upload_success_drm     = $filedrm->move($destinationPath, $fileNameDRM);
-if(!$upload_success_drm)
-{
- return response()->json(['error'=>'File Upload Gagal, Silahkan Ulangi']);
-}
-else
-{
-$edit = array('project_id' => $request->project_id,'site_id_actual' => $request->site_id_actual,'site_name_actual' => $request->site_name_actual,'province' => $request->province,'city' => $request->city, 'address_actual' => $request->address_actual, 'longitude_actual' => $request->longitude_actual, 'latitude_actual' => $request->latitude_actual, 'kom_date' => $request->kom_date, 'drm_date' => $request->drm_date, 'document_drm' => $fileNameDRM); 
-DokumenDRM::where('id',Input::get('documentdrmid'))->update($edit);
-$ProjectStatus = ProjectStatus::create(['project_id' => Input::get('project_id'),'users_id' => Auth::guard('karyawan')->user()->id , 'document'=>strtoupper(Input::get('document')),'status'=>strtoupper(Input::get('statusmessage')),'message'=>strtoupper(Input::get('message'))]);
-$showUser = User::where([['level', Auth::guard('karyawan')->user()->level],['posisi','MANAGER MARKETING'],['area',Auth::guard('karyawan')->user()->area]])->get();
-if(count($showUser) > 0)
-{
-foreach ($showUser as $p) {
-Pesan::create(['project_id' => Input::get('project_id'), 'sender_id'=>Auth::guard('karyawan')->user()->id ,'users_id' => $p['id'], 'status' => strtoupper(Input::get('statusmessage')), 'message'=>strtoupper(Input::get('message'))]);
-
-// send email is off
-//$this->SendEmailController->kirim($p['email'],Input::get('project_id'),Input::get('projectid'),Input::get('infratype'),strtoupper(Input::get('statusmessage')),strtoupper(Input::get('document')),Auth::guard('karyawan')->user()->name,Auth::guard('karyawan')->user()->posisi,strtoupper(Input::get('message')),strtoupper(Input::get('kata')));
-}
-}
-Project::where('id',Input::get('project_id'))->update(['status_id'=>Input::get('status'),'project_status_id'=>$ProjectStatus->id]);
-Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'document_drm' ,'action' => 'update', 'data' => json_encode($edit)]);
-return response()->json(['success'=>'Successfully']); 
-}
-
-    }
-}
-else
-{
-    return response()->json(['error'=>'Please, check your file type / size']); 
-}
-      
-}
-else
-{ 
+    { 
  
 $edit = array('project_id' => $request->project_id,'site_id_actual' => $request->site_id_actual,'site_name_actual' => $request->site_name_actual,'province' => $request->province,'city' => $request->city, 'address_actual' => $request->address_actual, 'longitude_actual' => $request->longitude_actual, 'latitude_actual' => $request->latitude_actual, 'kom_date' => $request->kom_date, 'drm_date' => $request->drm_date); 
 DokumenDRM::where('id',Input::get('documentdrmid'))->update($edit);
@@ -543,8 +375,6 @@ Project::where('id',Input::get('project_id'))->update(['status_id'=>Input::get('
 Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'document_drm' ,'action' => 'update', 'data' => json_encode($edit)]);
 return response()->json(['success'=>'Successfully']); 
  
-
-    }
  
       
     }
@@ -552,8 +382,6 @@ else
     {
  return response()->json('error', $valid);
     }
-
-
 
     }
 else
@@ -619,5 +447,97 @@ else
     } 
     }
 
+
+    
+   public function uploaddokumenDRMKOM(Request $request)
+   {
+     $valid = $this->validate($request, [
+       'projectid' => 'required|max:255',
+       'document_kom' => 'required|mimes:pdf', 
+   ]);
+if (!$valid)
+   { 
+$file = Input::file('document_kom'); 
+$extension  = Input::file('document_kom')->getClientOriginalExtension(); 
+if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf')
+{ 
+$destinationPath = 'files/'.Input::get('projectid').'/'; // upload path   
+$fileName   = Input::get('projectid').'-document-kom-'.time().'.'.$extension;
+   if(file_exists($destinationPath.$fileName))
+   {
+File::delete($destinationPath .$fileName);
+   }
+
+$upload_success     = $file->move($destinationPath, $fileName);
+if(!$upload_success)
+{
+return response()->json(['errorfile'=>'File Upload Gagal, Silahkan Ulangi']);
+}
+else
+{
+File::delete($destinationPath .Input::get('document_kom_old'));
+DokumenDRM::where('id',Input::get('id'))->update(['document_kom'=>$fileName]);
+ return response()->json(['success'=>'Upload Successfully' , 'namafilenya'=>$fileName]);
+}
+}
+else
+{
+return response()->json(['errorfile'=>'Please, check your file type / size']);  
+}
+
+   }
+
+else
+   {
+return response()->json('error', $valid); 
+   }
+
+   }
+
+    
+   public function uploaddokumenDRMdrm(Request $request)
+   {
+     $valid = $this->validate($request, [
+       'projectid' => 'required|max:255',
+       'document_drm' => 'required|mimes:pdf', 
+   ]);
+if (!$valid)
+   { 
+$file = Input::file('document_drm'); 
+$extension  = Input::file('document_drm')->getClientOriginalExtension(); 
+if ($file->getSize() <= 10000000 && $file->getClientMimeType() == 'application/pdf')
+{ 
+$destinationPath = 'files/'.Input::get('projectid').'/'; // upload path   
+$fileName   = Input::get('projectid').'-document-drm-'.time().'.'.$extension;
+   if(file_exists($destinationPath.$fileName))
+   {
+File::delete($destinationPath .$fileName);
+   }
+
+$upload_success     = $file->move($destinationPath, $fileName);
+if(!$upload_success)
+{
+return response()->json(['errorfile'=>'File Upload Gagal, Silahkan Ulangi']);
+}
+else
+{
+File::delete($destinationPath .Input::get('document_drm_old'));
+DokumenDRM::where('id',Input::get('id'))->update(['document_drm'=>$fileName]);
+ return response()->json(['success'=>'Upload Successfully' , 'namafilenya'=>$fileName]);
+}
+}
+else
+{
+return response()->json(['errorfile'=>'Please, check your file type / size']);  
+}
+
+   }
+
+else
+   {
+return response()->json('error', $valid); 
+   }
+
+   }
     
 }

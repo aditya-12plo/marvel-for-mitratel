@@ -2,7 +2,7 @@
  <div> 
   <loading :show="isLoading"></loading>
 
-<div class="card-header-banner"> </div> 
+
 
 <section class="basic-elements">
     <div class="row">
@@ -30,27 +30,30 @@
 <button type="button" @click="drop()" class="btn btn-raised btn-danger">
     <i class="ft-trash-2"></i> Drop
 </button>
+<button type="button" @click="modal.set('komunikasiproject', true)" class="btn btn-raised btn-success" v-if="this.komunikasi.length > 0">
+    <i class="ft-message-square"></i> Lihat Komunikasi
+</button> 
                 </div>
                 <div class="card-body">
                     <div class="px-3">
 	
 							<div class="form-body">
-		                        <div class="row">	 
+ <div class="row" style="padding-bottom:15%;"> 
 <div class="col-xl-12 col-lg-6 col-md-12 mb-1">
 	 <div class="help-block"><ul role="alert"><li v-for="error of errorNya"><span style="color:red;">{{ error }}</span></li></ul></div>
 </div>
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="pouring_date">TANGGAL DOKUMEN</label>
+                                        <label for="pouring_date"><h4>TANGGAL DOKUMEN</h4></label>
                                         <br>
- <date-picker :date="pouring_date" :option="option"></date-picker>
+<datepicker v-model="forms.pouring_date" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD"></datepicker> 
   <div class="help-block"><ul role="alert"><li v-for="error of errorNya['pouring_date']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
 
 
-                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                         <fieldset class="form-group">
                                             <label for="pouring_document"><h4>DOKUMEN</h4></label>
                                         <br>
@@ -63,21 +66,7 @@
 <p class="center-block">* Type dokumen .pdf/.jpg And Max 10 MB</p>
                                         </fieldset>
                                     </div>
-                                    
- 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="address_spk">Komunikasi Project</label>
-                                        <br>
-                                        
-<div v-if="this.komunikasi.length > 0">
-<button type="button" class="btn btn-raised btn-success" @click="modal.set('komunikasiproject', true)">
-  <i class="ft-message-square"></i> Lihat Komunikasi
-</button>
-</div>
- 
-                                    </fieldset>
-                                </div>
+                                     
 
 
 
@@ -296,6 +285,7 @@ import moment from 'moment'
 import '!!vue-style-loader!css-loader!vue-toast/dist/vue-toast.min.css'
 import VueToast from 'vue-toast'
 import myDatepicker from 'vue-datepicker'
+import Datepicker from 'vuejs-datepicker'
 import Vuetable from 'vuetable-2/src/components/Vuetable'
 import Hashids from 'hashids'
 import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
@@ -321,6 +311,7 @@ export default {
     },
   components: {
     Vuetable,
+    Datepicker,
     VuetablePagination,
     VuetablePaginationInfo,
     'vue-toast': VueToast,
@@ -379,6 +370,9 @@ export default {
  watch: {
         },
         methods: {
+      customFormatter(date) {
+      return moment(date).format('YYYY-MM-DD');
+    },
                dataAction () {
       if(this.typenya === "pouring-add-data")
       {
@@ -532,11 +526,22 @@ return hashids.decode(id);
   confirmButtonText: 'Yes!'
 }).then((result) => {
   if (result.value) {
+var pouring_date = this.customFormatter(this.forms.pouring_date) 
+var dateNow = new Date().toISOString().slice(0,10)
+
+if(pouring_date > dateNow)
+{
+                this.isLoading = false;
+        this.modal.set('approve', false);
+        this.error('Input Date Wrong');
+}
+        else
+{
     this.isLoading = true;
    let masuk = new FormData();
    masuk.set('project_id', this.rowDatanya.project.id) 
    masuk.set('projectid', this.rowDatanya.project.projectid)
-   masuk.set('pouring_date', this.pouring_date.time)
+   masuk.set('pouring_date',pouring_date)
    masuk.set('pouring_document', this.file_name)
    masuk.set('document', 'DOKUMEN CURING')
    masuk.set('status', 29)
@@ -579,6 +584,7 @@ return hashids.decode(id);
                     }
                         
                     })
+}
   }
 })
             },

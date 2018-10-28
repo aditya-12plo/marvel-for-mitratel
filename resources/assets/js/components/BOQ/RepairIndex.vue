@@ -9,7 +9,7 @@
     <section class="content-header">
 
       <h1 align="center">
-      Repair BOQ Area {{this.dataNya.area}}
+      Repair BOQ
       </h1>
     </section>
 

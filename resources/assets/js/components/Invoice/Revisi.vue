@@ -2,7 +2,7 @@
  <div> 
   <loading :show="isLoading"></loading>
 
-<div class="card-header-banner"> </div> 
+
 
 <form method="POST" class="form" enctype="multipart/form-data" action="" @submit.prevent="submitData()"> 
 <section class="basic-elements">
@@ -22,6 +22,9 @@
 <button type="button" @click="DetailData()" class="btn btn-raised btn-info">
     <i class="ft-trending-up"></i> Detail
 </button> 
+<button type="button" @click="modal.set('komunikasiproject', true)" class="btn btn-raised btn-success" v-if="this.komunikasi.length > 0">
+    <i class="ft-message-square"></i> Lihat Komunikasi
+</button> 
                 </div>
                 <div class="card-body">
                     <div class="px-3">
@@ -30,60 +33,59 @@
 
 
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="tgl_mulai_sewa">TANGGAL MULAI SEWA</label>
+                                        <label for="tgl_mulai_sewa"><h4>TANGGAL MULAI SEWA</h4></label>
                                         <br>
- <date-picker :date="tgl_mulai_sewa" :option="option"></date-picker>
+<datepicker v-model="forms.tgl_mulai_sewa" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD"></datepicker> 
   <div class="help-block"><ul role="alert"><li v-for="error of errorNya['tgl_mulai_sewa']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+
+
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="tgl_target_rfi">TANGGAL RFI</label>
+                                        <label for="tgL_akhir_sewa"><h4>TANGGAL AKHIR SEWA</h4></label>
                                         <br>
- <date-picker :date="tgl_target_rfi" :option="option"></date-picker>
-  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['tgl_target_rfi']"><span style="color:red;">{{ error }}</span></li></ul></div>
-                                    </fieldset>
-                                </div>
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="document_boq_baps">DOKUMEN BOQ BAPS</label>
-                                        <br>
-<input type="file" accept="application/pdf" name="document_boq_baps" id="document_boq_baps" class="dropzone dropzone-area" ref="document_boq_baps" v-on:change="newAvatar()"> 
-  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_boq_baps']"><span style="color:red;">{{ error }}</span></li></ul></div>
-  <br>
-  <a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.document_boq_baps" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>   
-  <br>
-<p class="center-block">* Type dokumen .pdf And Max 10 MB</p>
-                                    </fieldset>
-                                </div>
-
-
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="tgL_akhir_sewa">TANGGAL AKHIR SEWA</label>
-                                        <br>
- <date-picker :date="tgL_akhir_sewa" :option="option"></date-picker>
+<datepicker v-model="forms.tgL_akhir_sewa" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD"></datepicker> 
   <div class="help-block"><ul role="alert"><li v-for="error of errorNya['tgL_akhir_sewa']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div> 
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+
+
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="document_baps">DOKUMEN BAPS</label>
+                                        <label for="tgl_target_rfi"><h4>TANGGAL TARGET RFI</h4></label>
                                         <br>
-<input type="file" accept="application/pdf" name="document_baps" id="document_baps" class="dropzone dropzone-area" ref="document_baps" v-on:change="newAvatarBaps()"> 
-  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_baps']"><span style="color:red;">{{ error }}</span></li></ul></div>
-  <br>
-  <a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.document_baps" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>   
-  <br>
-<p class="center-block">* Type dokumen .pdf And Max 10 MB</p>
+<datepicker v-model="forms.tgl_target_rfi" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD"></datepicker> 
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['tgl_target_rfi']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
+
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="tgl_invoice"><h4>TANGGAL INVOICE</h4></label>
+                                        <br>
+<datepicker v-model="forms.tgl_invoice" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD"></datepicker> 
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['tgl_invoice']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div> 
+ 
+
+
+
+                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="no_kontrak">NO INVOICE</label>
+                                        <br>
+<input type="text" @input="allcap($event, forms, 'no_invoice')" class="form-control" placeholder="NO INVOICE" v-model="forms.no_invoice" required>
+<div class="help-block"><ul role="alert"><li v-for="error of errorNya['no_invoice']"><span style="color:red;">{{ error }}</span></li></ul></div>
+                                    </fieldset>
+                                </div>
+
 
 
                                  <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
@@ -103,44 +105,38 @@
 <div class="help-block"><ul role="alert"><li v-for="error of errorNya['no_kontrak']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
-  
 
-                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="no_kontrak">NO INVOICE</label>
+                                        <label for="document_boq_baps">DOKUMEN BOQ BAPS</label>
                                         <br>
-<input type="text" @input="allcap($event, forms, 'no_invoice')" class="form-control" placeholder="NO INVOICE" v-model="forms.no_invoice" required>
-<div class="help-block"><ul role="alert"><li v-for="error of errorNya['no_invoice']"><span style="color:red;">{{ error }}</span></li></ul></div>
+<input type="file" accept="application/pdf" name="document_boq_baps" id="document_boq_baps" class="dropzone dropzone-area" ref="document_boq_baps" v-on:change="newAvatar()"> 
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_boq_baps']"><span style="color:red;">{{ error }}</span></li></ul></div>
+  <br>
+  <a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.document_boq_baps" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>   
+  <br>
+<p class="center-block">* Type dokumen .pdf And Max 10 MB</p>
                                     </fieldset>
                                 </div>
-  
+
+
 
                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="tgl_invoice">TANGGAL INVOICE</label>
+                                        <label for="document_baps">DOKUMEN BAPS</label>
                                         <br>
- <date-picker :date="tgl_invoice" :option="option"></date-picker>
-  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['tgl_invoice']"><span style="color:red;">{{ error }}</span></li></ul></div>
-                                    </fieldset>
-                                </div> 
- 
-                              
-
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="address_spk">KOMUNIKASI PROJECT</label>
-                                        <br>
-                                        
-<div v-if="this.komunikasi.length > 0">
-<button type="button" class="btn btn-raised btn-success" @click="modal.set('komunikasiproject', true)">
-  <i class="ft-message-square"></i> Lihat Komunikasi
-</button>
-</div>
-
-  
-
+<input type="file" accept="application/pdf" name="document_baps" id="document_baps" class="dropzone dropzone-area" ref="document_baps" v-on:change="newAvatarBaps()"> 
+  <div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_baps']"><span style="color:red;">{{ error }}</span></li></ul></div>
+  <br>
+  <a v-bind:href="'/files/'+this.rowDatanya.project.projectid+'/'+this.rowDatanya.project.document_baps" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a>   
+  <br>
+<p class="center-block">* Type dokumen .pdf And Max 10 MB</p>
                                     </fieldset>
                                 </div>
+
+  
+   
 <!-- Ducument RFC -->
 
  
@@ -316,6 +312,7 @@ import moment from 'moment'
 import '!!vue-style-loader!css-loader!vue-toast/dist/vue-toast.min.css'
 import VueToast from 'vue-toast'
 import myDatepicker from 'vue-datepicker'
+import Datepicker from 'vuejs-datepicker'
 import Vuetable from 'vuetable-2/src/components/Vuetable'
 import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
@@ -341,6 +338,7 @@ export default {
       }
     },
   components: {
+    Datepicker,
     Vuetable,
     VuetablePagination,
     VuetablePaginationInfo,
@@ -435,6 +433,9 @@ export default {
  watch: {
         },
         methods: {
+      customFormatter(date) {
+      return moment(date).format('YYYY-MM-DD');
+    },
           diacak(id)
            {
 var hashids = new Hashids('',1000,'abcdefghijklmnopqrstuvwxyz0987654321ABCDEFGHIJKLMNOPQRSTUVWXYZ'); // no padding
@@ -454,11 +455,7 @@ window.open(routeData.href, '_blank');
       if(this.typenya === "revisi-document-invoice")
       { 
            this.resetforms();
-        	this.forms = this.rowDatanya.project;
-        	this.tgl_invoice.time  =  this.rowDatanya.project.tgl_invoice;
-           this.tgl_mulai_sewa.time = this.rowDatanya.project.tgl_mulai_sewa;
-           this.tgL_akhir_sewa.time = this.rowDatanya.project.tgL_akhir_sewa;
-           this.tgl_target_rfi.time = this.rowDatanya.project.tgl_target_rfi; 
+        	this.forms = this.rowDatanya.project; 
            console.log(this.rowDatanya.project.tgl_mulai_sewa);
            this.GetKomunikasi(this.rowDatanya.project.id);
       }

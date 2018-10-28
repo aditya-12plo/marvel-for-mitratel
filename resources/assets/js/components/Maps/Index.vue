@@ -5,7 +5,7 @@
  	<loading :show="isLoading"></loading>
  	 <vue-toast ref='toast'></vue-toast>
 
-<div class="card-header-banner"> </div> 
+
 
     <section class="content-header">
 

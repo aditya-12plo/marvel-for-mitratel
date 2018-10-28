@@ -3,7 +3,7 @@
  	<loading :show="isLoading"></loading>
  	 <vue-toast ref='toast'></vue-toast>
 
-<div class="card-header-banner"> </div> 
+
 
     <section class="content-header">
 
@@ -140,6 +140,7 @@ import moment from 'moment'
 import '!!vue-style-loader!css-loader!vue-toast/dist/vue-toast.min.css'
 import VueToast from 'vue-toast'
 import myDatepicker from 'vue-datepicker'
+import Datepicker from 'vuejs-datepicker'
 import Vuetable from 'vuetable-2/src/components/Vuetable'
 import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
@@ -153,6 +154,7 @@ window.axios = require('axios')
 window.eventBus = new Vue()
 export default {
   components: {
+    Datepicker,
     Vuetable,
     VuetablePagination,
     VuetablePaginationInfo,
@@ -286,6 +288,9 @@ export default {
         'position': 'resetOptions',
         },
   methods: {
+      customFormatter(date) {
+      return moment(date).format('YYYY-MM-DD');
+    },
     statusCME (value) {
   var resultnya = '';      
 if(value == 0)
@@ -444,11 +449,13 @@ return hashids.decode(id);
 		}
 		else if(this.startTime.time && !this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+       var startTime = this.customFormatter(this.startTime.time)
+		this.$events.fire('filter-set', this.filterText, startTime, this.endtime.time )
 		}
 		else if(!this.startTime.time && this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+      var endtime = this.customFormatter(this.endtime.time)
+		this.$events.fire('filter-set', this.filterText, this.startTime.time, endtime )
 		}
 		else if(this.startTime.time && this.endtime.time)
 		{ 
@@ -458,7 +465,9 @@ return hashids.decode(id);
 		}
 		else
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+       var startTime = this.customFormatter(this.startTime.time)
+      var endtime = this.customFormatter(this.endtime.time)
+		this.$events.fire('filter-set', this.filterText, startTime, endtime )
 		}
 		}
 		else

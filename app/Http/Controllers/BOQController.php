@@ -651,7 +651,7 @@ return $pdf->download($header['boq_code'].'.pdf');
 $id = $request->id;        
 $project_id= $request->project_id;  
  
-$edit = ['project_id'=>null,'status'=>6]; 
+$edit = ['status'=>6]; 
 BOQSubmit::where('id',$id)->update($edit);
 Project::whereIn('id',explode(",",$project_id))->update(['boq_status'=>14]);
 

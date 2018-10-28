@@ -106,7 +106,7 @@ class RfiDetailController extends Controller
          $edit = ['project_id'=>$project_id ,'status'=>$status , 'haki_status'=> $haki_status]; 
          CMESubmit::where('id',$id)->update(['project_id'=>$project_id  , 'status'=> $status]);
         Project::whereIn('id',explode(",",$project_id))->update(['haki_status'=> $haki_status]);
-        $this->saveData($cme_code, $project_id);
+        //$this->saveData($cme_code, $project_id);
         Log::create(['email' => Auth::guard('karyawan')->user()->email, 'table_action'=>'cme_submit' ,'action' => 'update', 'data' => json_encode($edit)]);
         return response()->json(['success'=>'Successfully']);  
   

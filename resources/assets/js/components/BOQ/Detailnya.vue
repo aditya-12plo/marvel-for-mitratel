@@ -1,10 +1,7 @@
 <template>
  <div> 
  	<loading :show="isLoading"></loading>
- 	 <vue-toast ref='toast'></vue-toast>
-
-    <div class="card-header-banner"> </div>
-
+ 	 <vue-toast ref='toast'></vue-toast> 
     
     <section class="content-header">
 
@@ -237,6 +234,21 @@ Latitude : {{this.rowDatanya.latitude_spk}}
                                     </fieldset>
                                 </div>
 
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="address_spk">KOORDINAT AKTUAL</label>
+                                        <br>
+Longitude : {{this.rowDatanya.longitude_actual}}
+<br>
+Latitude : {{this.rowDatanya.latitude_actual}}
+<br>
+<a :href="'http://www.google.com/maps/place/'+this.rowDatanya.latitude_actual+','+this.rowDatanya.longitude_actual" target="_blank"><button type="button" class="btn btn-raised btn-success">
+  <i class="ft-navigation"></i> Maps
+</button></a>
+                                    </fieldset>
+                                </div>
+
                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="province">PROVINSI</label>
@@ -263,23 +275,10 @@ Latitude : {{this.rowDatanya.latitude_spk}}
                                 </div>
                                
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="address_spk">KOORDINAT AKTUAL</label>
-                                        <br>
-Longitude : {{this.rowDatanya.longitude_actual}}
-<br>
-Latitude : {{this.rowDatanya.latitude_actual}}
-<br>
-<a :href="'http://www.google.com/maps/place/'+this.rowDatanya.latitude_actual+','+this.rowDatanya.longitude_actual" target="_blank"><button type="button" class="btn btn-raised btn-success">
-  <i class="ft-navigation"></i> Maps
-</button></a>
-                                    </fieldset>
-                                </div>
 
 
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="kom_date">TANGGAL KOM</label>
                                         <br>
@@ -288,7 +287,7 @@ Latitude : {{this.rowDatanya.latitude_actual}}
                                 </div>
 
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="document_kom">DOKUMEN KOM</label>
                                         <br>
@@ -298,7 +297,7 @@ Latitude : {{this.rowDatanya.latitude_actual}}
                                 </div>
 
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="drm_date">TANGGAL DRM</label>
                                         <br>
@@ -306,7 +305,7 @@ Latitude : {{this.rowDatanya.latitude_actual}}
                                     </fieldset>
                                 </div>
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="document_drm">DOKUMEN DRM</label>
                                         <br> 
@@ -371,7 +370,7 @@ Latitude : {{this.rowDatanya.latitude_actual}}
                                     </fieldset>
                                 </div>
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="ijin_warga_date">TANGGAL DOKUMEN IJIN WARGA</label>
                                         <br>
@@ -380,7 +379,7 @@ Latitude : {{this.rowDatanya.latitude_actual}}
                                 </div>
 
 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="document_ijin_warga">DOKUMEN IJIN WARGA</label>
                                         <br> 
@@ -1261,61 +1260,47 @@ Latitude : {{this.rowDatanya.latitude_actual}}
             <div class="card-block">
       <div class="feather-icons overflow-hidden">
                           <div class="row">
-
-                                 <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="no_receive" style="color:blue;">DETAIL BOQ BAPS</label> 
-                    </fieldset>
-                                </div>
+ 
      <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="tgl_mulai_sewa">Tanggal Dimulai Sewa </label>
+                                        <label for="tgl_mulai_sewa">TANGGAL DIMULAI SEWA </label>
                                         <br>
 {{this.rowDatanya.tgl_mulai_sewa}}
                     </fieldset>
                                 </div>
-     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="tgl_target_rfi">Target RFI</label>
-                                        <br>
-{{this.rowDatanya.tgl_target_rfi}}
-                                    </fieldset>
-                                </div>
-            <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="document_boq_baps">DOKUMEN BOQ BAPS</label>
-                                        <br>
-<a v-bind:href="'/files/'+this.rowDatanya.projectid+'/'+this.rowDatanya.document_boq_baps" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a> 
-                                    </fieldset>
-                                </div>
-
-
-                                 <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="no_receive" style="color:blue;">DETAIL BAPS</label> 
-                    </fieldset>
-                                </div>
 
      <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="tgL_akhir_sewa">Tanggal Berakhir Sewa </label>
+                                        <label for="tgL_akhir_sewa">TANGGAL BERAKHIR SEWA </label>
                                         <br>
 {{this.rowDatanya.tgL_akhir_sewa}}
                     </fieldset>
                                 </div>
- 
-            <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+
+     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="document_baps">DOKUMEN BAPS</label>
+                                        <label for="tgl_target_rfi">TANGGAL TARGET RFI</label>
                                         <br>
-<a v-bind:href="'/files/'+this.rowDatanya.projectid+'/'+this.rowDatanya.document_baps" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a> 
+{{this.rowDatanya.tgl_target_rfi}}
                                     </fieldset>
                                 </div>
 
-
-     <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                
+     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="no_receive" style="color:blue;">DETAIL INIVOICE</label> 
+                                        <label for="tgl_invoice">TANGGAL INVOICE </label>
+                                        <br>
+{{this.rowDatanya.tgl_invoice}}
+                    </fieldset>
+                                </div>
+
+
+  
+     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="no_invoice">NO INVOICE </label>
+                                        <br>
+{{this.rowDatanya.no_invoice}}
                     </fieldset>
                                 </div>
 
@@ -1335,23 +1320,30 @@ Latitude : {{this.rowDatanya.latitude_actual}}
 {{this.rowDatanya.no_kontrak}}
                     </fieldset>
                                 </div>
-  
-     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+
+
+            <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="no_invoice">NO INVOICE </label>
+                                        <label for="document_boq_baps">DOKUMEN BOQ BAPS</label>
                                         <br>
-{{this.rowDatanya.no_invoice}}
-                    </fieldset>
+<a v-bind:href="'/files/'+this.rowDatanya.projectid+'/'+this.rowDatanya.document_boq_baps" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a> 
+                                    </fieldset>
                                 </div>
-  
-  
-     <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+ 
+
+ 
+            <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="tgl_invoice">TANGGAL INVOICE </label>
+                                        <label for="document_baps">DOKUMEN BAPS</label>
                                         <br>
-{{this.rowDatanya.tgl_invoice}}
-                    </fieldset>
+<a v-bind:href="'/files/'+this.rowDatanya.projectid+'/'+this.rowDatanya.document_baps" target="_blank"><button type="button" class="btn btn-success"><i class="ft-download"></i> Download</button></a> 
+                                    </fieldset>
                                 </div>
+
+ 
+
+  
+  
                                 
                    </div>
           </div>               

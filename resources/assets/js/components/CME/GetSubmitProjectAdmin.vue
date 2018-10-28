@@ -1,10 +1,7 @@
 <template>
  <div> 
  	<loading :show="isLoading"></loading>
- 	 <vue-toast ref='toast'></vue-toast>
-
-<div class="card-header-banner"> </div> 
-
+ 	 <vue-toast ref='toast'></vue-toast> 
     <section class="content-header">
 
       <h1 align="center">

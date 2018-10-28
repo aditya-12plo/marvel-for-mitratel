@@ -6,7 +6,7 @@
 
 
 
-      <div class="card-header-banner"> </div> 
+      
    
       <div class="row">
 <div class="col-xl-12 col-lg-6 col-md-6 col-12">

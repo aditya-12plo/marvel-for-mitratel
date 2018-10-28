@@ -1,10 +1,7 @@
 <template>
  <div> 
  	<loading :show="isLoading"></loading>
- 	 <vue-toast ref='toast'></vue-toast>
-
-<div class="card-header-banner"> </div> 
-
+ 	 <vue-toast ref='toast'></vue-toast> 
     <section class="content-header">
 
       <h1 align="center">
@@ -34,7 +31,7 @@
   <table>    
     <tr>
       <td><label>Search for:</label></td>
-      <td colspan="3"><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="PID"></td>
+      <td colspan="3"><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="PID / Regional"></td>
     </tr>
      <tr>
       <td colspan="4" style="padding-top: 1%;"></td>

@@ -1,7 +1,7 @@
 <template>
  <div> 
   <loading :show="isLoading"></loading>
-<div class="card-header-banner"> </div> 
+
 
 
 <section class="basic-elements">
@@ -27,32 +27,35 @@
 <button type="button" @click="drop()" class="btn btn-raised btn-danger">
     <i class="ft-trash-2"></i> Drop
 </button>
+<button type="button" @click="modal.set('komunikasiproject', true)" class="btn btn-raised btn-success" v-if="this.komunikasi.length > 0">
+    <i class="ft-message-square"></i> Lihat Komunikasi
+</button> 
                 </div>
                 <div class="card-body">
                     <div class="px-3">
 	
 							<div class="form-body">
-		                        <div class="row">	
+		                        <div class="row" style="padding-bottom:20%;">	
 
  <div class="col-xl-12 col-lg-6 col-md-12 mb-1">
    <div class="help-block"><ul role="alert"><li v-for="error of errorNya"><span style="color:red;">{{ error }}</span></li></ul></div>
 </div>                            
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
-                                        <label for="site_opening_date">TANGGAL DOKUMEN</label>
+                                        <label for="site_opening_date"><h4>TANGGAL DOKUMEN</h4></label>
                                         <br>
- <date-picker :date="site_opening_date" :option="option"></date-picker>
+<datepicker v-model="forms.site_opening_date" class="form-control" :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD"></datepicker> 
   <div class="help-block"><ul role="alert"><li v-for="error of errorNya['site_opening_date']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
 
 
-                                    <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
                                         <fieldset class="form-group">
                                             <label for="document_site_opening"><h4>DOKUMEN</h4></label>
                                         <br>
 <label id="projectinput8" class="file center-block">
-                        <input type="file" name="file_name" id="file_name" v-on:change="newAvatar" required="required"> 
+                        <input type="file" class="form-control" name="file_name" id="file_name" v-on:change="newAvatar" required="required"> 
             <span class="file-custom"></span>
                     </label>        
 <div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_site_opening']"><span style="color:red;">{{ error }}</span></li></ul></div>
@@ -61,21 +64,7 @@
                                         </fieldset>
                                     </div>
                                     
- 
-                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
-                                    <fieldset class="form-group">
-                                        <label for="address_spk">Komunikasi Project</label>
-                                        <br>
-                                        
-<div v-if="this.komunikasi.length > 0">
-<button type="button" class="btn btn-raised btn-success" @click="modal.set('komunikasiproject', true)">
-  <i class="ft-message-square"></i> Lihat Komunikasi
-</button>
-</div>
- 
-                                    </fieldset>
-                                </div>
-
+  
 
 
 
@@ -293,6 +282,7 @@ import moment from 'moment'
 import '!!vue-style-loader!css-loader!vue-toast/dist/vue-toast.min.css'
 import VueToast from 'vue-toast'
 import myDatepicker from 'vue-datepicker'
+import Datepicker from 'vuejs-datepicker'
 import Vuetable from 'vuetable-2/src/components/Vuetable'
 import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
@@ -320,6 +310,7 @@ export default {
     Vuetable,
     VuetablePagination,
     VuetablePaginationInfo,
+    Datepicker,
     'vue-toast': VueToast,
     'date-picker': myDatepicker,
 	loading,
@@ -376,6 +367,9 @@ export default {
  watch: {
         },
         methods: {
+      customFormatter(date) {
+      return moment(date).format('YYYY-MM-DD');
+    },
                dataAction () {
       if(this.typenya === "site-opening-add-data")
       {
@@ -471,12 +465,23 @@ return hashids.decode(id);
   cancelButtonColor: '#d33',
   confirmButtonText: 'Yes!'
 }).then((result) => {
-  if (result.value) {
+  if (result.value) { 
+var site_opening_date = this.customFormatter(this.forms.site_opening_date) 
+var dateNow = new Date().toISOString().slice(0,10)
+
+if(site_opening_date > dateNow)
+{
+                this.isLoading = false;
+        this.modal.set('approve', false);
+        this.error('Input Date Wrong');
+}
+        else
+{
     this.isLoading = true;
    let masuk = new FormData();
    masuk.set('project_id', this.rowDatanya.project.id) 
    masuk.set('projectid', this.rowDatanya.project.projectid)
-   masuk.set('site_opening_date', this.site_opening_date.time)
+   masuk.set('site_opening_date', site_opening_date)
    masuk.set('document_site_opening', this.file_name)
    masuk.set('document', 'DOKUMEN SITE OPENING')
    masuk.set('status', 23)
@@ -520,6 +525,7 @@ return hashids.decode(id);
                         
                     })
   }
+       }
 })
             },
 DetailSite(){

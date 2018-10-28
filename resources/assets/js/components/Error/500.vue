@@ -3,7 +3,7 @@
 
       
 
-<div class="card-header-banner"> </div> 
+
 
     <!-- Conten -->
     <section class="content-header">

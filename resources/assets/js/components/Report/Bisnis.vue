@@ -2,7 +2,7 @@
  <div> 
  	<loading :show="isLoading"></loading>
  	 <vue-toast ref='toast'></vue-toast>
-<div class="card-header-banner"> </div> 
+
 
 
     <section class="content-header">
@@ -35,19 +35,36 @@
              <form class="form-inline">
 <div style="overflow-x:auto;">
   <table>
-  <tr>
+<tr>
       <td><label>Date From :</label></td>
-      <td><date-picker :date="startTime" :option="option" @keyup.enter="doFilter"></date-picker></td>
+      <td><datepicker v-model="startTime.time" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD" @keyup.enter="doFilter"></datepicker> </td>
       <td><label>&nbsp;&nbsp;Date To :</label></td>
-      <td><date-picker :date="endtime" :option="option" @keyup.enter="doFilter"></date-picker></td>
+      <td><datepicker v-model="endtime.time" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD" @keyup.enter="doFilter"></datepicker></td>
     </tr>
     <tr>
       <td colspan="4" style="padding-top: 1%;"></td>
     </tr>
     <tr>
-      <td><label>Search for:</label></td>
-      <td colspan="3"><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="Project ID"></td>
+      <td><label>Infratype :</label></td>
+      <td>      	<select v-model="infratypenya" class="form-control" @keyup.enter="doFilter"> 
+      		<option v-for="opti in optionsnya">
+      			{{opti}}
+      		</option>
+      	</select></td>
+        <td><label>Tinggi Tower :</label></td>
+      <td>
+        <select v-model="towernya" class="form-control" @keyup.enter="doFilter"> 
+          <option v-for="optit in optionstowernya">
+            {{ optit }}
+          </option>
+        </select></td>
+    </tr> <tr>
+      <td colspan="4" style="padding-top: 1%;"></td>
     </tr>
+    <tr>
+      <td><label>Search for:</label></td>
+      <td colspan="3"><input type="text" v-model="filterText" class="form-control" @keyup.enter="doFilter" placeholder="Project ID / Regional"></td>
+    </tr> 
      <tr>
       <td colspan="4" style="padding-top: 1%;"></td>
     </tr>
@@ -141,6 +158,7 @@ import moment from 'moment'
 import '!!vue-style-loader!css-loader!vue-toast/dist/vue-toast.min.css'
 import VueToast from 'vue-toast'
 import myDatepicker from 'vue-datepicker'
+import Datepicker from 'vuejs-datepicker'
 import Vuetable from 'vuetable-2/src/components/Vuetable'
 import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
@@ -155,6 +173,7 @@ window.eventBus = new Vue()
 export default {
   components: {
     Vuetable,
+    Datepicker,
     VuetablePagination,
     VuetablePaginationInfo,
     'vue-toast': VueToast,
@@ -200,6 +219,10 @@ export default {
     position: 'up right',
     closeBtn: true,
     formErrors:{},
+    optionsnya: [],
+    optionstowernya: [],
+    infratypenya: '',
+    towernya: '',
     errors: new Errors() ,
      errorNya: [],
      token: localStorage.getItem('token'),
@@ -224,6 +247,12 @@ export default {
         {
           name: 'projectid',
 		  title: 'Project ID',
+		  titleClass: 'text-center',
+          dataClass: 'text-center'
+        },
+        {
+          name: 'infratype',
+		  title: 'Infratype',
 		  titleClass: 'text-center',
           dataClass: 'text-center'
         },
@@ -348,6 +377,9 @@ export default {
         },
   methods: {
 
+      customFormatter(date) {
+      return moment(date).format('YYYY-MM-DD');
+    },
  success(kata) {
       this.$swal({
   position: 'top-end',
@@ -358,6 +390,16 @@ export default {
 })
     },
     
+           selectInfratype() { 
+                axios.get('/karyawan/GetInfratype').then((response) => {
+                    this.optionsnya = response.data;  
+                    });
+            } ,
+			            selectTowerHigh() { 
+                axios.get('/karyawan/GetTowerHigh').then((response) => {
+                    this.optionstowernya = response.data;  
+                    });
+            } ,
  error(kata) {
       this.$swal({
   position: 'top-end',
@@ -475,18 +517,21 @@ var masuk =
 let routeData = this.$router.resolve({name:'approvalboqdetailprojectnya', params: {id: this.diacak(item.id) }});
 window.open(routeData.href, '_blank');
             }  ,
+        
         doFilter () {
         		if(!this.startTime.time && !this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText,this.towernya ,this.infratypenya, this.startTime.time, this.endtime.time )
 		}
 		else if(this.startTime.time && !this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+       var startTime = this.customFormatter(this.startTime.time)
+		this.$events.fire('filter-set', this.filterText, this.towernya ,this.infratypenya,startTime, this.endtime.time )
 		}
 		else if(!this.startTime.time && this.endtime.time)
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+      var endtime = this.customFormatter(this.endtime.time)
+		this.$events.fire('filter-set', this.filterText,this.towernya ,this.infratypenya, this.startTime.time, endtime)
 		}
 		else if(this.startTime.time && this.endtime.time)
 		{ 
@@ -496,18 +541,22 @@ window.open(routeData.href, '_blank');
 		}
 		else
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+       var startTime = this.customFormatter(this.startTime.time)
+      var endtime = this.customFormatter(this.endtime.time)
+		this.$events.fire('filter-set', this.filterText,this.towernya ,this.infratypenya,startTime,endtime)
 		}
 		}
 		else
 		{
-		this.$events.fire('filter-set', this.filterText, this.startTime.time, this.endtime.time )
+		this.$events.fire('filter-set', this.filterText,this.towernya ,this.infratypenya, this.startTime.time, this.endtime.time )
 		}
       },
       resetFilter () {
       	this.komunikasi = '';
         this.filterText = '';
          this.startTime.time = '';
+        this.towernya = ''; 
+        this.infratypenya = ''; 
         this.endtime.time = '';
         this.$events.fire('filter-reset');
       },
@@ -566,9 +615,9 @@ onLoading() {
     },			
   },
   events: {
-    'filter-set' (filterText,startTime,endtime) {
+    'filter-set' (filterText,towernya,infratypenya,startTime,endtime) {
       this.moreParams = {
-        filter: filterText,min: startTime, max: endtime
+        filter: filterText,towernya:towernya, infratypenya:infratypenya , min: startTime, max: endtime
       }
       Vue.nextTick(() => this.$refs.vuetable.refresh() )
     },
@@ -587,6 +636,8 @@ onLoading() {
             this.fetchIt();
              this.resetOptions();
                this.resetFilter();
+             this.selectInfratype();
+             this.selectTowerHigh();
 
         }
 

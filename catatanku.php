@@ -1,3 +1,111 @@
+<datepicker v-model="forms." class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD"></datepicker> 
+
+
+<tr>
+      <td><label>Date From :</label></td>
+      <td><datepicker v-model="startTime.time" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD" @keyup.enter="doFilter"></datepicker> </td>
+      <td><label>&nbsp;&nbsp;Date To :</label></td>
+      <td><datepicker v-model="endtime.time" class="form-control"  :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD" @keyup.enter="doFilter"></datepicker></td>
+    </tr>
+
+
+
+
+ <div class="row" style="padding-bottom:15%;">
+
+
+import Datepicker from 'vuejs-datepicker'
+
+
+
+    Datepicker,
+
+
+
+
+    
+      customFormatter(date) {
+      return moment(date).format('YYYY-MM-DD');
+    },
+
+
+
+        doFilter () {
+        		if(!this.startTime.time && !this.endtime.time)
+		{
+		this.$events.fire('filter-set', this.filterText,this.towernya ,this.infratypenya, this.startTime.time, this.endtime.time )
+		}
+		else if(this.startTime.time && !this.endtime.time)
+		{
+       var startTime = this.customFormatter(this.startTime.time)
+		this.$events.fire('filter-set', this.filterText, this.towernya ,this.infratypenya,startTime, this.endtime.time )
+		}
+		else if(!this.startTime.time && this.endtime.time)
+		{
+      var endtime = this.customFormatter(this.endtime.time)
+		this.$events.fire('filter-set', this.filterText,this.towernya ,this.infratypenya, this.startTime.time, endtime)
+		}
+		else if(this.startTime.time && this.endtime.time)
+		{ 
+		if(this.endtime.time < this.startTime.time)
+		{
+		alert('Input Date Wrong');
+		}
+		else
+		{
+       var startTime = this.customFormatter(this.startTime.time)
+      var endtime = this.customFormatter(this.endtime.time)
+		this.$events.fire('filter-set', this.filterText,this.towernya ,this.infratypenya,startTime,endtime)
+		}
+		}
+		else
+		{
+		this.$events.fire('filter-set', this.filterText,this.towernya ,this.infratypenya, this.startTime.time, this.endtime.time )
+		}
+      },
+
+
+
+    doFilter () {
+        		if(!this.startTime.time && !this.endtime.time)
+		{
+		this.$events.fire('filter-set', this.filterText,this.infratypenya, this.startTime.time, this.endtime.time )
+		}
+		else if(this.startTime.time && !this.endtime.time)
+		{
+       var startTime = this.customFormatter(this.startTime.time)
+		this.$events.fire('filter-set', this.filterText, this.infratypenya, startTime, this.endtime.time )
+		}
+		else if(!this.startTime.time && this.endtime.time)
+		{
+      var endtime = this.customFormatter(this.endtime.time)
+		this.$events.fire('filter-set', this.filterText, this.infratypenya,this.startTime.time, endtime )
+		}
+		else if(this.startTime.time && this.endtime.time)
+		{ 
+		if(this.endtime.time < this.startTime.time)
+		{
+		alert('Input Date Wrong');
+		}
+		else
+		{
+       var startTime = this.customFormatter(this.startTime.time)
+      var endtime = this.customFormatter(this.endtime.time)
+		this.$events.fire('filter-set', this.filterText,this.infratypenya , startTime, endtime )
+		}
+		}
+		else
+		{
+		this.$events.fire('filter-set', this.filterText,this.infratypenya, this.startTime.time, this.endtime.time )
+		}
+      },
+
+
+
+
+
+
+
 level
 'ADMINISTRATOR','REGIONAL','HQ'
 
@@ -320,20 +428,68 @@ mapping_site_history.batch,mapping_site_history.years,mapping_site_history.infra
 
 CREATE OR REPLACE VIEW vjobsdocumentsis 
 AS
-SELECT project.id,project.projectid,project.no_wo,project.wo_date,
+SELECT project.id,
+project.projectid,
+project.no_wo,project.wo_date,
 CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
-project.batch,project.years,project.infratype,project.area,project.regional,project.site_id_spk,project.site_name_spk,project.address_spk,project.longitude_spk,project.latitude_spk,project.status_id,project.project_status_id,status.detail as statusnya,project.created_at FROM project join status on project.status_id=status.id where project.status_id = '1';
+project.batch,
+project.years,
+project.infratype,
+project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,
+project.project_status_id,
+status.detail as statusnya,
+project.created_at 
+FROM project 
+join status on project.status_id=status.id 
+where project.status_id = '1'
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 CREATE OR REPLACE VIEW vjobsdocumentsisrevisi 
 AS
-SELECT project.id,project.projectid,project.no_wo,project.wo_date,CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,project.batch,project.years,project.infratype,project.area,project.regional,project.site_id_spk,project.site_name_spk,project.address_spk,project.longitude_spk,project.latitude_spk,project.status_id,project.project_status_id,status.detail as statusnya,document_sis.id as documentsisid,document_sis.document_sis,project.updated_at as created_at FROM project join status on project.status_id=status.id join document_sis on project.id=document_sis.project_id where project.status_id = '3';
+SELECT project.id,
+project.projectid,
+project.no_wo,
+project.wo_date,
+CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,
+project.batch,project.years,
+project.infratype,project.area,
+project.regional,
+project.site_id_spk,
+project.site_name_spk,
+project.address_spk,
+project.longitude_spk,
+project.latitude_spk,
+project.status_id,project.
+project_status_id,
+status.detail as statusnya,
+document_sis.id as documentsisid,
+document_sis.document_sis,
+project.updated_at as created_at 
+FROM 
+project join status on project.status_id=status.id 
+join document_sis on project.id=document_sis.project_id 
+where project.status_id = '3'
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
 CREATE OR REPLACE VIEW vjobsapprovaldocumentsis 
 AS
-SELECT project.id,project.projectid,project.no_wo,project.wo_date,CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,project.batch,project.years,project.infratype,project.area,project.regional,project.site_id_spk,project.site_name_spk,project.address_spk,project.longitude_spk,project.latitude_spk,project.status_id,project.project_status_id,status.detail as statusnya,document_sis.id as documentid,document_sis.document_sis,document_sis.created_at FROM project join status on project.status_id=status.id join document_sis on project.id=document_sis.project_id where project.status_id = '2';
+SELECT project.id,
+project.projectid,
+project.no_wo,project.wo_date,CONCAT("Batch #",project.batch, " ", project.years) AS batchnya,project.batch,project.years,project.infratype,project.area,project.regional,project.site_id_spk,project.site_name_spk,project.address_spk,project.longitude_spk,project.latitude_spk,project.status_id,project.project_status_id,status.detail as statusnya,document_sis.id as documentid,document_sis.document_sis,document_sis.created_at FROM project join status on project.status_id=status.id join document_sis on project.id=document_sis.project_id where project.status_id = '2'
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 CREATE OR REPLACE VIEW vjobsdocumentdrm 
@@ -383,7 +539,9 @@ left join document_sis on
 project.id=document_sis.project_id 
 left join document_drm on 
 project.id=document_drm.project_id 
-where project.status_id = '4';
+where project.status_id = '4'
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
  CREATE OR REPLACE VIEW vjobsapprovaldocumentdrm 
@@ -433,7 +591,9 @@ left join document_sis on
 project.id=document_sis.project_id 
 left join document_drm on 
 project.id=document_drm.project_id 
-where project.status_id = '5';
+where project.status_id = '5'
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
  CREATE OR REPLACE VIEW vjobsdocumentdrmrevisi 
@@ -483,7 +643,9 @@ left join document_sis on
 project.id=document_sis.project_id 
 left join document_drm on 
 project.id=document_drm.project_id 
-where project.status_id = '6';
+where project.status_id = '6'
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
  
@@ -548,7 +710,9 @@ left join document_drm on
 project.id=document_drm.project_id 
 left join document_sitac on 
 project.id=document_sitac.project_id 
-where project.status_id = '7';
+where project.status_id = '7'
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -615,7 +779,9 @@ left join document_drm on
 project.id=document_drm.project_id 
 left join document_sitac on 
 project.id=document_sitac.project_id 
-where project.status_id = '8';
+where project.status_id = '8'
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 CREATE OR REPLACE VIEW vjobsdocumentsitacrevisi 
@@ -677,7 +843,9 @@ left join document_drm on
 project.id=document_drm.project_id 
 left join document_sitac on 
 project.id=document_sitac.project_id 
-where project.status_id = '9';
+where project.status_id = '9'
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -749,7 +917,9 @@ left join document_sitac on
 project.id=document_sitac.project_id 
 left join document_rfc on 
 project.id=document_rfc.project_id 
-where project.status_id = '10';
+where project.status_id = '10'
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -821,7 +991,9 @@ left join document_sitac on
 project.id=document_sitac.project_id 
 left join document_rfc on 
 project.id=document_rfc.project_id 
-where project.status_id = '11';
+where project.status_id = '11'
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 CREATE OR REPLACE VIEW v_check_invoice_data
@@ -902,7 +1074,9 @@ left join document_sitac on
 project.id=document_sitac.project_id 
 left join document_rfc on 
 project.id=document_rfc.project_id 
-where project.status_id = '12';
+where project.status_id = '12'
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -986,7 +1160,10 @@ left join document_rfc on
 project.id=document_rfc.project_id 
 left join document_boq on 
 project.id=document_boq.project_id 
-where project.boq_status = '13';
+where 
+project.boq_status = '13' 
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -1075,7 +1252,9 @@ left join document_boq on
 project.id=document_boq.project_id 
 left join po on 
 project.id=po.project_id 
-where project.boq_status = '20';
+where project.boq_status = '20'
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -1159,7 +1338,9 @@ left join document_rfc on
 project.id=document_rfc.project_id 
 left join document_boq on 
 project.id=document_boq.project_id 
-where project.boq_status = '14';
+where project.boq_status = '14'
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -1614,7 +1795,9 @@ left join document_boq on
 project.id=document_boq.project_id
 left join site_opening on 
 project.id=site_opening.project_id
-where project.status_id=21;
+where project.status_id=21
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -1704,7 +1887,9 @@ left join document_boq on
 project.id=document_boq.project_id
 left join site_opening on 
 project.id=site_opening.project_id
-where project.status_id=22 ;
+where project.status_id=22
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 CREATE OR REPLACE VIEW vsiteexcavation 
@@ -1797,7 +1982,9 @@ left join site_opening on
 project.id=site_opening.project_id
 left join excavation on 
 project.id=excavation.project_id
-where project.status_id = 23;
+where project.status_id = 23
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 CREATE OR REPLACE VIEW vsiteexcavationrevisi 
@@ -1890,7 +2077,9 @@ left join site_opening on
 project.id=site_opening.project_id
 left join excavation on 
 project.id=excavation.project_id
-where project.status_id = 24;
+where project.status_id = 24
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -1986,7 +2175,9 @@ left join site_opening on
 project.id=site_opening.project_id
 left join excavation on 
 project.id=excavation.project_id
-where project.status_id = 25;
+where project.status_id = 25
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -2087,7 +2278,9 @@ left join excavation on
 project.id=excavation.project_id
 left join rebaring on 
 project.id=rebaring.project_id
-where project.status_id = 26;
+where project.status_id = 26
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -2192,7 +2385,9 @@ left join rebaring on
 project.id=rebaring.project_id
 left join pouring on 
 project.id=pouring.project_id
-where project.status_id = 27;
+where project.status_id = 27
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -2297,7 +2492,9 @@ left join rebaring on
 project.id=rebaring.project_id
 left join pouring on 
 project.id=pouring.project_id
-where project.status_id = 28;
+where project.status_id = 28
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -2408,7 +2605,9 @@ left join pouring on
 project.id=pouring.project_id
 left join curing on 
 project.id=curing.project_id
-where project.status_id = 29;
+where project.status_id = 29
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -2518,7 +2717,9 @@ left join pouring on
 project.id=pouring.project_id
 left join curing on 
 project.id=curing.project_id
-where project.status_id = 30;
+where project.status_id = 30
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -2634,7 +2835,9 @@ left join curing on
 project.id=curing.project_id
 left join tower_erection on 
 project.id=tower_erection.project_id
-where project.status_id = 31;
+where project.status_id = 31
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -2751,7 +2954,9 @@ left join curing on
 project.id=curing.project_id
 left join tower_erection on 
 project.id=tower_erection.project_id
-where project.status_id = 32;
+where project.status_id = 32
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -2872,7 +3077,9 @@ left join tower_erection on
 project.id=tower_erection.project_id
 left join m_e_process on 
 project.id=m_e_process.project_id
-where project.status_id = 33;
+where project.status_id = 33
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -2996,7 +3203,9 @@ left join m_e_process on
 project.id=m_e_process.project_id
 left join fence_yard on 
 project.id=fence_yard.project_id
-where project.status_id = 35;
+where project.status_id = 35
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -3120,7 +3329,9 @@ left join m_e_process on
 project.id=m_e_process.project_id
 left join fence_yard on 
 project.id=fence_yard.project_id
-where project.status_id = 36;
+where project.status_id = 36
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -3240,7 +3451,9 @@ left join tower_erection on
 project.id=tower_erection.project_id
 left join m_e_process on 
 project.id=m_e_process.project_id
-where project.status_id = 34;
+where project.status_id = 34
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -3335,6 +3548,9 @@ tower_erection.tower_erection_document,
 m_e_process.id as meprocessid,
 m_e_process.m_e_process_date,
 m_e_process.m_e_process_document,
+fence_yard.id as fenceyardid,
+fence_yard.fence_yard_date,
+fence_yard.fence_yard_document,
 rfi_baut.id as rfibautid,
 rfi_baut.rfi_date,
 rfi_baut.rfi_document,
@@ -3368,9 +3584,13 @@ left join tower_erection on
 project.id=tower_erection.project_id
 left join m_e_process on 
 project.id=m_e_process.project_id
+left join fence_yard on
+project.id=fence_yard.project_id
 left join rfi_baut on 
 project.id=rfi_baut.project_id
-where project.status_id = 37;
+where project.status_id = 37
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -3462,6 +3682,9 @@ tower_erection.tower_erection_document,
 m_e_process.id as meprocessid,
 m_e_process.m_e_process_date,
 m_e_process.m_e_process_document,
+fence_yard.id as fenceyardid,
+fence_yard.fence_yard_date,
+fence_yard.fence_yard_document,
 rfi_baut.id as rfibautid,
 rfi_baut.rfi_date,
 rfi_baut.rfi_document,
@@ -3495,9 +3718,13 @@ left join tower_erection on
 project.id=tower_erection.project_id
 left join m_e_process on 
 project.id=m_e_process.project_id
+left join fence_yard on
+project.id=fence_yard.project_id
 left join rfi_baut on 
 project.id=rfi_baut.project_id
-where project.status_id = 38;
+where project.status_id = 38
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -3623,7 +3850,9 @@ left join m_e_process on
 project.id=m_e_process.project_id
 left join rfi_baut on 
 project.id=rfi_baut.project_id
-where project.status_id = 39;
+where project.status_id = 39
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -3756,7 +3985,9 @@ left join rfi_baut on
 project.id=rfi_baut.project_id
 left join rfi_detail on 
 project.id=rfi_detail.project_id
-where project.status_id = 40;
+where project.status_id = 40
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -3889,7 +4120,9 @@ left join rfi_baut on
 project.id=rfi_baut.project_id
 left join rfi_detail on 
 project.id=rfi_detail.project_id
-where project.status_id = 41;
+where project.status_id = 41
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 CREATE OR REPLACE VIEW vsitecrfidetailrevisi
@@ -4021,7 +4254,9 @@ left join rfi_baut on
 project.id=rfi_baut.project_id
 left join rfi_detail on 
 project.id=rfi_detail.project_id
-where project.status_id = 43;
+where project.status_id = 43
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -4155,7 +4390,9 @@ left join rfi_baut on
 project.id=rfi_baut.project_id
 left join rfi_detail on 
 project.id=rfi_detail.project_id
-where project.haki_status = 44;
+where project.haki_status = 44
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -4407,6 +4644,9 @@ document_boq.rf_in_meters,
 document_boq.mw_in_meters,
 document_boq.harga_bulan,
 document_boq.harga_tahun,
+po.id as poid,
+po.no_po,
+po.po_date,
 site_opening.id as siteopeningid,
 site_opening.site_opening_date,
 site_opening.document_site_opening,
@@ -4474,9 +4714,13 @@ left join rfi_baut on
 project.id=rfi_baut.project_id
 left join fence_yard on 
 project.id=fence_yard.project_id
+left join po on 
+project.id=po.project_id
 left join rfi_detail on 
 project.id=rfi_detail.project_id 
-where project.haki_status=47;
+where project.haki_status=47
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -4581,6 +4825,9 @@ rfi_detail.rfi_detail_start_date,
 rfi_detail.rfi_detail_end_date,
 rfi_detail.rfi_detail_price_month,
 rfi_detail.rfi_detail_price_year,
+po.id as poid,
+po.no_po,
+po.po_date,
 IFNULL((((LAST_DAY(project.batch_accrue) - rfi_detail.rfi_detail_start_date)/DAY(LAST_DAY(project.batch_accrue)) * rfi_detail.rfi_detail_price_month)),0) as nilai_revenue,
 project.updated_at as created_at
 FROM project 
@@ -4612,11 +4859,15 @@ left join m_e_process on
 project.id=m_e_process.project_id
 left join rfi_baut on 
 project.id=rfi_baut.project_id
+left join po on 
+project.id=po.project_id
 left join fence_yard on 
 project.id=fence_yard.project_id
 left join rfi_detail on 
 project.id=rfi_detail.project_id 
-where project.haki_status=48;
+where project.haki_status=48
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -4771,7 +5022,9 @@ left join po on
 project.id=po.project_id 
 left join baks_bauk on 
 project.id=baks_bauk.project_id 
-where project.status_id=42;
+where project.status_id=42
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -4933,7 +5186,9 @@ left join po on
 project.id=po.project_id  
 left join baks_bauk on 
 project.id=baks_bauk.project_id  
-where project.status_id=49;
+where project.status_id=49
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -5094,7 +5349,9 @@ left join po on
 project.id=po.project_id  
 left join baks_bauk on 
 project.id=baks_bauk.project_id  
-where project.status_id=50;
+where project.status_id=50
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -5268,7 +5525,9 @@ left join baks_bauk on
 project.id=baks_bauk.project_id   
 left join invoice on 
 project.id=invoice.project_id  
-where project.status_id=51;
+where project.status_id=51
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -5442,7 +5701,9 @@ left join baks_bauk on
 project.id=baks_bauk.project_id    
 left join invoice on 
 project.id=invoice.project_id  
-where project.status_id=54;
+where project.status_id=54
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 
@@ -5616,7 +5877,9 @@ left join baks_bauk on
 project.id=baks_bauk.project_id   
 left join invoice on 
 project.id=invoice.project_id  
-where project.status_id IN (54,55);
+where project.status_id IN (54,55)
+AND 
+project.status_id not in (102,103,104,105,106,107);
 
 
 

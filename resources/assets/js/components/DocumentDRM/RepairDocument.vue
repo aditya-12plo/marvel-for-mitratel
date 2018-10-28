@@ -2,7 +2,7 @@
  <div> 
   <loading :show="isLoading"></loading>
 
-<div class="card-header-banner"> </div> 
+
 
 <section class="basic-elements">
     <div class="row">
@@ -33,7 +33,7 @@
                     <div class="px-3">
 
               <div class="form-body">
-                            <div class="row">  
+                           <div class="row" style="padding-bottom:10%;">  
  
 <!-- Ducument DRM --> 
 <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
@@ -108,7 +108,7 @@
                                     <fieldset class="form-group">
                                         <label for="kom_date">TANGGAL KOM</label>
                                         <br>
-<date-picker :date="kom_date" :option="option"></date-picker>
+ <datepicker v-model="kom_date" class="form-control" :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD"></datepicker> 
 <div class="help-block"><ul role="alert"><li v-for="error of errorNya['kom_date']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
@@ -118,8 +118,8 @@
                                         <label for="document_kom">DOKUMEN KOM</label>
                                         <br>
                                        <br>
-<label id="projectinput8" class="file center-block">
-<input type="file" accept="application/pdf" name="file_name" id="file_name" v-on:change="newAvatar"> 
+<label id="projectinput8" class="file center-block"> 
+<input type="file" accept="application/pdf" class="dropzone dropzone-area" name="document_kom" id="document_kom" ref="document_kom" v-on:change="newAvatar()">       
             <span class="file-custom"></span>
                     </label>        
 <div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_kom']"><span style="color:red;">{{ error }}</span></li></ul></div>
@@ -136,7 +136,7 @@
                                     <fieldset class="form-group">
                                         <label for="drm_date">TANGGAL DRM</label>
                                         <br>
-<date-picker :date="drm_date" :option="option"></date-picker>
+ <datepicker v-model="drm_date" class="form-control" :typeable="true" :format="customFormatter" placeholder="YYYY-MM-DD"></datepicker>  
 <div class="help-block"><ul role="alert"><li v-for="error of errorNya['drm_date']"><span style="color:red;">{{ error }}</span></li></ul></div>
                                     </fieldset>
                                 </div>
@@ -147,8 +147,8 @@
                                         <label for="document_drm">DOKUMEN DRM</label>
                                         <br>
                                        <br>
-<label id="projectinput8" class="file center-block">
-<input type="file" accept="application/pdf" name="file_drm" id="file_drm" v-on:change="newAvatarDRM"> 
+<label id="projectinput8" class="file center-block"> 
+<input type="file" accept="application/pdf" class="dropzone dropzone-area" name="document_drm" id="document_drm" ref="document_drm" v-on:change="newAvatarDRM()">       
             <span class="file-custom"></span>
                     </label>        
 <div class="help-block"><ul role="alert"><li v-for="error of errorNya['document_drm']"><span style="color:red;">{{ error }}</span></li></ul></div>
@@ -422,6 +422,7 @@ import moment from 'moment'
 import '!!vue-style-loader!css-loader!vue-toast/dist/vue-toast.min.css'
 import VueToast from 'vue-toast'
 import myDatepicker from 'vue-datepicker'
+import Datepicker from 'vuejs-datepicker'
 import Vuetable from 'vuetable-2/src/components/Vuetable'
 import VuetablePagination from 'vuetable-2/src/components/VuetablePagination'
 import VuetablePaginationInfo from 'vuetable-2/src/components/VuetablePaginationInfo'
@@ -450,6 +451,7 @@ export default {
     VuetablePagination,
     VuetablePaginationInfo,
     'vue-toast': VueToast,
+    Datepicker,
     'date-picker': myDatepicker,
 	loading,
   },
@@ -458,16 +460,12 @@ export default {
   isLoading: false,
   modal:new CrudModal({komunikasiproject: false,approve: false , drop: false}),
     formErrors:{},
-     file_name:'',
-      file_drm:'',
+     document_kom:'',
+      document_drm:'',
      message:'',
 	GetLevel:'', 
-	kom_date: {
-        time: ''
-      },
-      drm_date: {
-        time: ''
-      },
+	kom_date:'',
+      drm_date:'',
        option: {
         type: 'day',
         week: ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
@@ -509,6 +507,9 @@ export default {
  watch: {
         },
         methods: {
+      customFormatter(date) {
+      return moment(date).format('YYYY-MM-DD');
+    },
              diacak(id)
            {
 var hashids = new Hashids('',1000,'abcdefghijklmnopqrstuvwxyz0987654321ABCDEFGHIJKLMNOPQRSTUVWXYZ'); // no padding
@@ -528,8 +529,8 @@ window.open(routeData.href, '_blank');
       if(this.typenya === "revisi-document-drm")
       {
            this.forms= this.rowDatanya.project;
-           this.kom_date.time = this.rowDatanya.project.kom_date;
-           this.drm_date.time = this.rowDatanya.project.drm_date;
+           this.kom_date = this.rowDatanya.project.kom_date;
+           this.drm_date = this.rowDatanya.project.drm_date;
            this.GetKomunikasi(this.rowDatanya.project.id);
       }
       else
@@ -552,14 +553,96 @@ window.open(routeData.href, '_blank');
                 this.modal.set('drop', true); 
                
             }  ,
-     newAvatar(event) {
-               let files = event.target.files || e.dataTransfer.files;
-               if (files.length) this.file_name = files[0];
+     newAvatar(event) { 
+ this.isLoading = true;            
+this.document_kom = this.$refs.document_kom.files[0]; 
+ let masuk = new FormData();
+   masuk.set('id', this.rowDatanya.project.documentdrmid)
+   masuk.set('project_id', this.rowDatanya.project.id)
+   masuk.set('projectid', this.rowDatanya.project.projectid)
+   masuk.set('document_kom_old', this.rowDatanya.project.document_kom)
+   masuk.set('document_kom', this.document_kom) 
+axios.post('/karyawan/uploaddokumenDRMKOM' , masuk)
+                    .then(response => {
+if(response.data.success)
+{
+this.isLoading = false;
+    this.rowDatanya.project.document_kom = response.data.namafilenya;
+    this.document_kom = '';
+    this.errorNya = '';
+    this.success(response.data.success);
+}
+if(response.data.document_kom)
+{
+    this.document_kom = '';
+  this.errorNya = {document_kom:[response.data.document_kom]}; 
+}
+if(response.data.errorfile)
+                      {
+    this.document_kom = '';
+                 this.error(response.data.errorfile);
+                 this.isLoading = false; 
+}
+if(response.data.error)
+                      {
+    this.document_kom = '';
+                 this.error(response.data.error);
+                 this.isLoading = false;
+                 this.backLink();
+}
+                    })
+                    .catch(error => {
+                    this.document_kom = '';
+                     this.isLoading = false;
+                        this.errorNya = error.response.data; 
+                    });       
+    this.document_kom = '';   
                 
            },
-     newAvatarDRM(event) {
-               let files = event.target.files || e.dataTransfer.files;
-               if (files.length) this.file_drm = files[0];
+     newAvatarDRM(event) { 
+ this.isLoading = true;            
+this.document_drm = this.$refs.document_drm.files[0]; 
+ let masuk = new FormData();
+   masuk.set('id', this.rowDatanya.project.documentdrmid)
+   masuk.set('project_id', this.rowDatanya.project.id)
+   masuk.set('projectid', this.rowDatanya.project.projectid)
+   masuk.set('document_drm_old', this.rowDatanya.project.document_drm)
+   masuk.set('document_drm', this.document_drm) 
+axios.post('/karyawan/uploaddokumenDRMdrm' , masuk)
+                    .then(response => {
+if(response.data.success)
+{
+this.isLoading = false;
+    this.rowDatanya.project.document_drm = response.data.namafilenya;
+    this.document_drm = '';
+    this.errorNya = '';
+    this.success(response.data.success);
+}
+if(response.data.document_drm)
+{
+    this.document_drm = '';
+  this.errorNya = {document_drm:[response.data.document_drm]}; 
+}
+if(response.data.errorfile)
+                      {
+    this.document_drm = '';
+                 this.error(response.data.errorfile);
+                 this.isLoading = false; 
+}
+if(response.data.error)
+                      {
+    this.document_drm = '';
+                 this.error(response.data.error);
+                 this.isLoading = false;
+                 this.backLink();
+}
+                    })
+                    .catch(error => {
+                    this.document_drm = '';
+                     this.isLoading = false;
+                        this.errorNya = error.response.data; 
+                    });       
+    this.document_drm = ''; 
                 
            },
               resetforms() {
@@ -618,10 +701,14 @@ window.open(routeData.href, '_blank');
   confirmButtonText: 'Yes!'
 }).then((result) => {
   if (result.value) {
-    if(this.drm_date.time < this.kom_date.time)
+    var kom_date = this.customFormatter(this.kom_date)
+    var drm_date = this.customFormatter(this.drm_date)
+    var dateNow = new Date().toISOString().slice(0,10)
+   if(drm_date > dateNow || kom_date > dateNow)
 {
+                this.isLoading = false;
         this.modal.set('approve', false);
-        this.error('Input DRM Date Wrong');
+        this.error('Input DRM Date Wrong / Input KOM Date Wrong');
 }
         else
 {
@@ -637,14 +724,12 @@ window.open(routeData.href, '_blank');
    masuk.set('address_actual', this.forms.address_actual)
    masuk.set('longitude_actual', this.forms.longitude_actual)
    masuk.set('latitude_actual', this.forms.latitude_actual)
-   masuk.set('kom_date', this.kom_date.time)
-   masuk.set('drm_date', this.drm_date.time)
+   masuk.set('kom_date', kom_date)
+   masuk.set('drm_date', drm_date)
    masuk.set('province', this.forms.province)
    masuk.set('message', this.message)
    masuk.set('documentdrmid', this.rowDatanya.project.documentdrmid)
-   masuk.set('statusmessage', 'APPROVAL DOKUMEN DRM')
-   masuk.set('document_kom', this.file_name)
-   masuk.set('document_drm', this.file_drm)
+   masuk.set('statusmessage', 'APPROVAL DOKUMEN DRM') 
    masuk.set('document', 'DOKUMEN DRM')
    masuk.set('status', 5)
                 axios.post('/karyawan/RevisiDocumentDRM', masuk)

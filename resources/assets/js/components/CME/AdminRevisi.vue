@@ -3,7 +3,7 @@
  	<loading :show="isLoading"></loading>
  	 <vue-toast ref='toast'></vue-toast>
 
-<div class="card-header-banner"> </div> 
+
 
     <section class="content-header">
 
@@ -93,7 +93,7 @@
 
 <!-- @GetPID -->
 <modal  v-if="modal.get('GetPID')" @close="modal.set('GetPID', false)">
-        <template slot="header" align="center"><h4 align="center">Submit BOQ</h4></template>
+        <template slot="header" align="center"><h4 align="center">Submit CME</h4></template>
         <template slot="body" > 
                 <div class="modal-body">
 

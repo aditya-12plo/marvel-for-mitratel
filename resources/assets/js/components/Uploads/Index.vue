@@ -2,7 +2,7 @@
  <div> 
  	<loading :show="isLoading"></loading>
  	 <vue-toast ref='toast'></vue-toast>
-<div class="card-header-banner"> </div> 
+
 
 
     <section class="content-header">
@@ -189,7 +189,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" @click="modal.set('edit', false)" >Close</button>
-                    <button type="submit" class="btn btn-success">Create</button>
+                    <button type="submit" class="btn btn-success">Update</button>
                 </div>
 
             </form>
@@ -482,13 +482,17 @@ if (response.data.error) {
                     })
                     .catch(error => {
                     if (! _.isEmpty(error.response)) {
-                   if (error.response.status = 500) {
+                    if (error.response.status = 422) {
+                         this.isLoading = false;
+                       this.errorNya = error.response.data;
+                    }
+                   else if (error.response.status = 500) {
                         this.isLoading = false;
                         this.$router.push('/server-error');
                     }
                     else
                     {
-                        this.isLoading = false;
+                         this.isLoading = false;
                          this.$router.push('/page-not-found');
                     }
                     }
@@ -722,13 +726,17 @@ if (response.data.error) {
                     })
                     .catch(error => {
                     if (! _.isEmpty(error.response)) {
-                   if (error.response.status = 500) {
+                    if (error.response.status = 422) {
+                         this.isLoading = false;
+                       this.errorNya = error.response.data;
+                    }
+                   else if (error.response.status = 500) {
                         this.isLoading = false;
                         this.$router.push('/server-error');
                     }
                     else
                     {
-                        this.isLoading = false;
+                         this.isLoading = false;
                          this.$router.push('/page-not-found');
                     }
                     }

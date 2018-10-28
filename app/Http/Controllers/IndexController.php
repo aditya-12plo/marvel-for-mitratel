@@ -10,12 +10,13 @@ use PDF;
 use Excel;
 use DB;
 
+use App\Models\BackgroundImage;
+use App\Models\Slide;
 
 class IndexController extends Controller
 {
     public function __construct()
     {
-      
     $this->data['tahunproject']  = DB::table('vtahun')->get();
     }
 

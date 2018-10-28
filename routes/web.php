@@ -223,6 +223,8 @@ Route::get('GetInfratype', 'JobsController@GetInfratype');
    Route::post('uploaddokumenKOMByAdmin','DokumenDRMController@uploaddokumenKOMByAdmin');
    Route::post('uploaddokumenDRMByAdmin','DokumenDRMController@uploaddokumenDRMByAdmin');
    Route::get('getDRMDocument/{id}','DokumenDRMController@getDRMDocument');
+   Route::post('uploaddokumenDRMKOM','DokumenDRMController@uploaddokumenDRMKOM');
+   Route::post('uploaddokumenDRMdrm','DokumenDRMController@uploaddokumenDRMdrm');
  /* document drm */
 
 
@@ -527,7 +529,22 @@ Route::get('GetAllDetailProject/{id}', 'ProjectController@GetAllDetailProject');
     Route::get('/homePageNasional', 'JobsController@homePageNasional');
  /* home */
  
+
+  /* slide show image */
+    Route::get('/listslideshow', 'ImageController@listslideshow');
+    Route::post('/addslideshow', 'ImageController@addslideshow');
+    Route::delete('/deleteslideshow/{id}/{filename}', 'ImageController@deleteslideshow');
+    Route::post('/updateslideshow', 'ImageController@updateslideshow'); 
+    /* slide show image */
 	  
+  /* background show image */
+  Route::get('/listbackground', 'ImageController@listbackground');
+  Route::post('/addbackground', 'ImageController@addbackground');
+  Route::delete('/deletebackground/{id}/{filename}', 'ImageController@deletebackground');
+  Route::post('/updatebackground', 'ImageController@updatebackground'); 
+  /* background show image */
+  
+  
 	  
 	  
 });
