@@ -15,7 +15,7 @@
   border-radius: 3px;
 }
 .login {
-  max-width: 280px;
+  /* max-width: 280px; */
   min-height: 100px;
  /* margin: 370px auto; */
   background-color: rgba(10,10,10,.68);

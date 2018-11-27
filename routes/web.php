@@ -8,6 +8,12 @@ Route::get('/test', function () {
     return view('test');
 });
 
+ /* Detail Project */
+ Route::get('/detail-project', 'IndexController@detailProject');
+ Route::get('GetAllDetailProjectFromOther/{id}', 'IndexController@GetAllDetailProject');
+ /* Detail Project */
+
+
 Route::get('page-not-found',['as' => 'pagenotfound','uses' => 'IndexController@pagenotfound']);
 
 
@@ -63,6 +69,12 @@ Route::post('password/reset', 'Karyawan\Auth\ResetPasswordController@reset')->na
 Route::resource('/listbusdev', 'BusdevController');
 Route::delete('listbusdevDeleteAll/{id}', 'BusdevController@deleteAll');
 /* busdev mail */
+
+
+/* aset mail */
+Route::resource('/listaset', 'AsetController');
+Route::delete('listasetDeleteAll/{id}', 'AsetController@deleteAll');
+/* aset mail */
 
  /* project */
   Route::resource('/listproject', 'ProjectController');
@@ -259,6 +271,7 @@ Route::get('GetInfratype', 'JobsController@GetInfratype');
 
  /* approval document */
   Route::post('ApprovalDocumentRegional', 'ApprovalController@approvalRegional');
+  Route::post('ApprovalDocumentRegionalRFI', 'ApprovalController@approvalRegionalRFI');
   Route::post('ApprovalDocumentRegionalRFC', 'ApprovalController@approvalRFC');
   Route::post('ApprovalDocumentRegionalCME', 'ApprovalController@approvalCME');
  /* approval document */
@@ -441,7 +454,7 @@ Route::post('ApprovalDocumentCMEManagerHaki', 'RfiDetailController@ApprovalDocum
 Route::post('SubmitCMEToAccruedByAdmin', 'RfiDetailController@SubmitCMEToAccruedByAdmin');
 Route::post('SubmitCMEToAccrued', 'RfiDetailController@SubmitCMEToAccrued');
 Route::get('GetCMEAccruedData/{id}', 'RfiDetailController@GetCMEAccruedData');
-Route::get('GetCMEAccruedDataNya/{id}', 'RfiDetailController@GetCMEAccruedDataNya');
+Route::get('GetCMEAccruedDataNya/{id}', 'RfiDetailController@GetCMEAccruedDataNya'); 
  /* CME */
 
 

@@ -158,6 +158,7 @@ $show = ['id'=>'','projectid' => '' ,'infratype' =>'' , 'area' => '' ,'regional'
         $max = $request->max;
         $query =  DB::table('vjobsdocumentsis')
          ->where([['regional',Auth::guard('karyawan')->user()->regional],['area',Auth::guard('karyawan')->user()->area]])
+		->groupBy('id')
         ->orderBy('id','DESC');
 
        
@@ -199,6 +200,7 @@ if (!empty($min) && !empty($max))
         $max = $request->max;
         $query =  DB::table('vjobsdocumentsisrevisi')
         ->where([['regional',Auth::guard('karyawan')->user()->regional],['area',Auth::guard('karyawan')->user()->area]])
+		->groupBy('id')
         ->orderBy('id','DESC');
 
             
@@ -240,6 +242,7 @@ if (!empty($min) && !empty($max))
         $max = $request->max;
         $query =  DB::table('vjobsapprovaldocumentsis')
         ->where('area',Auth::guard('karyawan')->user()->area)
+		->groupBy('id')
         ->orderBy('id','DESC');
 
                   
@@ -285,6 +288,7 @@ if (!empty($min) && !empty($max))
         $max = $request->max;
         $query =  DB::table('vjobsdocumentdrm')
         ->where([['regional',Auth::guard('karyawan')->user()->regional],['area',Auth::guard('karyawan')->user()->area]])
+		->groupBy('id')
         ->orderBy('id','DESC');
 
                 
@@ -326,6 +330,7 @@ if (!empty($min) && !empty($max))
         $max = $request->max;
         $query =  DB::table('vjobsapprovaldocumentdrm')
         ->where('area',Auth::guard('karyawan')->user()->area)
+		->groupBy('id')
         ->orderBy('id','DESC');
 
 
@@ -371,6 +376,7 @@ if (!empty($min) && !empty($max))
         $max = $request->max;
         $query =  DB::table('vjobsdocumentdrmrevisi')
         ->where([['regional',Auth::guard('karyawan')->user()->regional],['area',Auth::guard('karyawan')->user()->area]])
+		->groupBy('id')
         ->orderBy('id','DESC');
 
              
@@ -416,6 +422,7 @@ if (!empty($min) && !empty($max))
         $max = $request->max;
         $query =  DB::table('vjobsdocumentsitac')
         ->where([['regional',Auth::guard('karyawan')->user()->regional],['area',Auth::guard('karyawan')->user()->area]])
+		->groupBy('id')
         ->orderBy('id','DESC');
 
              
@@ -459,6 +466,7 @@ if (!empty($min) && !empty($max))
         $max = $request->max;
         $query =  DB::table('vjobsapprovaldocumentsitac')
         ->where('area',Auth::guard('karyawan')->user()->area)
+		->groupBy('id')
         ->orderBy('id','DESC');
 
         if (!empty($search))
@@ -502,6 +510,7 @@ if (!empty($min) && !empty($max))
         $max = $request->max;
         $query =  DB::table('vjobsdocumentsitacrevisi')
         ->where([['regional',Auth::guard('karyawan')->user()->regional],['area',Auth::guard('karyawan')->user()->area]])
+		->groupBy('id')
         ->orderBy('id','DESC');
 
         if (!empty($search))
@@ -546,6 +555,7 @@ if (!empty($min) && !empty($max))
         $max = $request->max;
         $query =  DB::table('vjobsdocumentrfc')
         ->where([['regional',Auth::guard('karyawan')->user()->regional],['area',Auth::guard('karyawan')->user()->area]])
+		->groupBy('id')
         ->orderBy('id','DESC');
 
         if (!empty($search))
@@ -587,6 +597,7 @@ if (!empty($min) && !empty($max))
         $max = $request->max;
         $query =  DB::table('vjobsapprovaldocumentrfc')
         ->where('area',Auth::guard('karyawan')->user()->area)
+		->groupBy('id')
         ->orderBy('id','DESC');
 
        
@@ -629,6 +640,7 @@ if (!empty($min) && !empty($max))
         $max = $request->max;
         $query =  DB::table('vjobsdocumentrfcrevisi')
         ->where([['regional',Auth::guard('karyawan')->user()->regional],['area',Auth::guard('karyawan')->user()->area]])
+		->groupBy('id')
         ->orderBy('id','DESC');
 
         if (!empty($search))
@@ -674,6 +686,7 @@ if (!empty($min) && !empty($max))
             $query->where('area', Auth::guard('karyawan')->user()->area)
                   ->orWhere('area', Auth::guard('karyawan')->user()->area2);
         }) 
+		->groupBy('id')
         ->orderBy('id','DESC');
 
         if (!empty($search))
@@ -716,6 +729,7 @@ if (!empty($min) && !empty($max))
             $query->where('area', Auth::guard('karyawan')->user()->area)
                   ->orWhere('area', Auth::guard('karyawan')->user()->area2);
         }) 
+		->groupBy('id')
         ->orderBy('id','DESC');
 
         if (!empty($search))
@@ -756,6 +770,7 @@ if (!empty($min) && !empty($max))
         $max = $request->max;
         $query =  DB::table('vjobsmappingsite')
         ->where('area',Auth::guard('karyawan')->user()->area)
+		->groupBy('id')
         ->orderBy('id','DESC');
 
         if ($search && !$min && !$max) {
@@ -813,6 +828,7 @@ if (!empty($min) && !empty($max))
         $max = $request->max;
         $query =  DB::table('vjobsapprovedmappingsite')
         ->where('area',Auth::guard('karyawan')->user()->area)
+		->groupBy('id')
         ->orderBy('id','DESC');
 
         if ($search && !$min && !$max) {
@@ -872,6 +888,7 @@ if (!empty($min) && !empty($max))
         $max = $request->max;
         $query =  DB::table('vjobsapprovaldropsiteregional')
         ->where('area',Auth::guard('karyawan')->user()->area)
+		->groupBy('id')
         ->orderBy('id','DESC');
 
         if ($search && !$min && !$max) {
@@ -928,6 +945,7 @@ if (!empty($min) && !empty($max))
         $min = $request->min;
         $max = $request->max;
         $query =  DB::table('vjobsapprovaldropsiteHQ')
+		->groupBy('id')
         ->orderBy('id','DESC');
 
         if ($search && !$min && !$max) {
@@ -985,6 +1003,7 @@ if (!empty($min) && !empty($max))
         $min = $request->min;
         $max = $request->max;
         $query =  DB::table('vhistorydropsite') 
+		->groupBy('id')
         ->orderBy('id','DESC');
 
         if ($search && !$min && !$max) {
@@ -1042,6 +1061,7 @@ if (!empty($min) && !empty($max))
         $min = $request->min;
         $max = $request->max;
         $query =  DB::table('vhistorymappingsite') 
+		->groupBy('id')
         ->orderBy('id','DESC');
 
         if ($search && !$min && !$max) {
@@ -1105,6 +1125,7 @@ if (!empty($min) && !empty($max))
             $query->where('area', Auth::guard('karyawan')->user()->area)
                   ->orWhere('area', Auth::guard('karyawan')->user()->area2);
         })
+		->groupBy('id')
         ->orderBy('id','DESC');
 
 
@@ -1139,6 +1160,7 @@ if (!empty($min) && !empty($max))
 
         $query =  DB::table('vjobsubmitboq')
         ->where([['area',Auth::guard('karyawan')->user()->area],['years',$years]])
+		->groupBy('id')
         ->orderBy('id','DESC');
 
          return $query->paginate($perPage);
@@ -1188,7 +1210,8 @@ $batch = DB::table('vallbatch')->get();
 // get status project
  public function GetStatus()
     { 
-$data = DB::table('status_group')->select('name','status_id')->orderBy('id','ASC')->get();  
+$data = DB::table('status_group')->select('name','status_id')
+		->groupBy('id')->orderBy('id','ASC')->get();  
  
   
       return response()->json($data);
@@ -1203,7 +1226,8 @@ $data = DB::table('status_group')->select('name','status_id')->orderBy('id','ASC
         $search = $request->filter;
         $min = $request->min;
         $max = $request->max;
- $query = DB::table('vboqsubmitdata')->orderBy('id','DESC');
+ $query = DB::table('vboqsubmitdata')
+		->groupBy('id')->orderBy('id','DESC');
  
 
         if ($search && !$min && !$max) {
@@ -1258,7 +1282,8 @@ $data = DB::table('status_group')->select('name','status_id')->orderBy('id','ASC
             ->where(function ($query) {
                 $query->where('area', Auth::guard('karyawan')->user()->area)
                       ->orWhere('area2', Auth::guard('karyawan')->user()->area2);
-            })->orderBy('id','DESC');
+            })
+		->groupBy('id')->orderBy('id','DESC');
  
 
         if ($search && !$min && !$max) {
@@ -1310,7 +1335,8 @@ $data = DB::table('status_group')->select('name','status_id')->orderBy('id','ASC
         $search = $request->filter;
         $min = $request->min;
         $max = $request->max;
- $query = DB::table('vboqsubmitdataall')->orderBy('id','DESC');
+ $query = DB::table('vboqsubmitdataall')
+		->groupBy('id')->orderBy('id','DESC');
  
 
         if ($search) {
@@ -1342,7 +1368,8 @@ $data = DB::table('status_group')->select('name','status_id')->orderBy('id','ASC
         $max = $request->max;
         if(Auth::guard('karyawan')->user()->level == 'HQ' && Auth::guard('karyawan')->user()->posisi == 'MANAGER')
         {
-            $query = DB::table('vboqsubmitdataapproval')->orderBy('id','DESC');
+            $query = DB::table('vboqsubmitdataapproval')
+		->groupBy('id')->orderBy('id','DESC');
 
         }
         else
@@ -1351,7 +1378,8 @@ $data = DB::table('status_group')->select('name','status_id')->orderBy('id','ASC
             ->where(function ($query) {
                $query->where('area', Auth::guard('karyawan')->user()->area)
                      ->orWhere('area2', Auth::guard('karyawan')->user()->area2);
-           })->orderBy('id','DESC');
+           })
+		->groupBy('id')->orderBy('id','DESC');
 
         }
  
@@ -1409,7 +1437,8 @@ public function GetJobsSubmitBOQVerifikasi(Request $request)
  ->where(function ($query) {
     $query->where('area', Auth::guard('karyawan')->user()->area)
           ->orWhere('area2', Auth::guard('karyawan')->user()->area2);
-})->orderBy('id','DESC');
+})
+		->groupBy('id')->orderBy('id','DESC');
  
 
         if ($search && !$min && !$max) {
@@ -1463,7 +1492,8 @@ public function GetJobsSubmitBOQProsesPR(Request $request)
  ->where(function ($query) {
     $query->where('area', Auth::guard('karyawan')->user()->area)
           ->orWhere('area2', Auth::guard('karyawan')->user()->area2);
-})->orderBy('id','DESC');
+})
+		->groupBy('id')->orderBy('id','DESC');
  
 
         if ($search && !$min && !$max) {
@@ -1518,7 +1548,8 @@ public function GetJobsSubmitBOQPORelease(Request $request)
  ->where(function ($query) {
     $query->where('area', Auth::guard('karyawan')->user()->area)
           ->orWhere('area2', Auth::guard('karyawan')->user()->area2);
-})->orderBy('id','DESC');
+})
+		->groupBy('id')->orderBy('id','DESC');
  
 
         if ($search && !$min && !$max) {
@@ -1576,7 +1607,8 @@ public function GetJobsSiteOpening(Request $request)
 
 
  $query = DB::table('vsiteopening')
-            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+            ->where('regional', Auth::guard('karyawan')->user()->regional)
+		->groupBy('id')->orderBy('id','DESC');
  
 
  if (!empty($towernya))
@@ -1626,7 +1658,7 @@ public function GetJobsSiteOpeningRevisi(Request $request)
 
 
  $query = DB::table('vsiteopeningrevisi')
-            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->groupBy('id')->orderBy('id','DESC');
  
 
  if (!empty($towernya))
@@ -1680,7 +1712,7 @@ public function GetJobsExcavation(Request $request)
 
 
  $query = DB::table('vsiteexcavation')
-            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->groupBy('id')->orderBy('id','DESC');
  
 
  if (!empty($towernya))
@@ -1731,7 +1763,7 @@ public function GetJobsExcavationRevisi(Request $request)
 
 
  $query = DB::table('vsiteexcavationrevisi')
-            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->groupBy('id')->orderBy('id','DESC');
  
 
  if (!empty($towernya))
@@ -1784,7 +1816,7 @@ public function GetJobsRebaring(Request $request)
 
 
  $query = DB::table('vsiterebaring')
-            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->groupBy('id')->orderBy('id','DESC');
  
 
  if (!empty($towernya))
@@ -1835,7 +1867,7 @@ public function GetJobsRebaringRevisi(Request $request)
 
 
  $query = DB::table('vsiterebaringrevisi')
-            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->groupBy('id')->orderBy('id','DESC');
  
 
  if (!empty($towernya))
@@ -1888,7 +1920,7 @@ public function GetJobsPouring(Request $request)
 
 
  $query = DB::table('vsitepouring')
-            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->groupBy('id')->orderBy('id','DESC');
  
 
  if (!empty($towernya))
@@ -1940,7 +1972,7 @@ public function GetJobsPouringRevisi(Request $request)
 
 
  $query = DB::table('vsitepouringrevisi')
-            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->groupBy('id')->orderBy('id','DESC');
  
 
  if (!empty($towernya))
@@ -1992,7 +2024,7 @@ public function GetJobsCuring(Request $request)
 
 
  $query = DB::table('vsitecuring')
-            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->groupBy('id')->orderBy('id','DESC');
  
 
  if (!empty($towernya))
@@ -2043,7 +2075,7 @@ public function GetJobsCuringRevisi(Request $request)
 
 
  $query = DB::table('vsitecuringrevisi')
-            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->groupBy('id')->orderBy('id','DESC');
  
 
  if (!empty($towernya))
@@ -2096,7 +2128,7 @@ public function GetJobsTowerErection(Request $request)
 
 
  $query = DB::table('vsitetowererection')
-            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->groupBy('id')->orderBy('id','DESC');
  
 
  if (!empty($towernya))
@@ -2147,7 +2179,7 @@ public function GetJobsTowerErectionRevisi(Request $request)
 
 
  $query = DB::table('vsitetowererectionrevisi')
-            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->groupBy('id')->orderBy('id','DESC');
  
 
  if (!empty($towernya))
@@ -2200,7 +2232,7 @@ public function GetJobsMEProcess(Request $request)
 
 
  $query = DB::table('vsitemeprocess')
-            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->groupBy('id')->orderBy('id','DESC');
  
 
  if (!empty($towernya))
@@ -2252,7 +2284,7 @@ public function GetJobsMEProcessRevisi(Request $request)
 
 
  $query = DB::table('vsitemeprocessrevisi')
-            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->groupBy('id')->orderBy('id','DESC');
  
 
  if (!empty($towernya))
@@ -2305,7 +2337,7 @@ public function GetJobsFenceYard(Request $request)
 
 
  $query = DB::table('vsitefenceyard')
-            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->groupBy('id')->orderBy('id','DESC');
  
 
  if (!empty($towernya))
@@ -2357,7 +2389,7 @@ public function GetJobsFenceYardRevisi(Request $request)
 
 
  $query = DB::table('vsitefenceyardrevisi')
-            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->groupBy('id')->orderBy('id','DESC');
  
 
  if (!empty($towernya))
@@ -2409,7 +2441,7 @@ public function GetJobsRfiBaut(Request $request)
 
 
  $query = DB::table('vsiterfibaut')
-            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->groupBy('id')->orderBy('id','DESC');
  
 
  if (!empty($towernya))
@@ -2460,7 +2492,7 @@ public function GetJobsRfiBautRevisi(Request $request)
 
 
 $query = DB::table('vsiterfibautrevisi')
-            ->where('regional', Auth::guard('karyawan')->user()->regional)->orderBy('id','DESC');
+            ->where('regional', Auth::guard('karyawan')->user()->regional)->groupBy('id')->orderBy('id','DESC');
  
 
  if (!empty($towernya))
@@ -2514,7 +2546,7 @@ public function GetJobsApprovalDocumentCME(Request $request)
 
 
 $query = DB::table('vsitecmeapproval')
-            ->where('area', Auth::guard('karyawan')->user()->area)->orderBy('id','DESC');
+            ->where('area', Auth::guard('karyawan')->user()->area)->groupBy('id')->orderBy('id','DESC');
  
 
  if (!empty($towernya))
@@ -2567,7 +2599,7 @@ public function GetJobsApprovalDocumentBaksBauk(Request $request)
 
 
 $query = DB::table('vallprojectapprovalbaksbaukarea')
-            ->where('area', Auth::guard('karyawan')->user()->area)->orderBy('id','DESC');
+            ->where('area', Auth::guard('karyawan')->user()->area)->groupBy('id')->orderBy('id','DESC');
  
 
             if (!empty($towernya))
@@ -2624,7 +2656,7 @@ public function GetJobsRfiDetail(Request $request)
     $query->where('area', Auth::guard('karyawan')->user()->area)
           ->orWhere('area', Auth::guard('karyawan')->user()->area2);
 })
-        ->orderBy('id','DESC');
+        ->groupBy('id')->orderBy('id','DESC');
 
  if (!empty($towernya))
   { 
@@ -2680,7 +2712,7 @@ public function GetJobsSubmitCMEApproval(Request $request)
     $query->where('area', Auth::guard('karyawan')->user()->area)
           ->orWhere('area', Auth::guard('karyawan')->user()->area2);
 })
-        ->orderBy('id','DESC');
+        ->groupBy('id')->orderBy('id','DESC');
 
  if (!empty($towernya))
   { 
@@ -2737,7 +2769,7 @@ public function GetJobsRfiDetailRevisi(Request $request)
     $query->where('area', Auth::guard('karyawan')->user()->area)
           ->orWhere('area', Auth::guard('karyawan')->user()->area2);
 })
-        ->orderBy('id','DESC');
+        ->groupBy('id')->orderBy('id','DESC');
 
  if (!empty($towernya))
   { 
@@ -2794,7 +2826,7 @@ public function GetJobsSubmitCME(Request $request)
     $query->where('area', Auth::guard('karyawan')->user()->area)
           ->orWhere('area', Auth::guard('karyawan')->user()->area2);
 })
-        ->orderBy('id','DESC');
+        ->groupBy('id')->orderBy('id','DESC');
 
  if (!empty($towernya))
   { 
@@ -2846,7 +2878,7 @@ public function GetJobsSubmitCME(Request $request)
     $query->where('area', Auth::guard('karyawan')->user()->area)
           ->orWhere('area', Auth::guard('karyawan')->user()->area2);
 })
-        ->orderBy('id','DESC');
+        ->groupBy('id')->orderBy('id','DESC');
  
 
         if (!empty($search)) {
@@ -2879,7 +2911,7 @@ public function GetJobsApprovalDocumentCMESubmitRevisiAdmin(Request $request)
     $search = $request->filter;
     $min = $request->min;
     $max = $request->max;
-$query = DB::table('vcmesubmitdataadmin')->orderBy('id','DESC');
+$query = DB::table('vcmesubmitdataadmin')->groupBy('id')->orderBy('id','DESC');
 
 
     if (!empty($search)) {
@@ -2920,7 +2952,7 @@ $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',
     $query->where('area', Auth::guard('karyawan')->user()->area)
           ->orWhere('area', Auth::guard('karyawan')->user()->area2);
 })
-        ->orderBy('id','DESC');
+        ->groupBy('id')->orderBy('id','DESC');
  
 
         if (!empty($search)) {
@@ -2956,7 +2988,7 @@ $query = $query->whereDate('created_at','>=',$min)->whereDate('created_at','<=',
         $max = $request->max;
 
  $query =  DB::table('vsitesubmitcme')->whereNotIn('id',explode(",",$id))
-        ->orderBy('id','DESC');
+        ->groupBy('id')->orderBy('id','DESC');
 
 
  if (!empty($search))
@@ -2981,7 +3013,7 @@ public function GetJobsSubmitCMERevisian(Request $request , $id)
     $query->where('area', Auth::guard('karyawan')->user()->area)
           ->orWhere('area', Auth::guard('karyawan')->user()->area2);
 })->whereNotIn('id',explode(",",$id))
-        ->orderBy('id','DESC');
+        ->groupBy('id')->orderBy('id','DESC');
 
 
  if (!empty($search))
@@ -3007,7 +3039,7 @@ public function GetJobsSubmitCMERevisian(Request $request , $id)
     $query->where('area', Auth::guard('karyawan')->user()->area)
           ->orWhere('area', Auth::guard('karyawan')->user()->area2);
 })->whereNotIn('id',explode(",",$id))
-        ->orderBy('id','DESC');
+        ->groupBy('id')->orderBy('id','DESC');
 
 
  if (!empty($search))
@@ -3028,7 +3060,7 @@ public function GetJobsSubmitCMERevisian(Request $request , $id)
         $min = $request->min;
         $max = $request->max;
 
- $query =  DB::table('vjobsubmitboq')->orderBy('id','DESC');
+ $query =  DB::table('vjobsubmitboq')->groupBy('id')->orderBy('id','DESC');
 
 
  if (!empty($search))
@@ -3053,7 +3085,7 @@ public function GetJobsSubmitCMERevisian(Request $request , $id)
     $query->where('area', Auth::guard('karyawan')->user()->area)
           ->orWhere('area2', Auth::guard('karyawan')->user()->area2);
 })
-        ->orderBy('id','DESC');
+        ->groupBy('id')->orderBy('id','DESC');
  
 
 if (!empty($search)) {
@@ -3090,7 +3122,7 @@ if (!empty($search)) {
     $query->where('area', Auth::guard('karyawan')->user()->area)
           ->orWhere('area2', Auth::guard('karyawan')->user()->area2);
 })
-        ->orderBy('id','DESC');
+        ->groupBy('id')->orderBy('id','DESC');
  
 
 if (!empty($search)) {
@@ -3130,7 +3162,7 @@ if (!empty($search)) {
     $query->where('area', Auth::guard('karyawan')->user()->area)
           ->orWhere('area2', Auth::guard('karyawan')->user()->area2);
 })
-        ->orderBy('id','DESC');
+        ->groupBy('id')->orderBy('id','DESC');
  
 
 if (!empty($search)) {
@@ -3169,7 +3201,7 @@ if (!empty($search)) {
     $query->where('area', Auth::guard('karyawan')->user()->area)
           ->orWhere('area2', Auth::guard('karyawan')->user()->area2);
 })
-        ->orderBy('id','DESC');
+        ->groupBy('id')->orderBy('id','DESC');
  
 
 if (!empty($search)) {
@@ -3208,7 +3240,7 @@ if (!empty($search)) {
         $max = $request->max;
         $query =  DB::table('vjobsdocumentbaksbauk')
         ->where([['regional',Auth::guard('karyawan')->user()->regional],['area',Auth::guard('karyawan')->user()->area],['regional',Auth::guard('karyawan')->user()->regional]])
-        ->orderBy('id','DESC');
+        ->groupBy('id')->orderBy('id','DESC');
 
         if (!empty($towernya))
         { 
@@ -3257,7 +3289,7 @@ if (!empty($search)) {
         $max = $request->max;
         $query =  DB::table('vallprojectbaksbaukrevisi')
         ->where([['regional',Auth::guard('karyawan')->user()->regional],['area',Auth::guard('karyawan')->user()->area],['regional',Auth::guard('karyawan')->user()->regional]])
-        ->orderBy('id','DESC');
+        ->groupBy('id')->orderBy('id','DESC');
 
         if (!empty($towernya))
         { 
@@ -3305,7 +3337,7 @@ if (!empty($search)) {
         $search = $request->filter;
         $min = $request->min;
         $max = $request->max;
- $query = DB::table('vsiteapprovedboqbapsadd')->orderBy('id','DESC');
+ $query = DB::table('vsiteapprovedboqbapsadd')->groupBy('id')->orderBy('id','DESC');
  
 
 if (!empty($search)) {
@@ -3339,7 +3371,7 @@ if (!empty($search)) {
         $search = $request->filter;
         $min = $request->min;
         $max = $request->max;
- $query = DB::table('vsiteapprovedboqbapsrevisi')->orderBy('id','DESC');
+ $query = DB::table('vsiteapprovedboqbapsrevisi')->groupBy('id')->orderBy('id','DESC');
  
 
 if (!empty($search)) {
@@ -3373,7 +3405,7 @@ if (!empty($search)) {
         $search = $request->filter;
         $min = $request->min;
         $max = $request->max;
- $query = DB::table('vsiteapprovedbapsadd')->orderBy('id','DESC');
+ $query = DB::table('vsiteapprovedbapsadd')->groupBy('id')->orderBy('id','DESC');
  
 
 if (!empty($search)) {
@@ -3407,7 +3439,7 @@ if (!empty($search)) {
         $search = $request->filter;
         $min = $request->min;
         $max = $request->max;
- $query = DB::table('vsiteapprovedboqbapsrevisi')->orderBy('id','DESC');
+ $query = DB::table('vsiteapprovedboqbapsrevisi')->groupBy('id')->orderBy('id','DESC');
  
 
 if (!empty($search)) {
@@ -3445,7 +3477,7 @@ if (!empty($search)) {
         $towernya = $request->towernya;
         $min = $request->min;
         $max = $request->max;
- $query = DB::table('vsiteapprovedinvoiceadd')->orderBy('id','DESC');
+ $query = DB::table('vsiteapprovedinvoiceadd')->groupBy('id')->orderBy('id','DESC');
  
 
  if (!empty($towernya))
@@ -3497,7 +3529,7 @@ if (!empty($search)) {
         $min = $request->min;
         $max = $request->max;
 
- $query = DB::table('vsiteapprovedboqbapsrevisi')->orderBy('id','DESC');
+ $query = DB::table('vsiteapprovedboqbapsrevisi')->groupBy('id')->orderBy('id','DESC');
  
  if (!empty($towernya))
  { 
@@ -3546,7 +3578,7 @@ if (!empty($search)) {
         $min = $request->min;
         $max = $request->max;
 
-$query =  DB::table('vsitereportbisnis')->orderBy('id','DESC');
+$query =  DB::table('vsitereportbisnis')->groupBy('id')->orderBy('id','DESC');
 
 if (!empty($towernya))
 { 

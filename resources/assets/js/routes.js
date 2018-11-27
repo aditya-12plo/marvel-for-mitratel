@@ -362,6 +362,12 @@ let routes=[
 	props: true
 },
 {
+	path:'/pidnya/:id',
+	name: 'detailboqfromother',
+	component:require('./components/BOQ/DetailnyaUser'),
+	props: false
+},
+{
 	path:'/boq-input/data/:id',
 	name: 'adddocumentboq',
 	component:require('./components/BOQ/Add'),
@@ -1006,6 +1012,32 @@ let routes=[
 },
 
 /* list email  busdev  */
+
+/* list email  aset  */
+{
+	path:'/aset-email',
+	component:require('./components/Aset/')
+},
+{
+	path:'/aset-email/add',
+	name: 'asetadd',
+	component:require('./components/Aset/Add'),
+	props: true
+},
+{
+	path:'/aset-email/detail/:id',
+	name: 'asetdetail',
+	component:require('./components/Aset/Detail'),
+	 props: true
+},
+{
+	path:'/aset-email/edit/:id',
+	name: 'asetedit',
+	component:require('./components/Aset/Edit'),
+	 props: true
+},
+
+/* list email  aset  */
 
 /* notifications user list  */
 {

@@ -28,6 +28,21 @@ use App\Models\Busdev;
 class SendEmailController extends Controller
 {
     
+    public function kirimRFI($to,$id,$projectid,$url)
+    {
+
+     $isipesan = array(
+        'projectid' => $projectid,
+        'url' => $url); 
+      $content = view('email_content_rfi')->with($isipesan);
+        Mail::send('email', ['contentMessage' => $content], function($messageNya) use ($to,$projectid) {
+         $messageNya->to($to)->subject('Dokument RFI PID '.$projectid);
+         $messageNya->from('aplikasi.mitratel@gmail.com','Dr.MarveL (Dokumen Review MARketing Validation ELectronik)');
+      });
+  
+    }
+	
+	
     public function kirim($to,$id,$projectid,$infratype,$status,$jobs,$from,$level,$message,$kata)
     {
 
@@ -40,8 +55,8 @@ class SendEmailController extends Controller
         'level' => $level,
         'name' => $from); 
       $content = view('email_content')->with($isipesan);
-        Mail::send('email', ['contentMessage' => $content], function($messageNya) use ($to) {
-         $messageNya->to($to)->subject('Notification Dr.MarveL (Dokumen Review MARketing Validation ELectronik)');
+        Mail::send('email', ['contentMessage' => $content], function($messageNya) use ($to,$projectid) {
+         $messageNya->to($to)->subject('Notification '.$projectid.' Dr.MarveL (Dokumen Review MARketing Validation ELectronik)');
          $messageNya->from('aplikasi.mitratel@gmail.com','Dr.MarveL (Dokumen Review MARketing Validation ELectronik)');
       });
   

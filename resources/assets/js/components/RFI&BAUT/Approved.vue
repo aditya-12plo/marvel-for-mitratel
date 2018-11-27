@@ -569,7 +569,7 @@ this.modal.set('approve', true);
    masuk.set('statusmessage', this.statusmessage)
    masuk.set('document', 'DOKUMEN RFI & BAUT')
    masuk.set('status', this.status)
-                axios.post('/karyawan/ApprovalDocumentRegional', masuk)
+                axios.post('/karyawan/ApprovalDocumentRegionalRFI', masuk)
                     .then(response => { 
                       if(response.data.success)
                       {

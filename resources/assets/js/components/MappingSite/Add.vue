@@ -74,8 +74,11 @@
                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
                                     <fieldset class="form-group">
                                         <label for="infratype">INFRATYPE</label>
-                                        <br>
-{{this.rowDatanya.project.infratype}}
+                                        <br> 
+<select class="form-control border-input" v-model="forms.infratype" required >
+<option value="" selected>Pilih Infratype</option>
+<option v-for="pilihinfratype in pilihaninratype" :value="pilihinfratype">{{ pilihinfratype }}</option>
+</select>
                                     </fieldset>
                                 </div>
 
@@ -480,7 +483,8 @@ export default {
     position: 'up right',
     closeBtn: true,
   forms: new CrudForm({id:'' , projectid:'' , no_wo:'' , wo_date:'' , batch:'' , years:'' , infratype:'' , area:'' , regional:'' , site_id_spk:'' , site_name_spk:'' , address_spk:'' , longitude_spk:'' , latitude_spk:'' , status_id:'' , project_status_id:'' , created_at:''}), 
-    errors: new Errors() ,
+    pilihaninratype: ['B2S','UNTAPPED'],
+	errors: new Errors() ,
     errorNya: [], 
     komunikasi:[] ,
     dataNya: {name : '', level:''}, 

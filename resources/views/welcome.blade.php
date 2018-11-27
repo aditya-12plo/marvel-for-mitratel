@@ -35,17 +35,19 @@
             'csrfToken' => csrf_token(),
         ]) !!};
     </script>
+	<style>
+	.table-responsive {
+    display: table;
+}
+</style>
+	
     </head>
     <body>
         
-        <header class="header">
-              <div data-velocity="-.8" id="particles" class="header-bg">
-      
-
-
-
-       <div class="center-div">
-  
+	 
+          <table class="table" style="padding:0px;" width="100%">
+		<tr style="padding:0px;">
+		<td style="padding:0px;background-color:rgba(10,10,10,.68);opacity: 1;">
   <div id="login" class="login">
     <div class="login-icon-field">
 
@@ -99,13 +101,14 @@
     </div>
   </div>
 </form>
-</div> 
-
-
-
-
-              </div>
-        </header>
+ </td>
+		<td style="padding:0px;background-color:rgba(10,10,10,.68);opacity: 1;">
+		<div class="text-center">
+		<img src="/img/new_marvel_bg.jpg" style="width:100%;" class="rounded" alt="marvel">
+		</div>  
+</td>
+		</tr>
+		</table>
         
        
         

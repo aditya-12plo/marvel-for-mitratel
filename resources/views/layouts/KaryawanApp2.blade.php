@@ -487,6 +487,8 @@
                 <ul class="menu-content">
 <li><a onClick="window.location.replace('/karyawan?#/busdev-email');window.location.reload();" class="menu-item">BUSDEV Mail</a>
                   </li>
+<li><a onClick="window.location.replace('/karyawan?#/aset-email');window.location.reload();" class="menu-item">ASET Mail</a>
+                  </li>
 <li><a onClick="window.location.replace('/karyawan?#/user-access');window.location.reload();" class="menu-item">Akses User</a>
                   </li>
 <li><a onClick="window.location.replace('/karyawan?#/list-project');window.location.reload();"  class="menu-item">Project</a>

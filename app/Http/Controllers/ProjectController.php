@@ -304,9 +304,8 @@ $pesan = DB::table('vjobcommunication')
             ->where('project_id',$id)
             ->orderBy('id','ASC')
             ->get();
-
 return response()->json(['project'=>$project,'komunikasi'=>$pesan]);
-         
+
     }
 
 

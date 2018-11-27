@@ -22,6 +22,35 @@ class IndexController extends Controller
 
 	
     
+     
+public function detailProject()
+{
+	$this->data['title'] = 'MITRATel-RAVTING';
+    return view('layouts.detail')->with($this->data);
+}
+
+    
+
+         public function GetAllDetailProject($id)
+    {
+$project = DB::table('vallproject')->where('projectid',$id)->first();
+$pesan = DB::table('vjobcommunication') 
+            ->where('project_id',$id)
+            ->orderBy('id','ASC')
+            ->get();
+
+if($project)
+{
+return response()->json(['project'=>$project,'komunikasi'=>$pesan]);
+}
+else
+{
+return response()->json('error',500);
+}
+         
+    }
+	
+    
     
 	//if page not found
 public function pagenotfound()

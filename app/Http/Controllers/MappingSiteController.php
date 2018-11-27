@@ -161,6 +161,7 @@ return response()->json(['error'=>'Maaf Pekerjaan Ini Sudah Di Kerjakan Orang La
 $cekdata = Project::where([['id',Input::get('id')],['status_id',1]])->first();
 if (!$cekdata) {
 $valid = $this->validate($request, [   
+        'infratype' => 'required|in:UNTAPPED,B2S',
         'site_id_spk' => 'required|max:255', 
         'site_name_spk' => 'required|max:255', 
         'longitude_spk' => 'required|max:255', 
@@ -169,7 +170,7 @@ $valid = $this->validate($request, [
     ]);
 if(!$valid)
     {
-Project::where('id',Input::get('id'))->update(['site_id_spk'=>Input::get('site_id_spk'),'site_name_spk'=>Input::get('site_name_spk'),'longitude_spk'=>Input::get('longitude_spk'),'latitude_spk'=>Input::get('latitude_spk'),'address_spk'=>Input::get('address_spk'),'status_id'=>1]);
+Project::where('id',Input::get('id'))->update(['infratype'=>Input::get('infratype'),'site_id_spk'=>Input::get('site_id_spk'),'site_name_spk'=>Input::get('site_name_spk'),'longitude_spk'=>Input::get('longitude_spk'),'latitude_spk'=>Input::get('latitude_spk'),'address_spk'=>Input::get('address_spk'),'status_id'=>1]);
  
 return response()->json(['success'=>'Successfully']);
     }

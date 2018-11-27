@@ -12,6 +12,7 @@ use PDF;
 use Carbon\Carbon;
 use PHPExcel; 
 use PHPExcel_IOFactory;
+use Illuminate\Support\Facades\URL;
 
 
 use App\Models\User;
@@ -118,7 +119,7 @@ class RfiDetailController extends Controller
     public function saveData($cme_code, $project_id)
     { 
 
-$fileName = $cme_code;
+$fileName = Carbon::now().$cme_code;
 $datanya =  DB::table('vallproject')->whereIn('id',explode(",",$project_id))->get();
 $rubahfile = str_replace("/","_",$fileName);
 $destinationPath = 'busdevReport/'.$rubahfile.'.xls'; // save path
@@ -154,6 +155,7 @@ $objPHPExcel->getActiveSheet()
             ->setCellValue('Q3', 'PRICE / YEARS')
             ->setCellValue('R3', 'NILAI REVENUE')
             ->setCellValue('S3', 'BATCH ACCRUE') 
+            ->setCellValue('T3', 'URL Detail') 
             ;
 
 $objPHPExcel->getActiveSheet()->getStyle('A1:B1')->getFont()->setBold(true); 
@@ -183,6 +185,7 @@ foreach ($datanya as $key=>$a){
     $objPHPExcel->getActiveSheet()->setCellValue('Q'.$row, $a->rfi_detail_price_year);
     $objPHPExcel->getActiveSheet()->setCellValue('R'.$row, $a->nilai_revenue);
     $objPHPExcel->getActiveSheet()->setCellValue('S'.$row, $a->batch_accrue);
+    $objPHPExcel->getActiveSheet()->setCellValue('T'.$row, url('/detail-project#/pidnya/'.$a->projectid));
 $no++; 
 $row++;  
 $jml = $a->nilai_revenue + $jml; 
@@ -245,7 +248,7 @@ return response()->json(['success'=>'Successfully']);
     }
 
 */
-
+ 
 
      public function GetCMEAccruedData(Request $request,$id)
     {
