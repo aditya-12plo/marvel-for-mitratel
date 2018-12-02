@@ -6,14 +6,14 @@
     <section class="content-header">
  <vue-toast ref='toast'></vue-toast>
       <h1 align="center">
-      List User MITRATel-RAVTING
+      List User Dr. Marvel (Document Review Marketting Validation Electronic)
       </h1>
     </section>
 <loading :show="isLoading"></loading>
 <div class="container-fluid display-page" id="display-post-category" >
  <!-- @create Modal--->
         <modal  v-if="modal.get('create')" @close="modal.set('create', false)" >
-        <template slot="header" ><h4 align="center">Tambah User Akses MITRATel-RAVTING</h4></template>
+        <template slot="header" ><h4 align="center">Tambah User Akses Dr. Marvel (Document Review Marketting Validation Electronic)</h4></template>
         <template slot="body" >
             <form method="POST" action="" @submit.prevent="submitBooks()">
                 <div class="modal-body">
@@ -88,7 +88,7 @@
 
 <!-- @view --->
         <modal  v-if="modal.get('view')" @close="modal.set('view', false)"  >
-        <template slot="header" ><h4 align="center">View User Akses MITRATel-RAVTING</h4></template>
+        <template slot="header" ><h4 align="center">View User Akses Dr. Marvel (Document Review Marketting Validation Electronic)</h4></template>
         <template slot="body" >
                 <div class="modal-body">
 
@@ -219,7 +219,7 @@
 
  <!-- @delete --->
         <modal v-if="modal.get('delete')" @close="modal.set('delete', false)"  >
-        <template slot="header" ><h4 align="center">Delete User Akses MITRATel-RAVTING</h4></template>
+        <template slot="header" ><h4 align="center">Delete User Akses Dr. Marvel (Document Review Marketting Validation Electronic)</h4></template>
         <template slot="body" >
 
             <form method="POST" action="" @submit.prevent="destroyItem( submitSelectedItems )">
@@ -246,7 +246,7 @@
 
   <button type="button" class="btn btn-primary"  @click="createItem()">
             <i class="glyphicon glyphicon-plus"></i>
-           Tambah User Akses MITRATel-RAVTING
+           Tambah User Akses Dr. Marvel (Document Review Marketting Validation Electronic)
         </button>
 		
 		<br>

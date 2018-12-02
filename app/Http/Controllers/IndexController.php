@@ -25,7 +25,7 @@ class IndexController extends Controller
      
 public function detailProject()
 {
-	$this->data['title'] = 'MITRATel-RAVTING';
+	$this->data['title'] = 'Dr. Marvel (Document Review Marketting Validation Electronic)';
     return view('layouts.detail')->with($this->data);
 }
 
@@ -55,7 +55,7 @@ return response()->json('error',500);
 	//if page not found
 public function pagenotfound()
 {
-	$this->data['title'] = 'MITRATel-RAVTING';
+	$this->data['title'] = 'Dr. Marvel (Document Review Marketting Validation Electronic)';
     return view('layouts.error')->with($this->data);
 }
 

@@ -23,7 +23,7 @@ SUBMIT BY : <strong style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-se
 									</td>
 								</tr>
 								<tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;"><td class="content-block" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 0 0 20px;" valign="top">
-										Thanks MITRATel-RAVTING (MITRATEL ELECTRONIC REVIEW AND APPROVAL BUDGETING).
+										Thanks Dr. Marvel (Document Review Marketting Validation Electronic).
 									</td>
 								</tr></table></td>
 					</tr></table><div class="footer" style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; width: 100%; clear: both; color: #999; margin: 0; padding: 20px;">

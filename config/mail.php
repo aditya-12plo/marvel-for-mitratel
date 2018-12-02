@@ -56,8 +56,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'aplikasi-ravting@mitratel.co.id'),
-        'name' => env('MAIL_FROM_NAME', 'aplikasi-ravting@mitratel.co.id'),
+        'address' => env('MAIL_FROM_ADDRESS', 'aplikasi.mitratel@gmail.com'),
+        'name' => env('MAIL_FROM_NAME', 'aplikasi.mitratel@gmail.com'),
     ],
 
     /*
